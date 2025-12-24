@@ -1,0 +1,11 @@
+[
+  {
+    "Minor Name": "Minor in Computer Science",
+    "Official Requirements Reference": "Official requirements - CS minor",
+    "Description": "Provides non-CS majors with foundational knowledge in computer science. Students must satisfy prerequisite coursework before enrolling in the core minor courses. After completing prerequisites, students complete three core CS courses and at least three additional SCS courses to fulfill the minor.",
+    "Pre-Requisites": "15-112, 21-127",
+    "Core Courses": "15-122, 15-150, 15-210",
+    "Elective Courses": "At least one of: 15-213 or 15-251; plus two more SCS courses (each at least 9 units, with at least one from the CSD department or numbered 15-213 or higher)",
+    "Notes": "Prerequisite courses (15-112 and 21-127) do not count toward the minor’s unit total. Pre-requisites and two other courses used for the minor may double-count toward another major or minor (general education courses do not count)."
+  }
+]

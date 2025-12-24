@@ -1,0 +1,10 @@
+[
+  {
+    "Minor Name": "Minor in Biological Sciences",
+    "Official Requirements Reference": "Department of Biological Sciences Catalog",
+    "Description": "Provides students with foundational education in the biological sciences. A minimum of six biological sciences courses (and two chemistry prerequisites) must be completed to fulfill the minor. Total units required for the minor: 73. :contentReference[oaicite:0]{index=0}",
+    "Prerequisites": "09-105 Introduction to Modern Chemistry I (10 units); 09-217 Organic Chemistry I (9 units) :contentReference[oaicite:1]{index=1}",
+    "Required Courses": "Six biological sciences courses. They are: 03-121 or 03-151, 03-220 or 03-221, 03-231 or 03-232, 03-320, 03-xxx, 03-3xx :contentReference[oaicite:2]{index=2}",
+    "Notes": "At least two chemistry prerequisites must be completed before enrolling in any biological sciences minor course. Biological sciences offerings include courses in biochemistry, cell biology, genetics, microbiology, physiology, and related areas."
+  }
+]
