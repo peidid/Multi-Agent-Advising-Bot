@@ -27,19 +27,34 @@ BASE_DB_PATH = "./chroma_db"
 EMBEDDING_MODEL = OpenAIEmbeddings()
 
 # Domain mapping: Domain name → Data folders
+# NEW STRUCTURE: Each agent has its own folder for easier data management
 DOMAIN_PATHS = {
     "programs": [
-        "Academic & Studies/Academic Programs",
-        "Academic & Studies/Academic Resource Center"
+        "programs"  # All Programs Agent data in one folder
     ],
     "courses": [
-        "Academic & Studies/Courses"
+        "courses"   # All Courses Agent data in one folder
     ],
     "policies": [
-        "Academic & Studies/Exams and grading policies",
-        "Academic & Studies/Registration"
+        "policies"   # All Policy Agent data in one folder
     ]
 }
+
+# LEGACY STRUCTURE (for backward compatibility if reorganization not done yet)
+# Uncomment and comment out above if you haven't reorganized yet:
+# DOMAIN_PATHS = {
+#     "programs": [
+#         "Academic & Studies/Academic Programs",
+#         "Academic & Studies/Academic Resource Center"
+#     ],
+#     "courses": [
+#         "Academic & Studies/Courses"
+#     ],
+#     "policies": [
+#         "Academic & Studies/Exams and grading policies",
+#         "Academic & Studies/Registration"
+#     ]
+# }
 
 # ============================================================================
 # HELPER FUNCTIONS
@@ -213,7 +228,7 @@ def get_retriever(domain: Optional[str] = None, k: int = 5):
     # Create vector store
     vectorstore = Chroma.from_documents(
         documents=chunks,
-        embedding_function=EMBEDDING_MODEL,
+        embedding=EMBEDDING_MODEL,
         persist_directory=db_path
     )
     
