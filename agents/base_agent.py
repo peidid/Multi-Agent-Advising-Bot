@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 from langchain_openai import ChatOpenAI
 from rag_engine_improved import get_retriever
 from blackboard.schema import BlackboardState, AgentOutput
+from config import get_agent_model, get_agent_temperature
 
 class BaseAgent(ABC):
     """
@@ -32,8 +33,10 @@ class BaseAgent(ABC):
         # This automatically loads the correct vector database
         self.retriever = get_retriever(domain=domain, k=5)
         
-        # LLM for agent reasoning
-        self.llm = ChatOpenAI(model="gpt-4o", temperature=0.3)
+        # LLM for agent reasoning - uses faster, cost-effective model
+        model = get_agent_model()
+        temperature = get_agent_temperature()
+        self.llm = ChatOpenAI(model=model, temperature=temperature)
     
     def retrieve_context(self, query: str) -> str:
         """

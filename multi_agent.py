@@ -11,9 +11,16 @@ from agents.programs_agent import ProgramsRequirementsAgent
 from agents.courses_agent import CourseSchedulingAgent
 from agents.policy_agent import PolicyComplianceAgent
 from coordinator.coordinator import Coordinator
+from config import print_model_config
+
+# Print model configuration on startup
+print_model_config()
+print()
 
 # Initialize components
+# Coordinator now uses LLM-driven coordination by default
 coordinator = Coordinator()
+
 programs_agent = ProgramsRequirementsAgent()
 courses_agent = CourseSchedulingAgent()
 policy_agent = PolicyComplianceAgent()

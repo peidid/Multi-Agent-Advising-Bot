@@ -87,6 +87,7 @@ Product/
 ├── multi_agent.py           # Main LangGraph workflow
 ├── rag_engine_improved.py   # RAG engine with domain-specific indexes
 ├── course_tools.py           # Course data utilities
+├── config.py                 # Model configuration (Coordinator vs Agents)
 ├── chat.py                   # Interactive chat interface
 ├── setup_domain_indexes.py  # Setup script for knowledge bases
 └── test.py                   # Test script
@@ -107,6 +108,32 @@ The interface shows:
 - **Step 2:** Agent execution (which agents are activated)
 - **Step 3:** Collaboration & negotiation process
 - **Step 4:** Final human-like advisor response
+
+### Development Mode (Manual Agent Selection)
+
+For testing and debugging, enable development mode in the chat:
+```
+mode:dev
+```
+
+Then manually select agents:
+- `@programs <query>` - Use only Programs Requirements Agent
+- `@courses <query>` - Use only Course Scheduling Agent  
+- `@policy <query>` - Use only Policy Compliance Agent
+- `@all <query>` - Use all agents (bypass intent classification)
+
+**Example:**
+```
+🔧 Dev: @courses What are the prerequisites for 15-213?
+```
+
+This bypasses intent classification and directly uses the specified agent. Useful for:
+- Testing individual agents in isolation
+- Debugging RAG retrieval
+- Comparing agent responses
+- Prompt engineering
+
+See [DEV_MODE_GUIDE.md](DEV_MODE_GUIDE.md) for detailed usage and examples.
 
 ### Example Questions
 
@@ -235,6 +262,48 @@ pip install -r requirements.txt
 - Normal for complex queries (10-30 seconds)
 - System consults multiple agents and synthesizes answers
 
+## ⚙️ Model Configuration
+
+The system uses a **hybrid model strategy** for optimal performance and cost:
+
+- **Coordinator**: Uses `gpt-4-turbo` (or `gpt-5` when available) for complex reasoning tasks
+  - Intent classification
+  - Workflow planning
+  - Conflict resolution
+  - Answer synthesis
+
+- **Agents**: Use `gpt-4o` for fast, cost-effective domain-specific tasks
+  - Course information retrieval
+  - Program requirements checking
+  - Policy compliance verification
+
+### Changing Models
+
+Edit `config.py` to change models:
+
+```python
+# Coordinator Model - Best available for complex tasks
+COORDINATOR_MODEL = "gpt-4-turbo"  # Change to "gpt-5" when available
+
+# Agent Models - Fast and cost-effective
+AGENT_MODEL = "gpt-4o"
+```
+
+**To upgrade to GPT-5 when available:**
+1. Open `config.py`
+2. Change `COORDINATOR_MODEL = "gpt-5"`
+3. Restart the system
+
+View current configuration:
+```bash
+python config.py
+```
+
+Verify models are configured correctly:
+```bash
+python verify_models.py
+```
+
 ## 🛠️ Development
 
 ### Adding a New Agent
@@ -295,4 +364,5 @@ Built for CMU-Qatar academic advising research.
 ---
 
 **Ready to chat?** Run `python chat.py` and start asking questions!
+
 

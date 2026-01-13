@@ -4,7 +4,8 @@ Shows the actual multi-agent workflow including negotiation and collaboration.
 """
 from multi_agent import app, coordinator, programs_agent, courses_agent, policy_agent
 from blackboard.schema import WorkflowStep, ConflictType
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, AIMessage
+from config import print_model_config
 import os
 import time
 
@@ -12,10 +13,13 @@ def clear_screen():
     """Clear the terminal screen."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def print_header():
+def print_header(dev_mode=False):
     """Print welcome header."""
     print("=" * 80)
-    print("🎓 CMU-Q Academic Advising Chatbot - Workflow Demonstration")
+    if dev_mode:
+        print("🔧 CMU-Q Academic Advising Chatbot - DEVELOPMENT MODE")
+    else:
+        print("🎓 CMU-Q Academic Advising Chatbot - Workflow Demonstration")
     print("=" * 80)
     print("\nThis interface shows how multiple agents collaborate in real-time.")
     print("\nYou'll see:")
@@ -23,8 +27,32 @@ def print_header():
     print("  • Agent activation and execution")
     print("  • Negotiation/collaboration process")
     print("  • Final human-like advisor response")
+    
+    if dev_mode:
+        print("\n🔧 DEVELOPMENT MODE Commands:")
+        print("  • @programs <query>  - Use only Programs Requirements Agent")
+        print("  • @courses <query>   - Use only Course Scheduling Agent")
+        print("  • @policy <query>    - Use only Policy Compliance Agent")
+        print("  • @all <query>       - Use all agents (bypass intent classification)")
+        print("  • mode:normal        - Switch to normal mode")
+    else:
+        print("\n💡 Development Mode:")
+        print("  • Type 'mode:dev' to enable manual agent selection")
+    
+    print("\n🧠 Coordination Mode:")
+    print("  • LLM-Driven Coordination")
+    print("    (Full LLM reasoning for dynamic workflow planning)")
+    
+    print("\n💬 Conversation Memory:")
+    print("  • System remembers conversation history")
+    print("  • You can refer to previous topics (e.g., 'it', 'that course')")
+    print("  • Type 'clear' to reset conversation")
+    
     print("\nType 'quit' to exit")
     print("-" * 80)
+    print()
+    # Show model configuration
+    print_model_config()
     print()
 
 def print_section(title, emoji="📋"):
@@ -54,17 +82,109 @@ def format_text(text, indent="   ", width=76):
         lines.append(line.rstrip())
     return "\n".join(lines)
 
-def show_intent_classification(query):
-    """Show intent classification step."""
+def show_intent_classification(query, conversation_history=None, student_profile=None):
+    """Show intent classification step with clarification support."""
     print_section("STEP 1: Intent Classification", "🎯")
     print(f"\n   Query: \"{query}\"")
+    
+    # Show conversation context if available
+    if conversation_history and len(conversation_history) > 1:
+        # Count previous turns (pairs of human + AI messages)
+        num_previous_turns = (len(conversation_history) - 1) // 2
+        print(f"   💭 Context: {num_previous_turns} previous turn(s) in conversation")
+    
     print("\n   Analyzing query to determine which agents are needed...")
     
-    intent = coordinator.classify_intent(query)
+    intent = coordinator.classify_intent(query, conversation_history, student_profile)
     
-    print(f"\n   ✅ Intent Type: {intent.get('intent_type', 'unknown').replace('_', ' ').title()}")
-    print(f"   📊 Priority: {intent.get('priority', 'medium')}")
-    print(f"   💭 Reasoning: {intent.get('reasoning', 'N/A')}")
+    # Check if LLM-driven mode
+    is_llm_driven = intent.get('mode') == 'llm_driven'
+    
+    # Check if clarification is needed (NEW)
+    if intent.get('understanding', {}).get('requires_clarification'):
+        show_clarification_needed(intent)
+        clarification = get_user_clarification(intent)
+        return intent, [], clarification  # Return clarification data
+    
+    if is_llm_driven:
+        # Display LLM-driven analysis
+        print(f"\n   🧠 LLM-Driven Coordination (Full Reasoning)")
+        print(f"   📊 Priority: {intent.get('priority', 'high')}")
+        
+        if 'confidence' in intent:
+            confidence = intent['confidence']
+            confidence_bar = "█" * int(confidence * 10)
+            print(f"   🎯 Confidence: {confidence_bar} ({confidence:.2f})")
+        
+        # Show understanding
+        if 'understanding' in intent and intent['understanding']:
+            understanding = intent['understanding']
+            print(f"\n   🔍 Problem Understanding:")
+            if understanding.get('student_goal'):
+                print(f"      • Goal: {understanding['student_goal']}")
+            if understanding.get('underlying_concern'):
+                print(f"      • Concern: {understanding['underlying_concern']}")
+        
+        # Show goal
+        if intent.get('goal'):
+            print(f"\n   🎯 Coordination Goal:")
+            print(f"      {intent['goal']}")
+        
+        print(f"\n   💭 Reasoning:")
+        reasoning_lines = intent.get('reasoning', 'N/A').split('\n')
+        for line in reasoning_lines[:10]:  # Show first 10 lines (increased from 5)
+            if line.strip():
+                print(f"      {line.strip()}")
+        if len(reasoning_lines) > 10:
+            print(f"      ... ({len(reasoning_lines) - 10} more lines)")
+        
+        # Show agent analysis
+        if 'agent_analysis' in intent and intent['agent_analysis']:
+            print(f"\n   🤖 Agent Analysis:")
+            for agent_name, analysis in intent['agent_analysis'].items():  # Show all agents
+                priority = analysis.get('priority', 'unknown')
+                print(f"\n      • {agent_name}: {priority} priority")
+                if analysis.get('reasoning'):
+                    reasoning_text = analysis['reasoning']
+                    # Show full reasoning, wrap at 120 chars
+                    if len(reasoning_text) > 120:
+                        print(f"        → {reasoning_text[:120]}")
+                        print(f"          {reasoning_text[120:]}")
+                    else:
+                        print(f"        → {reasoning_text}")
+    
+    else:
+        # Display rule-based analysis (enhanced or basic)
+        print(f"\n   ✅ Intent Type: {intent.get('intent_type', 'unknown').replace('_', ' ').title()}")
+        print(f"   📊 Priority: {intent.get('priority', 'medium')}")
+        
+        # Display confidence if available (enhanced classifier)
+        if 'confidence' in intent:
+            confidence = intent['confidence']
+            confidence_bar = "█" * int(confidence * 10)
+            print(f"   🎯 Confidence: {confidence_bar} ({confidence:.2f})")
+        
+        # Display extracted entities if available (enhanced classifier)
+        if 'entities' in intent:
+            entities = intent['entities']
+            if any(entities.values()):  # If any entities found
+                print(f"\n   🔍 Extracted Entities:")
+                if entities.get('courses'):
+                    print(f"      • Courses: {', '.join(entities['courses'])}")
+                if entities.get('programs'):
+                    print(f"      • Programs: {', '.join(entities['programs'])}")
+                if entities.get('policies'):
+                    print(f"      • Policies: {', '.join(entities['policies'])}")
+                if entities.get('temporal'):
+                    print(f"      • Time: {', '.join(entities['temporal'])}")
+        
+        print(f"\n   💭 Reasoning: {intent.get('reasoning', 'N/A')}")
+        
+        # Display clarification questions if needed
+        if intent.get('needs_clarification'):
+            print(f"\n   ⚠️  Clarification Needed:")
+            for q in intent.get('clarification_questions', []):
+                print(f"      • {q}")
     
     required_agents = intent.get('required_agents', [])
     print(f"\n   🤖 Agents to Activate:")
@@ -78,8 +198,14 @@ def show_intent_classification(query):
         agent_display = agent.replace('_', ' ').title()
         print(f"      {i}. {agent_display}")
     
+    # Show decision points for LLM-driven
+    if is_llm_driven and intent.get('decision_points'):
+        print(f"\n   ⚙️  Decision Points:")
+        for dp in intent['decision_points'][:2]:  # Show first 2
+            print(f"      • After {dp.get('after_agent', 'unknown')}: {dp.get('check', '')[:60]}...")
+    
     time.sleep(1)
-    return intent, workflow
+    return intent, workflow, None  # None = no clarification needed
 
 def show_agent_execution(agent_name, state):
     """Show agent execution."""
@@ -109,36 +235,58 @@ def show_agent_execution(agent_name, state):
     print(f"      Confidence: {output.confidence:.2f}")
     
     if output.relevant_policies:
-        print(f"      Policies Cited: {len(output.relevant_policies)}")
+        print(f"\n   📚 Policies Cited: {len(output.relevant_policies)}")
+        for i, policy in enumerate(output.relevant_policies[:5], 1):  # Show first 5
+            if len(policy) > 100:
+                print(f"      {i}. {policy[:100]}")
+                print(f"         {policy[100:]}")
+            else:
+                print(f"      {i}. {policy}")
+        if len(output.relevant_policies) > 5:
+            print(f"      ... and {len(output.relevant_policies) - 5} more")
     
-    # Show answer preview
-    answer_preview = output.answer[:150] + "..." if len(output.answer) > 150 else output.answer
+    # Show longer answer preview (increased to 800 chars for better debugging)
+    answer_preview = output.answer[:800] + "..." if len(output.answer) > 800 else output.answer
     print(f"\n   💭 Agent's Contribution:")
     print(format_text(answer_preview))
+    
+    # Show total length if truncated
+    if len(output.answer) > 800:
+        print(f"      (Total length: {len(output.answer)} chars, showing first 800)")
     
     # Show plan options if Programs agent
     if agent_name == "programs_requirements" and output.plan_options:
         print(f"\n   📋 Plan Options Proposed: {len(output.plan_options)}")
-        for i, plan in enumerate(output.plan_options[:2], 1):
-            courses_str = ', '.join(plan.courses[:5])
-            if len(plan.courses) > 5:
-                courses_str += f" (+{len(plan.courses) - 5} more)"
+        for i, plan in enumerate(output.plan_options[:3], 1):  # Show 3 options instead of 2
+            courses_str = ', '.join(plan.courses[:8])  # Show 8 courses instead of 5
+            if len(plan.courses) > 8:
+                courses_str += f" (+{len(plan.courses) - 8} more)"
             print(f"      Option {i}: {courses_str}")
             print(f"         Confidence: {plan.confidence:.2f}")
+            if hasattr(plan, 'justification'):
+                print(f"         Justification: {plan.justification}")  # Full justification
     
-    # Show risks
+    # Show risks with full description
     if output.risks:
         print(f"\n   ⚠️  Risks Identified: {len(output.risks)}")
-        for risk in output.risks[:2]:
+        for i, risk in enumerate(output.risks[:4], 1):  # Show 4 risks instead of 2
             severity_icon = "🔴" if risk.severity == "high" else "🟡" if risk.severity == "medium" else "🟢"
-            print(f"      {severity_icon} [{risk.severity.upper()}] {risk.description[:60]}...")
+            print(f"      {i}. {severity_icon} [{risk.severity.upper()}] {risk.description}")  # Full description
+            if hasattr(risk, 'type'):
+                print(f"         Type: {risk.type}")
+        if len(output.risks) > 4:
+            print(f"      ... and {len(output.risks) - 4} more")
     
-    # Show constraints
+    # Show constraints with full description
     if output.constraints:
         print(f"\n   🚫 Constraints Found: {len(output.constraints)}")
-        for constraint in output.constraints[:2]:
+        for i, constraint in enumerate(output.constraints[:4], 1):  # Show 4 constraints instead of 2
             hard_icon = "🔴" if constraint.hard else "🟡"
-            print(f"      {hard_icon} {'[HARD]' if constraint.hard else '[SOFT]'} {constraint.description[:60]}...")
+            print(f"      {i}. {hard_icon} {'[HARD]' if constraint.hard else '[SOFT]'} {constraint.description}")  # Full description
+            if hasattr(constraint, 'source'):
+                print(f"         Source: {constraint.source}")
+        if len(output.constraints) > 4:
+            print(f"      ... and {len(output.constraints) - 4} more")
     
     time.sleep(0.8)
     return output
@@ -170,12 +318,18 @@ def show_negotiation(state):
                 hard_constraints = [c for c in policy_output.constraints if c.hard]
                 if hard_constraints:
                     print(f"\n   🔴 Hard Violations Found: {len(hard_constraints)}")
-                    for constraint in hard_constraints[:2]:
-                        print(f"      • {constraint.description[:70]}...")
+                    for i, constraint in enumerate(hard_constraints[:4], 1):  # Show 4 instead of 2
+                        print(f"      {i}. {constraint.description}")  # Full description
+                        if hasattr(constraint, 'policy_citation') and constraint.policy_citation:
+                            print(f"         Policy: {constraint.policy_citation}")
+                    if len(hard_constraints) > 4:
+                        print(f"      ... and {len(hard_constraints) - 4} more")
                 else:
                     soft_constraints = [c for c in policy_output.constraints if not c.hard]
                     if soft_constraints:
                         print(f"\n   🟡 Soft Constraints: {len(soft_constraints)}")
+                        for i, constraint in enumerate(soft_constraints[:3], 1):
+                            print(f"      {i}. {constraint.description}")  # Full description
             
             if policy_output.risks:
                 high_risks = [r for r in policy_output.risks if r.severity == "high"]
@@ -194,7 +348,9 @@ def show_negotiation(state):
             icon = "🔴" if conflict.conflict_type == ConflictType.HARD_VIOLATION else "🟡" if conflict.conflict_type == ConflictType.HIGH_RISK else "🟢"
             print(f"\n   {icon} Conflict {i}: {conflict_type}")
             print(f"      Affected Agents: {', '.join(conflict.affected_agents)}")
-            print(f"      Issue: {conflict.description[:70]}...")
+            print(f"      Description: {conflict.description}")  # Full description, no truncation
+            if conflict.options:
+                print(f"      Options Available: {len(conflict.options)}")
         
         iteration = state.get("iteration_count", 0)
         if iteration < 3:
@@ -210,28 +366,143 @@ def show_negotiation(state):
     time.sleep(1)
     return conflicts
 
+def show_clarification_needed(intent):
+    """Display clarification request to user."""
+    clarification_info = intent.get('understanding', {})
+    questions = clarification_info.get('clarification_questions', [])
+    reasoning = clarification_info.get('clarification_reasoning', '')
+    missing = clarification_info.get('missing_information', [])
+    
+    print("\n" + "=" * 80)
+    print("❓ CLARIFICATION NEEDED")
+    print("=" * 80)
+    
+    print(f"\n   🤔 Why I need to ask:")
+    print(f"      {reasoning}")
+    
+    if missing:
+        print(f"\n   📋 Missing information: {', '.join(missing)}")
+    
+    print(f"\n   💡 To give you an accurate answer, I need to know:")
+
+def get_user_clarification(intent):
+    """Get clarification from user interactively."""
+    clarification_info = intent.get('understanding', {})
+    questions = clarification_info.get('clarification_questions', [])
+    
+    if not questions:
+        return None
+    
+    print("\n" + "-" * 80)
+    
+    responses = {}
+    for i, q in enumerate(questions, 1):
+        print(f"\n   {i}. {q.get('question', 'Please provide information')}")
+        if q.get('why'):
+            print(f"      → {q.get('why')}")
+        
+        if q.get('note'):
+            print(f"      ⚠️  {q.get('note')}")
+        
+        if q.get('options'):
+            print(f"      Options: {', '.join(q.get('options'))}")
+        
+        answer = input(f"\n      Your answer: ").strip()
+        
+        if answer:
+            q_type = q.get('type', f'question_{i}')
+            
+            # Normalize ambiguous answers
+            if q_type == 'major':
+                answer = normalize_major_name(answer)
+            
+            responses[q_type] = answer
+    
+    print("\n   ✅ Thank you! Now I can provide an accurate answer.")
+    print("=" * 80)
+    
+    return responses
+
+def normalize_major_name(answer: str) -> str:
+    """
+    Normalize major name to full official name.
+    
+    Handles common abbreviations and variations.
+    """
+    answer_lower = answer.lower().strip()
+    
+    # Common abbreviations
+    mapping = {
+        'cs': 'Computer Science',
+        'computer science': 'Computer Science',
+        'is': 'Information Systems',
+        'information systems': 'Information Systems',
+        'info systems': 'Information Systems',
+        'bio': 'Biological Sciences',
+        'biology': 'Biological Sciences',
+        'biological sciences': 'Biological Sciences',
+        'bs': 'Biological Sciences',  # Assuming BS = Biological Sciences in biology context
+        'ba': 'Business Administration',
+        'business': 'Business Administration',
+        'business administration': 'Business Administration',
+    }
+    
+    if answer_lower in mapping:
+        return mapping[answer_lower]
+    
+    # Return original if no mapping found
+    return answer
+
 def show_final_answer(state, answer):
-    """Show the final synthesized answer."""
-    print_section("STEP 4: Final Advisor Response", "💬")
+    """Show the final synthesized answer with details."""
+    print_section("STEP 4: Final Answer Synthesis", "💬")
     
     agent_outputs = state.get("agent_outputs", {})
     
-    print("\n   🧠 Synthesizing answer from all agent contributions...")
-    print("\n   Agents consulted:")
+    print("\n   🧠 Coordinator is synthesizing final answer...")
+    print("      • Combining insights from all agents")
+    print("      • Resolving any remaining conflicts")
+    print("      • Formatting for student readability")
+    print("      • Adding policy citations")
+    
+    print(f"\n   {'='*76}")
+    print(f"   📊 AGENT CONTRIBUTIONS SUMMARY")
+    print(f"   {'='*76}")
+    
+    print("\n   Agents Consulted:")
+    total_policies = 0
+    total_risks = 0
+    total_constraints = 0
+    
     for agent_name in agent_outputs.keys():
         output = agent_outputs[agent_name]
         agent_display = agent_name.replace('_', ' ').title()
         confidence_bar = "█" * int(output.confidence * 10)
-        print(f"      • {agent_display}: {confidence_bar} ({output.confidence:.2f})")
+        print(f"\n      🤖 {agent_display}")
+        print(f"         Confidence: {confidence_bar} ({output.confidence:.2f})")
+        print(f"         Policies Cited: {len(output.relevant_policies)}")
+        print(f"         Risks Identified: {len(output.risks)}")
+        print(f"         Constraints: {len(output.constraints)}")
+        
+        total_policies += len(output.relevant_policies)
+        total_risks += len(output.risks)
+        total_constraints += len(output.constraints)
+    
+    print(f"\n   📈 Overall Statistics:")
+    print(f"      • Total Agents: {len(agent_outputs)}")
+    print(f"      • Total Policies: {total_policies}")
+    print(f"      • Total Risks: {total_risks}")
+    print(f"      • Total Constraints: {total_constraints}")
     
     print("\n" + "=" * 80)
-    print("💡 ADVISOR'S ANSWER")
+    print("💡 FINAL ADVISOR RESPONSE")
     print("=" * 80)
     print()
     
-    # Format and display answer
-    formatted_answer = format_text(answer, indent="")
-    print(formatted_answer)
+    # Display answer with markdown formatting preserved
+    # The answer is already formatted by the LLM with markdown
+    print(answer)
+    print()
     
     # Show any open questions
     open_questions = state.get("open_questions", [])
@@ -246,14 +517,37 @@ def show_final_answer(state, answer):
 def chat():
     """Main chat loop with enhanced workflow demonstration."""
     clear_screen()
-    print_header()
+    dev_mode = False
+    print_header(dev_mode)
+    
+    # Initialize conversation memory (persistent across queries)
+    conversation_messages = []
+    
+    # Initialize student profile (persistent across queries)
+    student_profile = {}
     
     while True:
         try:
             # Get user input
-            user_input = input("\n💬 You: ").strip()
+            prompt = "💬 You: " if not dev_mode else "🔧 Dev: "
+            user_input = input(f"\n{prompt}").strip()
             
             if not user_input:
+                continue
+            
+            # Handle mode switching
+            if user_input.lower() == 'mode:dev':
+                dev_mode = True
+                clear_screen()
+                print_header(dev_mode)
+                print("\n✅ Development mode enabled! You can now manually select agents.")
+                continue
+            
+            if user_input.lower() == 'mode:normal':
+                dev_mode = False
+                clear_screen()
+                print_header(dev_mode)
+                print("\n✅ Normal mode enabled! Intent classification will run automatically.")
                 continue
             
             # Handle commands
@@ -263,20 +557,52 @@ def chat():
             
             if user_input.lower() == 'clear':
                 clear_screen()
-                print_header()
+                print_header(dev_mode)
+                # Also clear conversation history
+                conversation_messages = []
+                print("🧹 Conversation history cleared.\n")
                 continue
             
-            # Prepare initial state
+            # Handle manual agent selection in dev mode
+            manual_agents = None
+            actual_query = user_input
+            
+            if dev_mode:
+                if user_input.startswith('@programs '):
+                    manual_agents = ['programs_requirements']
+                    actual_query = user_input[10:].strip()
+                    print(f"\n🔧 Manual agent selection: Programs Requirements Agent")
+                elif user_input.startswith('@courses '):
+                    manual_agents = ['course_scheduling']
+                    actual_query = user_input[9:].strip()
+                    print(f"\n🔧 Manual agent selection: Course Scheduling Agent")
+                elif user_input.startswith('@policy '):
+                    manual_agents = ['policy_compliance']
+                    actual_query = user_input[8:].strip()
+                    print(f"\n🔧 Manual agent selection: Policy Compliance Agent")
+                elif user_input.startswith('@all '):
+                    manual_agents = ['programs_requirements', 'course_scheduling', 'policy_compliance']
+                    actual_query = user_input[5:].strip()
+                    print(f"\n🔧 Manual agent selection: All Agents")
+                
+                if not actual_query:
+                    print("⚠️  Please provide a query after the agent selector.")
+                    continue
+            
+            # Add current query to conversation history
+            conversation_messages.append(HumanMessage(content=actual_query))
+            
+            # Prepare initial state (with full conversation history)
             initial_state = {
-                "user_query": user_input,
-                "student_profile": {},
+                "user_query": actual_query,
+                "student_profile": student_profile,  # Use persistent profile
                 "agent_outputs": {},
                 "constraints": [],
                 "risks": [],
                 "plan_options": [],
                 "conflicts": [],
                 "open_questions": [],
-                "messages": [HumanMessage(content=user_input)],
+                "messages": conversation_messages.copy(),  # Full conversation history
                 "active_agents": [],
                 "workflow_step": WorkflowStep.INITIAL,
                 "iteration_count": 0,
@@ -284,10 +610,73 @@ def chat():
                 "user_goal": None
             }
             
-            # Step 1: Show intent classification
-            intent, workflow = show_intent_classification(user_input)
+            # Step 1: Intent classification (skip if manual agents selected)
+            if manual_agents:
+                print(f"\n   Query: \"{actual_query}\"")
+                print(f"   🔧 Skipping intent classification (manual mode)")
+                workflow = manual_agents
+                initial_state["user_goal"] = "manual_selection"
+            else:
+                # Pass conversation history to classifier
+                conversation_history = [
+                    {"role": msg.type, "content": msg.content}
+                    for msg in initial_state.get("messages", [])
+                ]
+                intent, workflow, clarification = show_intent_classification(
+                    actual_query, conversation_history, student_profile
+                )
+                
+                # Handle clarification if needed (with max retry limit)
+                clarification_retries = 0
+                max_clarification_retries = 1  # Only allow one clarification round
+                
+                while clarification and clarification_retries < max_clarification_retries:
+                    # Update student profile with clarification
+                    student_profile.update(clarification)
+                    initial_state["student_profile"] = student_profile
+                    
+                    # Add clarification Q&A to conversation history (FIXED)
+                    # 1. Add the clarification questions as AI message
+                    clarification_questions = intent.get('understanding', {}).get('clarification_questions', [])
+                    if clarification_questions:
+                        questions_text = "\n".join([
+                            f"Q: {q.get('question', '')} (Why: {q.get('why', '')})"
+                            for q in clarification_questions
+                        ])
+                        conversation_messages.append(AIMessage(content=f"I need clarification:\n{questions_text}"))
+                    
+                    # 2. Add the user's answers as Human message
+                    answers_text = ", ".join([f"{k}: {v}" for k, v in clarification.items()])
+                    conversation_messages.append(HumanMessage(content=answers_text))
+                    
+                    # 3. Add acknowledgment as AI message
+                    conversation_messages.append(AIMessage(content=f"Thank you! I now understand you are: {answers_text}"))
+                    
+                    # Re-classify with updated profile and FULL conversation history
+                    print("\n   🔄 Re-analyzing with clarification...")
+                    conversation_history = [
+                        {"role": msg.type, "content": msg.content}
+                        for msg in conversation_messages
+                    ]
+                    intent, workflow, clarification = show_intent_classification(
+                        actual_query, conversation_history, student_profile
+                    )
+                    
+                    clarification_retries += 1
+                
+                # If still needs clarification after max retries, proceed anyway
+                if clarification and clarification_retries >= max_clarification_retries:
+                    print("\n   ⚠️  Proceeding with available information...")
+                    workflow = intent.get('required_agents', [])
+                
+                initial_state["user_goal"] = intent.get("intent_type", "")
+            
             initial_state["active_agents"] = workflow
-            initial_state["user_goal"] = intent.get("intent_type", "")
+            
+            # Skip agent execution if no agents (clarification-only case)
+            if not workflow:
+                print("\n⚠️  Waiting for clarification before proceeding to agents.")
+                continue
             
             # Step 2: Show agent execution
             print_section("STEP 2: Agent Execution", "🤖")
@@ -315,6 +704,9 @@ def chat():
             # Step 4: Synthesize and show final answer
             answer = coordinator.synthesize_answer(initial_state)
             show_final_answer(initial_state, answer)
+            
+            # Add AI response to conversation history
+            conversation_messages.append(AIMessage(content=answer))
             
         except KeyboardInterrupt:
             print("\n\n👋 Goodbye! Good luck with your studies!")
