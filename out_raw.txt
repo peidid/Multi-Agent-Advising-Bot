@@ -1,0 +1,564 @@
+================================================================================
+ADVISING BOT TEST RESULTS - FULL PROCESSING LOGS
+================================================================================
+
+
+================================================================================
+QUESTION 1
+================================================================================
+Can I take more than the recommended number of courses in a semester?
+
+================================================================================
+💬 You: Can I take more than the recommended number of courses in a semester?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "Can I take more than the recommended number of courses in a semester?"
+
+   Analyzing query to determine which agents are needed...
+
+   🧠 LLM-Driven Coordination (Full Reasoning)
+   📊 Priority: high
+   🎯 Confidence: █████████ (0.90)
+
+   🔍 Problem Understanding:
+      • Goal: The student wants to know if they can enroll in more courses than the standard load for a semester.
+      • Concern: The student may be trying to accelerate their degree completion or catch up on missed courses, and needs to understand the implications and rules regarding course overload.
+
+   🎯 Coordination Goal:
+      Provide a comprehensive response to whether the student can take more than the recommended number of courses, including policy implications and potential academic impacts.
+
+   💭 Reasoning:
+      This workflow ensures that all aspects of the student's query are addressed, from policy compliance to program-specific considerations and scheduling logistics.
+
+   🤖 Agent Analysis:
+
+      • policy_compliance: high priority
+        → This agent is crucial because the student's query directly relates to university policies on course load and overload pe
+          rmissions.
+
+      • programs_requirements: medium priority
+        → This agent can provide additional context on how taking more courses might impact the student's academic trajectory with
+          in their specific program.
+
+      • course_scheduling: low priority
+        → This agent is less critical unless the student decides to proceed with an overload, in which case scheduling conflicts w
+          ould need to be addressed.
+
+   🤖 Agents to Activate:
+      1. Programs Requirements
+      2. Policy Compliance
+      3. Course Scheduling
+
+   📋 Workflow Order:
+      1. Programs Requirements
+      2. Policy Compliance
+      3. Course Scheduling
+
+   ⚙️  Decision Points:
+      • After policy_compliance: If policies allow course overload under certain conditions...
+      • After programs_requirements: If additional courses align with degree progress...
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Programs Requirements Agent
+--------------------------------------------------------------------------------
+   ⏳ Programs Requirements is processing your query...
+      (Retrieving domain-specific knowledge)
+
+   ✅ Programs Requirements completed!
+      Confidence: 0.85
+
+   📚 Policies Cited: 3
+      1. CS overload limit: 63 units
+      2. Tepper overload threshold: 51 units
+      3. QPA requirement: 3.0 for CS, 3.5 for Tepper
+
+   💭 Agent's Contribution:
+   Yes, you can take more than the recommended number of courses in a
+   semester, but it requires approval. For CS students, the full load is 54
+   units for fall and spring semesters, and the overload limit is 63 units.
+   To overload, you need your advisor's approval, and if you want to exceed
+   the overload limit, you need the Associate Dean of Education's approval.
+   You must have completed at least 45 factorable units in the previous
+   semester and have a QPA above 3.0. For Tepper students, the overload
+   threshold is 51 units, and you need a cumulative QPA of 3.5 to petition
+   for an overload.
+
+   ⚠️  Risks Identified: 1
+      1. 🔴 [HIGH] Overloading can lead to increased stress and potential impact on academic performance.
+         Type: overload_risk
+
+   🚫 Constraints Found: 2
+      1. 🔴 [HARD] Advisor approval required for overloading.
+         Source: policy
+      2. 🔴 [HARD] Associate Dean approval required for exceeding overload limit.
+         Source: policy
+
+🤖 Executing Policy Compliance Agent
+--------------------------------------------------------------------------------
+   ⏳ Policy Compliance is processing your query...
+      (Retrieving domain-specific knowledge)
+
+   ✅ Policy Compliance completed!
+      Confidence: 0.90
+
+   💭 Agent's Contribution:
+   Yes, you can take more than the recommended number of courses in a
+   semester by requesting a course overload. To do this, you must consult
+   with and receive approval from your academic advisor. Once approved,
+   your advisor will adjust your maximum units in the registration system,
+   allowing you to register for additional courses. However, this option is
+   not available to first-year and transfer students in their first
+   semester. Additionally, advisors can only update your maximum units
+   after the Saturday following Registration Week.
+
+🤖 Executing Course Scheduling Agent
+--------------------------------------------------------------------------------
+   ⏳ Course Scheduling is processing your query...
+      (Retrieving domain-specific knowledge)
+
+   ✅ Course Scheduling completed!
+      Confidence: 0.70
+
+   💭 Agent's Contribution:
+   Yes, you can take more than the recommended number of courses in a
+   semester, but it is important to consider the additional workload and
+   time commitment. It might be beneficial to discuss your plan with an
+   academic advisor to ensure that you can manage the increased workload
+   effectively and meet all academic requirements. Additionally, some
+   courses may have prerequisites or restrictions, so it's important to
+   check these before enrolling in additional courses.
+
+================================================================================
+🔄 STEP 3: Collaboration & Negotiation
+================================================================================
+
+   ✅ No conflicts detected!
+      All agents agree on the recommendation.
+
+================================================================================
+💬 STEP 4: Final Answer Synthesis
+================================================================================
+
+   🧠 Coordinator is synthesizing final answer...
+      • Combining insights from all agents
+      • Resolving any remaining conflicts
+      • Formatting for student readability
+      • Adding policy citations
+
+   ============================================================================
+   📊 AGENT CONTRIBUTIONS SUMMARY
+   ============================================================================
+
+   Agents Consulted:
+
+      🤖 Programs Requirements
+         Confidence: ████████ (0.85)
+         Policies Cited: 3
+         Risks Identified: 1
+         Constraints: 2
+
+      🤖 Policy Compliance
+         Confidence: █████████ (0.90)
+         Policies Cited: 0
+         Risks Identified: 0
+         Constraints: 0
+
+      🤖 Course Scheduling
+         Confidence: ███████ (0.70)
+         Policies Cited: 0
+         Risks Identified: 0
+         Constraints: 0
+
+   📈 Overall Statistics:
+      • Total Agents: 3
+      • Total Policies: 3
+      • Total Risks: 1
+      • Total Constraints: 2
+
+================================================================================
+💡 FINAL ADVISOR RESPONSE
+================================================================================
+
+## 📌 Direct Answer (Quick Summary)
+Yes, you can take more than the recommended number of courses per semester, but you need approval from your academic advisor or the Associate Dean, depending on the extent of the overload.
+
+### Key Points
+• **Approval Required:** You must get approval from your academic advisor to take more than the standard course load. For significant overloads, approval from the Associate Dean of Education may be necessary.
+• **Specific Limits and Requirements:** For CS students, the standard full load is 54 units, with an overload limit of 63 units. Tepper students have an overload threshold of 51 units.
+• **Academic Performance:** You need a minimum QPA of 3.0 (CS students) or 3.5 (Tepper students) to be eligible for an overload.
+
+### Detailed Explanation
+Overloading courses means taking more units than the typical full load for a semester. Each department has specific guidelines and thresholds for overloading:
+- **CS Students:** The normal full load is 54 units, and you can overload up to 63 units with your advisor’s approval. If you wish to exceed this limit, you'll need the approval of the Associate Dean of Education. You must have completed at least 45 factorable units in the previous semester with a QPA above 3.0.
+- **Tepper Students:** The overload threshold is 51 units, and you need a cumulative QPA of 3.5 to petition for an overload.
+
+### What You Should Do / Next Steps
+1. **Check Your Eligibility:** Ensure you meet the QPA requirement and have completed the necessary units in the previous semester.
+2. **Consult Your Advisor:** Discuss your academic plan and reasons for wanting to overload. Your advisor can provide guidance and help assess if you can manage the additional workload.
+3. **Obtain Approval:** If your advisor agrees, they will need to approve your course overload. For substantial overloads, additional approval from the Associate Dean may be required.
+4. **Register for Courses:** Once approved, proceed with course registration, keeping in mind any prerequisites or restrictions for new courses.
+
+By following these steps and consulting with your academic advisor, you can effectively manage an increased course load while maintaining your academic performance.
+
+
+================================================================================
+
+================================================================================
+
+
+================================================================================
+QUESTION 2
+================================================================================
+How do I know if I have met the prerequisites for a course?
+
+================================================================================
+💬 You: How do I know if I have met the prerequisites for a course?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "How do I know if I have met the prerequisites for a course?"
+   💭 Context: 1 previous turn(s) in conversation
+
+   Analyzing query to determine which agents are needed...
+
+   🧠 LLM-Driven Coordination (Full Reasoning)
+   📊 Priority: high
+   🎯 Confidence: █████████ (0.90)
+
+   🔍 Problem Understanding:
+      • Goal: The student wants to verify if they have met the prerequisites for a specific course they are interested in taking.
+      • Concern: The student is likely planning their course schedule and needs to ensure they are eligible to register for a desired course without facing administrative issues or delays.
+
+   🎯 Coordination Goal:
+      Verify if the student has met the prerequisites for a specific course.
+
+   💭 Reasoning:
+      By identifying the prerequisites for the course and comparing them with the student's academic record, we can determine eligibility for course registration.
+
+   🤖 Agent Analysis:
+
+      • course_scheduling: high priority
+        → This agent can provide detailed prerequisites for any given course, which is directly relevant to the student's query.
+
+      • programs_requirements: low priority
+        → This agent focuses on program requirements and degree progress, which are not directly needed for checking prerequisites
+          .
+
+      • policy_compliance: low priority
+        → This agent deals with university-wide policies and does not have the capability to check specific course prerequisites.
+
+   🤖 Agents to Activate:
+      1. Course Scheduling
+
+   📋 Workflow Order:
+      1. Course Scheduling
+
+   ⚙️  Decision Points:
+      • After course_scheduling: Prerequisites provided for the course...
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Course Scheduling Agent
+--------------------------------------------------------------------------------
+   ⏳ Course Scheduling is processing your query...
+      (Retrieving domain-specific knowledge)
+
+❌ Error processing question: Request timed out.
+
+❌ Error processing question: Request timed out.
+================================================================================
+
+
+================================================================================
+QUESTION 3
+================================================================================
+What happens if I register for a course but don't meet the prerequisites?
+
+================================================================================
+💬 You: What happens if I register for a course but don't meet the prerequisites?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "What happens if I register for a course but don't meet the prerequisites?"
+   💭 Context: 1 previous turn(s) in conversation
+
+   Analyzing query to determine which agents are needed...
+⚠️  Clarification check error: Request timed out.
+⚠️  LLM-driven coordinator error: Request timed out.
+
+   ✅ Intent Type: General
+   📊 Priority: medium
+   🎯 Confidence: █████ (0.50)
+
+   💭 Reasoning: Error in LLM coordination: Request timed out.
+
+   🤖 Agents to Activate:
+      1. Programs Requirements
+
+   📋 Workflow Order:
+      1. Programs Requirements
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Programs Requirements Agent
+--------------------------------------------------------------------------------
+   ⏳ Programs Requirements is processing your query...
+      (Retrieving domain-specific knowledge)
+
+❌ Error processing question: Connection error.
+
+❌ Error processing question: Connection error.
+================================================================================
+
+
+================================================================================
+QUESTION 4
+================================================================================
+How do I enroll in a course that requires instructor permission?
+
+================================================================================
+💬 You: How do I enroll in a course that requires instructor permission?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "How do I enroll in a course that requires instructor permission?"
+   💭 Context: 2 previous turn(s) in conversation
+
+   Analyzing query to determine which agents are needed...
+⚠️  Clarification check error: Connection error.
+⚠️  LLM-driven coordinator error: Connection error.
+
+   ✅ Intent Type: General
+   📊 Priority: medium
+   🎯 Confidence: █████ (0.50)
+
+   💭 Reasoning: Error in LLM coordination: Connection error.
+
+   🤖 Agents to Activate:
+      1. Programs Requirements
+
+   📋 Workflow Order:
+      1. Programs Requirements
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Programs Requirements Agent
+--------------------------------------------------------------------------------
+   ⏳ Programs Requirements is processing your query...
+      (Retrieving domain-specific knowledge)
+
+❌ Error processing question: Connection error.
+
+❌ Error processing question: Connection error.
+================================================================================
+
+
+================================================================================
+QUESTION 5
+================================================================================
+What happens if a required course is full?
+
+================================================================================
+💬 You: What happens if a required course is full?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "What happens if a required course is full?"
+   💭 Context: 2 previous turn(s) in conversation
+
+   Analyzing query to determine which agents are needed...
+⚠️  Clarification check error: Connection error.
+⚠️  LLM-driven coordinator error: Connection error.
+
+   ✅ Intent Type: General
+   📊 Priority: medium
+   🎯 Confidence: █████ (0.50)
+
+   💭 Reasoning: Error in LLM coordination: Connection error.
+
+   🤖 Agents to Activate:
+      1. Programs Requirements
+
+   📋 Workflow Order:
+      1. Programs Requirements
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Programs Requirements Agent
+--------------------------------------------------------------------------------
+   ⏳ Programs Requirements is processing your query...
+      (Retrieving domain-specific knowledge)
+
+❌ Error processing question: Connection error.
+
+❌ Error processing question: Connection error.
+================================================================================
+
+
+================================================================================
+QUESTION 6
+================================================================================
+Can I take a graduate-level course as an undergraduate?
+
+================================================================================
+💬 You: Can I take a graduate-level course as an undergraduate?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "Can I take a graduate-level course as an undergraduate?"
+   💭 Context: 3 previous turn(s) in conversation
+
+   Analyzing query to determine which agents are needed...
+⚠️  Clarification check error: Connection error.
+⚠️  LLM-driven coordinator error: Connection error.
+
+   ✅ Intent Type: General
+   📊 Priority: medium
+   🎯 Confidence: █████ (0.50)
+
+   💭 Reasoning: Error in LLM coordination: Connection error.
+
+   🤖 Agents to Activate:
+      1. Programs Requirements
+
+   📋 Workflow Order:
+      1. Programs Requirements
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Programs Requirements Agent
+--------------------------------------------------------------------------------
+   ⏳ Programs Requirements is processing your query...
+      (Retrieving domain-specific knowledge)
+
+❌ Error processing question: Connection error.
+
+❌ Error processing question: Connection error.
+================================================================================
+
+
+================================================================================
+QUESTION 7
+================================================================================
+What should I do if I have a time conflict between two required courses?
+
+================================================================================
+💬 You: What should I do if I have a time conflict between two required courses?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "What should I do if I have a time conflict between two required courses?"
+   💭 Context: 3 previous turn(s) in conversation
+
+   Analyzing query to determine which agents are needed...
+⚠️  Clarification check error: Connection error.
+⚠️  LLM-driven coordinator error: Connection error.
+
+   ✅ Intent Type: General
+   📊 Priority: medium
+   🎯 Confidence: █████ (0.50)
+
+   💭 Reasoning: Error in LLM coordination: Connection error.
+
+   🤖 Agents to Activate:
+      1. Programs Requirements
+
+   📋 Workflow Order:
+      1. Programs Requirements
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Programs Requirements Agent
+--------------------------------------------------------------------------------
+   ⏳ Programs Requirements is processing your query...
+      (Retrieving domain-specific knowledge)
+
+❌ Error processing question: Connection error.
+
+❌ Error processing question: Connection error.
+================================================================================
+
+
+================================================================================
+QUESTION 8
+================================================================================
+Can I take courses over the summer at another university?
+
+================================================================================
+💬 You: Can I take courses over the summer at another university?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "Can I take courses over the summer at another university?"
+   💭 Context: 4 previous turn(s) in conversation
+
+   Analyzing query to determine which agents are needed...
+⚠️  Clarification check error: Connection error.
+⚠️  LLM-driven coordinator error: Connection error.
+
+   ✅ Intent Type: General
+   📊 Priority: medium
+   🎯 Confidence: █████ (0.50)
+
+   💭 Reasoning: Error in LLM coordination: Connection error.
+
+   🤖 Agents to Activate:
+      1. Programs Requirements
+
+   📋 Workflow Order:
+      1. Programs Requirements
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Programs Requirements Agent
+--------------------------------------------------------------------------------
+   ⏳ Programs Requirements is processing your query...
+      (Retrieving domain-specific knowledge)
+
+❌ Error processing question: Connection error.
+
+❌ Error processing question: Connection error.
+================================================================================
+

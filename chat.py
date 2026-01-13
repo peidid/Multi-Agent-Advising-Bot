@@ -2,6 +2,10 @@
 Enhanced Interactive Chat with Real-Time Workflow Demonstration
 Shows the actual multi-agent workflow including negotiation and collaboration.
 """
+# Suppress SSL warnings when SSL verification is disabled
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 from multi_agent import app, coordinator, programs_agent, courses_agent, policy_agent
 from blackboard.schema import WorkflowStep, ConflictType
 from langchain_core.messages import HumanMessage, AIMessage

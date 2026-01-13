@@ -1,9 +1,8 @@
-I'm a CS freshman. How do I know which courses to take each semester?
-I'm a CS freshman. Can I take more than the recommended number of courses in a semester?
-I'm a CS freshman.How do I know if I have met the prerequisites for a course?
-I'm a CS freshman.What happens if I register for a course but don’t meet the prerequisites?
-I'm a CS freshman.How do I enroll in a course that requires instructor permission?
-I'm a CS freshman.What happens if a required course is full?
-I'm a CS junior.Can I take a graduate-level course as an undergraduate?
-I'm a CS freshman.What should I do if I have a time conflict between two required courses?
-I'm a CS freshman.Can I take courses over the summer at another university?
+Can I take more than the recommended number of courses in a semester?
+How do I know if I have met the prerequisites for a course?
+What happens if I register for a course but don't meet the prerequisites?
+How do I enroll in a course that requires instructor permission?
+What happens if a required course is full?
+Can I take a graduate-level course as an undergraduate?
+What should I do if I have a time conflict between two required courses?
+Can I take courses over the summer at another university?

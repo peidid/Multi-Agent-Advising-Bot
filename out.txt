@@ -1,513 +1,87 @@
 ================================================================================
-CMU-Q Advising Chatbot - Automated Test Results
-================================================================================
-Started at: 2026-01-13 14:12:01
-Total questions: 9
-Mode: FULLY AUTOMATED (clarification disabled)
+ADVISING BOT TEST RESULTS - FINAL ANSWERS ONLY
 ================================================================================
 
-================================================================================
-🎓 CMU-Q Academic Advising Chatbot - Workflow Demonstration
-================================================================================
-
-This interface shows how multiple agents collaborate in real-time.
-
-You'll see:
-  • Intent classification
-  • Agent activation and execution
-  • Negotiation/collaboration process
-  • Final human-like advisor response
-
-💡 Development Mode:
-  • Type 'mode:dev' to enable manual agent selection
-
-🧠 Coordination Mode:
-  • LLM-Driven Coordination
-    (Full LLM reasoning for dynamic workflow planning)
-
-💬 Conversation Memory:
-  • System remembers conversation history
-  • You can refer to previous topics (e.g., 'it', 'that course')
-  • Type 'clear' to reset conversation
-
-Type 'quit' to exit
---------------------------------------------------------------------------------
-
-======================================================================
-Model Configuration
-======================================================================
-
-📊 Coordinator Model: gpt-4-turbo
-   Temperature: 0.3
-   Purpose: Complex routing, intent classification, conflict resolution, answer synthesis
-   Note: Set to 'gpt-5' when OpenAI releases GPT-5
-
-🤖 Agent Model: gpt-4o
-   Temperature: 0.3
-   Purpose: Domain-specific knowledge retrieval and processing
-======================================================================
-
-
-================================================================================
-⚡ CLARIFICATION DISABLED - Running in fully automated mode
-================================================================================
-
-================================================================================
-QUESTION 1/9
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "How do I know which courses to take each semester?"
-
-   Analyzing query to determine which agents are needed...
-
-================================================================================
-❓ CLARIFICATION NEEDED
-================================================================================
-
-   🤔 Why I need to ask:
-      To provide accurate course recommendations, it is essential to know the student's major or program, as course requirements and sequences vary significantly between different fields of study. Additionally, knowing the current semester/year and the courses already completed is crucial for checking prerequisites and ensuring proper course sequencing.
-
-   📋 Missing information: major, semester, courses_taken
-
-   💡 To give you an accurate answer, I need to know:
-
-   ⚡ Skipping clarification (automated mode)
-
-⚠️  Waiting for clarification before proceeding to agents.
-
-================================================================================
-QUESTION 2/9
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "Can I take more than the recommended number of courses in a semester?"
-   💭 Context: 0 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-
-================================================================================
-❓ CLARIFICATION NEEDED
-================================================================================
-
-   🤔 Why I need to ask:
-      The ability to take more than the recommended number of courses can vary significantly based on the student's major or program, as different programs have different workload expectations and policies. Additionally, the student's current semester/year is crucial to understand if they are in a position to handle an increased course load, and their academic standing might affect eligibility for overloading. Knowing courses already completed is necessary to check for prerequisites and assess if the student is prepared for advanced courses.
-
-   📋 Missing information: major, semester, courses_taken, academic_standing
-
-   💡 To give you an accurate answer, I need to know:
-
-   ⚡ Skipping clarification (automated mode)
-
-⚠️  Waiting for clarification before proceeding to agents.
-
-================================================================================
-QUESTION 3/9
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "How do I know if I have met the prerequisites for a course?"
-   💭 Context: 1 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-
-================================================================================
-❓ CLARIFICATION NEEDED
-================================================================================
-
-   🤔 Why I need to ask:
-      To determine if the student has met the prerequisites for a course, it is essential to know the student's major as different programs have varying prerequisite requirements. Additionally, information about the courses the student has already completed is necessary to accurately check against the prerequisites.
-
-   📋 Missing information: major, courses_taken
-
-   💡 To give you an accurate answer, I need to know:
-
-   ⚡ Skipping clarification (automated mode)
-
-⚠️  Waiting for clarification before proceeding to agents.
-
-================================================================================
-QUESTION 4/9
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "What happens if I register for a course but don’t meet the prerequisites?"
-   💭 Context: 1 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-
-================================================================================
-❓ CLARIFICATION NEEDED
-================================================================================
-
-   🤔 Why I need to ask:
-      The consequences of registering for a course without meeting prerequisites can vary significantly depending on the student's major or program. Different departments may have different policies on how strictly they enforce prerequisites, and the impact on the student's academic progress can vary.
-
-   📋 Missing information: major
-
-   💡 To give you an accurate answer, I need to know:
-
-   ⚡ Skipping clarification (automated mode)
-
-⚠️  Waiting for clarification before proceeding to agents.
-
-================================================================================
-QUESTION 5/9
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "How do I enroll in a course that requires instructor permission?"
-   💭 Context: 2 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-
-   🧠 LLM-Driven Coordination (Full Reasoning)
-   📊 Priority: high
-   🎯 Confidence: █████████ (0.90)
-
-   🔍 Problem Understanding:
-      • Goal: The student wants to enroll in a course that requires instructor permission.
-      • Concern: The student may be unsure about the process to obtain permission or what steps are involved in securing a spot in such a course.
-
-   🎯 Coordination Goal:
-      Provide the student with a clear understanding of how to enroll in a course that requires instructor permission, including any necessary prerequisites and the process to contact the instructor.
-
-   💭 Reasoning:
-      Focusing on the course scheduling agent allows us to directly address the student's need for specific course-related information and steps for obtaining permission.
-
-   🤖 Agent Analysis:
-
-      • course_scheduling: high priority
-        → This agent can provide detailed course information and explain the process for obtaining instructor permission, which is
-           directly related to the student's query.
-
-      • programs_requirements: low priority
-        → This agent's capabilities are not directly relevant to the specific query about instructor permission.
-
-      • policy_compliance: low priority
-        → This agent's focus is on university-wide policies and does not directly address the process of obtaining instructor perm
-          ission for course enrollment.
-
-   🤖 Agents to Activate:
-      1. Course Scheduling
-
-   📋 Workflow Order:
-      1. Course Scheduling
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Course Scheduling Agent
---------------------------------------------------------------------------------
-   ⏳ Course Scheduling is processing your query...
-      (Retrieving domain-specific knowledge)
-
-   ✅ Course Scheduling completed!
-      Confidence: 0.70
-
-   💭 Agent's Contribution:
-   To enroll in a course that requires instructor permission at CMU-Q, you
-   should follow these steps: 1. **Identify the Course**: Make sure you
-   know the specific course you want to enroll in and confirm that it
-   requires instructor permission. 2. **Contact the Instructor**: Reach out
-   to the instructor of the course directly. You can usually find their
-   contact information on the course syllabus, the department's website, or
-   by asking the department's administrative office. 3. **Express Your
-   Interest**: In your communication, clearly express your interest in the
-   course and explain why you want to enroll. Highlight any relevant
-   background or experience you have that makes you a suitable candidate
-   for the course. 4. **Request Permission**: Politely request permission
-   to enroll in the course. B...
-      (Total length: 1474 chars, showing first 800)
-
-================================================================================
-🔄 STEP 3: Collaboration & Negotiation
-================================================================================
-
-   ✅ No conflicts detected!
-      All agents agree on the recommendation.
-
-❌ Error processing question 5: Request timed out.
-
-Continuing with next question...
-
-
-================================================================================
-QUESTION 6/9
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "What happens if a required course is full?"
-   💭 Context: 2 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-⚠️  Clarification check error: Request timed out.
-⚠️  LLM-driven coordinator error: Request timed out.
-
-   ✅ Intent Type: General
-   📊 Priority: medium
-   🎯 Confidence: █████ (0.50)
-
-   💭 Reasoning: Error in LLM coordination: Request timed out.
-
-   🤖 Agents to Activate:
-      1. Programs Requirements
-
-   📋 Workflow Order:
-      1. Programs Requirements
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Programs Requirements Agent
---------------------------------------------------------------------------------
-   ⏳ Programs Requirements is processing your query...
-      (Retrieving domain-specific knowledge)
-
-❌ Error processing question 6: Request timed out.
-
-Continuing with next question...
-
-
-================================================================================
-QUESTION 7/9
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "Can I take a graduate-level course as an undergraduate?"
-   💭 Context: 3 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-⚠️  Clarification check error: Request timed out.
-
-   🧠 LLM-Driven Coordination (Full Reasoning)
-   📊 Priority: high
-   🎯 Confidence: ████████ (0.85)
-
-   🔍 Problem Understanding:
-      • Goal: The student wants to know if they are eligible to enroll in a graduate-level course while being an undergraduate.
-      • Concern: The student may be looking to advance their knowledge or fulfill specific academic requirements more efficiently.
-
-   🎯 Coordination Goal:
-      To provide the student with a clear and comprehensive understanding of whether they can enroll in a graduate-level course as an undergraduate, including any necessary steps or conditions.
-
-   💭 Reasoning:
-      The workflow is designed to first confirm policy compliance to ensure the student's request is permissible under university regulations. Following this, detailed course information is gathered to address any specific prerequisites or permissions.
-
-   🤖 Agent Analysis:
-
-      • policy_compliance: high priority
-        → This agent is essential because the primary concern involves understanding and complying with university policies regard
-          ing course enrollment levels.
-
-      • course_scheduling: medium priority
-        → This agent can provide detailed information about the course itself, which is necessary to ensure the student meets all 
-          academic requirements for enrollment.
-
-   🤖 Agents to Activate:
-      1. Course Scheduling
-      2. Policy Compliance
-
-   📋 Workflow Order:
-      1. Course Scheduling
-      2. Policy Compliance
-
-   ⚙️  Decision Points:
-      • After policy_compliance: If the policy allows undergraduate students to take graduate...
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Course Scheduling Agent
---------------------------------------------------------------------------------
-   ⏳ Course Scheduling is processing your query...
-      (Retrieving domain-specific knowledge)
-
-   ✅ Course Scheduling completed!
-      Confidence: 0.70
-
-   💭 Agent's Contribution:
-   Yes, as an undergraduate junior or senior, you can take a graduate-level
-   course, provided it is open to undergraduate students. Based on the
-   context provided, the course numbers 08534 and 05436 are available for
-   juniors, seniors, and master's students. These courses have less
-   demanding project and presentation requirements compared to the
-   PhD-level courses. You will need to register for the class during the
-   semester you intend to complete it, no later than your penultimate
-   semester. Additionally, you may need special permission to enroll,
-   especially if the course is intended for students who have declared a
-   general studies major. It would be best to contact the instructors for
-   permission to enroll.
-
-🤖 Executing Policy Compliance Agent
---------------------------------------------------------------------------------
-   ⏳ Policy Compliance is processing your query...
-      (Retrieving domain-specific knowledge)
-
-   ✅ Policy Compliance completed!
-      Confidence: 0.90
-
-   💭 Agent's Contribution:
-   Yes, as an undergraduate, you can take a graduate-level course, but you
-   will likely need to obtain approval from your academic advisor or
-   department. It's important to consult with your advisor to ensure that
-   you meet any prerequisites and that the course fits into your academic
-   plan. Additionally, you may need to consider the implications on your
-   course load and ensure you have the necessary permissions if you are
-   planning to exceed the normal course load.
-
-================================================================================
-🔄 STEP 3: Collaboration & Negotiation
-================================================================================
-
-   ✅ No conflicts detected!
-      All agents agree on the recommendation.
-
-================================================================================
-💬 STEP 4: Final Answer Synthesis
-================================================================================
-
-   🧠 Coordinator is synthesizing final answer...
-      • Combining insights from all agents
-      • Resolving any remaining conflicts
-      • Formatting for student readability
-      • Adding policy citations
-
-   ============================================================================
-   📊 AGENT CONTRIBUTIONS SUMMARY
-   ============================================================================
-
-   Agents Consulted:
-
-      🤖 Course Scheduling
-         Confidence: ███████ (0.70)
-         Policies Cited: 0
-         Risks Identified: 0
-         Constraints: 0
-
-      🤖 Policy Compliance
-         Confidence: █████████ (0.90)
-         Policies Cited: 0
-         Risks Identified: 0
-         Constraints: 0
-
-   📈 Overall Statistics:
-      • Total Agents: 2
-      • Total Policies: 0
-      • Total Risks: 0
-      • Total Constraints: 0
-
-================================================================================
-💡 FINAL ADVISOR RESPONSE
-================================================================================
-
-## 📌 Direct Answer
-Yes, as an undergraduate, particularly if you are a junior or senior, you can enroll in a graduate-level course. However, you will need special permission and must meet certain prerequisites.
+Question 1:
+Can I take more than the recommended number of courses in a semester?
+
+Answer:
+## 📌 Direct Answer (Quick Summary)
+Yes, you can take more than the recommended number of courses per semester, but you need approval from your academic advisor or the Associate Dean, depending on the extent of the overload.
 
 ### Key Points
-• **Eligibility:** Primarily open to juniors and seniors.
-• **Permission Required:** You must obtain approval from your academic advisor or department.
-• **Course Registration:** Enroll during the semester you plan to take the course, ideally no later than your penultimate semester.
+• **Approval Required:** You must get approval from your academic advisor to take more than the standard course load. For significant overloads, approval from the Associate Dean of Education may be necessary.
+• **Specific Limits and Requirements:** For CS students, the standard full load is 54 units, with an overload limit of 63 units. Tepper students have an overload threshold of 51 units.
+• **Academic Performance:** You need a minimum QPA of 3.0 (CS students) or 3.5 (Tepper students) to be eligible for an overload.
 
 ### Detailed Explanation
-Undergraduates, especially those in their junior or senior years, have the opportunity to take graduate-level courses. This is contingent on the courses being open to undergraduates and often requires special permissions to ensure that the student meets the academic prerequisites and that the course aligns with their academic goals. Courses numbered 08534 and 05436, for example, are structured to accommodate both master’s students and upper-level undergraduates, with adjusted requirements less demanding than those in PhD-level courses.
+Overloading courses means taking more units than the typical full load for a semester. Each department has specific guidelines and thresholds for overloading:
+- **CS Students:** The normal full load is 54 units, and you can overload up to 63 units with your advisor’s approval. If you wish to exceed this limit, you'll need the approval of the Associate Dean of Education. You must have completed at least 45 factorable units in the previous semester with a QPA above 3.0.
+- **Tepper Students:** The overload threshold is 51 units, and you need a cumulative QPA of 3.5 to petition for an overload.
 
 ### What You Should Do / Next Steps
-1. **Consult Your Advisor:** Discuss how the graduate course fits into your academic plan and verify you meet the prerequisites.
-2. **Contact the Instructor:** Seek permission to enroll in the course, as this is often necessary.
-3. **Register for the Course:** Ensure you do this during the designated registration period for the semester you intend to take the course.
+1. **Check Your Eligibility:** Ensure you meet the QPA requirement and have completed the necessary units in the previous semester.
+2. **Consult Your Advisor:** Discuss your academic plan and reasons for wanting to overload. Your advisor can provide guidance and help assess if you can manage the additional workload.
+3. **Obtain Approval:** If your advisor agrees, they will need to approve your course overload. For substantial overloads, additional approval from the Associate Dean may be required.
+4. **Register for Courses:** Once approved, proceed with course registration, keeping in mind any prerequisites or restrictions for new courses.
 
-By following these steps, you can enhance your academic experience by taking on graduate-level coursework while still an undergraduate.
+By following these steps and consulting with your academic advisor, you can effectively manage an increased course load while maintaining your academic performance.
 
+--------------------------------------------------------------------------------
 
-================================================================================
+Question 2:
+How do I know if I have met the prerequisites for a course?
 
-================================================================================
-QUESTION 8/9
-================================================================================
+Answer:
+[No answer generated - clarification needed]
 
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
+--------------------------------------------------------------------------------
 
-   Query: "What should I do if I have a time conflict between two required courses?"
-   💭 Context: 4 previous turn(s) in conversation
+Question 3:
+What happens if I register for a course but don't meet the prerequisites?
 
-   Analyzing query to determine which agents are needed...
+Answer:
+[No answer generated - clarification needed]
 
-================================================================================
-❓ CLARIFICATION NEEDED
-================================================================================
+--------------------------------------------------------------------------------
 
-   🤔 Why I need to ask:
-      The resolution of a time conflict between two required courses can vary significantly depending on the student's major, as different departments may have different policies for handling such conflicts. For instance, some programs might prioritize certain courses over others, or offer alternative sections or online options. Without knowing the student's major, it's challenging to provide accurate and specific advice.
+Question 4:
+How do I enroll in a course that requires instructor permission?
 
-   📋 Missing information: major
+Answer:
+[No answer generated - clarification needed]
 
-   💡 To give you an accurate answer, I need to know:
+--------------------------------------------------------------------------------
 
-   ⚡ Skipping clarification (automated mode)
+Question 5:
+What happens if a required course is full?
 
-⚠️  Waiting for clarification before proceeding to agents.
+Answer:
+[No answer generated - clarification needed]
 
-================================================================================
-QUESTION 9/9
-================================================================================
+--------------------------------------------------------------------------------
 
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
+Question 6:
+Can I take a graduate-level course as an undergraduate?
 
-   Query: "Can I take courses over the summer at another university?"
-   💭 Context: 4 previous turn(s) in conversation
+Answer:
+[No answer generated - clarification needed]
 
-   Analyzing query to determine which agents are needed...
+--------------------------------------------------------------------------------
 
-================================================================================
-❓ CLARIFICATION NEEDED
-================================================================================
+Question 7:
+What should I do if I have a time conflict between two required courses?
 
-   🤔 Why I need to ask:
-      The ability to take courses at another university over the summer may depend on the student's major or program due to specific accreditation requirements, course equivalencies, and prerequisites. Additionally, knowing the student's current semester and courses taken is crucial to ensure that the summer courses align with their academic progress and do not conflict with their graduation timeline.
+Answer:
+[No answer generated - clarification needed]
 
-   📋 Missing information: major, semester, courses_taken
+--------------------------------------------------------------------------------
 
-   💡 To give you an accurate answer, I need to know:
+Question 8:
+Can I take courses over the summer at another university?
 
-   ⚡ Skipping clarification (automated mode)
+Answer:
+[No answer generated - clarification needed]
 
-⚠️  Waiting for clarification before proceeding to agents.
+--------------------------------------------------------------------------------
 
-================================================================================
-✅ AUTOMATED TEST COMPLETE
-   Questions processed: 9/9
-================================================================================
-
-
-================================================================================
-Completed at: 2026-01-13 14:20:22
-================================================================================

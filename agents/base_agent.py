@@ -36,7 +36,16 @@ class BaseAgent(ABC):
         # LLM for agent reasoning - uses faster, cost-effective model
         model = get_agent_model()
         temperature = get_agent_temperature()
-        self.llm = ChatOpenAI(model=model, temperature=temperature)
+        
+        # Configure HTTP client with SSL verification disabled
+        import httpx
+        http_client = httpx.Client(verify=False, timeout=120.0)
+        self.llm = ChatOpenAI(
+            model=model, 
+            temperature=temperature,
+            http_client=http_client,
+            request_timeout=120.0
+        )
     
     def retrieve_context(self, query: str) -> str:
         """

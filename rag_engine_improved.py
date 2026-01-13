@@ -24,7 +24,14 @@ except ImportError:
 
 DATA_PATH = "./data"
 BASE_DB_PATH = "./chroma_db"
-EMBEDDING_MODEL = OpenAIEmbeddings()
+
+# Configure HTTP client with SSL verification disabled for embeddings
+import httpx
+http_client = httpx.Client(verify=False, timeout=120.0)
+EMBEDDING_MODEL = OpenAIEmbeddings(
+    http_client=http_client,
+    request_timeout=120.0
+)
 
 # Domain mapping: Domain name → Data folders
 # NEW STRUCTURE: Each agent has its own folder for easier data management
