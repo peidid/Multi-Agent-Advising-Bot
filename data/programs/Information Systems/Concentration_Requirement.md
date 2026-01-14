@@ -4,7 +4,6 @@
 
 _This document is updated on a regular basis; please check it periodically and discuss with your advisor if you have any questions._ 
 
-IS Concentrations Briefing Session - 18 Feb 2025 [Recording](https://cmu.zoom.us/rec/share/hbPF7WYnFtdgMi8pqOVwJkvOfa6h5cZ-6ojNbJeVm4ZEPR6nchv5yJNGUawzY8OU.JAFD1LPVPR7Gl6pG?startTime=1739873983000)  (Passcode: $LVv#+S4)
 
 As an Information Systems major, you have the opportunity to tailor your academic journey by selecting a focused and specialized concentration to provide a deep dive into a subject that aligns with your passions and career aspirations. The IS Concentration gives you the agency to find your own particular area of interest within the dynamic realm of this Information Systems.
 

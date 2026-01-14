@@ -73,6 +73,135 @@ def get_db_path(domain: Optional[str] = None) -> str:
         return f"{BASE_DB_PATH}_{domain}"
     return BASE_DB_PATH
 
+def extract_course_codes(text: str) -> List[str]:
+    """Extract course codes (e.g., 15-213, 67-250) from text."""
+    import re
+    pattern = r'\b\d{2}-\d{3,4}\b'
+    return list(set(re.findall(pattern, text)))
+
+def infer_program(file_path: str, content: str) -> Optional[str]:
+    """Infer which program this document is about."""
+    path_lower = file_path.lower()
+    content_lower = content.lower()
+    
+    # Check path first
+    if 'information systems' in path_lower or '/is/' in path_lower or '\\is\\' in path_lower:
+        return 'Information Systems'
+    if 'computer science' in path_lower or '/cs/' in path_lower or '\\cs\\' in path_lower:
+        return 'Computer Science'
+    if 'biological science' in path_lower or '/bio/' in path_lower or '\\bio\\' in path_lower:
+        return 'Biological Sciences'
+    if 'business administration' in path_lower or '/ba/' in path_lower or '\\ba\\' in path_lower:
+        return 'Business Administration'
+    
+    # Check content
+    program_keywords = {
+        'Information Systems': ['information systems', 'is major', 'is student', 'is program'],
+        'Computer Science': ['computer science', 'cs major', 'cs student', 'cs program'],
+        'Biological Sciences': ['biological sciences', 'biology', 'bio major', 'bio student'],
+        'Business Administration': ['business administration', 'ba major', 'ba student']
+    }
+    
+    for program, keywords in program_keywords.items():
+        if any(keyword in content_lower for keyword in keywords):
+            return program
+    
+    return None
+
+def infer_content_type(file_path: str, content: str) -> str:
+    """Infer the type of content in this document."""
+    path_lower = file_path.lower()
+    content_lower = content.lower()
+    
+    # Check by folder structure
+    if 'programs' in path_lower or 'program' in path_lower:
+        if 'requirement' in path_lower or 'curriculum' in path_lower:
+            return 'program_requirements'
+        if 'concentration' in path_lower:
+            return 'concentration_info'
+        if 'sample' in path_lower:
+            return 'sample_curriculum'
+        return 'program_info'
+    
+    if 'courses' in path_lower or 'course' in path_lower:
+        return 'course_description'
+    
+    if 'policies' in path_lower or 'policy' in path_lower:
+        if 'registration' in path_lower:
+            return 'registration_policy'
+        if 'exam' in path_lower or 'grading' in path_lower:
+            return 'exam_grading_policy'
+        if 'finance' in path_lower:
+            return 'financial_policy'
+        if 'health' in path_lower or 'wellness' in path_lower:
+            return 'health_policy'
+        return 'general_policy'
+    
+    # Check by content
+    if 'prerequisite' in content_lower or 'prereq' in content_lower:
+        return 'course_prerequisites'
+    if 'concentration' in content_lower and 'requirement' in content_lower:
+        return 'concentration_requirements'
+    if 'general education' in content_lower or 'gened' in content_lower:
+        return 'gened_requirements'
+    
+    return 'general_info'
+
+def generate_document_summary(data: any, file_name: str, file_type: str) -> str:
+    """Generate a concise summary of what the document contains."""
+    summaries = []
+    
+    if file_type == 'json':
+        if isinstance(data, list) and len(data) > 0 and isinstance(data[0], dict):
+            # Check for common structures
+            first_item = data[0]
+            
+            if 'Name' in first_item:
+                # Requirements structure
+                names = [item.get('Name', '')[:50] for item in data[:3]]
+                summaries.append(f"Contains {len(data)} requirements")
+                if names:
+                    summaries.append(f"Examples: {', '.join(names)}")
+            
+            elif 'Concentration Name' in first_item:
+                # Concentrations structure
+                conc_names = [item.get('Concentration Name', '') for item in data]
+                summaries.append(f"Describes {len(data)} concentrations: {', '.join(conc_names)}")
+            
+            elif 'course_id' in first_item:
+                # Course structure
+                course_id = first_item.get('course_id', '')
+                course_name = first_item.get('long_title', first_item.get('short_title', ''))
+                summaries.append(f"Course {course_id}: {course_name}")
+                
+                # Key information available
+                if first_item.get('prereqs'):
+                    summaries.append("Has prerequisites")
+                if first_item.get('custom_fields', {}).get('assessment_structure'):
+                    summaries.append("Has assessment structure")
+                if first_item.get('custom_fields', {}).get('key_topics'):
+                    summaries.append("Has key topics")
+        
+        elif isinstance(data, dict):
+            if 'program' in data or 'Program' in data:
+                program = data.get('program', data.get('Program', ''))
+                summaries.append(f"Program info: {program}")
+    
+    elif file_type == 'markdown':
+        # For markdown, extract title from content
+        if isinstance(data, str):
+            lines = data.split('\n')
+            for line in lines[:10]:
+                if line.strip().startswith('#'):
+                    title = line.strip('#').strip()
+                    summaries.append(title)
+                    break
+    
+    if not summaries:
+        summaries.append(os.path.basename(file_name))
+    
+    return " | ".join(summaries)
+
 def load_json_as_text(file_path: str) -> str:
     """Convert JSON file to readable text for RAG."""
     try:
@@ -104,7 +233,7 @@ def load_json_as_text(file_path: str) -> str:
         return ""
 
 def load_documents_from_path(data_path: str, domain: str = "general") -> List[Document]:
-    """Load documents from a path, handling both .md and .json files."""
+    """Load documents from a path, handling both .md and .json files with metadata."""
     documents = []
     
     if not os.path.exists(data_path):
@@ -122,16 +251,47 @@ def load_documents_from_path(data_path: str, domain: str = "general") -> List[Do
         )
         md_docs = md_loader.load()
         
-        # Add metadata
+        # Add metadata and contextual prefix
         for doc in md_docs:
+            # Generate metadata
+            content_type = infer_content_type(doc.metadata['source'], doc.page_content)
+            program = infer_program(doc.metadata['source'], doc.page_content)
+            courses = extract_course_codes(doc.page_content)
+            summary = generate_document_summary(doc.page_content, doc.metadata['source'], 'markdown')
+            
+            # Update metadata (convert list to string for Chroma compatibility)
             doc.metadata['domain'] = domain
             doc.metadata['file_type'] = 'markdown'
+            doc.metadata['content_type'] = content_type
+            doc.metadata['program'] = program if program else ''
+            doc.metadata['courses_mentioned'] = ', '.join(courses) if courses else ''
+            doc.metadata['summary'] = summary
+            
             path_parts = doc.metadata.get('source', '').split(os.sep)
             if len(path_parts) > 1:
                 doc.metadata['category'] = path_parts[-2]
+            
+            # Add contextual prefix to content
+            file_name = os.path.basename(doc.metadata['source'])
+            context_prefix = f"""[DOCUMENT CONTEXT]
+File: {file_name}
+Type: {content_type}"""
+            
+            if program:
+                context_prefix += f"\nProgram: {program}"
+            
+            if courses:
+                context_prefix += f"\nMentions courses: {', '.join(courses[:5])}"
+                if len(courses) > 5:
+                    context_prefix += f" (+{len(courses)-5} more)"
+            
+            context_prefix += f"\nSummary: {summary}\n\n[DOCUMENT CONTENT]\n"
+            
+            # Prepend context to content
+            doc.page_content = context_prefix + doc.page_content
         
         documents.extend(md_docs)
-        print(f"   Loaded {len(md_docs)} markdown files")
+        print(f"   Loaded {len(md_docs)} markdown files with metadata")
     except Exception as e:
         print(f"Error loading markdown files: {e}")
     
@@ -145,14 +305,46 @@ def load_documents_from_path(data_path: str, domain: str = "general") -> List[Do
         
         for json_file in json_files:
             try:
+                # Load JSON to analyze it
+                with open(json_file, 'r', encoding='utf-8') as f:
+                    json_data = json.load(f)
+                
                 text_content = load_json_as_text(json_file)
+                
                 if text_content:
+                    # Generate metadata
+                    content_type = infer_content_type(json_file, text_content)
+                    program = infer_program(json_file, text_content)
+                    courses = extract_course_codes(text_content)
+                    summary = generate_document_summary(json_data, json_file, 'json')
+                    
+                    # Build contextual prefix
+                    file_name = os.path.basename(json_file)
+                    context_prefix = f"""[DOCUMENT CONTEXT]
+File: {file_name}
+Type: {content_type}"""
+                    
+                    if program:
+                        context_prefix += f"\nProgram: {program}"
+                    
+                    if courses:
+                        context_prefix += f"\nMentions courses: {', '.join(courses[:5])}"
+                        if len(courses) > 5:
+                            context_prefix += f" (+{len(courses)-5} more)"
+                    
+                    context_prefix += f"\nSummary: {summary}\n\n[DOCUMENT CONTENT]\n"
+                    
+                    # Create document with metadata (convert list to string for Chroma compatibility)
                     doc = Document(
-                        page_content=text_content,
+                        page_content=context_prefix + text_content,
                         metadata={
                             'source': json_file,
                             'domain': domain,
                             'file_type': 'json',
+                            'content_type': content_type,
+                            'program': program if program else '',
+                            'courses_mentioned': ', '.join(courses) if courses else '',
+                            'summary': summary,
                             'category': os.path.basename(os.path.dirname(json_file))
                         }
                     )
@@ -160,7 +352,7 @@ def load_documents_from_path(data_path: str, domain: str = "general") -> List[Do
             except Exception as e:
                 print(f"Error processing JSON {json_file}: {e}")
         
-        print(f"   Loaded {len(json_files)} JSON files")
+        print(f"   Loaded {len(json_files)} JSON files with metadata")
     except Exception as e:
         print(f"Error loading JSON files: {e}")
     

@@ -155,8 +155,16 @@ class CourseSchedulingAgent(BaseAgent):
 Query: {query}
 Context: {context}
 
+IMPORTANT - How to Use Retrieved Context:
+- Each retrieved chunk includes [DOCUMENT CONTEXT] metadata showing:
+  * File name (which course JSON file)
+  * Courses mentioned in that section
+  * Summary of content
+- Use this metadata to identify which courses are being discussed
+- If the query mentions "this course" or similar, look at the courses mentioned in the metadata
+
 Answer questions about course offerings, schedules, availability, prerequisites, assessment structure, and course content.
-If the query mentions a specific course but no course code was found, try to infer which course is being discussed from the context.
+If the query mentions a specific course but no course code was found, try to infer which course is being discussed from the context and metadata.
 """
         response = self.llm.invoke([SystemMessage(content=prompt)])
         return AgentOutput(
@@ -194,10 +202,15 @@ IMPORTANT:
   * custom_fields.prerequisite_knowledge: Prerequisite knowledge needed
   * long_desc: Course description
   * units, min_units, max_units: Course units
-- The "context" field contains additional RAG-retrieved information
+- The "context" field contains RAG-retrieved information with [DOCUMENT CONTEXT] metadata showing:
+  * File name (which course JSON file the info comes from)
+  * Document type (course_description)
+  * Summary of what's in that course document
+- Use this metadata to understand the source of information
 - Be specific and accurate - cite exact information from the course data
 - If asked about prerequisites, provide the exact text from prereqs.text
 - If asked about assessment structure, provide details from custom_fields.assessment_structure
+- If referencing information from context, you can mention it comes from the course's documentation
 
 Provide a comprehensive answer that directly addresses the user's query using the course information provided.
 """

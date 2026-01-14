@@ -64,6 +64,15 @@ Justification: {plan_option.justification}
 Retrieved Policies:
 {context}
 
+IMPORTANT - How to Use Retrieved Context:
+- Each retrieved chunk includes [DOCUMENT CONTEXT] metadata showing:
+  * File name and type (e.g., registration_policy, exam_grading_policy)
+  * Policy category
+  * Summary of what the document contains
+- Use this metadata to identify which specific policy document each rule comes from
+- Cite the document/file name when referencing policies
+- If multiple documents provide related policies, consider all of them
+
 Check compliance with:
 1. Overload limits (max units per semester)
 2. Probation rules
@@ -74,7 +83,7 @@ Check compliance with:
 For each violation or risk, provide:
 - Type of violation/risk
 - Severity (high/medium/low)
-- Policy citation
+- Policy citation (include document source from [DOCUMENT CONTEXT])
 - Suggested modification
 
 Format as JSON:
@@ -104,7 +113,15 @@ Query: {query}
 Retrieved Policies:
 {context}
 
+IMPORTANT - How to Use Retrieved Context:
+- Each retrieved chunk includes [DOCUMENT CONTEXT] metadata showing:
+  * File name and policy type
+  * Summary of what the policy document contains
+- Use this metadata to cite specific policy documents
+- If multiple relevant policies exist, mention all applicable ones
+
 Answer questions about university policies, compliance, and regulations.
+Cite the specific policy documents (from [DOCUMENT CONTEXT]) in your answer.
 """
         response = self.llm.invoke([SystemMessage(content=prompt)])
         return AgentOutput(

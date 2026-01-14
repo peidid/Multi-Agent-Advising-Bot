@@ -68,11 +68,23 @@ Existing Constraints: {constraints_text}
 Retrieved Context (from program requirements documents):
 {context}
 
+IMPORTANT - How to Use Retrieved Context:
+- Each retrieved chunk includes [DOCUMENT CONTEXT] metadata showing:
+  * File name and type (e.g., program_requirements, concentration_info)
+  * Program it relates to (e.g., Information Systems)
+  * Courses mentioned in that document
+  * Summary of what the document contains
+- Use this metadata to understand the SOURCE and SCOPE of information
+- When citing requirements, mention which document/file they come from
+- If multiple documents provide conflicting info, prefer the most specific one
+- If a document summary shows it contains exactly what the user needs, pay special attention to it
+
 Instructions:
-- Be specific and cite relevant policies
+- Be specific and cite relevant policies AND document sources
 - If proposing a plan, provide semester-by-semester breakdown
 - Identify any requirement violations or risks
 - Provide confidence score (0.0-1.0)
+- Reference the specific documents used (from [DOCUMENT CONTEXT] metadata)
 
 Format your response as JSON:
 {{
