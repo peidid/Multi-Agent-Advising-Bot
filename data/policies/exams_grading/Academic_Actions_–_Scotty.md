@@ -18,6 +18,20 @@ Academic Actions will be taken when students fail to meet the following standard
 -   a cumulative QPA, or post-first-year cumulative QPA if higher, of at least 2.0, and
 -   making satisfactory progress towards their degree according to the standards set by their declared major. **(See Below)**
 
+**Making Satisfactory Progress towards your degree:**
+
+For Business Administration, Biological Science and Information Systems, adequate progress towards graduation means that students are successfully completing at least 80% of attempted units in a semester (calculated using total units carried when grades are entered). Grades of N, W, or R grade do not count as completed units.
+
+For Computer Science students should have completed the following courses by the end of the specified semesters:
+
+First-Year Spring: 21-127, 15-112
+
+Sophomore Spring: 15-122
+
+Junior Fall: 15-150, 15-213
+
+Junior Spring: 15-210, 15-251
+
 For the purposes of calculating QPAs, all incomplete grades will be treated by their default grade until resolved. Hence, a Incomplete with a default grade of “R” would impact academic progress and QPA calculations. Students should consult with their academic advisor or the Director of Student Academic Success to understand the standards for satisfactory progress set by their respective major.
 
  **Academic Warning**
@@ -40,16 +54,3 @@ A student who fails to meet the minimum standards at the end of a semester on Fi
 
 The typical progression of academic actions is Academic Warning, Suspension, then Drop.
 
-**Making Satisfactory Progress towards your degree:**
-
-For Business Administration, Biological Science and Information Systems, adequate progress towards graduation means that students are successfully completing at least 80% of attempted units in a semester (calculated using total units carried when grades are entered). Grades of N, W, or R grade do not count as completed units.
-
-For Computer Science students should have completed the following courses by the end of the specified semesters:
-
-First-Year Spring: 21-127, 15-112
-
-Sophomore Spring: 15-122
-
-Junior Fall: 15-150, 15-213
-
-Junior Spring: 15-210, 15-251

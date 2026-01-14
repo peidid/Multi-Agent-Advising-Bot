@@ -12,6 +12,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 from config import print_model_config
 import os
 import time
+from datetime import datetime
 
 def clear_screen():
     """Clear the terminal screen."""
@@ -567,6 +568,9 @@ def chat():
                 print("🧹 Conversation history cleared.\n")
                 continue
             
+            # Start timing (exclude clarification interaction time)
+            processing_start_time = time.time()
+            
             # Handle manual agent selection in dev mode
             manual_agents = None
             actual_query = user_input
@@ -632,9 +636,12 @@ def chat():
                 
                 # Handle clarification if needed (with max retry limit)
                 clarification_retries = 0
-                max_clarification_retries = 1  # Only allow one clarification round
+                max_clarification_retries = 1  # Only allow ONE round of clarification
                 
                 while clarification and clarification_retries < max_clarification_retries:
+                    # Pause timing during clarification (user interaction time)
+                    clarification_pause_start = time.time()
+                    
                     # Update student profile with clarification
                     student_profile.update(clarification)
                     initial_state["student_profile"] = student_profile
@@ -656,6 +663,10 @@ def chat():
                     # 3. Add acknowledgment as AI message
                     conversation_messages.append(AIMessage(content=f"Thank you! I now understand you are: {answers_text}"))
                     
+                    # Resume timing after clarification
+                    clarification_pause_duration = time.time() - clarification_pause_start
+                    processing_start_time += clarification_pause_duration  # Adjust start time to exclude clarification
+                    
                     # Re-classify with updated profile and FULL conversation history
                     print("\n   🔄 Re-analyzing with clarification...")
                     conversation_history = [
@@ -672,42 +683,72 @@ def chat():
                 if clarification and clarification_retries >= max_clarification_retries:
                     print("\n   ⚠️  Proceeding with available information...")
                     workflow = intent.get('required_agents', [])
+                    
+                    # If still no workflow after max retries, use general knowledge
+                    if not workflow:
+                        print("\n   ℹ️  No specific agents identified. Using general knowledge to respond.")
                 
                 initial_state["user_goal"] = intent.get("intent_type", "")
             
             initial_state["active_agents"] = workflow
             
-            # Skip agent execution if no agents (clarification-only case)
+            # If no workflow, skip agent execution and go to synthesis
             if not workflow:
-                print("\n⚠️  Waiting for clarification before proceeding to agents.")
-                continue
-            
-            # Step 2: Show agent execution
-            print_section("STEP 2: Agent Execution", "🤖")
-            
-            # Execute agents in workflow order
-            for agent_name in workflow:
-                output = show_agent_execution(agent_name, initial_state)
-                if output:
-                    agent_outputs = initial_state.get("agent_outputs", {})
-                    agent_outputs[agent_name] = output
-                    initial_state["agent_outputs"] = agent_outputs
-                    
-                    # Update plan options if Programs agent
-                    if agent_name == "programs_requirements" and output.plan_options:
-                        initial_state["plan_options"] = output.plan_options
-                    
-                    # Update risks and constraints
-                    initial_state["risks"] = initial_state.get("risks", []) + output.risks
-                    initial_state["constraints"] = initial_state.get("constraints", []) + output.constraints
-            
-            # Step 3: Show negotiation
-            conflicts = show_negotiation(initial_state)
-            initial_state["conflicts"] = conflicts
+                print("\n   ℹ️  No specific agents needed. Using general knowledge to respond.")
+                # Skip agent execution and negotiation, go directly to answer synthesis
+            else:
+                # Step 2: Show agent execution
+                print_section("STEP 2: Agent Execution", "🤖")
+                
+                # Execute agents in workflow order
+                for agent_name in workflow:
+                    output = show_agent_execution(agent_name, initial_state)
+                    if output:
+                        agent_outputs = initial_state.get("agent_outputs", {})
+                        agent_outputs[agent_name] = output
+                        initial_state["agent_outputs"] = agent_outputs
+                        
+                        # Update plan options if Programs agent
+                        if agent_name == "programs_requirements" and output.plan_options:
+                            initial_state["plan_options"] = output.plan_options
+                        
+                        # Update risks and constraints
+                        initial_state["risks"] = initial_state.get("risks", []) + output.risks
+                        initial_state["constraints"] = initial_state.get("constraints", []) + output.constraints
+                
+                # Step 3: Show negotiation
+                conflicts = show_negotiation(initial_state)
+                initial_state["conflicts"] = conflicts
             
             # Step 4: Synthesize and show final answer
             answer = coordinator.synthesize_answer(initial_state)
             show_final_answer(initial_state, answer)
+            
+            # Calculate and display processing time
+            processing_end_time = time.time()
+            total_processing_time = processing_end_time - processing_start_time
+            
+            print("\n" + "=" * 80)
+            print(f"⏱️  PROCESSING TIME")
+            print("=" * 80)
+            print(f"\n   Total Processing Time: {total_processing_time:.2f} seconds")
+            print(f"   (Excludes user clarification interaction time)")
+            
+            # Break down if time is significant
+            if total_processing_time > 60:
+                minutes = int(total_processing_time // 60)
+                seconds = total_processing_time % 60
+                print(f"   = {minutes} minute(s) and {seconds:.2f} seconds")
+            
+            # Performance indicator
+            if total_processing_time < 30:
+                print(f"   ✅ Fast response")
+            elif total_processing_time < 60:
+                print(f"   ⚠️  Moderate response time")
+            else:
+                print(f"   🐌 Slow response - consider using faster model")
+            
+            print("\n" + "=" * 80)
             
             # Add AI response to conversation history
             conversation_messages.append(AIMessage(content=answer))

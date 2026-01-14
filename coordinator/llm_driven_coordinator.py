@@ -443,12 +443,12 @@ if __name__ == "__main__":
     from langchain_openai import ChatOpenAI
     import httpx
     
-    http_client = httpx.Client(verify=False, timeout=120.0)
+    http_client = httpx.Client(verify=False, timeout=180.0)
     llm = ChatOpenAI(
         model="gpt-4-turbo", 
         temperature=0.3,
         http_client=http_client,
-        request_timeout=120.0
+        request_timeout=180.0
     )
     coordinator = LLMDrivenCoordinator(llm)
     

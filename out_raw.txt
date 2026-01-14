@@ -6,61 +6,204 @@ ADVISING BOT TEST RESULTS - FULL PROCESSING LOGS
 ================================================================================
 QUESTION 1
 ================================================================================
-Can I take more than the recommended number of courses in a semester?
+What are the prerequisite courses for the Developmental Biology bio elective, and when can I take the course?
 
 ================================================================================
-💬 You: Can I take more than the recommended number of courses in a semester?
+💬 You: What are the prerequisite courses for the Developmental Biology bio elective, and when can I take the course?
 ================================================================================
 
 ================================================================================
 🎯 STEP 1: Intent Classification
 ================================================================================
 
-   Query: "Can I take more than the recommended number of courses in a semester?"
+   Query: "What are the prerequisite courses for the Developmental Biology bio elective, and when can I take the course?"
 
    Analyzing query to determine which agents are needed...
+   💡 Inferred major from course context: Biological Sciences
 
    🧠 LLM-Driven Coordination (Full Reasoning)
    📊 Priority: high
-   🎯 Confidence: █████████ (0.90)
+   🎯 Confidence: █████████ (0.95)
 
    🔍 Problem Understanding:
-      • Goal: The student wants to know if they can enroll in more courses than the standard load for a semester.
-      • Concern: The student may be trying to accelerate their degree completion or catch up on missed courses, and needs to understand the implications and rules regarding course overload.
+      • Goal: The student wants to know the prerequisites for the Developmental Biology elective and the availability of the course in terms of when it can be taken.
+      • Concern: The student is likely planning their course schedule and needs to understand course prerequisites and timing to effectively plan their academic trajectory.
 
    🎯 Coordination Goal:
-      Provide a comprehensive response to whether the student can take more than the recommended number of courses, including policy implications and potential academic impacts.
+      Provide the student with accurate information about the prerequisites and availability of the Developmental Biology course.
 
    💭 Reasoning:
-      This workflow ensures that all aspects of the student's query are addressed, from policy compliance to program-specific considerations and scheduling logistics.
+      The course scheduling agent can provide all the required information in one step, making the process efficient and directly addressing the student's needs.
+
+   🤖 Agent Analysis:
+
+      • course_scheduling: high priority
+        → This agent is directly aligned with the student's need to know course-specific details such as prerequisites and schedul
+          ing.
+
+      • programs_requirements: low priority
+        → While this agent can validate major requirements, the student's query is specifically about course details which are out
+          side this agent's capabilities.
+
+      • policy_compliance: low priority
+        → The student's question does not directly involve policy compliance issues, focusing instead on course-specific informati
+          on.
+
+   🤖 Agents to Activate:
+      1. Course Scheduling
+
+   📋 Workflow Order:
+      1. Course Scheduling
+
+================================================================================
+🤖 STEP 2: Agent Execution
+================================================================================
+
+🤖 Executing Course Scheduling Agent
+--------------------------------------------------------------------------------
+   ⏳ Course Scheduling is processing your query...
+      (Retrieving domain-specific knowledge)
+
+   ✅ Course Scheduling completed!
+      Confidence: 0.70
+
+   💭 Agent's Contribution:
+   The prerequisite courses for the Developmental Biology bio elective
+   (course code 03-350) are either 03-320 or 03-240, with at least a grade
+   of D in either course. The course is typically offered depending on the
+   semester and instructor, so you would need to check the specific
+   semester schedule to determine when it is available.
+
+================================================================================
+🔄 STEP 3: Collaboration & Negotiation
+================================================================================
+
+   ✅ No conflicts detected!
+      All agents agree on the recommendation.
+
+================================================================================
+💬 STEP 4: Final Answer Synthesis
+================================================================================
+
+   🧠 Coordinator is synthesizing final answer...
+      • Combining insights from all agents
+      • Resolving any remaining conflicts
+      • Formatting for student readability
+      • Adding policy citations
+
+   ============================================================================
+   📊 AGENT CONTRIBUTIONS SUMMARY
+   ============================================================================
+
+   Agents Consulted:
+
+      🤖 Course Scheduling
+         Confidence: ███████ (0.70)
+         Policies Cited: 0
+         Risks Identified: 0
+         Constraints: 0
+
+   📈 Overall Statistics:
+      • Total Agents: 1
+      • Total Policies: 0
+      • Total Risks: 0
+      • Total Constraints: 0
+
+================================================================================
+💡 FINAL ADVISOR RESPONSE
+================================================================================
+
+## 📌 Direct Answer
+To enroll in the Developmental Biology bio elective (course code 03-350), you must have completed either **03-320** or **03-240** with at least a grade of D. The availability of this course varies each semester, so you'll need to check the specific semester schedule.
+
+### Key Points
+• **Prerequisites:** Complete either course 03-320 or 03-240 with a minimum grade of D.
+• **Course Availability:** Check the semester schedule for specific availability.
+
+### Detailed Explanation
+The Developmental Biology elective is designed for students who have a foundational understanding of biology, which is ensured by the prerequisite courses 03-320 (Cellular Biology) or 03-240 (Genetics). These courses provide necessary background knowledge that will help you grasp the complex concepts discussed in Developmental Biology.
+
+### What You Should Do / Next Steps
+1. **Verify your prerequisites:** Ensure that you have completed either 03-320 or 03-240 with at least a grade of D.
+2. **Check the schedule:** Look at the upcoming semester schedules to find out when Developmental Biology is offered.
+3. **Plan accordingly:** Depending on the availability, plan your schedule to include this elective.
+
+By following these steps, you can successfully enroll in the Developmental Biology bio elective.
+
+
+================================================================================
+
+================================================================================
+⏱️  PROCESSING TIME
+================================================================================
+
+   Total Processing Time: 35.20 seconds
+   (Excludes user clarification interaction time)
+   ⚠️  Moderate response time
+
+================================================================================
+
+================================================================================
+
+
+================================================================================
+QUESTION 2
+================================================================================
+As a Biological Science student, I want to use a voucher to change my final course grade to pass/no pass in Honors Modern Bio. Can I do that? Until when can I still submit my voucher? If I pass the course, should I still retake it?
+
+================================================================================
+💬 You: As a Biological Science student, I want to use a voucher to change my final course grade to pass/no pass in Honors Modern Bio. Can I do that? Until when can I still submit my voucher? If I pass the course, should I still retake it?
+================================================================================
+
+================================================================================
+🎯 STEP 1: Intent Classification
+================================================================================
+
+   Query: "As a Biological Science student, I want to use a voucher to change my final course grade to pass/no pass in Honors Modern Bio. Can I do that? Until when can I still submit my voucher? If I pass the course, should I still retake it?"
+   💭 Context: 1 previous turn(s) in conversation
+
+   Analyzing query to determine which agents are needed...
+   💡 Extracted major from query: Biological Sciences
+
+   🧠 LLM-Driven Coordination (Full Reasoning)
+   📊 Priority: high
+   🎯 Confidence: █████████ (0.95)
+
+   🔍 Problem Understanding:
+      • Goal: The student wants to change their final course grade to a pass/no pass grading system using a voucher, and needs to know the process and implications.
+      • Concern: The student is concerned about the impact of their course grade on their GPA and possibly their graduation timeline or academic standing.
+
+   🎯 Coordination Goal:
+      Provide comprehensive advice on using a grade change voucher for a pass/no pass grade, including eligibility, deadlines, and implications for degree progress.
+
+   💭 Reasoning:
+      This workflow ensures all aspects of the student's query are addressed, from policy compliance to program-specific implications.
 
    🤖 Agent Analysis:
 
       • policy_compliance: high priority
-        → This agent is crucial because the student's query directly relates to university policies on course load and overload pe
-          rmissions.
+        → This agent is crucial as the query involves understanding and navigating university policies regarding grade changes and
+           their deadlines.
 
       • programs_requirements: medium priority
-        → This agent can provide additional context on how taking more courses might impact the student's academic trajectory with
-          in their specific program.
+        → Important for ensuring that changing the course grade to pass/no pass will not negatively impact the student's progress 
+          in their Biological Sciences program.
 
       • course_scheduling: low priority
-        → This agent is less critical unless the student decides to proceed with an overload, in which case scheduling conflicts w
-          ould need to be addressed.
+        → This agent's capabilities are not relevant to the current query as it does not involve scheduling or course content spec
+          ifics.
 
    🤖 Agents to Activate:
       1. Programs Requirements
       2. Policy Compliance
-      3. Course Scheduling
 
    📋 Workflow Order:
       1. Programs Requirements
       2. Policy Compliance
-      3. Course Scheduling
 
    ⚙️  Decision Points:
-      • After policy_compliance: If policies allow course overload under certain conditions...
-      • After programs_requirements: If additional courses align with degree progress...
+      • After policy_compliance: If the policy allows for a pass/no pass grade change and if ...
+      • After programs_requirements: If a pass/no pass grade will satisfy degree requirements or ...
 
 ================================================================================
 🤖 STEP 2: Agent Execution
@@ -75,29 +218,25 @@ Can I take more than the recommended number of courses in a semester?
       Confidence: 0.85
 
    📚 Policies Cited: 3
-      1. CS overload limit: 63 units
-      2. Tepper overload threshold: 51 units
-      3. QPA requirement: 3.0 for CS, 3.5 for Tepper
+      1. Course Grade Change Appeal Process
+      2. Pass/failing
+      3. 3.3.2 Vouchers
 
    💭 Agent's Contribution:
-   Yes, you can take more than the recommended number of courses in a
-   semester, but it requires approval. For CS students, the full load is 54
-   units for fall and spring semesters, and the overload limit is 63 units.
-   To overload, you need your advisor's approval, and if you want to exceed
-   the overload limit, you need the Associate Dean of Education's approval.
-   You must have completed at least 45 factorable units in the previous
-   semester and have a QPA above 3.0. For Tepper students, the overload
-   threshold is 51 units, and you need a cumulative QPA of 3.5 to petition
-   for an overload.
+   As a Biological Science student, you can use a voucher to change your
+   final course grade to pass/no pass (P/NP) for Honors Modern Biology. You
+   have until the last day of classes to submit your voucher for this
+   purpose. However, please note that courses taken as P/NP will not count
+   towards any major or minor requirements. Therefore, if Honors Modern
+   Biology is a required course for your major, you would need to retake it
+   for a letter grade to fulfill that requirement.
 
    ⚠️  Risks Identified: 1
-      1. 🔴 [HIGH] Overloading can lead to increased stress and potential impact on academic performance.
-         Type: overload_risk
+      1. 🔴 [HIGH] Taking Honors Modern Biology as P/NP means it will not count towards major requirements, necessitating a retake for a letter grade.
+         Type: requirement_risk
 
-   🚫 Constraints Found: 2
-      1. 🔴 [HARD] Advisor approval required for overloading.
-         Source: policy
-      2. 🔴 [HARD] Associate Dean approval required for exceeding overload limit.
+   🚫 Constraints Found: 1
+      1. 🔴 [HARD] P/N courses will not count for any major or minor requirements.
          Source: policy
 
 🤖 Executing Policy Compliance Agent
@@ -109,31 +248,17 @@ Can I take more than the recommended number of courses in a semester?
       Confidence: 0.90
 
    💭 Agent's Contribution:
-   Yes, you can take more than the recommended number of courses in a
-   semester by requesting a course overload. To do this, you must consult
-   with and receive approval from your academic advisor. Once approved,
-   your advisor will adjust your maximum units in the registration system,
-   allowing you to register for additional courses. However, this option is
-   not available to first-year and transfer students in their first
-   semester. Additionally, advisors can only update your maximum units
-   after the Saturday following Registration Week.
-
-🤖 Executing Course Scheduling Agent
---------------------------------------------------------------------------------
-   ⏳ Course Scheduling is processing your query...
-      (Retrieving domain-specific knowledge)
-
-   ✅ Course Scheduling completed!
-      Confidence: 0.70
-
-   💭 Agent's Contribution:
-   Yes, you can take more than the recommended number of courses in a
-   semester, but it is important to consider the additional workload and
-   time commitment. It might be beneficial to discuss your plan with an
-   academic advisor to ensure that you can manage the increased workload
-   effectively and meet all academic requirements. Additionally, some
-   courses may have prerequisites or restrictions, so it's important to
-   check these before enrolling in additional courses.
+   Yes, as a Biological Science student, you can use a voucher to change
+   your final course grade to pass/no pass in Honors Modern Bio, provided
+   that the Pass/Fail Grade Option Deadline has passed. You must contact
+   your primary academic advisor about using a voucher no later than 12:00
+   p.m. on the day prior to the last day of classes. Eligible students may
+   elect to use a voucher up to and including the last day of classes each
+   semester. If you pass the course with a pass/no pass election, whether
+   you should retake it depends on your academic goals and requirements. If
+   the course is a prerequisite or required for your major and you need a
+   specific grade for future courses or programs, you may need to retake
+   it. Consult with your academic advisor for personalized guidance.
 
 ================================================================================
 🔄 STEP 3: Collaboration & Negotiation
@@ -162,7 +287,7 @@ Can I take more than the recommended number of courses in a semester?
          Confidence: ████████ (0.85)
          Policies Cited: 3
          Risks Identified: 1
-         Constraints: 2
+         Constraints: 1
 
       🤖 Policy Compliance
          Confidence: █████████ (0.90)
@@ -170,395 +295,44 @@ Can I take more than the recommended number of courses in a semester?
          Risks Identified: 0
          Constraints: 0
 
-      🤖 Course Scheduling
-         Confidence: ███████ (0.70)
-         Policies Cited: 0
-         Risks Identified: 0
-         Constraints: 0
-
    📈 Overall Statistics:
-      • Total Agents: 3
+      • Total Agents: 2
       • Total Policies: 3
       • Total Risks: 1
-      • Total Constraints: 2
+      • Total Constraints: 1
 
 ================================================================================
 💡 FINAL ADVISOR RESPONSE
 ================================================================================
 
 ## 📌 Direct Answer (Quick Summary)
-Yes, you can take more than the recommended number of courses per semester, but you need approval from your academic advisor or the Associate Dean, depending on the extent of the overload.
+Yes, you can use a voucher to change your final course grade in Honors Modern Bio to pass/no pass. The deadline to submit your voucher is **before 12:00 p.m. on the day prior to the last day of classes**. If Honors Modern Bio is a required course for your major, you will need to retake it for a letter grade to fulfill your major requirements.
 
 ### Key Points
-• **Approval Required:** You must get approval from your academic advisor to take more than the standard course load. For significant overloads, approval from the Associate Dean of Education may be necessary.
-• **Specific Limits and Requirements:** For CS students, the standard full load is 54 units, with an overload limit of 63 units. Tepper students have an overload threshold of 51 units.
-• **Academic Performance:** You need a minimum QPA of 3.0 (CS students) or 3.5 (Tepper students) to be eligible for an overload.
+• **Deadline:** Submit your voucher by **12:00 p.m. on the day before the last day of classes**.
+• **Major Requirement:** If Honors Modern Bio is required for your major, a pass/no pass grade will not count, and you must retake the course for a letter grade.
 
 ### Detailed Explanation
-Overloading courses means taking more units than the typical full load for a semester. Each department has specific guidelines and thresholds for overloading:
-- **CS Students:** The normal full load is 54 units, and you can overload up to 63 units with your advisor’s approval. If you wish to exceed this limit, you'll need the approval of the Associate Dean of Education. You must have completed at least 45 factorable units in the previous semester with a QPA above 3.0.
-- **Tepper Students:** The overload threshold is 51 units, and you need a cumulative QPA of 3.5 to petition for an overload.
+As a Biological Science student, you have the option to change your course grade to pass/no pass using a voucher. This can be done up until the last day of classes each semester. However, it's important to note that courses taken under the pass/no pass option do not count towards major or minor requirements. This means if Honors Modern Bio is essential for your major, taking it as pass/no pass will not fulfill the requirement, and you would need to retake the course to earn a qualifying letter grade.
 
 ### What You Should Do / Next Steps
-1. **Check Your Eligibility:** Ensure you meet the QPA requirement and have completed the necessary units in the previous semester.
-2. **Consult Your Advisor:** Discuss your academic plan and reasons for wanting to overload. Your advisor can provide guidance and help assess if you can manage the additional workload.
-3. **Obtain Approval:** If your advisor agrees, they will need to approve your course overload. For substantial overloads, additional approval from the Associate Dean may be required.
-4. **Register for Courses:** Once approved, proceed with course registration, keeping in mind any prerequisites or restrictions for new courses.
+1. **Decide if Changing to Pass/No Pass is Right for You:** Consider if you need a letter grade for Honors Modern Bio for your major or future academic goals.
+2. **Submit the Voucher:** If you choose to proceed, ensure you submit the voucher by the specified deadline.
+3. **Plan Accordingly:** If required for your major, plan to retake the course for a letter grade in a future semester.
+4. **Consult Your Advisor:** Discuss your decision and any concerns with your academic advisor to ensure it aligns with your academic and career goals.
 
-By following these steps and consulting with your academic advisor, you can effectively manage an increased course load while maintaining your academic performance.
 
-
-================================================================================
-
-================================================================================
-
-
-================================================================================
-QUESTION 2
-================================================================================
-How do I know if I have met the prerequisites for a course?
-
-================================================================================
-💬 You: How do I know if I have met the prerequisites for a course?
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "How do I know if I have met the prerequisites for a course?"
-   💭 Context: 1 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-
-   🧠 LLM-Driven Coordination (Full Reasoning)
-   📊 Priority: high
-   🎯 Confidence: █████████ (0.90)
-
-   🔍 Problem Understanding:
-      • Goal: The student wants to verify if they have met the prerequisites for a specific course they are interested in taking.
-      • Concern: The student is likely planning their course schedule and needs to ensure they are eligible to register for a desired course without facing administrative issues or delays.
-
-   🎯 Coordination Goal:
-      Verify if the student has met the prerequisites for a specific course.
-
-   💭 Reasoning:
-      By identifying the prerequisites for the course and comparing them with the student's academic record, we can determine eligibility for course registration.
-
-   🤖 Agent Analysis:
-
-      • course_scheduling: high priority
-        → This agent can provide detailed prerequisites for any given course, which is directly relevant to the student's query.
-
-      • programs_requirements: low priority
-        → This agent focuses on program requirements and degree progress, which are not directly needed for checking prerequisites
-          .
-
-      • policy_compliance: low priority
-        → This agent deals with university-wide policies and does not have the capability to check specific course prerequisites.
-
-   🤖 Agents to Activate:
-      1. Course Scheduling
-
-   📋 Workflow Order:
-      1. Course Scheduling
-
-   ⚙️  Decision Points:
-      • After course_scheduling: Prerequisites provided for the course...
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Course Scheduling Agent
---------------------------------------------------------------------------------
-   ⏳ Course Scheduling is processing your query...
-      (Retrieving domain-specific knowledge)
-
-❌ Error processing question: Request timed out.
-
-❌ Error processing question: Request timed out.
-================================================================================
-
-
-================================================================================
-QUESTION 3
-================================================================================
-What happens if I register for a course but don't meet the prerequisites?
-
-================================================================================
-💬 You: What happens if I register for a course but don't meet the prerequisites?
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "What happens if I register for a course but don't meet the prerequisites?"
-   💭 Context: 1 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-⚠️  Clarification check error: Request timed out.
-⚠️  LLM-driven coordinator error: Request timed out.
-
-   ✅ Intent Type: General
-   📊 Priority: medium
-   🎯 Confidence: █████ (0.50)
-
-   💭 Reasoning: Error in LLM coordination: Request timed out.
-
-   🤖 Agents to Activate:
-      1. Programs Requirements
-
-   📋 Workflow Order:
-      1. Programs Requirements
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Programs Requirements Agent
---------------------------------------------------------------------------------
-   ⏳ Programs Requirements is processing your query...
-      (Retrieving domain-specific knowledge)
-
-❌ Error processing question: Connection error.
-
-❌ Error processing question: Connection error.
-================================================================================
-
-
-================================================================================
-QUESTION 4
-================================================================================
-How do I enroll in a course that requires instructor permission?
-
-================================================================================
-💬 You: How do I enroll in a course that requires instructor permission?
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "How do I enroll in a course that requires instructor permission?"
-   💭 Context: 2 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-⚠️  Clarification check error: Connection error.
-⚠️  LLM-driven coordinator error: Connection error.
-
-   ✅ Intent Type: General
-   📊 Priority: medium
-   🎯 Confidence: █████ (0.50)
-
-   💭 Reasoning: Error in LLM coordination: Connection error.
-
-   🤖 Agents to Activate:
-      1. Programs Requirements
-
-   📋 Workflow Order:
-      1. Programs Requirements
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Programs Requirements Agent
---------------------------------------------------------------------------------
-   ⏳ Programs Requirements is processing your query...
-      (Retrieving domain-specific knowledge)
-
-❌ Error processing question: Connection error.
-
-❌ Error processing question: Connection error.
-================================================================================
-
-
-================================================================================
-QUESTION 5
-================================================================================
-What happens if a required course is full?
-
-================================================================================
-💬 You: What happens if a required course is full?
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "What happens if a required course is full?"
-   💭 Context: 2 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-⚠️  Clarification check error: Connection error.
-⚠️  LLM-driven coordinator error: Connection error.
-
-   ✅ Intent Type: General
-   📊 Priority: medium
-   🎯 Confidence: █████ (0.50)
-
-   💭 Reasoning: Error in LLM coordination: Connection error.
-
-   🤖 Agents to Activate:
-      1. Programs Requirements
-
-   📋 Workflow Order:
-      1. Programs Requirements
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Programs Requirements Agent
---------------------------------------------------------------------------------
-   ⏳ Programs Requirements is processing your query...
-      (Retrieving domain-specific knowledge)
-
-❌ Error processing question: Connection error.
-
-❌ Error processing question: Connection error.
-================================================================================
-
-
-================================================================================
-QUESTION 6
-================================================================================
-Can I take a graduate-level course as an undergraduate?
-
-================================================================================
-💬 You: Can I take a graduate-level course as an undergraduate?
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "Can I take a graduate-level course as an undergraduate?"
-   💭 Context: 3 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-⚠️  Clarification check error: Connection error.
-⚠️  LLM-driven coordinator error: Connection error.
-
-   ✅ Intent Type: General
-   📊 Priority: medium
-   🎯 Confidence: █████ (0.50)
-
-   💭 Reasoning: Error in LLM coordination: Connection error.
-
-   🤖 Agents to Activate:
-      1. Programs Requirements
-
-   📋 Workflow Order:
-      1. Programs Requirements
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Programs Requirements Agent
---------------------------------------------------------------------------------
-   ⏳ Programs Requirements is processing your query...
-      (Retrieving domain-specific knowledge)
-
-❌ Error processing question: Connection error.
-
-❌ Error processing question: Connection error.
-================================================================================
-
-
-================================================================================
-QUESTION 7
-================================================================================
-What should I do if I have a time conflict between two required courses?
-
-================================================================================
-💬 You: What should I do if I have a time conflict between two required courses?
-================================================================================
-
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "What should I do if I have a time conflict between two required courses?"
-   💭 Context: 3 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-⚠️  Clarification check error: Connection error.
-⚠️  LLM-driven coordinator error: Connection error.
-
-   ✅ Intent Type: General
-   📊 Priority: medium
-   🎯 Confidence: █████ (0.50)
-
-   💭 Reasoning: Error in LLM coordination: Connection error.
-
-   🤖 Agents to Activate:
-      1. Programs Requirements
-
-   📋 Workflow Order:
-      1. Programs Requirements
-
-================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Programs Requirements Agent
---------------------------------------------------------------------------------
-   ⏳ Programs Requirements is processing your query...
-      (Retrieving domain-specific knowledge)
-
-❌ Error processing question: Connection error.
-
-❌ Error processing question: Connection error.
-================================================================================
-
-
-================================================================================
-QUESTION 8
 ================================================================================
-Can I take courses over the summer at another university?
 
 ================================================================================
-💬 You: Can I take courses over the summer at another university?
+⏱️  PROCESSING TIME
 ================================================================================
 
-================================================================================
-🎯 STEP 1: Intent Classification
-================================================================================
-
-   Query: "Can I take courses over the summer at another university?"
-   💭 Context: 4 previous turn(s) in conversation
-
-   Analyzing query to determine which agents are needed...
-⚠️  Clarification check error: Connection error.
-⚠️  LLM-driven coordinator error: Connection error.
-
-   ✅ Intent Type: General
-   📊 Priority: medium
-   🎯 Confidence: █████ (0.50)
+   Total Processing Time: 58.90 seconds
+   (Excludes user clarification interaction time)
+   ⚠️  Moderate response time
 
-   💭 Reasoning: Error in LLM coordination: Connection error.
-
-   🤖 Agents to Activate:
-      1. Programs Requirements
-
-   📋 Workflow Order:
-      1. Programs Requirements
-
 ================================================================================
-🤖 STEP 2: Agent Execution
-================================================================================
-
-🤖 Executing Programs Requirements Agent
---------------------------------------------------------------------------------
-   ⏳ Programs Requirements is processing your query...
-      (Retrieving domain-specific knowledge)
-
-❌ Error processing question: Connection error.
 
-❌ Error processing question: Connection error.
 ================================================================================
 

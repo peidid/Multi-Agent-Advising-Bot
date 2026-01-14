@@ -9,6 +9,7 @@ Saves results to:
 
 import sys
 import io
+import time
 from langchain_core.messages import HumanMessage, AIMessage
 
 # Import components from chat.py
@@ -47,13 +48,16 @@ def process_question(question: str, conversation_messages: list, student_profile
     Process a single question through the multi-agent system.
     
     Returns:
-        tuple: (final_answer, raw_output)
+        tuple: (final_answer, raw_output, processing_time)
     """
     # Use TeeOutput to capture stdout while still allowing console interaction
     tee = TeeOutput()
     original_stdout = sys.stdout
     
     try:
+        # Start timing
+        processing_start_time = time.time()
+        
         # Redirect stdout to TeeOutput
         sys.stdout = tee
         
@@ -66,20 +70,20 @@ def process_question(question: str, conversation_messages: list, student_profile
         
         # Prepare initial state
         initial_state = {
-                "user_query": question,
-                "student_profile": student_profile,
-                "agent_outputs": {},
-                "constraints": [],
-                "risks": [],
-                "plan_options": [],
-                "conflicts": [],
-                "open_questions": [],
-                "messages": conversation_messages.copy(),
-                "active_agents": [],
-                "workflow_step": WorkflowStep.INITIAL,
-                "iteration_count": 0,
-                "next_agent": None,
-                "user_goal": None
+            "user_query": question,
+            "student_profile": student_profile,
+            "agent_outputs": {},
+            "constraints": [],
+            "risks": [],
+            "plan_options": [],
+            "conflicts": [],
+            "open_questions": [],
+            "messages": conversation_messages.copy(),
+            "active_agents": [],
+            "workflow_step": WorkflowStep.INITIAL,
+            "iteration_count": 0,
+            "next_agent": None,
+            "user_goal": None
         }
         
         # Step 1: Intent classification
@@ -93,9 +97,12 @@ def process_question(question: str, conversation_messages: list, student_profile
         
         # Handle clarification if needed (with max retry limit)
         clarification_retries = 0
-        max_clarification_retries = 1
+        max_clarification_retries = 1  # Only allow ONE round of clarification
         
         while clarification and clarification_retries < max_clarification_retries:
+            # Pause timing during clarification (user interaction time)
+            clarification_pause_start = time.time()
+            
             # Update student profile with clarification
             student_profile.update(clarification)
             initial_state["student_profile"] = student_profile
@@ -116,6 +123,10 @@ def process_question(question: str, conversation_messages: list, student_profile
             # Add acknowledgment as AI message
             conversation_messages.append(AIMessage(content=f"Thank you! I now understand you are: {answers_text}"))
             
+            # Resume timing after clarification
+            clarification_pause_duration = time.time() - clarification_pause_start
+            processing_start_time += clarification_pause_duration  # Adjust start time to exclude clarification
+            
             # Re-classify with updated profile
             print("\n   🔄 Re-analyzing with clarification...")
             conversation_history = [
@@ -134,41 +145,71 @@ def process_question(question: str, conversation_messages: list, student_profile
         if clarification and clarification_retries >= max_clarification_retries:
             print("\n   ⚠️  Proceeding with available information...")
             workflow = intent.get('required_agents', [])
+            
+            # If still no workflow after max retries, use general knowledge
+            if not workflow:
+                print("\n   ℹ️  No specific agents identified. Using general knowledge to respond.")
         
         initial_state["user_goal"] = intent.get("intent_type", "")
         initial_state["active_agents"] = workflow
         
-        # Skip agent execution if no agents (clarification-only case)
+        # If no workflow at all, skip agents but still generate answer
         if not workflow:
-            print("\n⚠️  Waiting for clarification before proceeding to agents.")
-            return None, tee.getvalue()
-        
-        # Step 2: Show agent execution
-        print_section("STEP 2: Agent Execution", "🤖")
-        
-        # Execute agents in workflow order
-        for agent_name in workflow:
-            output = show_agent_execution(agent_name, initial_state)
-            if output:
-                agent_outputs = initial_state.get("agent_outputs", {})
-                agent_outputs[agent_name] = output
-                initial_state["agent_outputs"] = agent_outputs
-                
-                # Update plan options if Programs agent
-                if agent_name == "programs_requirements" and output.plan_options:
-                    initial_state["plan_options"] = output.plan_options
-                
-                # Update risks and constraints
-                initial_state["risks"] = initial_state.get("risks", []) + output.risks
-                initial_state["constraints"] = initial_state.get("constraints", []) + output.constraints
-        
-        # Step 3: Show negotiation
-        conflicts = show_negotiation(initial_state)
-        initial_state["conflicts"] = conflicts
+            print("\n   ℹ️  No specific agents needed. Using general knowledge to respond.")
+            # Skip agent execution, go directly to answer synthesis
+        else:
+            # Step 2: Show agent execution
+            print_section("STEP 2: Agent Execution", "🤖")
+            
+            # Execute agents in workflow order
+            for agent_name in workflow:
+                output = show_agent_execution(agent_name, initial_state)
+                if output:
+                    agent_outputs = initial_state.get("agent_outputs", {})
+                    agent_outputs[agent_name] = output
+                    initial_state["agent_outputs"] = agent_outputs
+                    
+                    # Update plan options if Programs agent
+                    if agent_name == "programs_requirements" and output.plan_options:
+                        initial_state["plan_options"] = output.plan_options
+                    
+                    # Update risks and constraints
+                    initial_state["risks"] = initial_state.get("risks", []) + output.risks
+                    initial_state["constraints"] = initial_state.get("constraints", []) + output.constraints
+            
+            # Step 3: Show negotiation
+            conflicts = show_negotiation(initial_state)
+            initial_state["conflicts"] = conflicts
         
         # Step 4: Synthesize and show final answer
         answer = coordinator.synthesize_answer(initial_state)
         show_final_answer(initial_state, answer)
+        
+        # Calculate and display processing time
+        processing_end_time = time.time()
+        total_processing_time = processing_end_time - processing_start_time
+        
+        print("\n" + "=" * 80)
+        print(f"⏱️  PROCESSING TIME")
+        print("=" * 80)
+        print(f"\n   Total Processing Time: {total_processing_time:.2f} seconds")
+        print(f"   (Excludes user clarification interaction time)")
+        
+        # Break down if time is significant
+        if total_processing_time > 60:
+            minutes = int(total_processing_time // 60)
+            seconds = total_processing_time % 60
+            print(f"   = {minutes} minute(s) and {seconds:.2f} seconds")
+        
+        # Performance indicator
+        if total_processing_time < 30:
+            print(f"   ✅ Fast response")
+        elif total_processing_time < 60:
+            print(f"   ⚠️  Moderate response time")
+        else:
+            print(f"   🐌 Slow response - consider using faster model")
+        
+        print("\n" + "=" * 80)
         
         # Add AI response to conversation history
         conversation_messages.append(AIMessage(content=answer))
@@ -176,7 +217,7 @@ def process_question(question: str, conversation_messages: list, student_profile
         # Get captured output
         captured_output = tee.getvalue()
         
-        return answer, captured_output
+        return answer, captured_output, total_processing_time
         
     except Exception as e:
         error_msg = f"\n❌ Error processing question: {str(e)}"
@@ -187,7 +228,8 @@ def process_question(question: str, conversation_messages: list, student_profile
         # Get captured output including error
         captured_output = tee.getvalue() + error_msg
         
-        return None, captured_output
+        # Return with 0 processing time on error
+        return None, captured_output, 0.0
     
     finally:
         # Always restore stdout
@@ -218,6 +260,7 @@ def run_tests():
     # Results storage
     results = []  # For out.txt (Q&A only)
     raw_outputs = []  # For out_raw.txt (full processing info)
+    processing_times = []  # Track processing times
     
     # Process each question
     for i, question in enumerate(questions, 1):
@@ -226,23 +269,27 @@ def run_tests():
         print(f"{'=' * 80}")
         print(f"Q: {question}\n")
         
-        answer, raw_output = process_question(question, conversation_messages, student_profile)
+        answer, raw_output, proc_time = process_question(question, conversation_messages, student_profile)
         
         if answer:
             print(f"\n✅ Answer: {answer[:100]}..." if len(answer) > 100 else f"\n✅ Answer: {answer}")
+            print(f"⏱️  Time: {proc_time:.2f}s")
             
             # Store for out.txt
             results.append({
                 'question': question,
-                'answer': answer
+                'answer': answer,
+                'time': proc_time
             })
+            processing_times.append(proc_time)
         else:
             print(f"\n⚠️  No answer generated (may need clarification)")
             
             # Store empty answer
             results.append({
                 'question': question,
-                'answer': "[No answer generated - clarification needed]"
+                'answer': "[No answer generated - clarification needed]",
+                'time': 0
             })
         
         # Store for out_raw.txt
@@ -264,7 +311,8 @@ def run_tests():
             f.write(f"Question {i}:\n")
             f.write(f"{result['question']}\n\n")
             f.write(f"Answer:\n")
-            f.write(f"{result['answer']}\n")
+            f.write(f"{result['answer']}\n\n")
+            f.write(f"Processing Time: {result.get('time', 0):.2f} seconds\n")
             f.write("\n" + "-" * 80 + "\n\n")
     
     print("✅ out.txt written")
@@ -292,6 +340,20 @@ def run_tests():
     print("=" * 80)
     print(f"\nProcessed: {len(questions)} questions")
     print(f"Successful: {sum(1 for r in results if r['answer'] and '[No answer' not in r['answer'])}")
+    
+    # Performance statistics
+    if processing_times:
+        avg_time = sum(processing_times) / len(processing_times)
+        min_time = min(processing_times)
+        max_time = max(processing_times)
+        total_time = sum(processing_times)
+        
+        print(f"\n⏱️  PERFORMANCE STATISTICS")
+        print(f"  - Total processing time: {total_time:.2f}s")
+        print(f"  - Average per question: {avg_time:.2f}s")
+        print(f"  - Fastest: {min_time:.2f}s")
+        print(f"  - Slowest: {max_time:.2f}s")
+    
     print(f"\nResults saved to:")
     print(f"  - out.txt (final answers only)")
     print(f"  - out_raw.txt (full processing logs)")

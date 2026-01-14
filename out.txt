@@ -3,85 +3,51 @@ ADVISING BOT TEST RESULTS - FINAL ANSWERS ONLY
 ================================================================================
 
 Question 1:
-Can I take more than the recommended number of courses in a semester?
+What are the prerequisite courses for the Developmental Biology bio elective, and when can I take the course?
 
 Answer:
-## 📌 Direct Answer (Quick Summary)
-Yes, you can take more than the recommended number of courses per semester, but you need approval from your academic advisor or the Associate Dean, depending on the extent of the overload.
+## 📌 Direct Answer
+To enroll in the Developmental Biology bio elective (course code 03-350), you must have completed either **03-320** or **03-240** with at least a grade of D. The availability of this course varies each semester, so you'll need to check the specific semester schedule.
 
 ### Key Points
-• **Approval Required:** You must get approval from your academic advisor to take more than the standard course load. For significant overloads, approval from the Associate Dean of Education may be necessary.
-• **Specific Limits and Requirements:** For CS students, the standard full load is 54 units, with an overload limit of 63 units. Tepper students have an overload threshold of 51 units.
-• **Academic Performance:** You need a minimum QPA of 3.0 (CS students) or 3.5 (Tepper students) to be eligible for an overload.
+• **Prerequisites:** Complete either course 03-320 or 03-240 with a minimum grade of D.
+• **Course Availability:** Check the semester schedule for specific availability.
 
 ### Detailed Explanation
-Overloading courses means taking more units than the typical full load for a semester. Each department has specific guidelines and thresholds for overloading:
-- **CS Students:** The normal full load is 54 units, and you can overload up to 63 units with your advisor’s approval. If you wish to exceed this limit, you'll need the approval of the Associate Dean of Education. You must have completed at least 45 factorable units in the previous semester with a QPA above 3.0.
-- **Tepper Students:** The overload threshold is 51 units, and you need a cumulative QPA of 3.5 to petition for an overload.
+The Developmental Biology elective is designed for students who have a foundational understanding of biology, which is ensured by the prerequisite courses 03-320 (Cellular Biology) or 03-240 (Genetics). These courses provide necessary background knowledge that will help you grasp the complex concepts discussed in Developmental Biology.
 
 ### What You Should Do / Next Steps
-1. **Check Your Eligibility:** Ensure you meet the QPA requirement and have completed the necessary units in the previous semester.
-2. **Consult Your Advisor:** Discuss your academic plan and reasons for wanting to overload. Your advisor can provide guidance and help assess if you can manage the additional workload.
-3. **Obtain Approval:** If your advisor agrees, they will need to approve your course overload. For substantial overloads, additional approval from the Associate Dean may be required.
-4. **Register for Courses:** Once approved, proceed with course registration, keeping in mind any prerequisites or restrictions for new courses.
+1. **Verify your prerequisites:** Ensure that you have completed either 03-320 or 03-240 with at least a grade of D.
+2. **Check the schedule:** Look at the upcoming semester schedules to find out when Developmental Biology is offered.
+3. **Plan accordingly:** Depending on the availability, plan your schedule to include this elective.
 
-By following these steps and consulting with your academic advisor, you can effectively manage an increased course load while maintaining your academic performance.
+By following these steps, you can successfully enroll in the Developmental Biology bio elective.
+
+Processing Time: 35.20 seconds
 
 --------------------------------------------------------------------------------
 
 Question 2:
-How do I know if I have met the prerequisites for a course?
+As a Biological Science student, I want to use a voucher to change my final course grade to pass/no pass in Honors Modern Bio. Can I do that? Until when can I still submit my voucher? If I pass the course, should I still retake it?
 
 Answer:
-[No answer generated - clarification needed]
+## 📌 Direct Answer (Quick Summary)
+Yes, you can use a voucher to change your final course grade in Honors Modern Bio to pass/no pass. The deadline to submit your voucher is **before 12:00 p.m. on the day prior to the last day of classes**. If Honors Modern Bio is a required course for your major, you will need to retake it for a letter grade to fulfill your major requirements.
 
---------------------------------------------------------------------------------
+### Key Points
+• **Deadline:** Submit your voucher by **12:00 p.m. on the day before the last day of classes**.
+• **Major Requirement:** If Honors Modern Bio is required for your major, a pass/no pass grade will not count, and you must retake the course for a letter grade.
 
-Question 3:
-What happens if I register for a course but don't meet the prerequisites?
+### Detailed Explanation
+As a Biological Science student, you have the option to change your course grade to pass/no pass using a voucher. This can be done up until the last day of classes each semester. However, it's important to note that courses taken under the pass/no pass option do not count towards major or minor requirements. This means if Honors Modern Bio is essential for your major, taking it as pass/no pass will not fulfill the requirement, and you would need to retake the course to earn a qualifying letter grade.
 
-Answer:
-[No answer generated - clarification needed]
+### What You Should Do / Next Steps
+1. **Decide if Changing to Pass/No Pass is Right for You:** Consider if you need a letter grade for Honors Modern Bio for your major or future academic goals.
+2. **Submit the Voucher:** If you choose to proceed, ensure you submit the voucher by the specified deadline.
+3. **Plan Accordingly:** If required for your major, plan to retake the course for a letter grade in a future semester.
+4. **Consult Your Advisor:** Discuss your decision and any concerns with your academic advisor to ensure it aligns with your academic and career goals.
 
---------------------------------------------------------------------------------
-
-Question 4:
-How do I enroll in a course that requires instructor permission?
-
-Answer:
-[No answer generated - clarification needed]
-
---------------------------------------------------------------------------------
-
-Question 5:
-What happens if a required course is full?
-
-Answer:
-[No answer generated - clarification needed]
-
---------------------------------------------------------------------------------
-
-Question 6:
-Can I take a graduate-level course as an undergraduate?
-
-Answer:
-[No answer generated - clarification needed]
-
---------------------------------------------------------------------------------
-
-Question 7:
-What should I do if I have a time conflict between two required courses?
-
-Answer:
-[No answer generated - clarification needed]
-
---------------------------------------------------------------------------------
-
-Question 8:
-Can I take courses over the summer at another university?
-
-Answer:
-[No answer generated - clarification needed]
+Processing Time: 58.90 seconds
 
 --------------------------------------------------------------------------------
 

@@ -51,6 +51,27 @@ class ClarificationHandler:
         known_major = student_profile.get('major') or student_profile.get('program')
         known_semester = student_profile.get('semester') or student_profile.get('current_semester')
         
+        # PRE-CHECK: Extract major from query if explicitly mentioned
+        query_lower = query.lower()
+        major_patterns = {
+            'Computer Science': ['cs student', 'computer science student', 'i\'m a cs', 'i am a cs', 'as a cs'],
+            'Information Systems': ['is student', 'information systems student', 'i\'m an is', 'i am an is', 'as an is'],
+            'Biological Sciences': ['bio student', 'biology student', 'biological sciences student', 'i\'m a bio', 'i am a bio', 'as a bio'],
+            'Business Administration': ['ba student', 'business administration student', 'business student', 'i\'m a ba', 'i am a ba', 'as a ba']
+        }
+        
+        for major, patterns in major_patterns.items():
+            if any(pattern in query_lower for pattern in patterns):
+                # Major is explicitly mentioned in query!
+                return {
+                    'needs_clarification': False,
+                    'confidence': 1.0,
+                    'missing_info': [],
+                    'reasoning': f'Major ({major}) explicitly mentioned in query',
+                    'questions': [],
+                    'extracted_major': major  # Pass this to coordinator
+                }
+        
         # NEW: Try to infer major from course mentions ONLY if query doesn't need major for answer
         # Check if the query explicitly asks about requirements/retaking/degree progress
         needs_major_keywords = [

@@ -45,14 +45,14 @@ class Coordinator:
         model = get_coordinator_model()
         temperature = get_coordinator_temperature()
         
-        # Configure HTTP client with SSL verification disabled
+        # Configure HTTP client with SSL verification disabled and longer timeout
         import httpx
-        http_client = httpx.Client(verify=False, timeout=120.0)
+        http_client = httpx.Client(verify=False, timeout=180.0)  # 3 minutes
         self.llm = ChatOpenAI(
             model=model, 
             temperature=temperature,
             http_client=http_client,
-            request_timeout=120.0
+            request_timeout=180.0
         )
         self.available_agents = [
             "programs_requirements",
@@ -62,7 +62,17 @@ class Coordinator:
         
         # Initialize LLM-driven coordinator
         self.llm_coordinator = LLMDrivenCoordinator(self.llm)
-        self.clarification_handler = ClarificationHandler(self.llm)
+        
+        # Initialize clarification handler with longer timeout
+        # Clarification checks can take longer due to complex prompts
+        clarification_http_client = httpx.Client(verify=False, timeout=180.0)  # 3 minutes
+        clarification_llm = ChatOpenAI(
+            model=model,
+            temperature=temperature,
+            http_client=clarification_http_client,
+            request_timeout=180.0
+        )
+        self.clarification_handler = ClarificationHandler(clarification_llm)
         print("✅ Using LLM-Driven Coordinator")
         print("   • Full LLM reasoning for workflow planning")
         print("   • Dynamic agent coordination")
@@ -95,8 +105,13 @@ class Coordinator:
                 student_profile or {}
             )
             
-            # Check if major was inferred (NEW)
-            if clarification_check.get('inferred_major'):
+            # Check if major was extracted or inferred
+            if clarification_check.get('extracted_major'):
+                # Update student profile with extracted major from query
+                student_profile = student_profile or {}
+                student_profile['major'] = clarification_check['extracted_major']
+                print(f"   💡 Extracted major from query: {clarification_check['extracted_major']}")
+            elif clarification_check.get('inferred_major'):
                 # Update student profile with inferred major
                 student_profile = student_profile or {}
                 student_profile['major'] = clarification_check['inferred_major']

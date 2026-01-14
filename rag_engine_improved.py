@@ -25,12 +25,12 @@ except ImportError:
 DATA_PATH = "./data"
 BASE_DB_PATH = "./chroma_db"
 
-# Configure HTTP client with SSL verification disabled for embeddings
+# Configure HTTP client with SSL verification disabled and longer timeout for embeddings
 import httpx
-http_client = httpx.Client(verify=False, timeout=120.0)
+http_client = httpx.Client(verify=False, timeout=180.0)  # 3 minutes
 EMBEDDING_MODEL = OpenAIEmbeddings(
     http_client=http_client,
-    request_timeout=120.0
+    request_timeout=180.0
 )
 
 # Domain mapping: Domain name → Data folders
