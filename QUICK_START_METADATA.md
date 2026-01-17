@@ -255,10 +255,13 @@ You'll see the [DOCUMENT CONTEXT] headers.
 
 ### Q: What if rebuild fails?
 
-**A**: Check:
-1. Internet connection (for OpenAI embedding API)
-2. OpenAI API key in .env file
-3. `data/` folder exists with documents
+**A**: Common issues and solutions:
+
+1. **SSL/Connection Error**: Already handled with `verify=False` in code
+2. **Timeout Error**: Already increased to 180 seconds
+3. **List metadata error**: Already fixed - courses stored as comma-separated strings
+4. **Missing API key**: Check `.env` file has `OPENAI_API_KEY=your_key`
+5. **No documents**: Ensure `data/` folder exists with JSON/MD files
 
 ---
 

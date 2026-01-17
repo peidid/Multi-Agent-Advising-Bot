@@ -10,6 +10,7 @@ from blackboard.schema import BlackboardState, WorkflowStep
 from agents.programs_agent import ProgramsRequirementsAgent
 from agents.courses_agent import CourseSchedulingAgent
 from agents.policy_agent import PolicyComplianceAgent
+from agents.planning_agent import AcademicPlanningAgent
 from coordinator.coordinator import Coordinator
 from config import print_model_config
 
@@ -24,6 +25,7 @@ coordinator = Coordinator()
 programs_agent = ProgramsRequirementsAgent()
 courses_agent = CourseSchedulingAgent()
 policy_agent = PolicyComplianceAgent()
+planning_agent = AcademicPlanningAgent()
 
 # ============================================================================
 # NODES
@@ -108,12 +110,26 @@ def courses_node(state: BlackboardState) -> Dict[str, Any]:
 def policy_node(state: BlackboardState) -> Dict[str, Any]:
     """Policy agent execution."""
     output = policy_agent.execute(state)
-    
+
     agent_outputs = state.get("agent_outputs", {})
     agent_outputs["policy_compliance"] = output
-    
+
     return {
         "agent_outputs": agent_outputs,
+        "risks": state.get("risks", []) + output.risks,
+        "constraints": state.get("constraints", []) + output.constraints
+    }
+
+def planning_node(state: BlackboardState) -> Dict[str, Any]:
+    """Academic planning agent execution."""
+    output = planning_agent.execute(state)
+
+    agent_outputs = state.get("agent_outputs", {})
+    agent_outputs["academic_planning"] = output
+
+    return {
+        "agent_outputs": agent_outputs,
+        "plan_options": output.plan_options,
         "risks": state.get("risks", []) + output.risks,
         "constraints": state.get("constraints", []) + output.constraints
     }
@@ -135,7 +151,7 @@ def route_after_coordinator(state: BlackboardState) -> str:
     """Route after coordinator decides next step."""
     workflow_step = state.get("workflow_step")
     next_agent = state.get("next_agent")
-    
+
     if workflow_step == WorkflowStep.SYNTHESIS:
         return "synthesize"
     elif workflow_step == WorkflowStep.USER_INPUT:
@@ -146,6 +162,8 @@ def route_after_coordinator(state: BlackboardState) -> str:
         return "courses"
     elif next_agent == "policy_compliance":
         return "policy"
+    elif next_agent == "academic_planning":
+        return "planning"
     else:
         return "synthesize"
 
@@ -182,6 +200,7 @@ workflow.add_node("coordinator", coordinator_node)
 workflow.add_node("programs", programs_node)
 workflow.add_node("courses", courses_node)
 workflow.add_node("policy", policy_node)
+workflow.add_node("planning", planning_node)
 workflow.add_node("synthesize", synthesize_node)
 
 # Add edges
@@ -190,6 +209,7 @@ workflow.add_conditional_edges("coordinator", route_after_coordinator)
 workflow.add_conditional_edges("programs", route_after_agent)
 workflow.add_conditional_edges("courses", route_after_agent)
 workflow.add_conditional_edges("policy", route_after_agent)
+workflow.add_conditional_edges("planning", route_after_agent)
 workflow.add_edge("synthesize", END)
 
 # Compile

@@ -1,0 +1,466 @@
+{
+  "description": "Course offering patterns for CMU-Q. Used for academic planning to determine course availability by semester.",
+  "last_updated": "2026-01-16",
+  "data_sources": [
+    "schedule_2026_spring.json",
+    "Fall 2024.xlsx",
+    "Fall 2025.xlsx",
+    "Spring2025.xlsx"
+  ],
+  "patterns": {
+    "15-110": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Melniczuk"],
+      "notes": "Intro to CS for non-majors"
+    },
+    "15-112": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Gedawy", "Reis"],
+      "notes": "Fundamentals of Programming - high demand, multiple sections"
+    },
+    "15-122": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Hammoud", "Riley"],
+      "notes": "Principles of Imperative Computation"
+    },
+    "15-150": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Reis"],
+      "notes": "Principles of Functional Programming - ONLY FALL"
+    },
+    "15-210": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Salameh", "Kapoutsis"],
+      "notes": "Parallel and Sequential Data Structures - ONLY SPRING"
+    },
+    "15-213": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Harras"],
+      "notes": "Introduction to Computer Systems - ONLY FALL - plan accordingly"
+    },
+    "15-251": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Kapoutsis"],
+      "notes": "Great Ideas in Theoretical CS - ONLY SPRING"
+    },
+    "15-288": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Di Caro"],
+      "notes": "Machine Learning in a Nutshell"
+    },
+    "15-316": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Riley"],
+      "notes": "Software Foundations of Security and Privacy"
+    },
+    "15-441": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Harras"],
+      "notes": "Networking and the Internet"
+    },
+    "17-313": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Feo Flushing"],
+      "notes": "Foundations of Software Engineering"
+    },
+    "17-437": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Feo Flushing"],
+      "notes": "Web Application Development"
+    },
+    "21-112": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Demirkoparan"],
+      "notes": "Integral Calculus"
+    },
+    "21-120": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Weston"],
+      "notes": "Differential and Integral Calculus"
+    },
+    "21-122": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Weston"],
+      "notes": "Integration and Approximation"
+    },
+    "21-127": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Khare"],
+      "notes": "Concepts of Mathematics"
+    },
+    "21-241": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["El Hajj"],
+      "notes": "Matrices and Linear Transformations"
+    },
+    "21-256": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["El Hajj"],
+      "notes": "Multivariate Analysis"
+    },
+    "36-200": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Park"],
+      "notes": "Reasoning with Data"
+    },
+    "36-202": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Park"],
+      "notes": "Methods for Statistics & Data Science"
+    },
+    "36-218": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Yilma"],
+      "notes": "Probability Theory for Computer Scientists"
+    },
+    "67-100": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Aoun"],
+      "notes": "IS First Year Colloquium - Fall only for new students"
+    },
+    "67-250": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Aoun"],
+      "notes": "The Information Systems Milieux"
+    },
+    "67-262": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Charfi", "Bouamor"],
+      "notes": "Database Design and Development - ONLY FALL"
+    },
+    "67-272": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Mohanty", "Bouamor"],
+      "notes": "Application Design and Development - ONLY SPRING"
+    },
+    "67-301": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Aazam"],
+      "notes": "Networks and Telecommunications"
+    },
+    "67-318": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Charfi"],
+      "notes": "Business Process Modeling"
+    },
+    "67-352": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Vatanasakdakul"],
+      "notes": "Electronic Business and Design Thinking"
+    },
+    "67-357": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Liginlal"],
+      "notes": "Healthcare Analytics and Big Data"
+    },
+    "67-364": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Bouamor"],
+      "notes": "Practical Data Science"
+    },
+    "67-373": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Huang", "Liginlal", "Aazam"],
+      "notes": "IS Consulting Project - capstone course"
+    },
+    "67-380": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Mohanty"],
+      "notes": "Information Systems Security"
+    },
+    "67-382": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Vatanasakdakul"],
+      "notes": "Digital Transformation, Strategy and Management"
+    },
+    "67-425": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Vatanasakdakul"],
+      "notes": "Digitalization Capstone"
+    },
+    "67-426": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Bouamor"],
+      "notes": "Data Science Capstone"
+    },
+    "67-427": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Mohanty"],
+      "notes": "Privacy and Security Capstone"
+    },
+    "70-100": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Farooqi"],
+      "notes": "Global Business"
+    },
+    "70-106": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Farooqi"],
+      "notes": "Business Fundamentals"
+    },
+    "70-122": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Akguc"],
+      "notes": "Introduction to Accounting"
+    },
+    "70-208": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Park"],
+      "notes": "Regression Analysis"
+    },
+    "70-311": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Haan"],
+      "notes": "Organizational Behavior"
+    },
+    "70-342": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Haan"],
+      "notes": "Managing Across Cultures"
+    },
+    "70-371": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Adeinat"],
+      "notes": "Operations Management"
+    },
+    "70-374": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Safak"],
+      "notes": "Data Mining & Business Analytics"
+    },
+    "70-381": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Sharma"],
+      "notes": "Marketing"
+    },
+    "70-387": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Fadlallah"],
+      "notes": "Strategy for High-Tech Products and Services"
+    },
+    "70-391": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Farooqi"],
+      "notes": "Finance"
+    },
+    "73-102": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Indaco"],
+      "notes": "Principles of Microeconomics"
+    },
+    "73-103": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Castano Zuluaga"],
+      "notes": "Principles of Macroeconomics"
+    },
+    "76-101": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Squires", "Queen", "Mitchell"],
+      "notes": "Interpretation and Argument - many sections"
+    },
+    "76-270": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Mitchell", "Pessoa"],
+      "notes": "Writing for the Professions"
+    },
+    "79-104": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Nair"],
+      "notes": "Global Histories"
+    },
+    "80-130": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Bassford"],
+      "notes": "Introduction to Ethics"
+    },
+    "85-110": {
+      "fall": true,
+      "spring": true,
+      "frequency": "every_semester",
+      "typical_instructors": ["Crittenden"],
+      "notes": "Introduction to Psychology"
+    },
+    "85-150": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Belanger"],
+      "notes": "Social Psychology"
+    },
+    "15-121": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Riley"],
+      "notes": "Introduction to Data Structures - ONLY FALL"
+    },
+    "15-312": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Riley"],
+      "notes": "Foundations of Programming Languages"
+    },
+    "15-348": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Riley"],
+      "notes": "Practical Programming and Systems"
+    },
+    "15-382": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Di Caro"],
+      "notes": "Neural Networks"
+    },
+    "15-440": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Hammoud"],
+      "notes": "Distributed Systems"
+    },
+    "15-451": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Kapoutsis"],
+      "notes": "Algorithm Design and Analysis"
+    },
+    "15-455": {
+      "fall": false,
+      "spring": true,
+      "frequency": "spring_only",
+      "typical_instructors": ["Kapoutsis"],
+      "notes": "Undergraduate Complexity Theory"
+    },
+    "21-108": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["Yilma"],
+      "notes": "Differential and Integral Calculus"
+    },
+    "21-241": {
+      "fall": true,
+      "spring": false,
+      "frequency": "fall_only",
+      "typical_instructors": ["El Hajj"],
+      "notes": "Matrices and Linear Transformations"
+    }
+  },
+  "special_notes": {
+    "cs_minor_planning": "15-150 (Fall) → 15-210 (Spring) → 15-213 (Fall) or 15-251 (Spring). Plan carefully!",
+    "is_concentration_capstones": "67-425, 67-426, 67-427 are only offered in Spring",
+    "math_sequence": "21-120 (Fall) → 21-122 (Spring) for calculus track",
+    "note": "To generate complete schedule JSON files for all semesters, run: python process_schedules_final.py"
+  }
+}

@@ -57,7 +57,8 @@ class Coordinator:
         self.available_agents = [
             "programs_requirements",
             "course_scheduling",
-            "policy_compliance"
+            "policy_compliance",
+            "academic_planning"
         ]
         
         # Initialize LLM-driven coordinator

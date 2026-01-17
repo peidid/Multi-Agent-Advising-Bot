@@ -6,7 +6,7 @@ Shows the actual multi-agent workflow including negotiation and collaboration.
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-from multi_agent import app, coordinator, programs_agent, courses_agent, policy_agent
+from multi_agent import app, coordinator, programs_agent, courses_agent, policy_agent, planning_agent
 from blackboard.schema import WorkflowStep, ConflictType
 from langchain_core.messages import HumanMessage, AIMessage
 from config import print_model_config
@@ -38,6 +38,7 @@ def print_header(dev_mode=False):
         print("  • @programs <query>  - Use only Programs Requirements Agent")
         print("  • @courses <query>   - Use only Course Scheduling Agent")
         print("  • @policy <query>    - Use only Policy Compliance Agent")
+        print("  • @planning <query>  - Use only Academic Planning Agent")
         print("  • @all <query>       - Use all agents (bypass intent classification)")
         print("  • mode:normal        - Switch to normal mode")
     else:
@@ -221,7 +222,8 @@ def show_agent_execution(agent_name, state):
     agents = {
         "programs_requirements": programs_agent,
         "course_scheduling": courses_agent,
-        "policy_compliance": policy_agent
+        "policy_compliance": policy_agent,
+        "academic_planning": planning_agent
     }
     
     if agent_name not in agents:
@@ -259,17 +261,39 @@ def show_agent_execution(agent_name, state):
     if len(output.answer) > 800:
         print(f"      (Total length: {len(output.answer)} chars, showing first 800)")
     
-    # Show plan options if Programs agent
-    if agent_name == "programs_requirements" and output.plan_options:
+    # Show plan options if Programs agent or Planning agent
+    if (agent_name in ["programs_requirements", "academic_planning"]) and output.plan_options:
         print(f"\n   📋 Plan Options Proposed: {len(output.plan_options)}")
         for i, plan in enumerate(output.plan_options[:3], 1):  # Show 3 options instead of 2
-            courses_str = ', '.join(plan.courses[:8])  # Show 8 courses instead of 5
-            if len(plan.courses) > 8:
-                courses_str += f" (+{len(plan.courses) - 8} more)"
-            print(f"      Option {i}: {courses_str}")
-            print(f"         Confidence: {plan.confidence:.2f}")
-            if hasattr(plan, 'justification'):
-                print(f"         Justification: {plan.justification}")  # Full justification
+            # For academic planning agent, show semester structure
+            if agent_name == "academic_planning" and hasattr(plan, 'semesters') and plan.semesters:
+                print(f"      Option {i}: {len(plan.semesters)} semesters planned")
+                print(f"         Total courses: {len(plan.courses)}")
+                # Show first 2-3 semesters as preview
+                for j, sem in enumerate(plan.semesters[:3], 1):
+                    term = sem.get('term', f'Semester {j}')
+                    sem_courses = sem.get('courses', [])
+                    units = sem.get('total_units', 0)
+                    print(f"         • {term}: {len(sem_courses)} courses ({units} units)")
+                if len(plan.semesters) > 3:
+                    print(f"         ... and {len(plan.semesters) - 3} more semesters")
+            else:
+                # Original display for programs agent
+                courses_str = ', '.join(plan.courses[:8])  # Show 8 courses instead of 5
+                if len(plan.courses) > 8:
+                    courses_str += f" (+{len(plan.courses) - 8} more)"
+                print(f"      Option {i}: {courses_str}")
+
+            if hasattr(plan, 'confidence'):
+                print(f"         Confidence: {plan.confidence:.2f}")
+            if hasattr(plan, 'justification') and plan.justification:
+                # Show first 200 chars of justification
+                just = plan.justification[:200]
+                if len(plan.justification) > 200:
+                    just += "..."
+                print(f"         Rationale: {just}")
+            if hasattr(plan, 'description'):
+                print(f"         Description: {plan.description}")
     
     # Show risks with full description
     if output.risks:
@@ -588,8 +612,12 @@ def chat():
                     manual_agents = ['policy_compliance']
                     actual_query = user_input[8:].strip()
                     print(f"\n🔧 Manual agent selection: Policy Compliance Agent")
+                elif user_input.startswith('@planning '):
+                    manual_agents = ['academic_planning']
+                    actual_query = user_input[10:].strip()
+                    print(f"\n🔧 Manual agent selection: Academic Planning Agent")
                 elif user_input.startswith('@all '):
-                    manual_agents = ['programs_requirements', 'course_scheduling', 'policy_compliance']
+                    manual_agents = ['programs_requirements', 'course_scheduling', 'policy_compliance', 'academic_planning']
                     actual_query = user_input[5:].strip()
                     print(f"\n🔧 Manual agent selection: All Agents")
                 

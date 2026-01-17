@@ -650,60 +650,7 @@ College Honors
 ● Who adds? Dean of Education (aka Dudley)
 ```
 
-## 4 The Marianna Brown Dietrich College of Humanities and Social
 
-## Sciences
-
-_4.1 Leadership_
-● Richard Scheines: Bess Family Dean
-● Sharon Carver: Associate Dean for Educational Affairs
-● Joseph E. Devine: Associate Dean for Undergraduate Studies
-● Kelli Maxwell: Associate Dean for Student Success
-More information: Dietrich College Website
-_4.2 Academic Programs_
-The Dietrich College of Humanities and Social Sciences offers undergraduate programs in various fields,
-including:
-● **Disciplines:**
-○ English
-○ History
-○ Information Systems
-○ Languages, Cultures, and Applied Linguistics
-○ Philosophy
-○ Psychology
-○ Social and Decision Sciences
-○ Statistics & Data Science
-○ Carnegie Mellon Institute for Strategy and Technology
-The college also offers:
-● Student-defined majors
-● Interdepartmental majors
-● Intercollege Bachelor of Humanities and Arts program
-● Honors and pre-professional programs
-_4.3 Educational Philosophy_
-Dietrich College encourages interdisciplinary learning and hands-on experiences. Students are
-encouraged to explore and collaborate across fields through experiential learning opportunities such as:
-● Internships
-● Undergraduate research
-● Study abroad programs
-● Community service
-_4.4 Core Educational Approach_
-Dietrich College blends liberal arts with analytical and computational approaches. Key aspects include:
-● **Grand Challenge Seminars:** Tackling real-world problems such as democracy, racism, and
-environmental justice through interdisciplinary perspectives.
-● **General Education Requirements:** Courses tied to specific learning goals essential for careers,
-citizenship, and life.
-
-
-● **Flexible Curriculum:** Students can explore a variety of majors and minors throughout their
-academic journey.
-_4.5 Lifelong Learning Skills_
-Dietrich College students develop deep disciplinary knowledge along with critical skills such as:
-● Team collaboration across multiple disciplines
-● Adaptability to rapidly changing knowledge landscapes
-● Effective communication and critical thinking
-_4.6 Career Outcomes_
-Dietrich College alumni report success in competitive job markets, with many pursuing unique and
-non-traditional career paths. Among the class of 2022, **94%** found employment, entered graduate school,
-or pursued other interests such as volunteering or military service.
 
 
 ## 5 Known Issues & Feedback

@@ -59,6 +59,7 @@ Added to `rag_engine_improved.py`:
 1. **`extract_course_codes(text)`**
    - Finds all course codes (e.g., 15-213, 67-250) in text
    - Returns list of unique course codes
+   - Converted to comma-separated string for storage
 
 2. **`infer_program(file_path, content)`**
    - Determines which program a document relates to
@@ -86,11 +87,13 @@ Updated `load_documents_from_path()` to:
        'file_type': 'json',
        'content_type': 'program_requirements',
        'program': 'Information Systems',
-       'courses_mentioned': ['15-112', '67-100', ...],
+       'courses_mentioned': '15-112, 67-100, 21-120, 67-250',  # Comma-separated string
        'summary': 'Contains 20 requirements...',
        'category': 'Information Systems'
    }
    ```
+   
+   Note: `courses_mentioned` is stored as a comma-separated string (not a list) for Chroma database compatibility.
 
 3. **Prepend contextual header** to each document:
    ```
@@ -444,6 +447,17 @@ def infer_content_type(file_path: str, content: str) -> str:
     if 'your_new_pattern' in path_lower:
         return 'your_new_type'
 ```
+
+### Issue: Metadata List Value Error
+
+**Error**: `Expected metadata value to be a str, int, float, bool... got [...] which is a list`
+
+**Solution**: Already handled! The code converts lists to comma-separated strings:
+```python
+'courses_mentioned': ', '.join(courses) if courses else ''
+```
+
+This ensures Chroma compatibility while preserving information.
 
 ---
 

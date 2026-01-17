@@ -142,6 +142,40 @@ class LLMDrivenCoordinator:
                     "Cannot propose course plans (only validate them)",
                 ]
             ),
+
+            "academic_planning": AgentCapability(
+                name="Academic Planning Agent",
+                role="Multi-semester course planning specialist",
+                capabilities=[
+                    "Generate semester-by-semester course plans from current status to graduation",
+                    "Balance workload across semesters (typically 45-54 units)",
+                    "Ensure prerequisite courses are taken in correct order",
+                    "Consider course availability patterns (Fall-only, Spring-only, every semester)",
+                    "Integrate minor requirements into graduation plans",
+                    "Adapt plans for early graduation, study abroad, or other constraints",
+                    "Create multiple plan options with different strategies",
+                    "Flag risky semesters (overload, high-difficulty courses together)",
+                ],
+                knowledge_domains=[
+                    "Program requirements and sample curricula",
+                    "Course offering patterns and schedules",
+                    "Typical course sequencing and prerequisites",
+                    "Workload balancing strategies",
+                    "Minor integration approaches",
+                ],
+                tools=[
+                    "RAG over program requirements and sample curricula",
+                    "Course schedule database loader",
+                    "Prerequisite analysis",
+                    "Workload calculation utilities",
+                ],
+                limitations=[
+                    "Cannot validate policy compliance (needs Policy Agent)",
+                    "May not know latest course schedule changes",
+                    "Cannot guarantee course availability in future semesters",
+                    "Needs Programs Agent to verify requirement satisfaction",
+                ]
+            ),
         }
     
     def understand_and_plan(self, 

@@ -7,8 +7,9 @@ A dynamic multi-agent academic advising chatbot for CMU-Qatar undergraduates, de
 This system implements a **multi-agent architecture** where specialized agents collaborate through a Coordinator to answer student questions:
 
 - **Programs & Requirements Agent** - Handles major/minor requirements, degree progress, plan validation
-- **Course & Scheduling Agent** - Provides course information, schedules, and conflict detection  
+- **Course & Scheduling Agent** - Provides course information, schedules, and conflict detection
 - **Policy & Compliance Agent** - Ensures compliance with university policies and regulations
+- **Academic Planning Agent** - Generates semester-by-semester course plans until graduation ✨ **NEW!**
 - **Coordinator** - Orchestrates workflow, detects conflicts, manages negotiation, synthesizes answers
 
 ## ✨ Key Features
@@ -61,6 +62,141 @@ This system implements a **multi-agent architecture** where specialized agents c
    python chat.py
    ```
 
+## 🆕 Document Metadata Enhancement (NEW!)
+
+**Added**: January 14, 2026
+
+The system now includes **enhanced document metadata** to help agents better understand their knowledge base and cite sources!
+
+### What's New?
+
+Every document chunk now includes rich context:
+
+```
+[DOCUMENT CONTEXT]
+File: IS_Requirements.json
+Type: program_requirements
+Program: Information Systems
+Mentions courses: 15-110, 15-112, 15-121, 21-112, 21-120
+Summary: Contains 20 requirements | Examples: Technical Core - Mathematics, ...
+
+[DOCUMENT CONTENT]
+(original document content)
+```
+
+### Benefits
+
+✅ **Source Citations** - Agents now cite specific documents (e.g., "According to IS_Requirements.json...")  
+✅ **Better Context** - Agents understand document types and can prioritize appropriately  
+✅ **Improved Accuracy** - Metadata helps distinguish between similar information  
+✅ **User Trust** - Clear sources build confidence in answers
+
+### Quick Start with Metadata
+
+**1. Rebuild indexes with metadata:**
+```bash
+python rebuild_indexes_with_metadata.py
+```
+
+This adds metadata to all vector databases (~5-10 minutes, one-time).
+
+**2. Test the improvements:**
+```bash
+python chat.py
+```
+
+Try: "What are the IS core requirements?" and look for source citations!
+
+### Documentation
+
+- **Quick Start**: `QUICK_START_METADATA.md` - Beginner's guide
+- **README**: `README_METADATA.md` - Quick reference  
+- **Technical Details**: `METADATA_ENHANCEMENTS.md` - Complete documentation
+
+### Optional: Use Old Indexes
+
+If you prefer to use the system without metadata (not recommended):
+```bash
+python setup_domain_indexes.py  # Use old method
+```
+
+However, we **strongly recommend** using metadata-enhanced indexes for better results!
+
+---
+
+## 🗓️ Academic Planning Feature (NEW!)
+
+**Added**: January 18, 2026
+
+The system now includes a **semester-by-semester course planning agent** that helps students plan their entire academic journey!
+
+### What It Does
+
+✅ **Generates complete course plans** from current semester to graduation
+✅ **Balances workload** across semesters (45-54 units typically)
+✅ **Respects prerequisites** automatically
+✅ **Considers course availability** (Fall-only, Spring-only courses)
+✅ **Integrates minors** into graduation plans
+✅ **Adapts to constraints** (early graduation, study abroad, etc.)
+✅ **Multi-agent collaboration** - Planning + Programs + Courses + Policy agents work together
+
+### Quick Start with Planning
+
+**Test the planning feature:**
+```bash
+python test_planning.py
+```
+
+**Use in chat:**
+```bash
+python chat.py
+```
+
+Try asking:
+- "Help me plan my courses until graduation"
+- "I want to add a Business minor, can you make a semester plan?"
+- "Can I graduate in 3.5 years? Show me a plan"
+
+### How It Works
+
+The Planning Agent demonstrates **multi-agent collaboration**:
+
+1. **Coordinator** detects planning intent
+2. **Programs Agent** provides degree requirements
+3. **Planning Agent** generates semester-by-semester plans
+4. **Courses Agent** validates course availability
+5. **Policy Agent** checks for overload/conflicts
+6. **Negotiation** if conflicts detected (e.g., "Semester exceeds unit limit")
+7. **Planning Agent revises** based on feedback
+8. **Coordinator synthesizes** final plan with explanations
+
+### Documentation
+
+- **Quick Guide**: [PLANNING_IMPLEMENTATION_SUMMARY.md](PLANNING_IMPLEMENTATION_SUMMARY.md)
+- **Complete Guide**: [PLANNING_GUIDE.md](PLANNING_GUIDE.md)
+
+### Example Output
+
+```
+PLAN A: Balanced 4-Year Path
+
+Semester 1 (Fall 2026):
+- 15-150: Principles of Functional Programming (12 units)
+- 21-241: Matrices and Linear Transformations (10 units)
+- 76-270: Writing for the Professions (9 units)
+- 15-281: AI: Representation and Problem Solving (12 units)
+Total: 43 units
+
+[... continues for all semesters ...]
+
+RATIONALE:
+This plan ensures prerequisites are met in order, balances
+workload across semesters, and completes core requirements
+by junior year for maximum elective flexibility.
+```
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -69,7 +205,8 @@ Product/
 │   ├── base_agent.py         # Base agent class
 │   ├── programs_agent.py     # Programs & Requirements Agent
 │   ├── courses_agent.py      # Course & Scheduling Agent
-│   └── policy_agent.py       # Policy & Compliance Agent
+│   ├── policy_agent.py       # Policy & Compliance Agent
+│   └── planning_agent.py     # Academic Planning Agent ✨ NEW
 │
 ├── coordinator/               # Coordinator/orchestrator
 │   └── coordinator.py        # Main coordinator logic
@@ -87,10 +224,12 @@ Product/
 ├── multi_agent.py           # Main LangGraph workflow
 ├── rag_engine_improved.py   # RAG engine with domain-specific indexes
 ├── course_tools.py           # Course data utilities
+├── planning_tools.py         # Planning utilities & algorithms ✨ NEW
 ├── config.py                 # Model configuration (Coordinator vs Agents)
 ├── chat.py                   # Interactive chat interface
 ├── setup_domain_indexes.py  # Setup script for knowledge bases
-└── test.py                   # Test script
+├── test.py                   # Test script
+└── test_planning.py          # Planning agent test suite ✨ NEW
 ```
 
 ## 💬 Usage
@@ -147,6 +286,12 @@ See [DEV_MODE_GUIDE.md](DEV_MODE_GUIDE.md) for detailed usage and examples.
 - "Can I take 15-112, 15-121, and 67-100 together?"
 - "What are the prerequisites for 15-112?"
 
+**Academic Planning (NEW!):**
+- "Help me plan my courses until graduation"
+- "I want to graduate in 3.5 years, can you make a plan?"
+- "Can you create a 4-year plan with a Business minor?"
+- "What should I take each semester to become a software engineer?"
+
 **Policy Questions:**
 - "Can I take course overload?"
 - "What is the policy on repeating courses?"
@@ -182,11 +327,24 @@ python setup_domain_indexes.py  # Rebuild index
 
 ### Rebuilding Indexes
 
-After adding or modifying data files, rebuild the vector databases:
+After adding or modifying data files, rebuild the vector databases **with metadata** (recommended):
 
+```bash
+python rebuild_indexes_with_metadata.py
+```
+
+**Options:**
+- `--domain programs` - Rebuild only programs domain
+- `--domain courses` - Rebuild only courses domain
+- `--domain policies` - Rebuild only policies domain
+- `--force` - Skip confirmation prompt
+
+**Legacy method (without metadata):**
 ```bash
 python setup_domain_indexes.py
 ```
+
+Note: Using metadata-enhanced indexes significantly improves answer quality and provides source attribution!
 
 ## 🏗️ Architecture
 
@@ -239,12 +397,29 @@ This tests:
 
 ## 📚 Documentation
 
+### Core Documentation
+- **README.md** (this file) - Main documentation
 - **README_CHAT.md** - Detailed chat interface guide
 - **PROJECT_STRUCTURE.md** - Project organization details
+
+### Metadata Enhancement Documentation (NEW!)
+- **README_METADATA.md** - Quick reference for metadata system
+- **QUICK_START_METADATA.md** - Beginner's guide to metadata
+- **METADATA_ENHANCEMENTS.md** - Complete technical documentation
+
+### Other Documentation
+- **RESTORED_FIXES_SUMMARY.md** - System improvements and fixes
+- **DEV_MODE_GUIDE.md** - Development mode usage guide
 
 ## 🔍 Troubleshooting
 
 ### "Domain database not found"
+Build indexes with metadata (recommended):
+```bash
+python rebuild_indexes_with_metadata.py
+```
+
+Or use legacy method:
 ```bash
 python setup_domain_indexes.py
 ```
@@ -261,6 +436,13 @@ pip install -r requirements.txt
 ### Slow responses
 - Normal for complex queries (10-30 seconds)
 - System consults multiple agents and synthesizes answers
+
+### List metadata error during rebuild
+```
+Expected metadata value to be a str... got [...] which is a list
+```
+**Status**: ✅ Already fixed in code (v1.0)  
+**Solution**: Metadata is automatically converted to comma-separated strings
 
 ## ⚙️ Model Configuration
 
