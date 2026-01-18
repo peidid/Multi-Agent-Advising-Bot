@@ -27,7 +27,7 @@ st.set_page_config(
     page_title="Multi-Agent Academic Advising System",
     page_icon="🤖",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # ============================================================================
@@ -280,9 +280,63 @@ if 'final_answer' not in st.session_state:
 if 'processing' not in st.session_state:
     st.session_state.processing = False
 
+if 'processing_stage' not in st.session_state:
+    st.session_state.processing_stage = 'idle'  # idle, coordinator_thinking, executing, updating_agents, complete
+
+if 'workflow_result' not in st.session_state:
+    st.session_state.workflow_result = None
+
+if 'current_query' not in st.session_state:
+    st.session_state.current_query = ""
+
+if 'conversation_history' not in st.session_state:
+    st.session_state.conversation_history = []
+
+if 'student_profile' not in st.session_state:
+    st.session_state.student_profile = {
+        "major": None,
+        "current_semester": None,
+        "completed_courses": [],
+        "gpa": None
+    }
+
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
+
+def get_student_profile_summary() -> str:
+    """Get human-readable summary of student profile."""
+    profile = st.session_state.student_profile
+    parts = []
+
+    if profile.get('major'):
+        parts.append(f"Major: {profile['major'][0] if isinstance(profile['major'], list) else profile['major']}")
+    if profile.get('current_semester'):
+        parts.append(f"Semester: {profile['current_semester']}")
+    if profile.get('gpa'):
+        parts.append(f"GPA: {profile['gpa']}")
+
+    return " | ".join(parts) if parts else "Not set"
+
+def inject_profile_into_query(query: str, profile: dict) -> str:
+    """Enhance query with profile information."""
+    context_parts = []
+
+    if profile.get('major'):
+        major = profile['major'][0] if isinstance(profile['major'], list) else profile['major']
+        context_parts.append(f"I'm a {major} major")
+
+    if profile.get('current_semester'):
+        context_parts.append(f"currently in {profile['current_semester']}")
+
+    if profile.get('gpa'):
+        context_parts.append(f"with a {profile['gpa']} GPA")
+
+    if context_parts:
+        context = ". ".join(context_parts) + ". "
+        return context + query
+
+    return query
 
 def update_agent_state(agent_name: str, state: AgentState, message: str = "", confidence: float = 0):
     """Update agent state and add timeline event."""
@@ -312,6 +366,8 @@ def reset_system():
     st.session_state.blackboard_state = {}
     st.session_state.final_answer = None
     st.session_state.processing = False
+    st.session_state.processing_stage = 'idle'
+    st.session_state.workflow_result = None
 
 def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordinator: bool = False):
     """Render an individual agent card with current state."""
@@ -413,23 +469,51 @@ def render_blackboard_state():
 # MAIN PROCESSING
 # ============================================================================
 
-def process_query_with_visualization(query: str):
-    """Process query and update agent states in real-time."""
-
+def start_query_processing(query: str):
+    """Initialize query processing."""
     st.session_state.processing = True
-    reset_system()
+    st.session_state.processing_stage = 'coordinator_thinking'
+    st.session_state.current_query = query
+
+    # Reset system
+    st.session_state.agent_states = {
+        agent: {'state': AgentState.IDLE, 'message': '', 'confidence': 0}
+        for agent in st.session_state.agent_states.keys()
+    }
+    st.session_state.timeline = []
+    st.session_state.blackboard_state = {}
+    st.session_state.final_answer = None
+
+    # Update coordinator to thinking
+    update_agent_state('coordinator', AgentState.THINKING,
+                      "Analyzing query and determining which agents to activate...")
+
+def execute_workflow():
+    """Execute the actual multi-agent workflow."""
+    query = st.session_state.current_query
+    profile = st.session_state.student_profile
+
+    # Enhance query with profile if available
+    enhanced_query = inject_profile_into_query(query, profile)
+
+    # Build conversation messages from history
+    conversation_messages = [
+        HumanMessage(content=msg['content']) if msg['role'] == 'user'
+        else AIMessage(content=msg['content'])
+        for msg in st.session_state.conversation_history
+    ]
 
     # Prepare state
     initial_state = {
-        "user_query": query,
-        "student_profile": {},
+        "user_query": enhanced_query,
+        "student_profile": profile,
         "agent_outputs": {},
         "constraints": [],
         "risks": [],
         "plan_options": [],
         "conflicts": [],
         "open_questions": [],
-        "messages": [],
+        "messages": conversation_messages,
         "active_agents": [],
         "workflow_step": WorkflowStep.INITIAL,
         "iteration_count": 0,
@@ -437,35 +521,27 @@ def process_query_with_visualization(query: str):
         "user_goal": None
     }
 
-    # Update coordinator - thinking
-    update_agent_state('coordinator', AgentState.THINKING,
-                      "Analyzing query and determining which agents to activate...")
-    st.rerun()
-
-    time.sleep(0.5)  # Brief pause for visual effect
-
     # EXECUTE WORKFLOW
-    result = app.invoke(initial_state)
+    with st.spinner("🤖 Executing workflow..."):
+        result = app.invoke(initial_state)
+
+    # Store result
+    st.session_state.workflow_result = result
+    st.session_state.processing_stage = 'updating_agents'
 
     # Update coordinator - active
     update_agent_state('coordinator', AgentState.ACTIVE,
                       f"Activated {len(result.get('active_agents', []))} agents: {', '.join(result.get('active_agents', []))}")
-    st.rerun()
 
-    # Update agent states based on results
+def update_agent_displays():
+    """Update all agent displays with results."""
+    result = st.session_state.workflow_result
     agent_outputs = result.get('agent_outputs', {})
 
+    # Update each agent to active then complete
     for agent_name, output in agent_outputs.items():
-        update_agent_state(agent_name, AgentState.ACTIVE,
-                          output.answer, output.confidence)
-        st.rerun()
-        time.sleep(0.3)  # Stagger updates for visual effect
-
-    # Mark agents as complete
-    for agent_name in agent_outputs.keys():
         update_agent_state(agent_name, AgentState.COMPLETE,
-                          agent_outputs[agent_name].answer,
-                          agent_outputs[agent_name].confidence)
+                          output.answer, output.confidence)
 
     # Update coordinator - complete
     update_agent_state('coordinator', AgentState.COMPLETE,
@@ -485,8 +561,19 @@ def process_query_with_visualization(query: str):
     final_answer = result["messages"][-1].content if result.get("messages") else "Processing complete."
     st.session_state.final_answer = final_answer
 
+    # Save to conversation history
+    st.session_state.conversation_history.append({
+        "role": "user",
+        "content": st.session_state.current_query
+    })
+    st.session_state.conversation_history.append({
+        "role": "assistant",
+        "content": final_answer
+    })
+
+    # Mark as complete
     st.session_state.processing = False
-    st.rerun()
+    st.session_state.processing_stage = 'complete'
 
 # ============================================================================
 # MAIN APP
@@ -502,6 +589,105 @@ def main():
         Real-Time Agent Collaboration Visualization | ACL 2026 Demo
     </p>
     """, unsafe_allow_html=True)
+
+    # Sidebar: Student Profile
+    with st.sidebar:
+        st.header("👤 Student Profile")
+        st.caption("Optional - enhances personalized advice")
+
+        # Major
+        major_options = ["Not set", "Computer Science", "Information Systems", "Business Administration", "Biology"]
+        selected_major = st.selectbox("Major", major_options,
+                                     index=0 if not st.session_state.student_profile.get('major') else
+                                     major_options.index(st.session_state.student_profile['major'][0]
+                                                        if isinstance(st.session_state.student_profile.get('major'), list)
+                                                        else st.session_state.student_profile.get('major', 'Not set')))
+
+        if selected_major != "Not set":
+            st.session_state.student_profile['major'] = [selected_major]
+        else:
+            st.session_state.student_profile['major'] = None
+
+        # Semester
+        semester_options = ["Not set", "First-Year Fall", "First-Year Spring", "Second-Year Fall",
+                           "Second-Year Spring", "Third-Year Fall", "Third-Year Spring",
+                           "Fourth-Year Fall", "Fourth-Year Spring"]
+        selected_semester = st.selectbox("Current Semester", semester_options,
+                                        index=0 if not st.session_state.student_profile.get('current_semester') else
+                                        semester_options.index(st.session_state.student_profile.get('current_semester', 'Not set')))
+
+        if selected_semester != "Not set":
+            st.session_state.student_profile['current_semester'] = selected_semester
+        else:
+            st.session_state.student_profile['current_semester'] = None
+
+        # GPA
+        set_gpa = st.checkbox("Set GPA", value=st.session_state.student_profile.get('gpa') is not None)
+        if set_gpa:
+            gpa = st.slider("GPA", 0.0, 4.0, st.session_state.student_profile.get('gpa', 3.0), 0.1)
+            st.session_state.student_profile['gpa'] = gpa
+        else:
+            st.session_state.student_profile['gpa'] = None
+
+        # Show profile summary
+        profile_summary = get_student_profile_summary()
+        if profile_summary != "Not set":
+            st.success(f"✅ {profile_summary}")
+        else:
+            st.info("ℹ️ No profile set")
+
+        if st.button("🗑️ Clear Profile"):
+            st.session_state.student_profile = {
+                "major": None,
+                "current_semester": None,
+                "completed_courses": [],
+                "gpa": None
+            }
+            st.rerun()
+
+        st.markdown("---")
+
+        # Conversation History
+        st.header("💬 Conversation History")
+        if st.session_state.conversation_history:
+            st.caption(f"{len(st.session_state.conversation_history) // 2} exchanges")
+
+            with st.expander("View History", expanded=False):
+                for i, msg in enumerate(st.session_state.conversation_history):
+                    if msg['role'] == 'user':
+                        st.markdown(f"**👤 You:** {msg['content'][:100]}...")
+                    else:
+                        st.markdown(f"**🤖 AI:** {msg['content'][:100]}...")
+                    if i < len(st.session_state.conversation_history) - 1:
+                        st.markdown("---")
+
+            if st.button("🗑️ Clear History"):
+                st.session_state.conversation_history = []
+                st.rerun()
+        else:
+            st.info("No conversation yet")
+
+        st.markdown("---")
+
+        # Example Queries
+        st.header("💡 Examples")
+        examples = [
+            "What are CS requirements?",
+            "Plan my graduation",
+            "Can I add a minor?",
+            "Next semester courses?",
+        ]
+
+        for ex in examples:
+            if st.button(ex, key=f"ex_{ex[:15]}", disabled=st.session_state.processing):
+                st.session_state.current_query = ex
+                start_query_processing(ex)
+                st.rerun()
+
+    # Profile indicator in main area
+    profile_summary = get_student_profile_summary()
+    if profile_summary != "Not set":
+        st.info(f"👤 Using profile: {profile_summary}")
 
     # Query input
     st.markdown('<div class="query-container">', unsafe_allow_html=True)
@@ -524,9 +710,27 @@ def main():
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Process query
-    if submit_button and user_query:
-        process_query_with_visualization(user_query)
+    # Process query based on stage
+    if submit_button and user_query and not st.session_state.processing:
+        start_query_processing(user_query)
+        st.rerun()
+
+    # Continue processing based on stage
+    if st.session_state.processing_stage == 'coordinator_thinking':
+        # Show coordinator thinking, then move to execution
+        time.sleep(0.5)  # Brief visual pause
+        st.session_state.processing_stage = 'executing'
+        st.rerun()
+
+    elif st.session_state.processing_stage == 'executing':
+        # Execute the workflow
+        execute_workflow()
+        st.rerun()
+
+    elif st.session_state.processing_stage == 'updating_agents':
+        # Update agent displays
+        update_agent_displays()
+        st.rerun()
 
     # Main layout: Agents + Sidebar
     main_col, sidebar_col = st.columns([3, 1])
@@ -583,23 +787,6 @@ def main():
         render_blackboard_state()
 
         st.markdown('</div>', unsafe_allow_html=True)
-
-    # Example queries
-    st.markdown("---")
-    st.markdown("### 💡 Example Queries")
-
-    examples = [
-        "What are the CS major requirements?",
-        "Help me plan my courses until graduation",
-        "Can I add a Business minor?",
-        "What should I take next semester?",
-    ]
-
-    cols = st.columns(len(examples))
-    for i, (col, example) in enumerate(zip(cols, examples)):
-        with col:
-            if st.button(example, key=f"ex_{i}", disabled=st.session_state.processing):
-                process_query_with_visualization(example)
 
 if __name__ == "__main__":
     main()
