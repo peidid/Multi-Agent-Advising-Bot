@@ -234,9 +234,30 @@ Product/
 
 ## 💬 Usage
 
-### Interactive Chat Interface
+### Streamlit Web Interface (NEW! - Perfect for Demos) 🎨
 
-Run the chat interface to interact with the system:
+**Beautiful visual interface with real-time multi-agent visualization!**
+
+```bash
+pip install -r requirements_streamlit.txt
+streamlit run streamlit_app_final.py
+```
+
+**Features:**
+- 💬 **Chat Interface** - Natural conversation with visual agent activation
+- 🔬 **Persistent Research Analytics** - Explore complete workflow after each answer (collapsible)
+- 👤 **Optional Student Profile** - Set profile only when needed, coordinator adapts
+- 📊 **Live Workflow Visualization** - Watch agents collaborate in real-time
+- 🔄 **Negotiation Display** - See conflicts resolve through Proposal + Critique
+- 📋 **Blackboard Evolution** - Terminal-style live state updates
+
+**Perfect for ACL 2026 demos!** See `STREAMLIT_FINAL_FEATURES.md` for details.
+
+**Share via link:** Deploy FREE on Streamlit Cloud - see `DEPLOYMENT_GUIDE.md`
+
+### Terminal Chat Interface
+
+Run the terminal-based chat interface:
 
 ```bash
 python chat.py

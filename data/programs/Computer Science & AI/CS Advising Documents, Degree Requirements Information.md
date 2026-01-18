@@ -55,7 +55,7 @@ science courses.
 ```
 The Humanities and Arts requirement includes:
 ● 76-101 Interpretation and Argument (typically)
-● One course of at least 9 units from various category:
+● One course from various category:
 ○ There are three categories:
 ■ Cognition, Choice and Behavior: typically Organizational Behavior, Philosophy
 (80-xxx), and Psychology (85-xxx) (CS only)
@@ -72,10 +72,19 @@ to submit their argument (usually 1-3 paragraphs) and a copy of the course sylla
 the AAH. We will pass it along to a committee in Pittsburgh that evaluates such requests.
 ● Three more courses of at least 9 units.
 ○ 76-100 (Reading and Writing in an Academic Context) is one of these for most students.
-● Note: Students may combine Humanities/Arts courses with lower units together to form a single
+● Note: Students may combine Humanities/Arts courses (for example, Micro Courses) with lower units together to form a single
 course of 9 units or more (as per GenEd Catalog). If they are going to be used for one of the
 three categories, the courses need to be in the same theme. This needs to be approved by the
 Area Head or Associate Area Head.
+
+#### Micro Courses:
+as a Computer Science student, you can use micro courses and other courses with lower unit values to satisfy your Humanities and Arts requirements under specific conditions.
+According to the sources, the following rules apply:
+• Combining Units: You may combine multiple Humanities/Arts courses with lower units to form the equivalent of a single course of 9 units or more.
+• Thematic Consistency: If these combined courses are being used to fulfill one of the three specific distribution categories—Cognition, Choice and Behavior; Economic, Political and Social Institutions; or Cultural Analysis—they must be in the same theme.
+• Required Approval: Any plan to combine lower-unit courses to satisfy a requirement must be approved by the Area Head or Associate Area Head.
+An example of an available micro-course is 76-253 Information Graphics, which is worth 3 units. For your overall degree, you are required to complete a minimum of 63 units in Humanities and Arts, which typically translates to roughly seven 9-unit courses. You should also be aware that deadlines for micro courses differ from regular full-semester courses.
+
 ```
 #### 2.1.3 Minors
 
