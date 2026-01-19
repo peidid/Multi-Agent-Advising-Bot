@@ -378,10 +378,6 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
     message = agent_data['message']
     confidence = agent_data['confidence']
 
-    # DEBUG: Print state info
-    if state == AgentState.COMPLETE:
-        st.caption(f"🔍 DEBUG: {agent_name} - State: {state.value}, Message exists: {bool(message)}, Length: {len(str(message)) if message else 0}")
-
     # Determine card class
     card_class = "coordinator-card" if is_coordinator else "agent-card"
     if state != AgentState.IDLE:
@@ -390,7 +386,42 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
     # Status badge
     status_html = f'<span class="status-badge {state.value}">{state.value}</span>'
 
-    # Render card header with status
+    # Confidence meter HTML
+    confidence_meter = ""
+    if confidence > 0:
+        confidence_meter = f"""
+        <div class="confidence-meter">
+            <div class="confidence-fill" style="width: {confidence * 100}%"></div>
+        </div>
+        <small style="color: #cbd5e0;">Confidence: {confidence:.0%}</small>
+        """
+
+    # Prepare message display (scrollable, with line breaks preserved)
+    message_content = ""
+    if message:
+        # Escape HTML to prevent code from showing
+        escaped_message = html.escape(message)
+        # Replace newlines with <br> for proper line breaks
+        formatted_message = escaped_message.replace('\n', '<br>')
+        message_content = f"""
+        <div style="
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #e8e8e8;
+            word-wrap: break-word;
+            white-space: normal;
+        ">
+            {formatted_message}
+        </div>
+        """
+
+    # Render complete card with all content inside
     st.markdown(f"""
     <div class="{card_class}">
         <div class="agent-header">
@@ -398,22 +429,10 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
             <span>{display_name}</span>
         </div>
         {status_html}
+        {confidence_meter}
+        {message_content}
     </div>
     """, unsafe_allow_html=True)
-
-    # Show message content OUTSIDE the HTML card (using native Streamlit)
-    if state == AgentState.COMPLETE and message:
-        # Create a visible container for the message
-        with st.container():
-            # Show confidence bar
-            if confidence > 0:
-                st.progress(confidence, text=f"Confidence: {confidence:.0%}")
-                st.write("")  # Spacing
-
-            # Show message content directly in a styled container (readable text, not HTML)
-            st.markdown("**Agent Response:**")
-            st.info(message)  # Use info box to make it clearly visible
-            st.write("")  # Add spacing below
 
 def render_timeline():
     """Render event timeline in sidebar."""
