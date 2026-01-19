@@ -1,6 +1,12 @@
-# CMU-Q Academic Advising Multi-Agent System
+# Multi-Agent Academic Advising System
 
-A dynamic multi-agent academic advising chatbot for CMU-Qatar undergraduates, demonstrating collaborative AI agents working together to provide comprehensive academic guidance.
+**A dynamic multi-agent system for academic advising with real-time visualization**
+
+🎯 **Target:** ACL 2026 Demo Track
+🏛️ **Institution:** Carnegie Mellon University - Qatar
+🤖 **Architecture:** 5 collaborative AI agents (1 coordinator + 4 specialists)
+
+---
 
 ## 🎯 Overview
 

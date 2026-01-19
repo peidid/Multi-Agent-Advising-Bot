@@ -12,6 +12,7 @@ from datetime import datetime
 import time
 import urllib3
 from enum import Enum
+import html
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -385,7 +386,7 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
     # Status badge
     status_html = f'<span class="status-badge {state.value}">{state.value}</span>'
 
-    # Confidence meter
+    # Confidence meter HTML
     confidence_meter = ""
     if confidence > 0:
         confidence_meter = f"""
@@ -395,12 +396,13 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
         <small style="color: #cbd5e0;">Confidence: {confidence:.0%}</small>
         """
 
-    # Message display
-    message_html = ""
+    # Message preview in card (short)
+    message_preview = ""
     if message:
-        # Truncate long messages
-        display_message = message[:200] + "..." if len(message) > 200 else message
-        message_html = f'<div class="agent-message">{display_message}</div>'
+        preview_text = message[:150] + "..." if len(message) > 150 else message
+        # Escape HTML to prevent code from showing
+        escaped_preview = html.escape(preview_text)
+        message_preview = f'<div class="agent-message">{escaped_preview}</div>'
 
     # Render card
     st.markdown(f"""
@@ -411,9 +413,17 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
         </div>
         {status_html}
         {confidence_meter}
-        {message_html}
+        {message_preview}
     </div>
     """, unsafe_allow_html=True)
+
+    # Show full message in expandable section if complete
+    if state == AgentState.COMPLETE and message:
+        with st.expander(f"📄 View {display_name}'s Full Contribution", expanded=False):
+            st.markdown("**Full Response:**")
+            st.write(message)
+            if confidence > 0:
+                st.caption(f"Confidence: {confidence:.0%}")
 
 def render_timeline():
     """Render event timeline in sidebar."""
@@ -624,8 +634,23 @@ def main():
         # GPA
         set_gpa = st.checkbox("Set GPA", value=st.session_state.student_profile.get('gpa') is not None)
         if set_gpa:
-            gpa = st.slider("GPA", 0.0, 4.0, st.session_state.student_profile.get('gpa', 3.0), 0.1)
-            st.session_state.student_profile['gpa'] = gpa
+            current_gpa = st.session_state.student_profile.get('gpa')
+            default_value = str(current_gpa) if current_gpa is not None else ""
+            gpa_input = st.text_input("GPA (0.0-4.0)", value=default_value, placeholder="e.g., 3.5")
+
+            if gpa_input:
+                try:
+                    gpa = float(gpa_input)
+                    if 0.0 <= gpa <= 4.0:
+                        st.session_state.student_profile['gpa'] = gpa
+                    else:
+                        st.error("⚠️ GPA must be between 0.0 and 4.0")
+                        st.session_state.student_profile['gpa'] = None
+                except ValueError:
+                    st.error("⚠️ Please enter a valid number")
+                    st.session_state.student_profile['gpa'] = None
+            else:
+                st.session_state.student_profile['gpa'] = None
         else:
             st.session_state.student_profile['gpa'] = None
 
