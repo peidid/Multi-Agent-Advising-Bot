@@ -378,6 +378,10 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
     message = agent_data['message']
     confidence = agent_data['confidence']
 
+    # DEBUG: Print state info
+    if state == AgentState.COMPLETE:
+        st.caption(f"🔍 DEBUG: {agent_name} - State: {state.value}, Message exists: {bool(message)}, Length: {len(str(message)) if message else 0}")
+
     # Determine card class
     card_class = "coordinator-card" if is_coordinator else "agent-card"
     if state != AgentState.IDLE:
@@ -386,25 +390,7 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
     # Status badge
     status_html = f'<span class="status-badge {state.value}">{state.value}</span>'
 
-    # Confidence meter HTML
-    confidence_meter = ""
-    if confidence > 0:
-        confidence_meter = f"""
-        <div class="confidence-meter">
-            <div class="confidence-fill" style="width: {confidence * 100}%"></div>
-        </div>
-        <small style="color: #cbd5e0;">Confidence: {confidence:.0%}</small>
-        """
-
-    # Message preview in card (short)
-    message_preview = ""
-    if message:
-        preview_text = message[:150] + "..." if len(message) > 150 else message
-        # Escape HTML to prevent code from showing
-        escaped_preview = html.escape(preview_text)
-        message_preview = f'<div class="agent-message">{escaped_preview}</div>'
-
-    # Render card
+    # Render card header with status
     st.markdown(f"""
     <div class="{card_class}">
         <div class="agent-header">
@@ -412,18 +398,22 @@ def render_agent_card(agent_name: str, display_name: str, icon: str, is_coordina
             <span>{display_name}</span>
         </div>
         {status_html}
-        {confidence_meter}
-        {message_preview}
     </div>
     """, unsafe_allow_html=True)
 
-    # Show full message in expandable section if complete
+    # Show message content OUTSIDE the HTML card (using native Streamlit)
     if state == AgentState.COMPLETE and message:
-        with st.expander(f"📄 View {display_name}'s Full Contribution", expanded=False):
-            st.markdown("**Full Response:**")
-            st.write(message)
+        # Create a visible container for the message
+        with st.container():
+            # Show confidence bar
             if confidence > 0:
-                st.caption(f"Confidence: {confidence:.0%}")
+                st.progress(confidence, text=f"Confidence: {confidence:.0%}")
+                st.write("")  # Spacing
+
+            # Show message content directly in a styled container (readable text, not HTML)
+            st.markdown("**Agent Response:**")
+            st.info(message)  # Use info box to make it clearly visible
+            st.write("")  # Add spacing below
 
 def render_timeline():
     """Render event timeline in sidebar."""
