@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 from langchain_openai import ChatOpenAI
 from rag_engine_improved import get_retriever
 from blackboard.schema import BlackboardState, AgentOutput
-from config import get_agent_model, get_agent_temperature
+from config import get_agent_model, get_agent_temperature, get_openai_base_url
 
 class BaseAgent(ABC):
     """
@@ -36,16 +36,23 @@ class BaseAgent(ABC):
         # LLM for agent reasoning - uses faster, cost-effective model
         model = get_agent_model()
         temperature = get_agent_temperature()
-        
+        base_url = get_openai_base_url()
+
         # Configure HTTP client with SSL verification disabled and longer timeout
         import httpx
         http_client = httpx.Client(verify=False, timeout=180.0)  # 3 minutes
-        self.llm = ChatOpenAI(
-            model=model, 
-            temperature=temperature,
-            http_client=http_client,
-            request_timeout=180.0
-        )
+
+        # Build ChatOpenAI with optional proxy support
+        llm_kwargs = {
+            "model": model,
+            "temperature": temperature,
+            "http_client": http_client,
+            "request_timeout": 180.0
+        }
+        if base_url:
+            llm_kwargs["base_url"] = base_url
+
+        self.llm = ChatOpenAI(**llm_kwargs)
     
     def retrieve_context(self, query: str) -> str:
         """

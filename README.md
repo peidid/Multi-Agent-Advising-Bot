@@ -426,6 +426,8 @@ This tests:
 
 ### Core Documentation
 - **README.md** (this file) - Main documentation
+- **ARCHITECTURE_GUIDE.md** ⭐ **NEW!** - Beginner-friendly technical architecture guide
+- **ARCHITECTURE.md** - Technical architecture details
 - **README_CHAT.md** - Detailed chat interface guide
 - **PROJECT_STRUCTURE.md** - Project organization details
 

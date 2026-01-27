@@ -22,8 +22,10 @@ except ImportError:
 # CONFIGURATION
 # ============================================================================
 
-DATA_PATH = "./data"
-BASE_DB_PATH = "./chroma_db"
+# Use absolute paths based on this file's location (project root)
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(PROJECT_ROOT, "data")
+BASE_DB_PATH = os.path.join(PROJECT_ROOT, "chroma_db")
 
 # Configure HTTP client with SSL verification disabled and longer timeout for embeddings
 import httpx

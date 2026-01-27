@@ -6,7 +6,18 @@ Strategy:
 - Coordinator: Uses more powerful model for complex routing, synthesis, and conflict resolution
 - Agents: Use faster, cost-effective model for domain-specific tasks
 """
+import os
 from typing import Optional
+
+# ============================================================================
+# OPENAI API CONFIGURATION
+# ============================================================================
+# For users in China or behind firewalls, set OPENAI_API_BASE to a proxy URL
+OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", None)
+
+def get_openai_base_url() -> Optional[str]:
+    """Get OpenAI API base URL (for proxy support)."""
+    return OPENAI_API_BASE
 
 # ============================================================================
 # MODEL CONFIGURATION

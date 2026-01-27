@@ -23,7 +23,7 @@ import os
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
-from config import get_coordinator_model, get_coordinator_temperature
+from config import get_coordinator_model, get_coordinator_temperature, get_openai_base_url
 
 # Import LLM-driven coordinator
 from coordinator.llm_driven_coordinator import LLMDrivenCoordinator
@@ -44,16 +44,23 @@ class Coordinator:
         # Use more powerful model for coordinator (complex reasoning tasks)
         model = get_coordinator_model()
         temperature = get_coordinator_temperature()
-        
+        base_url = get_openai_base_url()
+
         # Configure HTTP client with SSL verification disabled and longer timeout
         import httpx
         http_client = httpx.Client(verify=False, timeout=180.0)  # 3 minutes
-        self.llm = ChatOpenAI(
-            model=model, 
-            temperature=temperature,
-            http_client=http_client,
-            request_timeout=180.0
-        )
+
+        # Build ChatOpenAI with optional proxy support
+        llm_kwargs = {
+            "model": model,
+            "temperature": temperature,
+            "http_client": http_client,
+            "request_timeout": 180.0
+        }
+        if base_url:
+            llm_kwargs["base_url"] = base_url
+
+        self.llm = ChatOpenAI(**llm_kwargs)
         self.available_agents = [
             "programs_requirements",
             "course_scheduling",
@@ -67,12 +74,15 @@ class Coordinator:
         # Initialize clarification handler with longer timeout
         # Clarification checks can take longer due to complex prompts
         clarification_http_client = httpx.Client(verify=False, timeout=180.0)  # 3 minutes
-        clarification_llm = ChatOpenAI(
-            model=model,
-            temperature=temperature,
-            http_client=clarification_http_client,
-            request_timeout=180.0
-        )
+        clarification_llm_kwargs = {
+            "model": model,
+            "temperature": temperature,
+            "http_client": clarification_http_client,
+            "request_timeout": 180.0
+        }
+        if base_url:
+            clarification_llm_kwargs["base_url"] = base_url
+        clarification_llm = ChatOpenAI(**clarification_llm_kwargs)
         self.clarification_handler = ClarificationHandler(clarification_llm)
         print("✅ Using LLM-Driven Coordinator")
         print("   • Full LLM reasoning for workflow planning")
