@@ -39,4 +39,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 
 # Run the application from the backend directory
 WORKDIR /app/backend
-CMD ["sh", "-c", "uvicorn server:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD uvicorn server:app --host 0.0.0.0 --port ${PORT:-8000}
