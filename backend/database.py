@@ -39,13 +39,25 @@ class MongoDB:
 
         logger.info(f"Connecting to MongoDB...")
 
-        # For mongodb+srv:// URIs, TLS is automatic
-        # Use minimal configuration - let the driver handle SSL
-        cls.client = AsyncIOMotorClient(
-            mongo_uri,
-            serverSelectionTimeoutMS=30000,
-            tlsCAFile=certifi.where()
-        )
+        # Detect Railway internal MongoDB (no SSL) vs external (needs SSL)
+        is_railway_internal = "railway.internal" in mongo_uri
+
+        if is_railway_internal:
+            # Railway internal MongoDB - no SSL
+            logger.info("Detected Railway internal MongoDB - connecting without SSL")
+            cls.client = AsyncIOMotorClient(
+                mongo_uri,
+                serverSelectionTimeoutMS=30000
+            )
+        else:
+            # External MongoDB (Atlas etc) - use SSL with certifi
+            logger.info("Connecting to external MongoDB with SSL")
+            cls.client = AsyncIOMotorClient(
+                mongo_uri,
+                serverSelectionTimeoutMS=30000,
+                tls=True,
+                tlsCAFile=certifi.where()
+            )
 
         # Test connection
         await cls.client.admin.command("ping")
