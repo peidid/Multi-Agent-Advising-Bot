@@ -3,6 +3,7 @@ MongoDB Atlas connection for user data storage.
 Simplified for Railway deployment.
 """
 import os
+import certifi
 from datetime import datetime
 from typing import Optional, Dict, Any, List
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
@@ -35,11 +36,11 @@ class MongoDB:
 
         db_name = os.getenv("MONGODB_DATABASE", "advising_bot")
 
-        # Connect with SSL options for Windows compatibility
+        # Connect with SSL options - use certifi for proper certificate handling
         cls.client = AsyncIOMotorClient(
             mongo_uri,
             tls=True,
-            tlsAllowInvalidCertificates=True,
+            tlsCAFile=certifi.where(),
             serverSelectionTimeoutMS=10000
         )
         cls.db = cls.client[db_name]
