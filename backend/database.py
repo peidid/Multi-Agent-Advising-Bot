@@ -71,20 +71,25 @@ class MongoDB:
 
     @classmethod
     async def _create_indexes(cls):
-        """Create database indexes."""
+        """Create database indexes (non-fatal if fails)."""
         if cls.db is None:
             return
 
-        # Users
-        await cls.db.users.create_index("email", unique=True)
+        try:
+            # Users
+            await cls.db.users.create_index("email", unique=True)
 
-        # Conversations
-        await cls.db.conversations.create_index("user_id")
-        await cls.db.conversations.create_index([("user_id", 1), ("created_at", -1)])
+            # Conversations
+            await cls.db.conversations.create_index("user_id")
+            await cls.db.conversations.create_index([("user_id", 1), ("created_at", -1)])
 
-        # Messages
-        await cls.db.messages.create_index("conversation_id")
-        await cls.db.messages.create_index([("conversation_id", 1), ("timestamp", 1)])
+            # Messages
+            await cls.db.messages.create_index("conversation_id")
+            await cls.db.messages.create_index([("conversation_id", 1), ("timestamp", 1)])
+
+            logger.info("Database indexes created successfully")
+        except Exception as e:
+            logger.warning(f"Could not create indexes (non-fatal): {e}")
 
     @classmethod
     async def disconnect(cls):
