@@ -14,9 +14,9 @@ build/
 dist/
 *.egg-info/
 
-# Vector databases
-chroma_db/
-chroma_db_*/
+# Vector databases (INCLUDED in repo for Railway deployment)
+# chroma_db/
+# chroma_db_*/
 
 # IDE
 .vscode/

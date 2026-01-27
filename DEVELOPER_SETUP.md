@@ -57,13 +57,13 @@ Open terminal in the project root folder:
 
 ```bash
 cd "path/to/Product 0110"
-pip install -r requirements_api.txt
+pip install -r requirements.txt
 ```
 
 If you encounter errors:
 ```bash
 pip install --upgrade pip
-pip install -r requirements_api.txt
+pip install -r requirements.txt
 ```
 
 ---
@@ -299,7 +299,7 @@ Use MongoDB Compass or Atlas web UI to view stored data:
 
 ```bash
 # One-time setup
-pip install -r requirements_api.txt
+pip install -r requirements.txt
 cd frontend && npm install && cd ..
 
 # Daily development

@@ -24,7 +24,7 @@ Before starting, ensure you have:
 Open a terminal in the project root (`Product 0110`) and run:
 
 ```bash
-pip install -r requirements_api.txt
+pip install -r requirements.txt
 ```
 
 If you encounter bcrypt issues, that's okay - we've switched to SHA256 hashing.
@@ -171,7 +171,7 @@ In Railway dashboard, go to your service → **Variables** → Add:
 **Configure Build Settings:**
 
 - **Root Directory**: `backend`
-- **Build Command**: `pip install -r ../requirements_api.txt`
+- **Build Command**: `pip install -r ../requirements.txt`
 - **Start Command**: `uvicorn server:app --host 0.0.0.0 --port $PORT`
 
 ### Step 4: Create Frontend Service
@@ -230,7 +230,7 @@ For each service in Railway:
 
 #### "ModuleNotFoundError"
 - **Cause**: Missing Python packages
-- **Fix**: Run `pip install -r requirements_api.txt`
+- **Fix**: Run `pip install -r requirements.txt`
 
 #### "npm not found"
 - **Cause**: Node.js not installed
