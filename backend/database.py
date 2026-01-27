@@ -37,79 +37,18 @@ class MongoDB:
 
         db_name = os.getenv("MONGODB_DATABASE", "advising_bot")
 
-        # Clean the URI - remove any existing TLS parameters to avoid conflicts
-        # Then add proper SSL configuration
-        if "?" in mongo_uri:
-            base_uri = mongo_uri.split("?")[0]
-            # Keep only non-TLS params
-            params = mongo_uri.split("?")[1].split("&")
-            non_tls_params = [p for p in params if not p.lower().startswith(("tls", "ssl"))]
-            if non_tls_params:
-                mongo_uri = base_uri + "?" + "&".join(non_tls_params)
-            else:
-                mongo_uri = base_uri
-
         logger.info(f"Connecting to MongoDB...")
 
-        # Try connection with different SSL strategies
-        connected = False
-        last_error = None
+        # For mongodb+srv:// URIs, TLS is automatic
+        # Use minimal configuration - let the driver handle SSL
+        cls.client = AsyncIOMotorClient(
+            mongo_uri,
+            serverSelectionTimeoutMS=30000,
+            tlsCAFile=certifi.where()
+        )
 
-        # Strategy 1: Use certifi certificates (most secure)
-        if not connected:
-            try:
-                cls.client = AsyncIOMotorClient(
-                    mongo_uri,
-                    tls=True,
-                    tlsCAFile=certifi.where(),
-                    serverSelectionTimeoutMS=30000
-                )
-                await cls.client.admin.command("ping")
-                logger.info("Connected using certifi certificates")
-                connected = True
-            except Exception as e:
-                logger.warning(f"Certifi connection failed: {e}")
-                last_error = e
-
-        # Strategy 2: Allow invalid certificates
-        if not connected:
-            try:
-                cls.client = AsyncIOMotorClient(
-                    mongo_uri,
-                    tls=True,
-                    tlsAllowInvalidCertificates=True,
-                    serverSelectionTimeoutMS=30000
-                )
-                await cls.client.admin.command("ping")
-                logger.info("Connected with tlsAllowInvalidCertificates")
-                connected = True
-            except Exception as e:
-                logger.warning(f"Invalid cert connection failed: {e}")
-                last_error = e
-
-        # Strategy 3: Custom SSL context with no verification
-        if not connected:
-            try:
-                ctx = ssl.create_default_context()
-                ctx.check_hostname = False
-                ctx.verify_mode = ssl.CERT_NONE
-                cls.client = AsyncIOMotorClient(
-                    mongo_uri,
-                    tls=True,
-                    tlsAllowInvalidCertificates=True,
-                    ssl_context=ctx,
-                    serverSelectionTimeoutMS=30000
-                )
-                await cls.client.admin.command("ping")
-                logger.info("Connected with custom SSL context")
-                connected = True
-            except Exception as e:
-                logger.warning(f"Custom SSL connection failed: {e}")
-                last_error = e
-
-        if not connected:
-            raise last_error or Exception("Failed to connect to MongoDB")
-
+        # Test connection
+        await cls.client.admin.command("ping")
         cls.db = cls.client[db_name]
         logger.info(f"Connected to MongoDB database: {db_name}")
 
