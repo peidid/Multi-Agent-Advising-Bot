@@ -22,7 +22,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application code (including pre-built ChromaDB databases)
+# Cache bust: 2024-01-29-v2
 COPY . .
 
 # Create non-root user for security
