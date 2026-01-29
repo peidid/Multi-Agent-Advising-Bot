@@ -418,13 +418,56 @@ async def chat(data: ChatMessage, user: dict = Depends(get_current_user)):
         last_msg = result["messages"][-1]
         response_text = last_msg.content if hasattr(last_msg, "content") else str(last_msg)
 
-    # Save assistant response
+    # Save assistant response with full workflow details for developer analysis
     agents_used = list(result.get("agent_outputs", {}).keys())
+
+    # Extract agent outputs for storage (convert Pydantic models to dicts)
+    agent_outputs_data = {}
+    for agent_name, output in result.get("agent_outputs", {}).items():
+        if hasattr(output, "model_dump"):
+            agent_outputs_data[agent_name] = output.model_dump()
+        elif hasattr(output, "dict"):
+            agent_outputs_data[agent_name] = output.dict()
+        else:
+            agent_outputs_data[agent_name] = str(output)
+
+    # Extract conflicts for storage
+    conflicts_data = []
+    for conflict in result.get("conflicts", []):
+        if hasattr(conflict, "model_dump"):
+            conflicts_data.append(conflict.model_dump())
+        elif hasattr(conflict, "dict"):
+            conflicts_data.append(conflict.dict())
+        else:
+            conflicts_data.append(str(conflict))
+
+    # Extract risks for storage
+    risks_data = []
+    for risk in result.get("risks", []):
+        if hasattr(risk, "model_dump"):
+            risks_data.append(risk.model_dump())
+        elif hasattr(risk, "dict"):
+            risks_data.append(risk.dict())
+        else:
+            risks_data.append(str(risk))
+
+    # Full workflow metadata for developer access
+    workflow_metadata = {
+        "agents_used": agents_used,
+        "agent_outputs": agent_outputs_data,
+        "conflicts": conflicts_data,
+        "risks": risks_data,
+        "workflow_step": str(result.get("workflow_step", "unknown")),
+        "iteration_count": result.get("iteration_count", 0),
+        "active_agents": result.get("active_agents", []),
+        "user_goal": result.get("user_goal", ""),
+    }
+
     await add_message(
         conversation_id,
         "assistant",
         response_text,
-        metadata={"agents_used": agents_used}
+        metadata=workflow_metadata
     )
 
     return ChatResponse(
@@ -432,8 +475,10 @@ async def chat(data: ChatMessage, user: dict = Depends(get_current_user)):
         response=response_text,
         agents_used=agents_used,
         workflow_details={
-            "conflicts": len(result.get("conflicts", [])),
-            "risks": len(result.get("risks", []))
+            "conflicts": len(conflicts_data),
+            "risks": len(risks_data),
+            "workflow_step": str(result.get("workflow_step", "unknown")),
+            "iteration_count": result.get("iteration_count", 0)
         }
     )
 
