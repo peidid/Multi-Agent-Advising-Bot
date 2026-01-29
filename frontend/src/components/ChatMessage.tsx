@@ -2,6 +2,8 @@
 
 import { User, Bot, GraduationCap, BookOpen, Shield, Calendar } from 'lucide-react';
 import { Message } from '@/lib/api';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface ChatMessageProps {
   message: Message;
@@ -75,9 +77,15 @@ export default function ChatMessage({ message }: ChatMessageProps) {
               : 'bg-gray-100 text-gray-800 rounded-tl-sm'
           }`}
         >
-          <div className="markdown-content whitespace-pre-wrap">
-            {message.content}
-          </div>
+          {isUser ? (
+            <div className="whitespace-pre-wrap">{message.content}</div>
+          ) : (
+            <div className="prose prose-sm max-w-none prose-headings:mt-2 prose-headings:mb-1 prose-p:my-1 prose-ul:my-1 prose-li:my-0 prose-strong:text-gray-900">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {message.content}
+              </ReactMarkdown>
+            </div>
+          )}
         </div>
 
         {/* Timestamp */}
