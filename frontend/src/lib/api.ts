@@ -2,7 +2,8 @@
  * API client for the Multi-Agent Advising backend.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_URL = `${API_BASE}/api/v1`;
 
 // Types
 export interface User {
@@ -102,7 +103,7 @@ async function apiFetch<T>(
 // Auth API
 export const auth = {
   async register(email: string, name: string, password: string): Promise<{ user: User; token: string }> {
-    const result = await apiFetch<{ user: User; token: string }>('/api/auth/register', {
+    const result = await apiFetch<{ user: User; token: string }>('/auth/register', {
       method: 'POST',
       body: JSON.stringify({ email, name, password }),
     });
@@ -111,7 +112,7 @@ export const auth = {
   },
 
   async login(email: string, password: string): Promise<{ user: User; token: string }> {
-    const result = await apiFetch<{ user: User; token: string }>('/api/auth/login', {
+    const result = await apiFetch<{ user: User; token: string }>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
@@ -120,11 +121,11 @@ export const auth = {
   },
 
   async me(): Promise<User> {
-    return apiFetch<User>('/api/auth/me');
+    return apiFetch<User>('/auth/me');
   },
 
   async updateProfile(profile: UserProfile): Promise<{ success: boolean; profile: UserProfile }> {
-    return apiFetch('/api/auth/profile', {
+    return apiFetch('/auth/profile', {
       method: 'PUT',
       body: JSON.stringify(profile),
     });
@@ -138,22 +139,22 @@ export const auth = {
 // Conversations API
 export const conversations = {
   async list(): Promise<{ conversations: Conversation[] }> {
-    return apiFetch('/api/conversations');
+    return apiFetch('/conversations');
   },
 
   async create(title?: string): Promise<Conversation> {
-    return apiFetch('/api/conversations', {
+    return apiFetch('/conversations', {
       method: 'POST',
       body: JSON.stringify({ title }),
     });
   },
 
   async get(id: string): Promise<Conversation> {
-    return apiFetch(`/api/conversations/${id}`);
+    return apiFetch(`/conversations/${id}`);
   },
 
   async delete(id: string): Promise<{ success: boolean }> {
-    return apiFetch(`/api/conversations/${id}`, {
+    return apiFetch(`/conversations/${id}`, {
       method: 'DELETE',
     });
   },
@@ -179,7 +180,7 @@ export interface StreamCallbacks {
 // Chat API
 export const chat = {
   async send(message: string, conversationId?: string): Promise<ChatResponse> {
-    return apiFetch('/api/chat', {
+    return apiFetch('/chat', {
       method: 'POST',
       body: JSON.stringify({
         message,
@@ -199,7 +200,7 @@ export const chat = {
   ): Promise<void> {
     const token = getToken();
 
-    const response = await fetch(`${API_URL}/api/chat/stream`, {
+    const response = await fetch(`${API_URL}/chat/stream`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -293,6 +294,6 @@ export const chat = {
 
 // Health check
 export async function checkHealth(): Promise<{ status: string; database: string }> {
-  const response = await fetch(`${API_URL}/api/health`);
+  const response = await fetch(`${API_URL}/health`);
   return response.json();
 }
