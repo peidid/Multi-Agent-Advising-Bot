@@ -42,6 +42,22 @@ body {
   animation: thinking 1.5s ease-in-out infinite;
 }
 
+/* Fade in animation for streaming events */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
 /* Message animations */
 @keyframes slideIn {
   from {

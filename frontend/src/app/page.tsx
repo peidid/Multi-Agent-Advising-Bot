@@ -17,6 +17,7 @@ import {
   Conversation,
   Message,
   UserProfile,
+  StreamEvent,
 } from '@/lib/api';
 
 export default function Home() {
@@ -33,6 +34,8 @@ export default function Home() {
   const [sending, setSending] = useState(false);
   const [activeAgents, setActiveAgents] = useState<string[]>([]);
   const [completedAgents, setCompletedAgents] = useState<string[]>([]);
+  const [streamEvents, setStreamEvents] = useState<StreamEvent[]>([]);
+  const [currentPhase, setCurrentPhase] = useState<string>('');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -131,7 +134,7 @@ export default function Home() {
     }
   };
 
-  // Handle send message
+  // Handle send message with streaming
   const handleSendMessage = async (message: string) => {
     if (!user) {
       setShowAuth(true);
@@ -148,38 +151,82 @@ export default function Home() {
     };
     setMessages((prev) => [...prev, userMessage]);
 
-    // Show thinking state
+    // Reset streaming state
     setSending(true);
-    setActiveAgents(['coordinator']);
+    setActiveAgents([]);
     setCompletedAgents([]);
+    setStreamEvents([]);
+    setCurrentPhase('starting');
 
     try {
-      const response = await chat.send(message, currentConversation?._id);
+      // Use streaming endpoint for real-time updates
+      await chat.sendStreaming(
+        message,
+        currentConversation?._id,
+        {
+          onEvent: (event: StreamEvent) => {
+            // Add event to stream for display
+            setStreamEvents((prev) => [...prev, event]);
 
-      // Update agents
-      setActiveAgents([]);
-      setCompletedAgents(response.agents_used);
+            // Update phase indicator
+            if (event.message) {
+              setCurrentPhase(event.message);
+            }
 
-      // Add assistant message
-      const assistantMessage: Message = {
-        _id: `temp-${Date.now()}-response`,
-        conversation_id: response.conversation_id,
-        role: 'assistant',
-        content: response.response,
-        timestamp: new Date().toISOString(),
-        metadata: { agents_used: response.agents_used },
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
+            // Track agent status
+            if (event.type === 'agent_start' && event.agent) {
+              setActiveAgents((prev) => [...prev, event.agent!]);
+            } else if (event.type === 'agent_complete' && event.agent) {
+              setActiveAgents((prev) => prev.filter((a) => a !== event.agent));
+              setCompletedAgents((prev) => [...prev, event.agent!]);
+            } else if (event.type === 'coordinator_routing') {
+              const agents = (event.data?.agents as string[]) || [];
+              setActiveAgents(agents);
+            } else if (event.type === 'synthesis_start') {
+              setCurrentPhase('Synthesizing final answer...');
+            }
+          },
+          onAnswer: async (answer: string, conversationId: string) => {
+            // Add assistant message
+            const assistantMessage: Message = {
+              _id: `temp-${Date.now()}-response`,
+              conversation_id: conversationId,
+              role: 'assistant',
+              content: answer,
+              timestamp: new Date().toISOString(),
+              metadata: { agents_used: completedAgents },
+            };
+            setMessages((prev) => [...prev, assistantMessage]);
 
-      // Update conversation if new
-      if (!currentConversation) {
-        const conv = await conversations.get(response.conversation_id);
-        setCurrentConversation(conv);
-        await loadConversations();
-      }
+            // Update conversation if new
+            if (!currentConversation) {
+              try {
+                const conv = await conversations.get(conversationId);
+                setCurrentConversation(conv);
+                await loadConversations();
+              } catch (e) {
+                console.error('Failed to load conversation:', e);
+              }
+            }
+          },
+          onError: (error: string) => {
+            console.error('Streaming error:', error);
+            const errorMessage: Message = {
+              _id: `temp-${Date.now()}-error`,
+              conversation_id: currentConversation?._id || '',
+              role: 'assistant',
+              content: `Sorry, I encountered an error: ${error}`,
+              timestamp: new Date().toISOString(),
+            };
+            setMessages((prev) => [...prev, errorMessage]);
+          },
+          onComplete: () => {
+            setCurrentPhase('');
+          },
+        }
+      );
     } catch (err) {
       console.error('Failed to send message:', err);
-      // Show error message
       const errorMessage: Message = {
         _id: `temp-${Date.now()}-error`,
         conversation_id: currentConversation?._id || '',
@@ -191,6 +238,7 @@ export default function Home() {
     } finally {
       setSending(false);
       setActiveAgents([]);
+      setCurrentPhase('');
     }
   };
 
@@ -282,8 +330,13 @@ export default function Home() {
             )}
 
             {/* Agent status while processing */}
-            {(activeAgents.length > 0 || completedAgents.length > 0) && (
-              <AgentStatus activeAgents={activeAgents} completedAgents={completedAgents} />
+            {sending && (
+              <AgentStatus
+                activeAgents={activeAgents}
+                completedAgents={completedAgents}
+                streamEvents={streamEvents}
+                currentPhase={currentPhase}
+              />
             )}
 
             <div ref={messagesEndRef} />

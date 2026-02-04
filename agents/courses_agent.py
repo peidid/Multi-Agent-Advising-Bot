@@ -23,48 +23,64 @@ class CourseSchedulingAgent(BaseAgent):
         )
     
     def execute(self, state: BlackboardState) -> AgentOutput:
-        """Execute Course & Scheduling agent."""
-        user_query = state.get("user_query", "")
-        plan_options = state.get("plan_options", [])
-        agent_outputs = state.get("agent_outputs", {})
-        messages = state.get("messages", [])
-        
-        # Extract courses from plan or query
-        courses = self._extract_courses(plan_options, user_query, agent_outputs, messages)
-        
-        if not courses:
-            return self._answer_general_question(user_query, messages)
-        
-        # Check each course
-        course_info = []
-        risks = []
-        
-        for course_code in courses:
-            # Get structured data
-            course_data = look_up_course_info(course_code)
-            
-            # Get RAG context - improved query to capture all course details
-            rag_query = f"course {course_code} prerequisites assessment structure content description"
-            context = self.retrieve_context(rag_query)
-            
-            course_info.append({
-                "code": course_code,
-                "data": course_data,
-                "context": context
-            })
-        
-        # Build prompt and call LLM
-        prompt = self._build_prompt(user_query, course_info, risks)
-        response = self.llm.invoke([SystemMessage(content=prompt)])
-        
-        return AgentOutput(
-            agent_name=self.name,
-            answer=response.content,
-            confidence=0.9,
-            relevant_policies=[],
-            risks=risks,
-            constraints=[]
-        )
+        """Execute Course & Scheduling agent with streaming events."""
+        # Emit start event
+        self.emit_start()
+
+        try:
+            user_query = state.get("user_query", "")
+            plan_options = state.get("plan_options", [])
+            agent_outputs = state.get("agent_outputs", {})
+            messages = state.get("messages", [])
+
+            # Extract courses from plan or query
+            courses = self._extract_courses(plan_options, user_query, agent_outputs, messages)
+
+            if not courses:
+                result = self._answer_general_question(user_query, messages)
+                self.emit_complete(confidence=result.confidence, summary="Answered course question")
+                return result
+
+            # Check each course
+            course_info = []
+            risks = []
+
+            self.emit_thinking(f"Looking up {len(courses)} courses...")
+
+            for course_code in courses:
+                # Get structured data
+                course_data = look_up_course_info(course_code)
+
+                # Get RAG context - improved query to capture all course details
+                rag_query = f"course {course_code} prerequisites assessment structure content description"
+                context = self.retrieve_context(rag_query)
+
+                course_info.append({
+                    "code": course_code,
+                    "data": course_data,
+                    "context": context
+                })
+
+            # Build prompt and call LLM
+            self.emit_thinking("Generating course information...")
+            prompt = self._build_prompt(user_query, course_info, risks)
+            response = self.llm.invoke([SystemMessage(content=prompt)])
+
+            result = AgentOutput(
+                agent_name=self.name,
+                answer=response.content,
+                confidence=0.9,
+                relevant_policies=[],
+                risks=risks,
+                constraints=[]
+            )
+
+            self.emit_complete(confidence=0.9, summary=f"Found info for {len(courses)} courses")
+            return result
+
+        except Exception as e:
+            self.emit_error(str(e))
+            raise
     
     def _extract_courses(self, plan_options: list, query: str, agent_outputs: dict, messages: list = None) -> list:
         """Extract course codes from various sources."""

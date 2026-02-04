@@ -25,27 +25,46 @@ class ProgramsRequirementsAgent(BaseAgent):
     def execute(self, state: BlackboardState) -> AgentOutput:
         """
         Execute Programs & Requirements agent.
-        
+
         This agent PROPOSES plans (part of Proposal + Critique protocol).
+        Emits streaming events for real-time UI updates.
         """
-        # 1. Read from Blackboard
-        user_query = state.get("user_query", "")
-        user_goal = state.get("user_goal", "")
-        student_profile = state.get("student_profile", {})
-        constraints = state.get("constraints", [])
-        
-        # 2. Retrieve domain-specific context
-        query_for_rag = f"{user_query} {user_goal}"
-        context = self.retrieve_context(query_for_rag)
-        
-        # 3. Build prompt
-        prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints)
-        
-        # 4. Call LLM
-        response = self.llm.invoke([SystemMessage(content=prompt)])
-        
-        # 5. Parse and return structured output
-        return self._parse_response(response.content)
+        # Emit start event
+        self.emit_start()
+
+        try:
+            # 1. Read from Blackboard
+            user_query = state.get("user_query", "")
+            user_goal = state.get("user_goal", "")
+            student_profile = state.get("student_profile", {})
+            constraints = state.get("constraints", [])
+
+            # 2. Retrieve domain-specific context (emits its own events)
+            query_for_rag = f"{user_query} {user_goal}"
+            context = self.retrieve_context(query_for_rag)
+
+            # 3. Build prompt
+            self.emit_thinking("Analyzing program requirements...")
+            prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints)
+
+            # 4. Call LLM
+            self.emit_thinking("Generating response...")
+            response = self.llm.invoke([SystemMessage(content=prompt)])
+
+            # 5. Parse and return structured output
+            result = self._parse_response(response.content)
+
+            # Emit completion
+            self.emit_complete(
+                confidence=result.confidence,
+                summary=f"Found {len(result.relevant_policies)} relevant policies"
+            )
+
+            return result
+
+        except Exception as e:
+            self.emit_error(str(e))
+            raise
     
     def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list) -> str:
         """Build detailed prompt for Programs agent."""

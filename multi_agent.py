@@ -2,6 +2,7 @@
 Main Multi-Agent Workflow
 Implements dynamic routing with Coordinator managing agent execution.
 Supports PARALLEL agent execution for improved performance.
+Includes real-time streaming events for UI visibility.
 """
 from typing import Dict, Any
 from langgraph.graph import StateGraph, START, END
@@ -16,6 +17,21 @@ from agents.policy_agent import PolicyComplianceAgent
 from agents.planning_agent import AcademicPlanningAgent
 from coordinator.coordinator import Coordinator
 from config import print_model_config
+
+# Import streaming module (optional - graceful fallback if not available)
+try:
+    from streaming.callback import emit_event
+    from streaming.events import (
+        coordinator_thinking_event,
+        coordinator_routing_event,
+        synthesis_start_event,
+        synthesis_complete_event,
+        workflow_complete_event
+    )
+    STREAMING_AVAILABLE = True
+except ImportError:
+    STREAMING_AVAILABLE = False
+    def emit_event(event): pass
 
 # Print model configuration on startup
 print_model_config()
@@ -62,16 +78,25 @@ def execute_single_agent(agent_name: str, state: BlackboardState) -> tuple:
 # ============================================================================
 
 def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
-    """Coordinator node: Classifies intent, plans workflow."""
+    """Coordinator node: Classifies intent, plans workflow. Emits streaming events."""
     user_query = state.get("user_query", "")
     workflow_step = state.get("workflow_step", WorkflowStep.INITIAL)
 
     if workflow_step == WorkflowStep.INITIAL:
+        # Emit thinking event
+        if STREAMING_AVAILABLE:
+            emit_event(coordinator_thinking_event("Analyzing your question..."))
+
         # Track intent classification time
         intent_start = time.time()
         intent = coordinator.classify_intent(user_query)
         workflow = coordinator.plan_workflow(intent)
         intent_time = time.time() - intent_start
+
+        # Emit routing event
+        if STREAMING_AVAILABLE:
+            reasoning = intent.get("reasoning", "")
+            emit_event(coordinator_routing_event(workflow, reasoning))
 
         # Initialize phase timing
         phase_timing = state.get("phase_timing", {})
@@ -192,7 +217,11 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
 
 
 def synthesize_node(state: BlackboardState) -> Dict[str, Any]:
-    """Synthesize final answer."""
+    """Synthesize final answer. Emits streaming events."""
+    # Emit synthesis start event
+    if STREAMING_AVAILABLE:
+        emit_event(synthesis_start_event())
+
     # Track synthesis time
     synthesis_start = time.time()
     answer = coordinator.synthesize_answer(state)
@@ -205,6 +234,12 @@ def synthesize_node(state: BlackboardState) -> Dict[str, Any]:
     # Calculate total time (filter to only numeric values, excluding nested dicts like parallel_agents_detail)
     total_time = sum(v for v in phase_timing.values() if isinstance(v, (int, float)))
     phase_timing["total"] = round(total_time, 2)
+
+    # Emit synthesis complete and workflow complete events
+    if STREAMING_AVAILABLE:
+        emit_event(synthesis_complete_event(answer[:200] if answer else ""))
+        agents_used = list(state.get("agent_outputs", {}).keys())
+        emit_event(workflow_complete_event(agents_used, total_time))
 
     return {
         "messages": [HumanMessage(content=answer)],

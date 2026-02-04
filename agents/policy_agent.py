@@ -23,26 +23,44 @@ class PolicyComplianceAgent(BaseAgent):
     
     def execute(self, state: BlackboardState) -> AgentOutput:
         """
-        Execute Policy & Compliance agent.
-        
+        Execute Policy & Compliance agent with streaming events.
+
         This agent CRITIQUES plans (part of Proposal + Critique protocol).
         """
-        user_query = state.get("user_query", "")
-        agent_outputs = state.get("agent_outputs", {})
-        student_profile = state.get("student_profile", {})
-        
-        # Check if we need to critique a plan
-        programs_output = agent_outputs.get("programs_requirements")
-        has_plan = (
-            programs_output and 
-            programs_output.plan_options and 
-            len(programs_output.plan_options) > 0
-        )
-        
-        if has_plan:
-            return self._critique_plan(programs_output.plan_options[0], student_profile)
-        else:
-            return self._answer_policy_question(user_query)
+        # Emit start event
+        self.emit_start()
+
+        try:
+            user_query = state.get("user_query", "")
+            agent_outputs = state.get("agent_outputs", {})
+            student_profile = state.get("student_profile", {})
+
+            # Check if we need to critique a plan
+            programs_output = agent_outputs.get("programs_requirements")
+            has_plan = (
+                programs_output and
+                programs_output.plan_options and
+                len(programs_output.plan_options) > 0
+            )
+
+            if has_plan:
+                self.emit_thinking("Critiquing proposed plan for compliance...")
+                result = self._critique_plan(programs_output.plan_options[0], student_profile)
+                risk_count = len(result.risks) if result.risks else 0
+                self.emit_complete(
+                    confidence=result.confidence,
+                    summary=f"Found {risk_count} policy concerns"
+                )
+                return result
+            else:
+                self.emit_thinking("Searching policy documents...")
+                result = self._answer_policy_question(user_query)
+                self.emit_complete(confidence=result.confidence, summary="Answered policy question")
+                return result
+
+        except Exception as e:
+            self.emit_error(str(e))
+            raise
     
     def _critique_plan(self, plan_option, student_profile: dict) -> AgentOutput:
         """Critique a proposed plan for policy compliance."""

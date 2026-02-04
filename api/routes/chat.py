@@ -1,6 +1,7 @@
 """
 Chat endpoints - Main advising interface.
 Integrates with the multi-agent workflow.
+Supports real-time streaming for Claude/Gemini-style visibility.
 """
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
@@ -10,6 +11,7 @@ from datetime import datetime
 import json
 import asyncio
 import time
+from threading import Thread
 
 from api.database import get_database
 from api.models.user import User
@@ -22,6 +24,15 @@ from api.models.student_profile import StudentProfileSummary
 from api.services.conversation_service import ConversationService
 from api.services.profile_service import ProfileService
 from api.routes.auth import get_current_user, get_current_user_optional
+
+# Import streaming infrastructure
+try:
+    from streaming.callback import StreamCallbackManager, set_stream_manager
+    from streaming.events import workflow_start_event
+    STREAMING_AVAILABLE = True
+except ImportError:
+    STREAMING_AVAILABLE = False
+    StreamCallbackManager = None
 
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
@@ -376,6 +387,9 @@ async def chat_stream(
 
     This endpoint streams real-time updates as the multi-agent
     workflow progresses, allowing the UI to show agent activity.
+
+    Uses Server-Sent Events (SSE) for real-time updates, similar to
+    how Claude and Gemini show their thinking process.
     """
     conv_service = ConversationService(db)
     profile_service = ProfileService(db)
@@ -421,20 +435,118 @@ async def chat_stream(
             })
 
     async def generate():
-        """Generate SSE stream."""
-        try:
-            async for chunk in agent_runner.run_streaming(
-                user_query=request.message,
-                student_profile=student_profile,
-                conversation_history=conv_history
-            ):
-                yield f"data: {json.dumps(chunk)}\n\n"
+        """Generate SSE stream with real-time agent updates."""
 
-            # Store final answer
-            # Note: In a real implementation, you'd capture the answer from the stream
+        # Check if streaming infrastructure is available
+        if not STREAMING_AVAILABLE:
+            # Fallback to simple streaming
+            try:
+                async for chunk in agent_runner.run_streaming(
+                    user_query=request.message,
+                    student_profile=student_profile,
+                    conversation_history=conv_history
+                ):
+                    yield f"data: {json.dumps(chunk)}\n\n"
+            except Exception as e:
+                yield f"data: {json.dumps({'type': 'error', 'data': {'message': str(e)}})}\n\n"
+            return
+
+        # Create stream manager for this request
+        stream_manager = StreamCallbackManager()
+
+        # Set as the global stream manager for this request
+        set_stream_manager(stream_manager)
+
+        # Emit workflow start event
+        stream_manager.emit(workflow_start_event(request.message))
+        yield stream_manager.get_callback()._events[-1].to_sse() if stream_manager.get_callback()._events else ""
+
+        # Variables to capture the result
+        workflow_result = {"result": None, "error": None}
+
+        def run_workflow():
+            """Run the workflow in a background thread."""
+            try:
+                from langchain_core.messages import HumanMessage, AIMessage
+                from blackboard.schema import WorkflowStep as WFStep
+                from multi_agent import app
+
+                # Build message history
+                messages = []
+                if conv_history:
+                    for msg in conv_history[-10:]:
+                        if msg.get("role") == "user":
+                            messages.append(HumanMessage(content=msg["content"]))
+                        elif msg.get("role") in ["assistant", "agent"]:
+                            messages.append(AIMessage(content=msg["content"]))
+
+                messages.append(HumanMessage(content=request.message))
+
+                initial_state = {
+                    "user_query": request.message,
+                    "student_profile": student_profile or {},
+                    "agent_outputs": {},
+                    "constraints": [],
+                    "risks": [],
+                    "plan_options": [],
+                    "conflicts": [],
+                    "open_questions": [],
+                    "messages": messages,
+                    "active_agents": [],
+                    "workflow_step": WFStep.INITIAL,
+                    "iteration_count": 0,
+                    "next_agent": None,
+                    "user_goal": None
+                }
+
+                result = app.invoke(initial_state)
+                workflow_result["result"] = result
+
+            except Exception as e:
+                workflow_result["error"] = str(e)
+            finally:
+                stream_manager.mark_done()
+
+        # Start workflow in background thread
+        workflow_thread = Thread(target=run_workflow, daemon=True)
+        workflow_thread.start()
+
+        # Stream events as they arrive
+        try:
+            async for sse_data in stream_manager.stream_events():
+                yield sse_data
+
+            # After workflow completes, send final answer
+            if workflow_result["result"]:
+                result = workflow_result["result"]
+                final_answer = ""
+                if result.get("messages"):
+                    last_message = result["messages"][-1]
+                    final_answer = last_message.content if hasattr(last_message, 'content') else str(last_message)
+
+                # Send the final answer
+                yield f"data: {json.dumps({'type': 'answer', 'data': {'content': final_answer, 'conversation_id': conversation_id}})}\n\n"
+
+                # Store the answer in conversation (async operation)
+                # Note: We can't await here directly, so we'll do it after the generator
+                asyncio.create_task(
+                    conv_service.add_message(
+                        conversation_id=conversation_id,
+                        role=MessageRole.ASSISTANT,
+                        content=final_answer
+                    )
+                )
+
+            elif workflow_result["error"]:
+                yield f"data: {json.dumps({'type': 'error', 'data': {'message': workflow_result['error']}})}\n\n"
+
+            yield f"data: {json.dumps({'type': 'done', 'data': {}})}\n\n"
 
         except Exception as e:
             yield f"data: {json.dumps({'type': 'error', 'data': {'message': str(e)}})}\n\n"
+        finally:
+            # Clean up
+            set_stream_manager(None)
 
     return StreamingResponse(
         generate(),
@@ -442,6 +554,7 @@ async def chat_stream(
         headers={
             "Cache-Control": "no-cache",
             "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",  # Disable nginx buffering
         }
     )
 

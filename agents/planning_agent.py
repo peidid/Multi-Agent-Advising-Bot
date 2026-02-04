@@ -28,44 +28,63 @@ class AcademicPlanningAgent(BaseAgent):
         )
 
     def execute(self, state: BlackboardState) -> AgentOutput:
-        """Generate multi-semester academic plan."""
-        user_query = state.get("user_query", "")
-        student_profile = state.get("student_profile", {})
-        agent_outputs = state.get("agent_outputs", {})
+        """Generate multi-semester academic plan with streaming events."""
+        # Emit start event
+        self.emit_start()
 
-        # Extract planning parameters
-        planning_params = self._extract_planning_parameters(
-            user_query, student_profile, agent_outputs
-        )
+        try:
+            user_query = state.get("user_query", "")
+            student_profile = state.get("student_profile", {})
+            agent_outputs = state.get("agent_outputs", {})
 
-        # Get relevant data from other agents
-        program_requirements = self._get_program_requirements(planning_params, agent_outputs)
-        course_schedules = self._get_course_schedules(planning_params)
+            # Extract planning parameters
+            self.emit_thinking("Analyzing planning parameters...")
+            planning_params = self._extract_planning_parameters(
+                user_query, student_profile, agent_outputs
+            )
 
-        # Build planning prompt
-        prompt = self._build_planning_prompt(
-            planning_params,
-            program_requirements,
-            course_schedules,
-            student_profile
-        )
+            # Get relevant data from other agents
+            self.emit_thinking("Gathering program requirements...")
+            program_requirements = self._get_program_requirements(planning_params, agent_outputs)
+            course_schedules = self._get_course_schedules(planning_params)
 
-        # Generate plan
-        response = self.llm.invoke([SystemMessage(content=prompt)])
+            # Build planning prompt
+            self.emit_thinking("Generating semester-by-semester plan...")
+            prompt = self._build_planning_prompt(
+                planning_params,
+                program_requirements,
+                course_schedules,
+                student_profile
+            )
 
-        # Parse generated plans
-        plan_options = self._parse_plan_options(response.content)
-        risks = self._identify_risks(plan_options, planning_params)
+            # Generate plan
+            response = self.llm.invoke([SystemMessage(content=prompt)])
 
-        return AgentOutput(
-            agent_name=self.name,
-            answer=response.content,
-            confidence=0.85,
-            plan_options=plan_options,
-            risks=risks,
-            relevant_policies=["Course prerequisites", "Graduation requirements"],
-            constraints=planning_params.get("constraints", [])
-        )
+            # Parse generated plans
+            plan_options = self._parse_plan_options(response.content)
+            risks = self._identify_risks(plan_options, planning_params)
+
+            result = AgentOutput(
+                agent_name=self.name,
+                answer=response.content,
+                confidence=0.85,
+                plan_options=plan_options,
+                risks=risks,
+                relevant_policies=["Course prerequisites", "Graduation requirements"],
+                constraints=planning_params.get("constraints", [])
+            )
+
+            plan_count = len(plan_options) if plan_options else 0
+            self.emit_complete(
+                confidence=0.85,
+                summary=f"Generated {plan_count} plan option(s)"
+            )
+
+            return result
+
+        except Exception as e:
+            self.emit_error(str(e))
+            raise
 
     def _extract_planning_parameters(self, query: str, profile: dict, outputs: dict) -> dict:
         """Extract planning parameters from query and context."""

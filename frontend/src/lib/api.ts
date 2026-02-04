@@ -159,6 +159,23 @@ export const conversations = {
   },
 };
 
+// Streaming event types
+export interface StreamEvent {
+  type: string;
+  agent?: string;
+  phase?: string;
+  message?: string;
+  timestamp?: string;
+  data?: Record<string, unknown>;
+}
+
+export interface StreamCallbacks {
+  onEvent?: (event: StreamEvent) => void;
+  onAnswer?: (answer: string, conversationId: string) => void;
+  onError?: (error: string) => void;
+  onComplete?: () => void;
+}
+
 // Chat API
 export const chat = {
   async send(message: string, conversationId?: string): Promise<ChatResponse> {
@@ -169,6 +186,108 @@ export const chat = {
         conversation_id: conversationId,
       }),
     });
+  },
+
+  /**
+   * Send a message with streaming updates.
+   * Returns real-time events as the multi-agent workflow progresses.
+   */
+  async sendStreaming(
+    message: string,
+    conversationId: string | undefined,
+    callbacks: StreamCallbacks
+  ): Promise<void> {
+    const token = getToken();
+
+    const response = await fetch(`${API_URL}/api/chat/stream`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({
+        message,
+        conversation_id: conversationId,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ detail: 'Request failed' }));
+      callbacks.onError?.(error.detail || `HTTP ${response.status}`);
+      return;
+    }
+
+    const reader = response.body?.getReader();
+    if (!reader) {
+      callbacks.onError?.('No response body');
+      return;
+    }
+
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          break;
+        }
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Process complete SSE messages
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || ''; // Keep incomplete line in buffer
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data.trim()) {
+              try {
+                const event = JSON.parse(data) as StreamEvent;
+
+                // Handle different event types
+                if (event.type === 'answer') {
+                  const answerData = event.data as { content: string; conversation_id: string };
+                  callbacks.onAnswer?.(answerData.content, answerData.conversation_id);
+                } else if (event.type === 'error') {
+                  const errorData = event.data as { message: string };
+                  callbacks.onError?.(errorData.message);
+                } else if (event.type === 'done') {
+                  callbacks.onComplete?.();
+                } else {
+                  // All other events (agent status, coordinator, etc.)
+                  callbacks.onEvent?.(event);
+                }
+              } catch (e) {
+                console.error('Failed to parse SSE event:', e, data);
+              }
+            }
+          }
+        }
+      }
+
+      // Handle any remaining data in buffer
+      if (buffer.startsWith('data: ')) {
+        const data = buffer.slice(6);
+        if (data.trim()) {
+          try {
+            const event = JSON.parse(data) as StreamEvent;
+            if (event.type === 'done') {
+              callbacks.onComplete?.();
+            }
+          } catch {
+            // Ignore incomplete data
+          }
+        }
+      }
+
+    } catch (error) {
+      callbacks.onError?.(error instanceof Error ? error.message : 'Stream error');
+    } finally {
+      reader.releaseLock();
+    }
   },
 };
 
