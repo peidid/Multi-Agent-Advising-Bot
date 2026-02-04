@@ -6,6 +6,7 @@ import Sidebar from '@/components/Sidebar';
 import ChatMessage from '@/components/ChatMessage';
 import ChatInput from '@/components/ChatInput';
 import AgentStatus from '@/components/AgentStatus';
+import WorkflowDetails from '@/components/WorkflowDetails';
 import AuthModal from '@/components/AuthModal';
 import ProfileModal from '@/components/ProfileModal';
 import {
@@ -18,6 +19,7 @@ import {
   Message,
   UserProfile,
   StreamEvent,
+  WorkflowDetails as WorkflowDetailsType,
 } from '@/lib/api';
 
 export default function Home() {
@@ -36,8 +38,10 @@ export default function Home() {
   const [completedAgents, setCompletedAgents] = useState<string[]>([]);
   const [streamEvents, setStreamEvents] = useState<StreamEvent[]>([]);
   const [currentPhase, setCurrentPhase] = useState<string>('');
+  const [messageWorkflows, setMessageWorkflows] = useState<Record<string, WorkflowDetailsType>>({});
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const streamEventsRef = useRef<StreamEvent[]>([]);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -156,6 +160,7 @@ export default function Home() {
     setActiveAgents([]);
     setCompletedAgents([]);
     setStreamEvents([]);
+    streamEventsRef.current = [];
     setCurrentPhase('starting');
 
     try {
@@ -166,7 +171,11 @@ export default function Home() {
         {
           onEvent: (event: StreamEvent) => {
             // Add event to stream for display
-            setStreamEvents((prev) => [...prev, event]);
+            setStreamEvents((prev) => {
+              const updated = [...prev, event];
+              streamEventsRef.current = updated;
+              return updated;
+            });
 
             // Update phase indicator
             if (event.message) {
@@ -186,17 +195,31 @@ export default function Home() {
               setCurrentPhase('Synthesizing final answer...');
             }
           },
-          onAnswer: async (answer: string, conversationId: string) => {
+          onAnswer: async (answer: string, conversationId: string, workflowDetails?: WorkflowDetailsType) => {
+            // Create message ID
+            const messageId = `temp-${Date.now()}-response`;
+
             // Add assistant message
             const assistantMessage: Message = {
-              _id: `temp-${Date.now()}-response`,
+              _id: messageId,
               conversation_id: conversationId,
               role: 'assistant',
               content: answer,
               timestamp: new Date().toISOString(),
-              metadata: { agents_used: completedAgents },
+              metadata: { agents_used: workflowDetails?.agents_used || completedAgents },
             };
             setMessages((prev) => [...prev, assistantMessage]);
+
+            // Store workflow details with stream events
+            if (workflowDetails) {
+              setMessageWorkflows((prev) => ({
+                ...prev,
+                [messageId]: {
+                  ...workflowDetails,
+                  stream_events: streamEventsRef.current,
+                },
+              }));
+            }
 
             // Update conversation if new
             if (!currentConversation) {
@@ -324,7 +347,19 @@ export default function Home() {
             ) : (
               <>
                 {messages.map((msg) => (
-                  <ChatMessage key={msg._id} message={msg} />
+                  <div key={msg._id}>
+                    <ChatMessage message={msg} />
+                    {/* Show workflow details for assistant messages */}
+                    {msg.role === 'assistant' && messageWorkflows[msg._id] && (
+                      <WorkflowDetails
+                        agentsUsed={messageWorkflows[msg._id].agents_used}
+                        agentDetails={messageWorkflows[msg._id].agent_details}
+                        executionStats={messageWorkflows[msg._id].execution_stats}
+                        phaseTiming={messageWorkflows[msg._id].phase_timing}
+                        streamEvents={messageWorkflows[msg._id].stream_events}
+                      />
+                    )}
+                  </div>
                 ))}
               </>
             )}

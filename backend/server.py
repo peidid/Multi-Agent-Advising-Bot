@@ -644,11 +644,27 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
                 last_msg = result["messages"][-1]
                 response_text = last_msg.content if hasattr(last_msg, "content") else str(last_msg)
 
-            # Save to database
+            # Extract agent outputs for frontend display
             agents_used = list(result.get("agent_outputs", {}).keys())
+            agent_details = {}
+            for agent_name, output in result.get("agent_outputs", {}).items():
+                agent_details[agent_name] = {
+                    "answer": output.answer if hasattr(output, "answer") else str(output),
+                    "confidence": output.confidence if hasattr(output, "confidence") else 0,
+                    "risks": [{"type": r.type, "severity": r.severity, "description": r.description}
+                              for r in (output.risks if hasattr(output, "risks") else [])],
+                    "relevant_policies": output.relevant_policies if hasattr(output, "relevant_policies") else []
+                }
+
+            # Extract execution stats
+            exec_meta = result.get("execution_metadata", {})
+            phase_timing = result.get("phase_timing", {})
+
+            # Save to database
             await add_message(conversation_id, "assistant", response_text, metadata={"agents_used": agents_used})
 
-            yield f"data: {json.dumps({'type': 'answer', 'data': {'content': response_text, 'conversation_id': conversation_id}})}\n\n"
+            # Send comprehensive answer with workflow details
+            yield f"data: {json.dumps({'type': 'answer', 'data': {'content': response_text, 'conversation_id': conversation_id, 'agents_used': agents_used, 'agent_details': agent_details, 'execution_stats': exec_meta, 'phase_timing': phase_timing}})}\n\n"
 
         elif workflow_result["error"]:
             yield f"data: {json.dumps({'type': 'error', 'data': {'message': workflow_result['error']}})}\n\n"

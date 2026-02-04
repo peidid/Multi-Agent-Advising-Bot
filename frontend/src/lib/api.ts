@@ -169,9 +169,26 @@ export interface StreamEvent {
   data?: Record<string, unknown>;
 }
 
+export interface WorkflowDetails {
+  agents_used: string[];
+  agent_details: Record<string, {
+    answer: string;
+    confidence: number;
+    risks: Array<{ type: string; severity: string; description: string }>;
+    relevant_policies: string[];
+  }>;
+  execution_stats?: {
+    execution_mode?: string;
+    total_execution_time?: number;
+    parallel_speedup?: number;
+  };
+  phase_timing?: Record<string, number>;
+  stream_events?: StreamEvent[];
+}
+
 export interface StreamCallbacks {
   onEvent?: (event: StreamEvent) => void;
-  onAnswer?: (answer: string, conversationId: string) => void;
+  onAnswer?: (answer: string, conversationId: string, workflowDetails?: WorkflowDetails) => void;
   onError?: (error: string) => void;
   onComplete?: () => void;
 }
@@ -249,8 +266,21 @@ export const chat = {
 
                 // Handle different event types
                 if (event.type === 'answer') {
-                  const answerData = event.data as { content: string; conversation_id: string };
-                  callbacks.onAnswer?.(answerData.content, answerData.conversation_id);
+                  const answerData = event.data as {
+                    content: string;
+                    conversation_id: string;
+                    agents_used?: string[];
+                    agent_details?: Record<string, unknown>;
+                    execution_stats?: Record<string, unknown>;
+                    phase_timing?: Record<string, number>;
+                  };
+                  const workflowDetails: WorkflowDetails = {
+                    agents_used: answerData.agents_used || [],
+                    agent_details: (answerData.agent_details || {}) as WorkflowDetails['agent_details'],
+                    execution_stats: answerData.execution_stats as WorkflowDetails['execution_stats'],
+                    phase_timing: answerData.phase_timing,
+                  };
+                  callbacks.onAnswer?.(answerData.content, answerData.conversation_id, workflowDetails);
                 } else if (event.type === 'error') {
                   const errorData = event.data as { message: string };
                   callbacks.onError?.(errorData.message);
