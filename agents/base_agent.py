@@ -102,6 +102,25 @@ class BaseAgent(ABC):
         except ImportError:
             pass
 
+    def emit_output(self, output: AgentOutput) -> None:
+        """
+        Emit full agent output for real-time display.
+        This allows users to see agent responses as they complete.
+        """
+        try:
+            from streaming.events import agent_output_event
+            risks = [{"type": r.type, "severity": r.severity, "description": r.description}
+                     for r in (output.risks or [])]
+            self._emit_event(agent_output_event(
+                self.name,
+                answer=output.answer,
+                confidence=output.confidence,
+                risks=risks,
+                relevant_policies=output.relevant_policies or []
+            ))
+        except ImportError:
+            pass
+
     def emit_error(self, error: str) -> None:
         """Emit error event."""
         try:

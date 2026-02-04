@@ -23,6 +23,7 @@ class EventType(str, Enum):
     AGENT_START = "agent_start"
     AGENT_RETRIEVING = "agent_retrieving"
     AGENT_THINKING = "agent_thinking"
+    AGENT_OUTPUT = "agent_output"  # Full agent response available for streaming display
     AGENT_COMPLETE = "agent_complete"
     AGENT_ERROR = "agent_error"
 
@@ -144,6 +145,32 @@ def agent_thinking_event(agent_name: str, message: str = "Analyzing information.
         agent_name=agent_name,
         phase=AgentPhase.ANALYZING,
         message=message
+    )
+
+
+def agent_output_event(
+    agent_name: str,
+    answer: str,
+    confidence: float = 0.0,
+    risks: list = None,
+    relevant_policies: list = None
+) -> StreamEvent:
+    """
+    Emit full agent output for real-time display.
+    This allows users to see agent responses as they complete,
+    before the final synthesis is done.
+    """
+    return StreamEvent(
+        event_type=EventType.AGENT_OUTPUT,
+        agent_name=agent_name,
+        phase=AgentPhase.COMPLETE,
+        message=f"Response ready ({int(confidence * 100)}% confidence)",
+        data={
+            "answer": answer,
+            "confidence": confidence,
+            "risks": risks or [],
+            "relevant_policies": relevant_policies or []
+        }
     )
 
 

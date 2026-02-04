@@ -54,6 +54,9 @@ class ProgramsRequirementsAgent(BaseAgent):
             # 5. Parse and return structured output
             result = self._parse_response(response.content)
 
+            # Emit full output for streaming display
+            self.emit_output(result)
+
             # Emit completion
             self.emit_complete(
                 confidence=result.confidence,

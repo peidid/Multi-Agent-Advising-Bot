@@ -75,6 +75,7 @@ class AcademicPlanningAgent(BaseAgent):
             )
 
             plan_count = len(plan_options) if plan_options else 0
+            self.emit_output(result)
             self.emit_complete(
                 confidence=0.85,
                 summary=f"Generated {plan_count} plan option(s)"

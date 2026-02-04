@@ -38,6 +38,7 @@ class CourseSchedulingAgent(BaseAgent):
 
             if not courses:
                 result = self._answer_general_question(user_query, messages)
+                self.emit_output(result)
                 self.emit_complete(confidence=result.confidence, summary="Answered course question")
                 return result
 
@@ -75,6 +76,7 @@ class CourseSchedulingAgent(BaseAgent):
                 constraints=[]
             )
 
+            self.emit_output(result)
             self.emit_complete(confidence=0.9, summary=f"Found info for {len(courses)} courses")
             return result
 

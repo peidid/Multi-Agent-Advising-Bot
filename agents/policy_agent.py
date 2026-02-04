@@ -47,6 +47,7 @@ class PolicyComplianceAgent(BaseAgent):
                 self.emit_thinking("Critiquing proposed plan for compliance...")
                 result = self._critique_plan(programs_output.plan_options[0], student_profile)
                 risk_count = len(result.risks) if result.risks else 0
+                self.emit_output(result)
                 self.emit_complete(
                     confidence=result.confidence,
                     summary=f"Found {risk_count} policy concerns"
@@ -55,6 +56,7 @@ class PolicyComplianceAgent(BaseAgent):
             else:
                 self.emit_thinking("Searching policy documents...")
                 result = self._answer_policy_question(user_query)
+                self.emit_output(result)
                 self.emit_complete(confidence=result.confidence, summary="Answered policy question")
                 return result
 
