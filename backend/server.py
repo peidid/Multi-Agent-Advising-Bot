@@ -11,8 +11,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, EmailStr
+from threading import Thread
+from queue import Queue
 from jose import jwt, JWTError
 import logging
 
@@ -511,6 +514,158 @@ async def chat(data: ChatMessage, user: dict = Depends(get_current_user)):
             "parallel_agents": 0,
             "synthesis": 0,
             "total": 0
+        }
+    )
+
+
+# =============================================================================
+# Streaming Chat Endpoint
+# =============================================================================
+
+@app.post("/api/chat/stream")
+async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user)):
+    """
+    Send a message and get streaming response.
+    Real-time updates as multi-agent workflow progresses.
+    """
+    import json
+
+    # Get or create conversation
+    if data.conversation_id:
+        conv = await get_conversation(data.conversation_id)
+        if not conv:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        if conv["user_id"] != user["_id"]:
+            raise HTTPException(status_code=403, detail="Not authorized")
+        conversation_id = data.conversation_id
+    else:
+        title = data.message[:50] + "..." if len(data.message) > 50 else data.message
+        conv = await create_conversation(user["_id"], title)
+        conversation_id = conv["_id"]
+
+    # Save user message
+    await add_message(conversation_id, "user", data.message)
+
+    # Get conversation history
+    messages = await get_messages(conversation_id)
+    history = [{"role": m["role"], "content": m["content"]} for m in messages]
+
+    # Get user profile
+    profile = user.get("profile", {})
+    student_profile = {
+        "major": [profile.get("major")] if profile.get("major") else [],
+        "minors": profile.get("minors", []),
+        "gpa": profile.get("gpa"),
+        "completed_courses": profile.get("completed_courses", [])
+    }
+
+    async def generate():
+        """Generate SSE stream."""
+        # Import streaming infrastructure
+        try:
+            from streaming.callback import StreamCallbackManager, set_stream_manager
+            from streaming.events import workflow_start_event
+            streaming_available = True
+        except ImportError:
+            streaming_available = False
+
+        if streaming_available:
+            stream_manager = StreamCallbackManager()
+            set_stream_manager(stream_manager)
+
+            # Emit workflow start
+            stream_manager.emit(workflow_start_event(data.message))
+
+        # Result container
+        workflow_result = {"result": None, "error": None}
+
+        def run_workflow():
+            try:
+                from langchain_core.messages import HumanMessage, AIMessage
+                from blackboard.schema import WorkflowStep
+                from multi_agent import app as workflow_app
+
+                msgs = []
+                for msg in history[:-1]:
+                    if msg["role"] == "user":
+                        msgs.append(HumanMessage(content=msg["content"]))
+                    else:
+                        msgs.append(AIMessage(content=msg["content"]))
+                msgs.append(HumanMessage(content=data.message))
+
+                state = {
+                    "user_query": data.message,
+                    "student_profile": student_profile,
+                    "agent_outputs": {},
+                    "constraints": [],
+                    "risks": [],
+                    "plan_options": [],
+                    "conflicts": [],
+                    "open_questions": [],
+                    "messages": msgs,
+                    "active_agents": [],
+                    "workflow_step": WorkflowStep.INITIAL,
+                    "iteration_count": 0,
+                    "next_agent": None,
+                    "user_goal": None,
+                    "execution_metadata": None,
+                    "phase_timing": {}
+                }
+
+                result = workflow_app.invoke(state)
+                workflow_result["result"] = result
+            except Exception as e:
+                workflow_result["error"] = str(e)
+                logger.error(f"Streaming workflow error: {e}")
+            finally:
+                if streaming_available:
+                    stream_manager.mark_done()
+
+        # Run workflow in background
+        workflow_thread = Thread(target=run_workflow, daemon=True)
+        workflow_thread.start()
+
+        # Stream events
+        if streaming_available:
+            try:
+                async for sse_data in stream_manager.stream_events():
+                    yield sse_data
+            except Exception as e:
+                logger.error(f"Stream error: {e}")
+
+        # Wait for workflow to complete
+        workflow_thread.join(timeout=180)
+
+        # Send final answer
+        if workflow_result["result"]:
+            result = workflow_result["result"]
+            response_text = ""
+            if result.get("messages"):
+                last_msg = result["messages"][-1]
+                response_text = last_msg.content if hasattr(last_msg, "content") else str(last_msg)
+
+            # Save to database
+            agents_used = list(result.get("agent_outputs", {}).keys())
+            await add_message(conversation_id, "assistant", response_text, metadata={"agents_used": agents_used})
+
+            yield f"data: {json.dumps({'type': 'answer', 'data': {'content': response_text, 'conversation_id': conversation_id}})}\n\n"
+
+        elif workflow_result["error"]:
+            yield f"data: {json.dumps({'type': 'error', 'data': {'message': workflow_result['error']}})}\n\n"
+
+        yield f"data: {json.dumps({'type': 'done', 'data': {}})}\n\n"
+
+        # Cleanup
+        if streaming_available:
+            set_stream_manager(None)
+
+    return StreamingResponse(
+        generate(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
         }
     )
 
