@@ -660,8 +660,24 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
             exec_meta = result.get("execution_metadata", {})
             phase_timing = result.get("phase_timing", {})
 
-            # Save to database
-            await add_message(conversation_id, "assistant", response_text, metadata={"agents_used": agents_used})
+            # Build comprehensive metadata for MongoDB (restore full detail)
+            full_metadata = {
+                "agents_used": agents_used,
+                "agent_outputs": agent_details,
+                "workflow_step": result.get("workflow_step", "WorkflowStep.COMPLETE"),
+                "iteration_count": result.get("iteration_count", 0),
+                "active_agents": result.get("active_agents", agents_used),
+                "user_goal": result.get("user_goal", ""),
+                "conflicts": [{"type": c.type, "description": c.description, "agents": c.agents_involved}
+                              for c in result.get("conflicts", []) if hasattr(c, "type")],
+                "risks": [{"type": r.type, "severity": r.severity, "description": r.description}
+                          for r in result.get("risks", []) if hasattr(r, "type")],
+                "execution_metadata": exec_meta,
+                "phase_timing": phase_timing,
+            }
+
+            # Save to database with full metadata
+            await add_message(conversation_id, "assistant", response_text, metadata=full_metadata)
 
             # Send comprehensive answer with workflow details
             yield f"data: {json.dumps({'type': 'answer', 'data': {'content': response_text, 'conversation_id': conversation_id, 'agents_used': agents_used, 'agent_details': agent_details, 'execution_stats': exec_meta, 'phase_timing': phase_timing}})}\n\n"
