@@ -1,0 +1,9 @@
+{
+  "job_id": "ftjob-SFHjNsOo5x1FRJwn96LMlGS7",
+  "model": "gpt-4o-mini-2024-07-18",
+  "status": "validating_files",
+  "train_file_id": "file-EBnFp1eYLS7vNN7kEkYWXk",
+  "val_file_id": "file-VRd2NXVDuLvzBgMmyuDN6Z",
+  "created_at": "1770811913",
+  "fine_tuned_model": "ft:gpt-4o-mini-2024-07-18:aireplica:advisingbot-router:D845MyDQ"
+}

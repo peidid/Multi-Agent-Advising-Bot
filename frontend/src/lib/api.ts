@@ -14,6 +14,7 @@ export interface User {
 
 export interface UserProfile {
   major?: string;
+  year?: string;  // First Year, Sophomore, Junior, Senior
   minors?: string[];
   gpa?: number;
   completed_courses?: string[];

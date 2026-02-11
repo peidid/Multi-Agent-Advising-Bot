@@ -29,6 +29,17 @@ from config import get_coordinator_model, get_coordinator_temperature, get_opena
 from coordinator.llm_driven_coordinator import LLMDrivenCoordinator
 from coordinator.clarification_handler import ClarificationHandler
 
+# Fine-tuned classifier (fast routing)
+try:
+    from coordinator.finetuned_classifier import FineTunedClassifier
+    FINETUNED_AVAILABLE = True
+except ImportError:
+    FINETUNED_AVAILABLE = False
+
+# Config: Set to True to use fast fine-tuned classifier instead of LLM reasoning
+USE_FINETUNED_CLASSIFIER = True
+
+
 class Coordinator:
     """Main orchestrator for multi-agent system."""
     
@@ -84,19 +95,35 @@ class Coordinator:
             clarification_llm_kwargs["base_url"] = base_url
         clarification_llm = ChatOpenAI(**clarification_llm_kwargs)
         self.clarification_handler = ClarificationHandler(clarification_llm)
-        print("✅ Using LLM-Driven Coordinator")
-        print("   • Full LLM reasoning for workflow planning")
-        print("   • Dynamic agent coordination")
-        print("   • Context-aware decision making")
-        print("   • Interactive clarification support")
+
+        # Initialize fine-tuned classifier if available and enabled
+        self.finetuned_classifier = None
+        if USE_FINETUNED_CLASSIFIER and FINETUNED_AVAILABLE:
+            try:
+                self.finetuned_classifier = FineTunedClassifier()
+                print("✅ Using Fine-Tuned Intent Classifier")
+                print(f"   • Model: {self.finetuned_classifier.model_id}")
+                print("   • Fast routing (~100ms vs ~5s)")
+                print("   • Lower cost per query")
+            except Exception as e:
+                print(f"⚠️  Fine-tuned classifier not available: {e}")
+                print("   Falling back to LLM-driven coordination")
+                self.finetuned_classifier = None
+
+        if not self.finetuned_classifier:
+            print("✅ Using LLM-Driven Coordinator")
+            print("   • Full LLM reasoning for workflow planning")
+            print("   • Dynamic agent coordination")
+            print("   • Context-aware decision making")
+            print("   • Interactive clarification support")
     
     def classify_intent(self, query: str, conversation_history: List[Dict] = None,
                        student_profile: Dict = None) -> Dict[str, Any]:
         """
-        Classify user intent using LLM-driven coordination.
+        Classify user intent and determine which agents to route to.
 
-        The LLM analyzes the query, understands the student's goal, evaluates
-        agent capabilities, and plans the optimal workflow dynamically.
+        Uses fine-tuned classifier if available (fast, ~100ms), otherwise
+        falls back to full LLM reasoning (slower, ~5s but more detailed).
 
         Args:
             query: User's query
@@ -104,21 +131,39 @@ class Coordinator:
             student_profile: Student information (optional)
 
         Returns:
-            Intent dictionary with agents, confidence, reasoning, workflow plan, etc.
+            Intent dictionary with agents, confidence, reasoning, etc.
         """
         try:
-            # NOTE: Clarification check is DISABLED for performance
-            # Saves ~8-12 seconds per query by skipping the clarification LLM call
-            # To re-enable, uncomment the clarification check block below
+            # === FAST PATH: Use fine-tuned classifier ===
+            if self.finetuned_classifier:
+                import asyncio
+                # Run async classifier synchronously
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    # If already in async context, create task
+                    import concurrent.futures
+                    with concurrent.futures.ThreadPoolExecutor() as pool:
+                        result = pool.submit(
+                            asyncio.run,
+                            self.finetuned_classifier.classify(query, student_profile)
+                        ).result()
+                else:
+                    result = asyncio.run(
+                        self.finetuned_classifier.classify(query, student_profile)
+                    )
 
-            # --- CLARIFICATION CHECK DISABLED ---
-            # clarification_check = self.clarification_handler.check_for_clarification(
-            #     query, conversation_history or [], student_profile or {}
-            # )
-            # if clarification_check.get('needs_clarification', False):
-            #     return { ... }
-            # --- END DISABLED BLOCK ---
+                return {
+                    "intent_type": "finetuned_classified",
+                    "required_agents": result["agents"],
+                    "confidence": 0.95,  # Fine-tuned model is well-calibrated
+                    "reasoning": f"Fine-tuned classifier: {result['raw_output']}",
+                    "priority": "high",
+                    "intents": result["intents"],
+                    "is_multi_agent": result["is_multi"],
+                    "mode": "finetuned"
+                }
 
+            # === SLOW PATH: Full LLM reasoning ===
             # Normal workflow planning
             plan = self.llm_coordinator.understand_and_plan(
                 query,

@@ -403,6 +403,7 @@ async def chat(data: ChatMessage, user: dict = Depends(get_current_user)):
     profile = user.get("profile", {})
     student_profile = {
         "major": [profile.get("major")] if profile.get("major") else [],
+        "year": profile.get("year"),
         "minors": profile.get("minors", []),
         "gpa": profile.get("gpa"),
         "completed_courses": profile.get("completed_courses", [])
@@ -554,6 +555,7 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
     profile = user.get("profile", {})
     student_profile = {
         "major": [profile.get("major")] if profile.get("major") else [],
+        "year": profile.get("year"),
         "minors": profile.get("minors", []),
         "gpa": profile.get("gpa"),
         "completed_courses": profile.get("completed_courses", [])

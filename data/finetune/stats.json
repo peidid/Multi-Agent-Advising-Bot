@@ -1,0 +1,31 @@
+{
+  "raw_count": 1291,
+  "cleaned_count": 1291,
+  "unique_count": 1290,
+  "train_count": 1096,
+  "val_count": 194,
+  "label_distribution": {
+    "course": 175,
+    "course, program": 19,
+    "course, policy": 75,
+    "course, planning": 50,
+    "course, planning, program": 13,
+    "policy": 307,
+    "course, planning, policy, program": 9,
+    "planning, program": 96,
+    "program": 173,
+    "course, policy, program": 5,
+    "policy, program": 94,
+    "planning, policy": 67,
+    "course, planning, policy": 17,
+    "planning, policy, program": 22,
+    "planning": 168
+  },
+  "individual_label_frequency": {
+    "course": 363,
+    "program": 431,
+    "policy": 596,
+    "planning": 442
+  },
+  "system_message": "You are an intent classifier for CMU-Qatar's academic advising system. Given a student's question, determine which specialized agents are needed to answer it. Respond with ONLY a comma-separated list of the required agents from: course, program, policy, planning. Use the minimum set of agents needed. Examples:\n- 'What are the prereqs for 15-122?' \u2192 course\n- 'Can I take 15-251 while on probation?' \u2192 course, policy\n- 'Plan my remaining semesters for CS major' \u2192 program, course, planning"
+}

@@ -12,6 +12,7 @@ interface ProfileModalProps {
 
 export default function ProfileModal({ profile, onClose, onSave }: ProfileModalProps) {
   const [major, setMajor] = useState(profile?.major || '');
+  const [year, setYear] = useState(profile?.year || '');
   const [minors, setMinors] = useState(profile?.minors?.join(', ') || '');
   const [gpa, setGpa] = useState(profile?.gpa?.toString() || '');
   const [courses, setCourses] = useState(profile?.completed_courses?.join(', ') || '');
@@ -26,6 +27,7 @@ export default function ProfileModal({ profile, onClose, onSave }: ProfileModalP
 
     const profileData: UserProfile = {
       major: major || undefined,
+      year: year || undefined,
       minors: minors ? minors.split(',').map((s) => s.trim()).filter(Boolean) : [],
       gpa: gpa ? parseFloat(gpa) : undefined,
       completed_courses: courses ? courses.split(',').map((s) => s.trim()).filter(Boolean) : [],
@@ -82,6 +84,23 @@ export default function ProfileModal({ profile, onClose, onSave }: ProfileModalP
               <option value="Computer Science">Computer Science</option>
               <option value="Business Administration">Business Administration</option>
               <option value="Biological Sciences">Biological Sciences</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Academic Year
+            </label>
+            <select
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg focus:border-cmu-red focus:ring-1 focus:ring-cmu-red outline-none"
+            >
+              <option value="">Select your year</option>
+              <option value="First Year">First Year</option>
+              <option value="Sophomore">Sophomore</option>
+              <option value="Junior">Junior</option>
+              <option value="Senior">Senior</option>
             </select>
           </div>
 
