@@ -58,6 +58,7 @@ class MongoDB:
             cls.client = AsyncIOMotorClient(
                 mongo_uri,
                 serverSelectionTimeoutMS=30000,
+                tlsAllowInvalidCertificates=True,
             )
 
         # Test connection
