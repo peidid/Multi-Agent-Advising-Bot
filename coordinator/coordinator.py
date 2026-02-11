@@ -138,19 +138,11 @@ class Coordinator:
             if self.finetuned_classifier:
                 import asyncio
                 # Run async classifier synchronously
-                loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    # If already in async context, create task
-                    import concurrent.futures
-                    with concurrent.futures.ThreadPoolExecutor() as pool:
-                        result = pool.submit(
-                            asyncio.run,
-                            self.finetuned_classifier.classify(query, student_profile)
-                        ).result()
-                else:
-                    result = asyncio.run(
-                        self.finetuned_classifier.classify(query, student_profile)
-                    )
+                # Use asyncio.run() which creates a new event loop for the current thread
+                # This works correctly even when called from a background thread
+                result = asyncio.run(
+                    self.finetuned_classifier.classify(query, student_profile)
+                )
 
                 return {
                     "intent_type": "finetuned_classified",
