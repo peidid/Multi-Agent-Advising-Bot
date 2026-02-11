@@ -50,13 +50,14 @@ class MongoDB:
                 serverSelectionTimeoutMS=30000
             )
         else:
-            # External MongoDB (Atlas etc) - use SSL with certifi
+            # External MongoDB (Atlas etc) - use SSL
             logger.info("Connecting to external MongoDB with SSL")
+            # Add connection parameters if not present
+            if "?" not in mongo_uri:
+                mongo_uri += "?retryWrites=true&w=majority"
             cls.client = AsyncIOMotorClient(
                 mongo_uri,
                 serverSelectionTimeoutMS=30000,
-                tls=True,
-                tlsCAFile=certifi.where()
             )
 
         # Test connection
