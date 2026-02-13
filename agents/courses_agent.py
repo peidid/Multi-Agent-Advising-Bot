@@ -370,16 +370,25 @@ Provide a comprehensive answer that directly addresses the user's query using th
         # Get schedule info
         schedule_info = None
         conflict_result = None
+        all_semesters_offered = []
 
         if course_code:
-            # Get schedule for this course
+            # Get schedule for this specific semester
             schedule_info = get_course_schedule(course_code, semester)
 
+            # Also check ALL semesters to see when the course is offered
+            all_offerings = get_course_schedule(course_code)  # No semester filter
+            all_semesters_offered = [o.get("semester", "") for o in all_offerings]
+
             # Check for conflicts if we have enough info
-            if busy_day and busy_start and busy_end and semester:
+            if busy_day and busy_start and busy_end and semester and schedule_info:
                 conflict_result = check_schedule_conflict(
                     course_code, semester, busy_day, busy_start, busy_end
                 )
+
+        # Determine offering status
+        course_not_offered_this_semester = course_code and not schedule_info
+        course_offered_other_semesters = len(all_semesters_offered) > 0
 
         # Also get RAG context
         rag_query = f"{course_name or course_code} schedule {semester} offerings times"
@@ -396,10 +405,12 @@ IMPORTANT: Use the conversation context above to understand references.
 
         schedule_data_str = json.dumps({
             "course_code": course_code,
-            "course_name": course_name,
-            "course_data": course_data,
-            "semester": semester,
+            "course_name": course_data.get("name") if course_data else course_name,
+            "course_found": course_data is not None,
+            "semester_requested": semester,
             "schedule_info": schedule_info,
+            "course_not_offered_this_semester": course_not_offered_this_semester,
+            "semesters_offered": all_semesters_offered,
             "conflict_check": conflict_result,
             "potential_matches": match_info if not course_data else None
         }, indent=2, default=str)
@@ -420,13 +431,15 @@ RAG CONTEXT:
 {rag_context}
 
 IMPORTANT INSTRUCTIONS:
-- If schedule_info contains actual times and days, use that to answer definitively
-- If conflict_check shows has_conflict=True, explain the conflict clearly
-- If conflict_check shows has_conflict=False, confirm they CAN take the course
-- If conflict_check shows has_conflict=None, explain that schedule data is not yet available
-- If the course wasn't found, suggest the potential matches if any
-- Be specific about days and times - don't be vague
-- Answer the actual question: "Can they take this course given their constraint?"
+- If schedule_info is EMPTY but course_found is True:
+  * The course EXISTS but is NOT OFFERED in the requested semester
+  * Tell the student clearly: "[Course Name] is NOT offered in [Semester]"
+  * If semesters_offered is empty, say "This course is not scheduled for any upcoming semester in our data"
+  * If semesters_offered has entries, tell them which semesters it IS offered
+- If schedule_info has data and conflict_check shows has_conflict=True, explain the conflict
+- If schedule_info has data and conflict_check shows has_conflict=False, confirm they CAN take the course
+- If the course wasn't found at all, suggest the potential_matches if any
+- Be DIRECT and SPECIFIC - give a clear YES/NO/NOT OFFERED answer
 """
 
         response = self.llm.invoke([SystemMessage(content=prompt)])

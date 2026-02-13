@@ -297,6 +297,7 @@ def check_schedule_conflict(course_code: str, semester: str, busy_day: str, busy
 def search_courses_by_name(query: str, limit: int = 10) -> List[Dict]:
     """
     Search courses by name (partial match).
+    Priority: exact name match > starts with > contains
 
     Args:
         query: Search term
@@ -305,18 +306,33 @@ def search_courses_by_name(query: str, limit: int = 10) -> List[Dict]:
     Returns:
         List of matching courses with code and name
     """
-    results = []
-    query_lower = query.lower()
+    exact_name_matches = []  # Name exactly equals query
+    starts_with_matches = []  # Name starts with query
+    contains_matches = []     # Name contains query
+    query_lower = query.lower().strip()
 
     for code, course in DB["courses"].items():
-        name = course.get("name", "")
-        if query_lower in name.lower():
-            results.append({
-                "code": code,
-                "name": name,
-                "units": course.get("units", course.get("min_units", ""))
-            })
-            if len(results) >= limit:
-                break
+        name = course.get("name") or ""
+        if not name:
+            continue
+        name_lower = name.lower()
 
-    return results
+        course_info = {
+            "code": code,
+            "name": name,
+            "units": course.get("units", course.get("min_units", ""))
+        }
+
+        # Exact name match (highest priority)
+        if name_lower == query_lower:
+            exact_name_matches.append(course_info)
+        # Starts with query
+        elif name_lower.startswith(query_lower):
+            starts_with_matches.append(course_info)
+        # Contains query
+        elif query_lower in name_lower:
+            contains_matches.append(course_info)
+
+    # Return in priority order: exact > starts with > contains
+    results = exact_name_matches + starts_with_matches + contains_matches
+    return results[:limit]
