@@ -212,12 +212,126 @@ def generate_document_summary(data: any, file_name: str, file_type: str) -> str:
     
     return " | ".join(summaries)
 
+def format_course_list(courses: list) -> str:
+    """Format a list of courses into readable text."""
+    if not courses:
+        return ""
+    formatted = []
+    for c in courses:
+        if isinstance(c, dict):
+            code = c.get('code', '')
+            title = c.get('title', '')
+            formatted.append(f"{code} {title}" if title else code)
+        elif isinstance(c, str):
+            formatted.append(c)
+    return ", ".join(formatted)
+
+
+def format_requirement_section(name: str, data: dict, depth: int = 0) -> str:
+    """Recursively format a requirement section into readable text."""
+    lines = []
+    indent = "  " * depth
+
+    # Clean up the name for display
+    display_name = name.replace('_', ' ').title()
+
+    if isinstance(data, dict):
+        # Check for course lists
+        if 'required_course' in data:
+            course = data['required_course']
+            code = course.get('code', '')
+            title = course.get('title', '')
+            lines.append(f"{indent}{display_name}: {code} {title} (REQUIRED)")
+        elif 'choose_one_from' in data:
+            courses = format_course_list(data['choose_one_from'])
+            lines.append(f"{indent}{display_name}: Choose ONE from: {courses}")
+        elif 'choose_from' in data:
+            courses = format_course_list(data['choose_from'])
+            num_required = data.get('courses_required', 'multiple')
+            lines.append(f"{indent}{display_name}: Choose {num_required} from: {courses}")
+        elif 'at_least_one_from' in data:
+            courses = data['at_least_one_from']
+            lines.append(f"{indent}{display_name}: Must include at least one of: {', '.join(courses)}")
+        else:
+            # Recurse into nested requirements
+            if display_name not in ['Mode Average Units']:
+                lines.append(f"{indent}{display_name}:")
+            for key, value in data.items():
+                if key not in ['mode_average_units', 'total_units_required', 'courses_required']:
+                    sub_text = format_requirement_section(key, value, depth + 1)
+                    if sub_text:
+                        lines.append(sub_text)
+
+    return "\n".join(lines)
+
+
 def load_json_as_text(file_path: str) -> str:
-    """Convert JSON file to readable text for RAG."""
+    """Convert JSON file to readable, semantic-search friendly text for RAG."""
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        
+
+        file_name = os.path.basename(file_path).lower()
+
+        # Special handling for degree requirements JSON files
+        if 'degree_requirements' in file_name and isinstance(data, dict):
+            text_parts = []
+
+            # Extract program info
+            program_info = data.get('program', {})
+            if program_info:
+                title = program_info.get('title', 'Unknown Program')
+                text_parts.append(f"# {title} - Degree Requirements")
+                text_parts.append(f"University: {program_info.get('university', 'CMU')}")
+                text_parts.append(f"Campus: {program_info.get('campus', 'Doha')}")
+                text_parts.append("")
+
+            # Extract program requirements summary
+            prog_req = data.get('program_requirements', {})
+            if prog_req:
+                text_parts.append("## Program Requirements Summary")
+                text_parts.append(f"Total units required to graduate: {prog_req.get('total_units_required', 360)}")
+                text_parts.append("")
+
+            # Extract detailed requirements
+            requirements = data.get('requirements', {})
+            if requirements:
+                text_parts.append("## Required Courses and Requirements")
+                text_parts.append("")
+
+                for section_name, section_data in requirements.items():
+                    text_parts.append(f"### {section_name.replace('_', ' ').title()}")
+                    formatted = format_requirement_section(section_name, section_data, 0)
+                    if formatted:
+                        text_parts.append(formatted)
+                    text_parts.append("")
+
+            return "\n".join(text_parts)
+
+        # Special handling for concentration JSON files
+        if 'concentration' in file_name and isinstance(data, list):
+            text_parts = []
+            for item in data:
+                if isinstance(item, dict):
+                    conc_name = item.get('Concentration Name', 'Unknown Concentration')
+                    text_parts.append(f"## {conc_name}")
+
+                    if item.get('Description'):
+                        text_parts.append(f"Description: {item['Description']}")
+                    if item.get('Career Paths'):
+                        text_parts.append(f"Career Paths: {item['Career Paths']}")
+                    if item.get('Concentration Course Requirements'):
+                        text_parts.append(f"Course Requirements: {item['Concentration Course Requirements']}")
+
+                    # Extract course sections
+                    for key, value in item.items():
+                        if 'Section' in key and value:
+                            text_parts.append(f"{key}: {value}")
+
+                    text_parts.append("")
+            return "\n".join(text_parts)
+
+        # Default handling for other JSON structures
         if isinstance(data, list):
             text_parts = []
             for item in data:

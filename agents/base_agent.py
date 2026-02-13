@@ -36,7 +36,9 @@ class BaseAgent(ABC):
 
         # Domain-specific RAG retriever
         # This automatically loads the correct vector database
-        self.retriever = get_retriever(domain=domain, k=5)
+        # Programs/planning domains need higher k due to structured requirements data
+        default_k = 8 if domain in ["programs", "planning"] else 5
+        self.retriever = get_retriever(domain=domain, k=default_k)
 
         # LLM for agent reasoning - uses faster, cost-effective model
         model = get_agent_model()
