@@ -25,6 +25,34 @@ class CourseSchedulingAgent(BaseAgent):
             name="course_scheduling",
             domain="courses"  # Uses chroma_db_courses/
         )
+
+    def _is_reference_query(self, query: str) -> bool:
+        """Check if query uses pronouns/references to a previous course."""
+        query_lower = query.lower()
+        reference_patterns = [
+            r'\bits\b',           # "its unit", "its prereq"
+            r'\bit\b',            # "is it hard"
+            r'\bthe course\b',    # "the course"
+            r'\bthis course\b',   # "this course"
+            r'\bthat course\b',   # "that course"
+            r'\bthe class\b',     # "the class"
+            r'\bthis class\b',    # "this class"
+        ]
+        return any(re.search(p, query_lower) for p in reference_patterns)
+
+    def _get_most_recent_course(self, messages: list) -> str:
+        """Extract the most recently mentioned course code from messages (reverse order)."""
+        if not messages:
+            return None
+
+        # Iterate in reverse to find the most recent course mention
+        for msg in reversed(messages):
+            if hasattr(msg, 'content'):
+                content = msg.content if isinstance(msg.content, str) else str(msg.content)
+                codes = find_course_codes_in_text(content)
+                if codes:
+                    return codes[0]  # Return first (most prominent) code in that message
+        return None
     
     def execute(self, state: BlackboardState) -> AgentOutput:
         """Execute Course & Scheduling agent with streaming events."""
@@ -103,40 +131,42 @@ class CourseSchedulingAgent(BaseAgent):
     def _extract_courses(self, plan_options: list, query: str, agent_outputs: dict, messages: list = None) -> list:
         """Extract course codes from various sources."""
         courses = set()
-        
+
         # From query - improved extraction
         courses.update(find_course_codes_in_text(query))
-        
+
         # Also check for course mentions in context (e.g., "this course", "67-364")
         # Look for patterns like "COURSE 67-364" or "course 67-364"
         course_mentions = re.findall(r'(?:course|COURSE)\s+(\d{2}-\d{3})', query, re.IGNORECASE)
         courses.update(course_mentions)
-        
+
+        # If query uses reference pronouns (its, it, the course) and no course in query,
+        # get ONLY the most recently mentioned course
+        if not courses and self._is_reference_query(query) and messages:
+            recent_course = self._get_most_recent_course(messages)
+            if recent_course:
+                return [recent_course]  # Return only the referenced course
+
         # From plan options
         for plan in plan_options:
             if isinstance(plan, dict):
                 courses.update(plan.get("courses", []))
             elif hasattr(plan, "courses"):
                 courses.update(plan.courses)
-        
+
         # From Programs agent output
         programs_output = agent_outputs.get("programs_requirements")
         if programs_output and programs_output.plan_options:
             for plan_option in programs_output.plan_options:
                 courses.update(plan_option.courses)
-        
-        # Also check previous messages/context for course codes
-        # This helps when user says "this course" referring to a previously mentioned course
+
+        # If still no courses found and we have messages, get most recent course
+        # (for general follow-up questions)
         if not courses and messages:
-            # Try to extract from the full conversation context
-            for msg in messages:
-                if hasattr(msg, 'content'):
-                    content = msg.content if isinstance(msg.content, str) else str(msg.content)
-                    courses.update(find_course_codes_in_text(content))
-                    # Also check for course mentions in messages
-                    course_mentions = re.findall(r'(?:course|COURSE)\s+(\d{2}-\d{3})', content, re.IGNORECASE)
-                    courses.update(course_mentions)
-        
+            recent_course = self._get_most_recent_course(messages)
+            if recent_course:
+                return [recent_course]
+
         return list(courses)
     
     def _answer_general_question(self, query: str, messages: list = None, memory_context: str = "") -> AgentOutput:
@@ -148,14 +178,18 @@ class CourseSchedulingAgent(BaseAgent):
         course_mentions = re.findall(r'(?:course|COURSE)\s+(\d{2}-\d{3})', query, re.IGNORECASE)
         course_codes.extend(course_mentions)
 
-        # Check previous messages if no course found in current query
+        # If query uses reference pronouns (its, it, the course) and no course in query,
+        # get ONLY the most recently mentioned course
+        if not course_codes and self._is_reference_query(query) and messages:
+            recent_course = self._get_most_recent_course(messages)
+            if recent_course:
+                course_codes = [recent_course]
+
+        # If still no course found, check previous messages for the most recent course
         if not course_codes and messages:
-            for msg in messages:
-                if hasattr(msg, 'content'):
-                    content = msg.content if isinstance(msg.content, str) else str(msg.content)
-                    course_codes.extend(find_course_codes_in_text(content))
-                    course_mentions = re.findall(r'(?:course|COURSE)\s+(\d{2}-\d{3})', content, re.IGNORECASE)
-                    course_codes.extend(course_mentions)
+            recent_course = self._get_most_recent_course(messages)
+            if recent_course:
+                course_codes = [recent_course]
 
         if course_codes:
             # If we found course codes, try to get their info
