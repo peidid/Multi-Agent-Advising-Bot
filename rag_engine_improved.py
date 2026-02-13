@@ -42,13 +42,14 @@ DOMAIN_PATHS = {
         "programs"  # All Programs Agent data in one folder
     ],
     "courses": [
-        "courses"   # All Courses Agent data in one folder
+        "courses",   # All Courses Agent data in one folder
+        "schedules"  # Course schedules - courses agent needs schedule access
     ],
     "policies": [
         "policies"   # All Policy Agent data in one folder
     ],
     "schedules": [
-        "schedules"  # Course schedules and academic calendars
+        "schedules"  # Course schedules and academic calendars (standalone)
     ]
 }
 
