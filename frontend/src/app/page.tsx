@@ -9,6 +9,8 @@ import AgentStatus from '@/components/AgentStatus';
 import WorkflowDetails from '@/components/WorkflowDetails';
 import AuthModal from '@/components/AuthModal';
 import ProfileModal from '@/components/ProfileModal';
+import PlanningToggle from '@/components/PlanningToggle';
+import PlanningPanel from '@/components/PlanningPanel';
 import {
   auth,
   conversations,
@@ -28,6 +30,10 @@ export default function Home() {
   const [showAuth, setShowAuth] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  // Planning mode state
+  const [showPlanningPanel, setShowPlanningPanel] = useState(false);
+  const [isPlanningMode, setIsPlanningMode] = useState(false);
 
   // Chat state
   const [conversationList, setConversationList] = useState<Conversation[]>([]);
@@ -304,6 +310,18 @@ export default function Home() {
               <p className="text-sm text-gray-500">CMU Qatar Multi-Agent System</p>
             </div>
           </div>
+          {user && (
+            <PlanningToggle
+              isPlanningMode={isPlanningMode}
+              onToggle={() => {
+                setIsPlanningMode(!isPlanningMode);
+                if (!isPlanningMode) {
+                  setShowPlanningPanel(true);
+                }
+              }}
+              disabled={sending}
+            />
+          )}
           {!user && (
             <button
               onClick={() => setShowAuth(true)}
@@ -397,6 +415,16 @@ export default function Home() {
           onSave={handleProfileSave}
         />
       )}
+
+      {/* Planning Panel */}
+      <PlanningPanel
+        isOpen={showPlanningPanel}
+        onClose={() => {
+          setShowPlanningPanel(false);
+          setIsPlanningMode(false);
+        }}
+        conversationId={currentConversation?._id}
+      />
     </div>
   );
 }

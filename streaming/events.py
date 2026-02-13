@@ -36,6 +36,16 @@ class EventType(str, Enum):
     STATUS = "status"
     ERROR = "error"
 
+    # Planning Mode events
+    PLANNING_SESSION_START = "planning_session_start"
+    PLANNING_ROUND_START = "planning_round_start"
+    PLANNING_PROPOSING = "planning_proposing"
+    PLANNING_PROPOSAL = "planning_proposal"
+    PLANNING_CRITIQUING = "planning_critiquing"
+    PLANNING_CRITIQUE = "planning_critique"
+    PLANNING_ROUND_COMPLETE = "planning_round_complete"
+    PLANNING_COMPLETE = "planning_complete"
+
 
 class AgentPhase(str, Enum):
     """Phases within agent execution."""
@@ -226,5 +236,148 @@ def workflow_complete_event(agents_used: list, total_time: float) -> StreamEvent
         data={
             "agents_used": agents_used,
             "total_time_seconds": round(total_time, 2)
+        }
+    )
+
+
+# ============================================================================
+# PLANNING MODE EVENTS
+# ============================================================================
+
+def planning_session_start_event(session_id: str, request: str, max_rounds: int = 5) -> StreamEvent:
+    """Emitted when a planning session begins."""
+    return StreamEvent(
+        event_type=EventType.PLANNING_SESSION_START,
+        agent_name="planning_coordinator",
+        message="Starting collaborative planning session...",
+        data={
+            "session_id": session_id,
+            "request": request[:200],
+            "max_rounds": max_rounds
+        }
+    )
+
+
+def planning_round_start_event(round_num: int, session_id: str) -> StreamEvent:
+    """Emitted at the start of each negotiation round."""
+    return StreamEvent(
+        event_type=EventType.PLANNING_ROUND_START,
+        agent_name="planning_coordinator",
+        message=f"Starting Round {round_num}...",
+        data={
+            "round": round_num,
+            "session_id": session_id
+        }
+    )
+
+
+def planning_proposing_event(round_num: int) -> StreamEvent:
+    """Emitted when planning agent is generating/revising a plan."""
+    action = "Generating initial" if round_num == 1 else "Revising"
+    return StreamEvent(
+        event_type=EventType.PLANNING_PROPOSING,
+        agent_name="academic_planning",
+        message=f"{action} course plan...",
+        data={"round": round_num}
+    )
+
+
+def planning_proposal_event(round_num: int, plan: dict) -> StreamEvent:
+    """Emitted when a plan proposal is ready."""
+    semester_count = len(plan.get("semesters", []))
+    return StreamEvent(
+        event_type=EventType.PLANNING_PROPOSAL,
+        agent_name="academic_planning",
+        message=f"Proposed {semester_count}-semester plan",
+        data={
+            "round": round_num,
+            "plan": plan
+        }
+    )
+
+
+def planning_critiquing_event(round_num: int, agents: list) -> StreamEvent:
+    """Emitted when critique agents start evaluating (in parallel)."""
+    return StreamEvent(
+        event_type=EventType.PLANNING_CRITIQUING,
+        agent_name="planning_coordinator",
+        message=f"Evaluating plan with {len(agents)} agents in parallel...",
+        data={
+            "round": round_num,
+            "agents": agents
+        }
+    )
+
+
+def planning_critique_event(
+    round_num: int,
+    agent_name: str,
+    approved: bool,
+    issues: list,
+    suggestions: list
+) -> StreamEvent:
+    """Emitted when a single agent's critique is complete."""
+    status = "Approved" if approved else f"Found {len(issues)} issue(s)"
+    return StreamEvent(
+        event_type=EventType.PLANNING_CRITIQUE,
+        agent_name=agent_name,
+        message=status,
+        data={
+            "round": round_num,
+            "approved": approved,
+            "issues": issues,
+            "suggestions": suggestions
+        }
+    )
+
+
+def planning_round_complete_event(
+    round_num: int,
+    all_approved: bool,
+    critiques_summary: dict
+) -> StreamEvent:
+    """Emitted when a round completes."""
+    if all_approved:
+        message = f"Round {round_num}: All agents approved!"
+    else:
+        failed = [k for k, v in critiques_summary.items() if not v]
+        message = f"Round {round_num}: Revisions needed from {', '.join(failed)}"
+
+    return StreamEvent(
+        event_type=EventType.PLANNING_ROUND_COMPLETE,
+        agent_name="planning_coordinator",
+        message=message,
+        data={
+            "round": round_num,
+            "all_approved": all_approved,
+            "critiques_summary": critiques_summary
+        }
+    )
+
+
+def planning_complete_event(
+    session_id: str,
+    status: str,
+    total_rounds: int,
+    final_plan: dict = None,
+    message: str = ""
+) -> StreamEvent:
+    """Emitted when the planning session is complete."""
+    if status == "completed":
+        msg = f"Plan approved after {total_rounds} round(s)!"
+    elif status == "max_rounds_reached":
+        msg = f"Maximum rounds ({total_rounds}) reached. Final plan may have unresolved issues."
+    else:
+        msg = message or f"Planning session ended: {status}"
+
+    return StreamEvent(
+        event_type=EventType.PLANNING_COMPLETE,
+        agent_name="planning_coordinator",
+        message=msg,
+        data={
+            "session_id": session_id,
+            "status": status,
+            "total_rounds": total_rounds,
+            "final_plan": final_plan
         }
     )

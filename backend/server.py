@@ -4,6 +4,7 @@ Connects to MongoDB Atlas and serves the Next.js frontend.
 """
 import os
 import sys
+import json
 import asyncio
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
@@ -101,6 +102,21 @@ class ChatResponse(BaseModel):
 
 class ConversationCreate(BaseModel):
     title: Optional[str] = None
+
+
+class PlanningRequest(BaseModel):
+    """Request to start a collaborative planning session."""
+    request: str  # User's planning request
+    conversation_id: Optional[str] = None
+
+
+class PlanningResponse(BaseModel):
+    """Response from planning session."""
+    session_id: str
+    status: str
+    total_rounds: int
+    final_plan: Optional[Dict[str, Any]] = None
+    rounds: List[Dict[str, Any]] = []
 
 
 # =============================================================================
@@ -729,6 +745,239 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
             "X-Accel-Buffering": "no",
         }
     )
+
+
+# =============================================================================
+# Collaborative Planning Mode
+# =============================================================================
+
+# Import planning coordinator and agents
+try:
+    from planning.coordinator import PlanningModeCoordinator
+    from agents.planning_agent import AcademicPlanningAgent
+    from agents.programs_agent import ProgramsRequirementsAgent
+    from agents.courses_agent import CourseSchedulingAgent
+    from agents.policy_agent import PolicyComplianceAgent
+    planning_available = True
+except ImportError as e:
+    logger.warning(f"Planning module not available: {e}")
+    planning_available = False
+
+# Cached agent instances for planning mode
+_planning_agents = None
+
+def get_planning_agents():
+    """Get or create cached agent instances for planning mode."""
+    global _planning_agents
+    if _planning_agents is None:
+        _planning_agents = {
+            "planning": AcademicPlanningAgent(),
+            "programs": ProgramsRequirementsAgent(),
+            "courses": CourseSchedulingAgent(),
+            "policy": PolicyComplianceAgent()
+        }
+    return _planning_agents
+
+
+@app.post("/api/planning/start")
+async def start_planning_session(
+    request: PlanningRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Start a collaborative planning session with SSE streaming.
+
+    The planning coordinator will:
+    1. Have the Planning Agent propose an initial plan
+    2. Run Programs, Courses, and Policy agents in PARALLEL
+    3. Iterate up to 5 rounds until consensus or max rounds reached
+    4. Stream real-time updates via SSE
+    """
+    if not planning_available:
+        raise HTTPException(
+            status_code=503,
+            detail="Planning module not available"
+        )
+
+    user_id = str(current_user["_id"])
+    conversation_id = request.conversation_id or f"conv_{user_id}_{datetime.utcnow().strftime('%Y%m%d%H%M%S')}"
+
+    # Get user profile for context
+    user_profile = current_user.get("profile", {})
+    user_profile["_id"] = user_id
+
+    # Event queue for SSE streaming
+    event_queue = asyncio.Queue()
+
+    def emit_event(event: dict):
+        """Callback to emit events to the queue."""
+        try:
+            asyncio.get_event_loop().call_soon_threadsafe(
+                event_queue.put_nowait, event
+            )
+        except Exception as e:
+            logger.warning(f"Failed to emit event: {e}")
+
+    async def generate_planning_stream():
+        """Generator for SSE streaming of planning session."""
+        try:
+            # Get cached agents
+            agents = get_planning_agents()
+
+            # Create coordinator with event callback
+            coordinator = PlanningModeCoordinator(
+                planning_agent=agents["planning"],
+                programs_agent=agents["programs"],
+                courses_agent=agents["courses"],
+                policy_agent=agents["policy"],
+                emit_event=emit_event,
+                db=None  # We'll handle DB separately
+            )
+
+            # Start planning in background task
+            async def run_planning():
+                return await coordinator.execute_planning_session(
+                    user_id=user_id,
+                    conversation_id=conversation_id,
+                    request=request.request,
+                    student_profile=user_profile
+                )
+
+            planning_task = asyncio.create_task(run_planning())
+
+            # Stream events as they come
+            session_result = None
+            while True:
+                try:
+                    # Wait for event with timeout
+                    event = await asyncio.wait_for(event_queue.get(), timeout=0.5)
+                    yield f"data: {json.dumps({'type': event.get('type', 'update'), 'data': event})}\n\n"
+
+                    # Check if planning is complete
+                    if event.get("type") == "planning_complete":
+                        break
+
+                except asyncio.TimeoutError:
+                    # Check if planning task is done
+                    if planning_task.done():
+                        session_result = planning_task.result()
+                        break
+
+            # Ensure we have the result
+            if session_result is None:
+                session_result = await planning_task
+
+            # Save to MongoDB
+            db = await MongoDB.get_db()
+            await db.planning_sessions.insert_one({
+                "session_id": session_result.session_id,
+                "user_id": user_id,
+                "conversation_id": conversation_id,
+                "request": request.request,
+                "result": session_result.to_dict(),
+                "status": session_result.status,
+                "total_rounds": len(session_result.rounds),
+                "created_at": datetime.utcnow()
+            })
+
+            yield f"data: {json.dumps({'type': 'done', 'data': {'session_id': session_result.session_id}})}\n\n"
+
+        except Exception as e:
+            logger.error(f"Planning session error: {e}", exc_info=True)
+            yield f"data: {json.dumps({'type': 'error', 'data': {'message': str(e)}})}\n\n"
+
+    return StreamingResponse(
+        generate_planning_stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        }
+    )
+
+
+@app.get("/api/planning/{session_id}")
+async def get_planning_session(
+    session_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get details of a specific planning session."""
+    db = await MongoDB.get_db()
+    session = await db.planning_sessions.find_one({
+        "session_id": session_id,
+        "user_id": current_user["_id"]
+    })
+
+    if not session:
+        raise HTTPException(status_code=404, detail="Planning session not found")
+
+    # Convert ObjectId to string for JSON serialization
+    session["_id"] = str(session["_id"])
+    return session
+
+
+@app.get("/api/planning/user/history")
+async def get_planning_history(
+    current_user: dict = Depends(get_current_user),
+    limit: int = 10
+):
+    """Get user's planning session history."""
+    db = await MongoDB.get_db()
+    cursor = db.planning_sessions.find(
+        {"user_id": current_user["_id"]}
+    ).sort("created_at", -1).limit(limit)
+
+    sessions = []
+    async for session in cursor:
+        session["_id"] = str(session["_id"])
+        sessions.append({
+            "session_id": session["session_id"],
+            "request": session["request"],
+            "status": session.get("result", {}).get("status", "unknown"),
+            "total_rounds": session.get("result", {}).get("total_rounds", 0),
+            "created_at": session["created_at"].isoformat() if session.get("created_at") else None
+        })
+
+    return {"sessions": sessions}
+
+
+@app.post("/api/planning/{session_id}/approve")
+async def approve_planning_session(
+    session_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Approve and save the final plan from a planning session."""
+    db = await MongoDB.get_db()
+
+    # Find the session
+    session = await db.planning_sessions.find_one({
+        "session_id": session_id,
+        "user_id": current_user["_id"]
+    })
+
+    if not session:
+        raise HTTPException(status_code=404, detail="Planning session not found")
+
+    final_plan = session.get("result", {}).get("final_plan")
+    if not final_plan:
+        raise HTTPException(status_code=400, detail="No final plan available to approve")
+
+    # Update session status to approved
+    await db.planning_sessions.update_one(
+        {"session_id": session_id},
+        {"$set": {"approved": True, "approved_at": datetime.utcnow()}}
+    )
+
+    # Save approved plan to user's profile or separate collection
+    await db.approved_plans.insert_one({
+        "user_id": current_user["_id"],
+        "session_id": session_id,
+        "plan": final_plan,
+        "approved_at": datetime.utcnow()
+    })
+
+    return {"status": "approved", "session_id": session_id, "plan": final_plan}
 
 
 # =============================================================================

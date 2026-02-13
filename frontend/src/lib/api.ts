@@ -339,3 +339,239 @@ export async function checkHealth(): Promise<{ status: string; database: string 
   const response = await fetch(`${API_URL}/api/health`);
   return response.json();
 }
+
+// =============================================================================
+// Planning Mode Types and API
+// =============================================================================
+
+export interface SemesterPlan {
+  semester: string;
+  courses: string[];
+  total_units: number;
+  notes?: string;
+}
+
+export interface CoursePlan {
+  plan_id: string;
+  student_id: string;
+  program: string;
+  start_semester: string;
+  target_graduation: string;
+  semesters: SemesterPlan[];
+  total_units: number;
+  requirements_met: string[];
+  requirements_pending: string[];
+}
+
+export interface AgentCritique {
+  agent_name: string;
+  approved: boolean;
+  issues: string[];
+  suggestions: string[];
+  confidence: number;
+  details?: Record<string, unknown>;
+}
+
+export interface PlanningRound {
+  round_number: number;
+  proposed_plan: CoursePlan;
+  critiques: AgentCritique[];
+  all_approved: boolean;
+  revision_notes: string;
+  timestamp: string;
+}
+
+export interface PlanningSession {
+  session_id: string;
+  user_id: string;
+  request: string;
+  status: string;
+  total_rounds: number;
+  rounds: PlanningRound[];
+  final_plan?: CoursePlan;
+  created_at?: string;
+}
+
+export interface PlanningStreamEvent {
+  type: string;
+  data: Record<string, unknown>;
+}
+
+export interface PlanningStreamCallbacks {
+  onSessionStart?: (sessionId: string) => void;
+  onRoundStart?: (roundNumber: number) => void;
+  onProposing?: (agentName: string) => void;
+  onProposal?: (roundNumber: number, plan: CoursePlan) => void;
+  onCritiquing?: (agents: string[]) => void;
+  onCritique?: (roundNumber: number, critique: AgentCritique) => void;
+  onRoundComplete?: (roundNumber: number, allApproved: boolean) => void;
+  onComplete?: (session: PlanningSession) => void;
+  onError?: (error: string) => void;
+}
+
+// Planning API
+export const planning = {
+  /**
+   * Start a collaborative planning session with SSE streaming.
+   */
+  async startSession(
+    request: string,
+    conversationId: string | undefined,
+    callbacks: PlanningStreamCallbacks
+  ): Promise<void> {
+    const token = getToken();
+
+    const response = await fetch(`${API_URL}/api/planning/start`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({
+        request,
+        conversation_id: conversationId,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ detail: 'Request failed' }));
+      callbacks.onError?.(error.detail || `HTTP ${response.status}`);
+      return;
+    }
+
+    const reader = response.body?.getReader();
+    if (!reader) {
+      callbacks.onError?.('No response body');
+      return;
+    }
+
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+          break;
+        }
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Process complete SSE messages
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data.trim()) {
+              try {
+                const event = JSON.parse(data) as PlanningStreamEvent;
+                this.handlePlanningEvent(event, callbacks);
+              } catch (e) {
+                console.error('Failed to parse planning SSE event:', e, data);
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      callbacks.onError?.(error instanceof Error ? error.message : 'Stream error');
+    } finally {
+      reader.releaseLock();
+    }
+  },
+
+  handlePlanningEvent(event: PlanningStreamEvent, callbacks: PlanningStreamCallbacks) {
+    const data = event.data || event;
+
+    switch (event.type) {
+      case 'planning_session_start':
+        callbacks.onSessionStart?.((data as { session_id: string }).session_id);
+        break;
+
+      case 'planning_round_start':
+        callbacks.onRoundStart?.((data as { round: number }).round);
+        break;
+
+      case 'planning_proposing':
+        callbacks.onProposing?.((data as { agent: string }).agent);
+        break;
+
+      case 'planning_proposal':
+        callbacks.onProposal?.(
+          (data as { round: number }).round,
+          (data as { plan: CoursePlan }).plan
+        );
+        break;
+
+      case 'planning_critiquing':
+        callbacks.onCritiquing?.((data as { agents: string[] }).agents);
+        break;
+
+      case 'planning_critique':
+        callbacks.onCritique?.(
+          (data as { round: number }).round,
+          {
+            agent_name: (data as { agent: string }).agent,
+            approved: (data as { approved: boolean }).approved,
+            issues: (data as { issues: string[] }).issues || [],
+            suggestions: (data as { suggestions: string[] }).suggestions || [],
+            confidence: 0.8,
+          }
+        );
+        break;
+
+      case 'planning_round_complete':
+        callbacks.onRoundComplete?.(
+          (data as { round: number }).round,
+          (data as { all_approved: boolean }).all_approved
+        );
+        break;
+
+      case 'planning_complete':
+        callbacks.onComplete?.({
+          session_id: (data as { session_id: string }).session_id,
+          user_id: '',
+          request: '',
+          status: (data as { status: string }).status,
+          total_rounds: (data as { total_rounds: number }).total_rounds,
+          rounds: [],
+          final_plan: (data as { final_plan?: CoursePlan }).final_plan,
+        });
+        break;
+
+      case 'error':
+        callbacks.onError?.((data as { message: string }).message);
+        break;
+
+      case 'done':
+        // Session complete
+        break;
+    }
+  },
+
+  /**
+   * Get a specific planning session.
+   */
+  async getSession(sessionId: string): Promise<PlanningSession> {
+    return apiFetch(`/api/planning/${sessionId}`);
+  },
+
+  /**
+   * Get user's planning history.
+   */
+  async getHistory(limit: number = 10): Promise<{ sessions: PlanningSession[] }> {
+    return apiFetch(`/api/planning/user/history?limit=${limit}`);
+  },
+
+  /**
+   * Approve and save the final plan.
+   */
+  async approveSession(sessionId: string): Promise<{ status: string; plan: CoursePlan }> {
+    return apiFetch(`/api/planning/${sessionId}/approve`, {
+      method: 'POST',
+    });
+  },
+};
