@@ -9,6 +9,7 @@ import AgentStatus from '@/components/AgentStatus';
 import WorkflowDetails from '@/components/WorkflowDetails';
 import AuthModal from '@/components/AuthModal';
 import ProfileModal from '@/components/ProfileModal';
+import PlanningProgress from '@/components/PlanningProgress';
 import {
   auth,
   conversations,
@@ -39,6 +40,7 @@ export default function Home() {
   const [streamEvents, setStreamEvents] = useState<StreamEvent[]>([]);
   const [currentPhase, setCurrentPhase] = useState<string>('');
   const [messageWorkflows, setMessageWorkflows] = useState<Record<string, WorkflowDetailsType>>({});
+  const [isInPlanningMode, setIsInPlanningMode] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const streamEventsRef = useRef<StreamEvent[]>([]);
@@ -162,6 +164,7 @@ export default function Home() {
     setStreamEvents([]);
     streamEventsRef.current = [];
     setCurrentPhase(planningMode ? 'Starting collaborative planning...' : 'starting');
+    setIsInPlanningMode(planningMode);
 
     try {
       // Use streaming endpoint for real-time updates
@@ -267,6 +270,7 @@ export default function Home() {
           },
           onComplete: () => {
             setCurrentPhase('');
+            setIsInPlanningMode(false);
           },
         },
         planningMode
@@ -285,6 +289,7 @@ export default function Home() {
       setSending(false);
       setActiveAgents([]);
       setCurrentPhase('');
+      setIsInPlanningMode(false);
     }
   };
 
@@ -387,8 +392,17 @@ export default function Home() {
               </>
             )}
 
-            {/* Agent status while processing */}
-            {sending && (
+            {/* Planning progress while in planning mode */}
+            {(isInPlanningMode || streamEvents.some(e => e.type?.startsWith('planning_'))) && (
+              <PlanningProgress
+                events={streamEvents}
+                isActive={sending && isInPlanningMode}
+                currentPhase={currentPhase}
+              />
+            )}
+
+            {/* Agent status while processing (non-planning mode) */}
+            {sending && !isInPlanningMode && (
               <AgentStatus
                 activeAgents={activeAgents}
                 completedAgents={completedAgents}
