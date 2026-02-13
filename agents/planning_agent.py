@@ -43,6 +43,15 @@ class AcademicPlanningAgent(BaseAgent):
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
 
+            # Check if user is asking for a full academic plan or just a specific question
+            if not self._is_planning_request(user_query):
+                # This is NOT a planning request - defer to other agents or answer briefly
+                self.emit_thinking("Analyzing query...")
+                result = self._answer_non_planning_question(user_query, student_profile, memory_context)
+                self.emit_output(result)
+                self.emit_complete(confidence=result.confidence, summary="Answered planning question")
+                return result
+
             # Extract planning parameters
             self.emit_thinking("Analyzing planning parameters...")
             planning_params = self._extract_planning_parameters(
@@ -93,6 +102,118 @@ class AcademicPlanningAgent(BaseAgent):
         except Exception as e:
             self.emit_error(str(e))
             raise
+
+    def _is_planning_request(self, query: str) -> bool:
+        """
+        Determine if the user is asking for a full academic plan.
+
+        Returns True only if user explicitly asks for a plan, schedule, or curriculum.
+        Returns False for specific questions about courses, conflicts, single semesters, etc.
+        """
+        query_lower = query.lower()
+
+        # Keywords that indicate a FULL PLANNING request
+        planning_keywords = [
+            "plan my", "create a plan", "make a plan", "generate a plan",
+            "semester plan", "course plan", "academic plan", "graduation plan",
+            "full schedule", "full plan", "entire plan",
+            "plan for all semesters", "plan from now", "plan until graduation",
+            "how should i plan", "help me plan my courses",
+            "4 year plan", "four year plan", "remaining semesters"
+        ]
+
+        # Keywords that indicate NOT a planning request (specific questions)
+        non_planning_keywords = [
+            "can i take", "will this work", "is it possible", "conflict",
+            "busy on", "available", "time slot", "schedule conflict",
+            "specific course", "this course", "that course",
+            "what time", "when is", "does it conflict"
+        ]
+
+        # Check for non-planning indicators first
+        for keyword in non_planning_keywords:
+            if keyword in query_lower:
+                return False
+
+        # Check for planning indicators
+        for keyword in planning_keywords:
+            if keyword in query_lower:
+                return True
+
+        # Default: if asking about a single course/semester with constraints, not a plan
+        # If asking broadly about "my plan" or "courses to take", it's a plan
+        if re.search(r'plan\s+(my|for|to)', query_lower):
+            return True
+        if "semester by semester" in query_lower:
+            return True
+
+        # Otherwise, default to NOT a planning request
+        return False
+
+    def _answer_non_planning_question(self, query: str, profile: dict, memory_context: str) -> AgentOutput:
+        """
+        Answer a specific question that doesn't require full academic planning.
+
+        This is for questions like "Can I take X in Spring 2026 given constraint Y?"
+        """
+        # Get relevant schedule context
+        schedule_context = ""
+        try:
+            # Extract semester if mentioned
+            semester_match = re.search(r'(spring|fall|summer)\s*(\d{4})', query, re.IGNORECASE)
+            if semester_match:
+                semester = f"{semester_match.group(1)} {semester_match.group(2)}"
+                schedule_docs = self.schedules_retriever.invoke(f"schedule {semester} course offerings")
+                schedule_context = "\n".join([doc.page_content for doc in schedule_docs])
+        except Exception as e:
+            print(f"Warning: Could not retrieve schedule context: {e}")
+
+        context_section = ""
+        if memory_context:
+            context_section = f"""
+{memory_context}
+
+IMPORTANT: Use the conversation context above to understand references.
+"""
+
+        prompt = f"""You are an Academic Planning Agent for CMU-Q.
+
+The user has a SPECIFIC QUESTION - they are NOT asking for a full semester-by-semester plan.
+Do NOT generate a full academic plan unless explicitly asked.
+
+{context_section}
+
+User Query: {query}
+
+Student Profile:
+- Program: {profile.get('major', 'Not specified')}
+- Completed Courses: {profile.get('completed_courses', [])}
+
+Schedule Context:
+{schedule_context if schedule_context else 'No specific schedule data available.'}
+
+INSTRUCTIONS:
+1. Answer the SPECIFIC question the user asked
+2. Do NOT generate a full 4-year or 8-semester plan
+3. If they ask about taking a specific course with a time constraint:
+   - Look up when that course is offered
+   - Check if it conflicts with their constraint
+   - Give a direct yes/no answer with explanation
+4. If schedule data is not available, say so clearly
+5. Be concise and direct
+"""
+
+        response = self.llm.invoke([SystemMessage(content=prompt)])
+
+        return AgentOutput(
+            agent_name=self.name,
+            answer=response.content,
+            confidence=0.8,
+            plan_options=[],
+            risks=[],
+            relevant_policies=[],
+            constraints=[]
+        )
 
     def _extract_planning_parameters(self, query: str, profile: dict, outputs: dict) -> dict:
         """Extract planning parameters from query and context."""

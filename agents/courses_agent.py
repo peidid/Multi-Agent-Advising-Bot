@@ -11,7 +11,11 @@ Knowledge Base: chroma_db_courses/
 from agents.base_agent import BaseAgent
 from blackboard.schema import BlackboardState, AgentOutput, Risk
 from langchain_core.messages import SystemMessage
-from course_tools import look_up_course_info, find_course_codes_in_text
+from course_tools import (
+    look_up_course_info, find_course_codes_in_text,
+    find_course_by_name, search_courses_by_name,
+    get_course_schedule, check_schedule_conflict
+)
 import json
 import re
 
@@ -35,6 +39,15 @@ class CourseSchedulingAgent(BaseAgent):
 
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
+
+            # Check if this is a schedule conflict query
+            conflict_info = self._detect_schedule_conflict_query(user_query)
+            if conflict_info:
+                self.emit_thinking("Checking schedule conflicts...")
+                result = self._handle_schedule_conflict(conflict_info, user_query, memory_context)
+                self.emit_output(result)
+                self.emit_complete(confidence=result.confidence, summary="Checked schedule conflict")
+                return result
 
             # Extract courses from plan or query
             courses = self._extract_courses(plan_options, user_query, agent_outputs, messages)
@@ -241,4 +254,191 @@ IMPORTANT:
 
 Provide a comprehensive answer that directly addresses the user's query using the course information provided.
 """
+
+    def _detect_schedule_conflict_query(self, query: str) -> dict:
+        """
+        Detect if the query is about schedule conflicts.
+
+        Returns dict with course_name, semester, busy_day, busy_start, busy_end if detected.
+        """
+        query_lower = query.lower()
+
+        # Check for conflict-related keywords
+        conflict_keywords = ["busy", "conflict", "available", "free", "can i take", "will this work", "schedule"]
+        has_conflict_keyword = any(kw in query_lower for kw in conflict_keywords)
+
+        if not has_conflict_keyword:
+            return None
+
+        result = {}
+
+        # Extract course name (look for common patterns)
+        # "take Evolution", "take the Evolution course", "enroll in Evolution"
+        course_patterns = [
+            r'take\s+(?:the\s+)?([A-Za-z\s]+?)(?:\s+course)?(?:\s+in|\s+for|\.|,|\?|$)',
+            r'enroll\s+in\s+([A-Za-z\s]+?)(?:\s+course)?(?:\s+in|\s+for|\.|,|\?|$)',
+            r'(?:course|class)\s+(?:called\s+)?([A-Za-z\s]+?)(?:\s+in|\s+for|\.|,|\?|$)',
+        ]
+        for pattern in course_patterns:
+            match = re.search(pattern, query, re.IGNORECASE)
+            if match:
+                course_name = match.group(1).strip()
+                # Filter out common non-course words
+                if course_name.lower() not in ['it', 'this', 'that', 'the', 'a', 'an']:
+                    result["course_name"] = course_name
+                    break
+
+        # Extract semester (Spring/Fall + year)
+        semester_match = re.search(r'(spring|fall|summer)\s*(\d{4})', query, re.IGNORECASE)
+        if semester_match:
+            result["semester"] = f"{semester_match.group(1).lower()}_{semester_match.group(2)}"
+
+        # Extract day of week
+        days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        for day in days:
+            if day in query_lower:
+                result["busy_day"] = day
+                break
+
+        # Extract time range (e.g., "9-11am", "9am-11am", "09:00-11:00")
+        time_patterns = [
+            r'(\d{1,2}(?::\d{2})?)\s*(?:am|pm)?\s*[-–to]+\s*(\d{1,2}(?::\d{2})?)\s*(am|pm)?',
+            r'(\d{1,2})\s*(am|pm)\s*[-–to]+\s*(\d{1,2})\s*(am|pm)',
+        ]
+        for pattern in time_patterns:
+            match = re.search(pattern, query, re.IGNORECASE)
+            if match:
+                groups = match.groups()
+                if len(groups) >= 2:
+                    start = groups[0]
+                    end = groups[1] if len(groups) == 3 else groups[2]
+                    suffix = groups[-1] if groups[-1] else "am"
+
+                    # Add am/pm suffix if not present
+                    if not re.search(r'am|pm', start, re.IGNORECASE):
+                        start = f"{start}{suffix}"
+                    if not re.search(r'am|pm', end, re.IGNORECASE):
+                        end = f"{end}{suffix}"
+
+                    result["busy_start"] = start
+                    result["busy_end"] = end
+                    break
+
+        # Only return if we have enough info to check
+        if result.get("course_name") or find_course_codes_in_text(query):
+            return result
+
+        return None
+
+    def _handle_schedule_conflict(self, conflict_info: dict, query: str, memory_context: str) -> AgentOutput:
+        """
+        Handle a schedule conflict query by looking up actual schedule data.
+        """
+        course_name = conflict_info.get("course_name", "")
+        semester = conflict_info.get("semester", "")
+        busy_day = conflict_info.get("busy_day", "")
+        busy_start = conflict_info.get("busy_start", "")
+        busy_end = conflict_info.get("busy_end", "")
+
+        # Try to find course by name
+        course_code = None
+        course_data = None
+
+        # First try course codes in query
+        codes = find_course_codes_in_text(query)
+        if codes:
+            course_code = codes[0]
+            course_data = look_up_course_info(course_code)
+
+        # Then try by name
+        if not course_data and course_name:
+            course_data = find_course_by_name(course_name)
+            if course_data:
+                course_code = course_data.get("code")
+
+        # Search by name if still not found
+        if not course_data and course_name:
+            matches = search_courses_by_name(course_name, limit=5)
+            if matches:
+                # Show potential matches
+                match_info = "\n".join([f"- {m['code']}: {m['name']}" for m in matches])
+            else:
+                match_info = "No matching courses found."
+        else:
+            match_info = ""
+
+        # Get schedule info
+        schedule_info = None
+        conflict_result = None
+
+        if course_code:
+            # Get schedule for this course
+            schedule_info = get_course_schedule(course_code, semester)
+
+            # Check for conflicts if we have enough info
+            if busy_day and busy_start and busy_end and semester:
+                conflict_result = check_schedule_conflict(
+                    course_code, semester, busy_day, busy_start, busy_end
+                )
+
+        # Also get RAG context
+        rag_query = f"{course_name or course_code} schedule {semester} offerings times"
+        rag_context = self.retrieve_context(rag_query)
+
+        # Build response with LLM
+        context_section = ""
+        if memory_context:
+            context_section = f"""
+{memory_context}
+
+IMPORTANT: Use the conversation context above to understand references.
+"""
+
+        schedule_data_str = json.dumps({
+            "course_code": course_code,
+            "course_name": course_name,
+            "course_data": course_data,
+            "semester": semester,
+            "schedule_info": schedule_info,
+            "conflict_check": conflict_result,
+            "potential_matches": match_info if not course_data else None
+        }, indent=2, default=str)
+
+        prompt = f"""You are the Course & Scheduling Agent for CMU-Q.
+{context_section}
+The student is asking about a SCHEDULE CONFLICT. Your job is to:
+1. Look up the actual course schedule for the semester requested
+2. Check if it conflicts with their stated availability
+3. Give a DIRECT answer about whether they can take the course
+
+User Query: {query}
+
+SCHEDULE DATA FROM DATABASE:
+{schedule_data_str}
+
+RAG CONTEXT:
+{rag_context}
+
+IMPORTANT INSTRUCTIONS:
+- If schedule_info contains actual times and days, use that to answer definitively
+- If conflict_check shows has_conflict=True, explain the conflict clearly
+- If conflict_check shows has_conflict=False, confirm they CAN take the course
+- If conflict_check shows has_conflict=None, explain that schedule data is not yet available
+- If the course wasn't found, suggest the potential matches if any
+- Be specific about days and times - don't be vague
+- Answer the actual question: "Can they take this course given their constraint?"
+"""
+
+        response = self.llm.invoke([SystemMessage(content=prompt)])
+
+        confidence = 0.9 if conflict_result and conflict_result.get("has_conflict") is not None else 0.6
+
+        return AgentOutput(
+            agent_name=self.name,
+            answer=response.content,
+            confidence=confidence,
+            relevant_policies=[],
+            risks=[],
+            constraints=[]
+        )
 
