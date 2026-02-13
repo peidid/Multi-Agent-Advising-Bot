@@ -28,8 +28,8 @@ def get_openai_base_url() -> Optional[str]:
 COORDINATOR_MODEL = "gpt-4-turbo"  # Best available model for complex tasks
 COORDINATOR_TEMPERATURE = 0.3
 
-# Agent Models - Fast and cost-effective for domain-specific tasks
-AGENT_MODEL = "gpt-4o"  # Fast, cost-effective, good quality
+# Agent Models - All domain agents use GPT-5.2
+AGENT_MODEL = "gpt-5.2"  # Most capable model for domain agents
 AGENT_TEMPERATURE = 0.3
 
 # ============================================================================
@@ -67,7 +67,7 @@ MODEL_INFO = {
         "model": AGENT_MODEL,
         "temperature": AGENT_TEMPERATURE,
         "purpose": "Domain-specific knowledge retrieval and processing",
-        "upgrade_note": "Optimized for speed and cost-effectiveness"
+        "upgrade_note": "Using GPT-5.2 for best quality responses"
     }
 }
 
