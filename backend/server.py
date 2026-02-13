@@ -89,6 +89,7 @@ class UserProfile(BaseModel):
 class ChatMessage(BaseModel):
     message: str
     conversation_id: Optional[str] = None
+    planning_mode: bool = False  # Enable collaborative planning mode
 
 
 class ChatResponse(BaseModel):
@@ -556,6 +557,67 @@ async def chat(data: ChatMessage, user: dict = Depends(get_current_user)):
 
 
 # =============================================================================
+# Planning Result Formatter
+# =============================================================================
+
+def _format_planning_result(session) -> str:
+    """Format a planning session result as a readable message."""
+    lines = []
+
+    # Header
+    status_emoji = "✅" if session.status == "completed" else "⚠️"
+    lines.append(f"{status_emoji} **Course Planning Complete** ({session.status})")
+    lines.append(f"")
+    lines.append(f"Negotiation took **{len(session.rounds)} rounds** to reach {'consensus' if session.status == 'completed' else 'maximum rounds'}.")
+    lines.append("")
+
+    # Final Plan
+    if session.final_plan:
+        plan = session.final_plan
+        lines.append("## 📋 Your Course Plan")
+        lines.append("")
+        lines.append(f"**Program:** {plan.program}")
+        lines.append(f"**Timeline:** {plan.start_semester} → {plan.target_graduation}")
+        lines.append(f"**Total Units:** {plan.total_units}")
+        lines.append("")
+
+        lines.append("### Semester Schedule")
+        for sem in plan.semesters:
+            lines.append(f"")
+            lines.append(f"**{sem.semester}** ({sem.total_units} units)")
+            lines.append(f"- Courses: {', '.join(sem.courses)}")
+            if sem.notes:
+                lines.append(f"- Notes: {sem.notes}")
+
+        if plan.requirements_met:
+            lines.append("")
+            lines.append(f"**Requirements Met:** {', '.join(plan.requirements_met)}")
+
+        if plan.requirements_pending:
+            lines.append(f"**Still Needed:** {', '.join(plan.requirements_pending)}")
+
+    # Summary of negotiation
+    lines.append("")
+    lines.append("---")
+    lines.append("### 🤝 Agent Negotiation Summary")
+
+    for round_data in session.rounds:
+        round_status = "✅" if round_data.all_approved else "🔄"
+        lines.append(f"")
+        lines.append(f"**Round {round_data.round_number}** {round_status}")
+
+        for critique in round_data.critiques:
+            agent_name = critique.agent_name.replace("_", " ").title()
+            status = "✅ Approved" if critique.approved else "⚠️ Needs revision"
+            lines.append(f"- {agent_name}: {status}")
+            if critique.issues and not critique.approved:
+                for issue in critique.issues[:2]:
+                    lines.append(f"  - {issue}")
+
+    return "\n".join(lines)
+
+
+# =============================================================================
 # Streaming Chat Endpoint
 # =============================================================================
 
@@ -620,7 +682,7 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
             stream_manager.emit(workflow_start_event(data.message))
 
         # Result container
-        workflow_result = {"result": None, "error": None}
+        workflow_result = {"result": None, "error": None, "planning_session": None}
 
         def run_workflow():
             try:
@@ -666,8 +728,68 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
                 if streaming_available:
                     stream_manager.mark_done()
 
-        # Run workflow in background
-        workflow_thread = Thread(target=run_workflow, daemon=True)
+        def run_planning_workflow():
+            """Run collaborative planning mode instead of regular workflow."""
+            try:
+                import asyncio
+                from planning.coordinator import PlanningModeCoordinator
+                from agents.planning_agent import AcademicPlanningAgent
+                from agents.programs_agent import ProgramsRequirementsAgent
+                from agents.courses_agent import CourseSchedulingAgent
+                from agents.policy_agent import PolicyComplianceAgent
+
+                # Get cached agents
+                agents = get_planning_agents()
+
+                # Event emitter for streaming
+                def emit_event(event: dict):
+                    if streaming_available:
+                        stream_manager.emit({
+                            "type": event.get("type", "planning_update"),
+                            "data": event
+                        })
+
+                # Create coordinator with student profile access
+                coordinator = PlanningModeCoordinator(
+                    planning_agent=agents["planning"],
+                    programs_agent=agents["programs"],
+                    courses_agent=agents["courses"],
+                    policy_agent=agents["policy"],
+                    emit_event=emit_event,
+                    db=None
+                )
+
+                # Add user_id to student_profile
+                profile_with_id = {**student_profile, "_id": str(user["_id"])}
+
+                # Run planning session synchronously
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    session = loop.run_until_complete(
+                        coordinator.execute_planning_session(
+                            user_id=str(user["_id"]),
+                            conversation_id=conversation_id,
+                            request=data.message,
+                            student_profile=profile_with_id
+                        )
+                    )
+                    workflow_result["planning_session"] = session
+                finally:
+                    loop.close()
+
+            except Exception as e:
+                workflow_result["error"] = str(e)
+                logger.error(f"Planning workflow error: {e}", exc_info=True)
+            finally:
+                if streaming_available:
+                    stream_manager.mark_done()
+
+        # Run workflow in background (planning or regular)
+        if data.planning_mode:
+            workflow_thread = Thread(target=run_planning_workflow, daemon=True)
+        else:
+            workflow_thread = Thread(target=run_workflow, daemon=True)
         workflow_thread.start()
 
         # Stream events
@@ -679,10 +801,49 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
                 logger.error(f"Stream error: {e}")
 
         # Wait for workflow to complete
-        workflow_thread.join(timeout=180)
+        workflow_thread.join(timeout=300)  # Longer timeout for planning mode (up to 10 rounds)
 
-        # Send final answer
-        if workflow_result["result"]:
+        # Handle planning session result
+        if workflow_result.get("planning_session"):
+            session = workflow_result["planning_session"]
+
+            # Format planning result as a readable message
+            response_text = _format_planning_result(session)
+
+            # Build metadata for planning session
+            full_metadata = {
+                "planning_mode": True,
+                "session_id": session.session_id,
+                "status": session.status,
+                "total_rounds": len(session.rounds),
+                "agents_used": ["academic_planning", "programs_requirements", "course_scheduling", "policy_compliance"],
+                "final_plan": session.final_plan.to_dict() if session.final_plan else None,
+            }
+
+            # Save planning result to database
+            await add_message(conversation_id, "assistant", response_text, metadata=full_metadata)
+
+            # Also save planning session to planning_sessions collection
+            db = await MongoDB.get_db()
+            await db.planning_sessions.insert_one({
+                "session_id": session.session_id,
+                "user_id": str(user["_id"]),
+                "conversation_id": conversation_id,
+                "request": data.message,
+                "result": session.to_dict(),
+                "status": session.status,
+                "total_rounds": len(session.rounds),
+                "created_at": datetime.utcnow()
+            })
+
+            # Send planning complete event with full session data
+            yield f"data: {json.dumps({'type': 'planning_complete', 'data': {'session_id': session.session_id, 'status': session.status, 'total_rounds': len(session.rounds), 'final_plan': session.final_plan.to_dict() if session.final_plan else None}})}\n\n"
+
+            # Send answer
+            yield f"data: {json.dumps({'type': 'answer', 'data': {'content': response_text, 'conversation_id': conversation_id, 'agents_used': full_metadata['agents_used'], 'planning_mode': True, 'session_id': session.session_id}})}\n\n"
+
+        # Send final answer for regular workflow
+        elif workflow_result["result"]:
             result = workflow_result["result"]
             response_text = ""
             if result.get("messages"):

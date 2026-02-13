@@ -225,7 +225,8 @@ export const chat = {
   async sendStreaming(
     message: string,
     conversationId: string | undefined,
-    callbacks: StreamCallbacks
+    callbacks: StreamCallbacks,
+    planningMode: boolean = false
   ): Promise<void> {
     const token = getToken();
 
@@ -238,6 +239,7 @@ export const chat = {
       body: JSON.stringify({
         message,
         conversation_id: conversationId,
+        planning_mode: planningMode,
       }),
     });
 

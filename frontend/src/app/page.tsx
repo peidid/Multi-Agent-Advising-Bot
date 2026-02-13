@@ -9,8 +9,6 @@ import AgentStatus from '@/components/AgentStatus';
 import WorkflowDetails from '@/components/WorkflowDetails';
 import AuthModal from '@/components/AuthModal';
 import ProfileModal from '@/components/ProfileModal';
-import PlanningToggle from '@/components/PlanningToggle';
-import PlanningPanel from '@/components/PlanningPanel';
 import {
   auth,
   conversations,
@@ -30,10 +28,6 @@ export default function Home() {
   const [showAuth, setShowAuth] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // Planning mode state
-  const [showPlanningPanel, setShowPlanningPanel] = useState(false);
-  const [isPlanningMode, setIsPlanningMode] = useState(false);
 
   // Chat state
   const [conversationList, setConversationList] = useState<Conversation[]>([]);
@@ -145,18 +139,18 @@ export default function Home() {
   };
 
   // Handle send message with streaming
-  const handleSendMessage = async (message: string) => {
+  const handleSendMessage = async (message: string, planningMode: boolean = false) => {
     if (!user) {
       setShowAuth(true);
       return;
     }
 
-    // Add user message immediately
+    // Add user message immediately with planning mode indicator
     const userMessage: Message = {
       _id: `temp-${Date.now()}`,
       conversation_id: currentConversation?._id || '',
       role: 'user',
-      content: message,
+      content: planningMode ? `🗓️ **[Planning Mode]** ${message}` : message,
       timestamp: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, userMessage]);
@@ -167,7 +161,7 @@ export default function Home() {
     setCompletedAgents([]);
     setStreamEvents([]);
     streamEventsRef.current = [];
-    setCurrentPhase('starting');
+    setCurrentPhase(planningMode ? 'Starting collaborative planning...' : 'starting');
 
     try {
       // Use streaming endpoint for real-time updates
@@ -199,6 +193,28 @@ export default function Home() {
               setActiveAgents(agents);
             } else if (event.type === 'synthesis_start') {
               setCurrentPhase('Synthesizing final answer...');
+            }
+
+            // Handle planning-specific events
+            if (event.type === 'planning_session_start') {
+              setCurrentPhase('Planning session started...');
+            } else if (event.type === 'planning_round_start') {
+              const round = (event.data as { round?: number })?.round || 0;
+              setCurrentPhase(`Round ${round}: Planning agent proposing...`);
+            } else if (event.type === 'planning_critiquing') {
+              setCurrentPhase('Agents reviewing plan in parallel...');
+              setActiveAgents(['programs_requirements', 'course_scheduling', 'policy_compliance']);
+            } else if (event.type === 'planning_round_complete') {
+              const data = event.data as { round?: number; all_approved?: boolean };
+              if (data.all_approved) {
+                setCurrentPhase(`Round ${data.round}: All agents approved!`);
+              } else {
+                setCurrentPhase(`Round ${data.round}: Revisions needed...`);
+              }
+              setActiveAgents([]);
+            } else if (event.type === 'planning_complete') {
+              setCurrentPhase('Planning complete!');
+              setActiveAgents([]);
             }
           },
           onAnswer: async (answer: string, conversationId: string, workflowDetails?: WorkflowDetailsType) => {
@@ -252,7 +268,8 @@ export default function Home() {
           onComplete: () => {
             setCurrentPhase('');
           },
-        }
+        },
+        planningMode
       );
     } catch (err) {
       console.error('Failed to send message:', err);
@@ -310,18 +327,6 @@ export default function Home() {
               <p className="text-sm text-gray-500">CMU Qatar Multi-Agent System</p>
             </div>
           </div>
-          {user && (
-            <PlanningToggle
-              isPlanningMode={isPlanningMode}
-              onToggle={() => {
-                setIsPlanningMode(!isPlanningMode);
-                if (!isPlanningMode) {
-                  setShowPlanningPanel(true);
-                }
-              }}
-              disabled={sending}
-            />
-          )}
           {!user && (
             <button
               onClick={() => setShowAuth(true)}
@@ -415,16 +420,6 @@ export default function Home() {
           onSave={handleProfileSave}
         />
       )}
-
-      {/* Planning Panel */}
-      <PlanningPanel
-        isOpen={showPlanningPanel}
-        onClose={() => {
-          setShowPlanningPanel(false);
-          setIsPlanningMode(false);
-        }}
-        conversationId={currentConversation?._id}
-      />
     </div>
   );
 }

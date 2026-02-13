@@ -26,7 +26,7 @@ from planning.schema import (
 class PlanningModeCoordinator:
     """Coordinates the collaborative planning process."""
 
-    MAX_ROUNDS = 5
+    MAX_ROUNDS = 10
 
     def __init__(
         self,
