@@ -129,17 +129,27 @@ class BaseAgent(ABC):
         except ImportError:
             pass
 
-    def retrieve_context(self, query: str) -> str:
+    def retrieve_context(self, query: str, k: int = None) -> str:
         """
         Retrieve domain-specific context using RAG.
         Emits streaming events for real-time visibility.
 
         This is the agent's "superpower" - access to domain-specific knowledge.
+
+        Args:
+            query: The search query
+            k: Number of documents to retrieve (optional, uses default if not specified)
         """
         # Emit that we're starting retrieval
         self.emit_retrieving(query)
 
-        results = self.retriever.invoke(query)
+        if k is not None and k != 5:
+            # Use custom k value - get a new retriever with different k
+            from rag_engine_improved import get_retriever
+            custom_retriever = get_retriever(domain=self.domain, k=k)
+            results = custom_retriever.invoke(query)
+        else:
+            results = self.retriever.invoke(query)
 
         # Emit retrieval complete with doc count
         self.emit_retrieving(query, len(results))

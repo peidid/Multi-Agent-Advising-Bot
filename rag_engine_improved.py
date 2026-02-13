@@ -424,13 +424,24 @@ def get_retriever(domain: Optional[str] = None, k: int = 5):
     
     print(f"   Total documents: {len(documents)}")
     
+    # Domain-specific chunk sizes
+    # Programs and schedules need larger chunks to keep context together
+    if domain in ["programs", "schedules", "planning"]:
+        chunk_size = 3000
+        chunk_overlap = 300
+    else:
+        chunk_size = 1000
+        chunk_overlap = 100
+
     # Split documents
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=100,
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
         separators=["\n\n", "\n", ". ", " ", ""]
     )
     chunks = splitter.split_documents(documents)
+
+    print(f"   Chunk size: {chunk_size}, overlap: {chunk_overlap}")
     
     print(f"   Total chunks: {len(chunks)}")
     
