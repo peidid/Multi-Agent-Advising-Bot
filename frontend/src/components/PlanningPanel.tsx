@@ -298,11 +298,20 @@ function RoundCard({
 
       {/* Proposed Plan */}
       {round.plan && (
-        <div className="mb-3">
-          <h4 className="text-sm font-medium text-gray-300 mb-2">
-            Proposed Plan:
+        <div className="mb-3 bg-blue-900/30 border border-blue-600 rounded-lg p-3">
+          <h4 className="text-sm font-semibold text-blue-300 mb-2 flex items-center gap-2">
+            📋 Planning Agent's Proposal:
           </h4>
           <PlanDisplay plan={round.plan} compact />
+        </div>
+      )}
+
+      {/* Show placeholder if plan is being generated */}
+      {round.status === 'proposing' && !round.plan && (
+        <div className="mb-3 bg-blue-900/20 border border-blue-700 rounded-lg p-3 animate-pulse">
+          <h4 className="text-sm font-medium text-blue-400">
+            ⏳ Planning Agent is generating a plan...
+          </h4>
         </div>
       )}
 
@@ -391,89 +400,118 @@ function PlanDisplay({
   plan: CoursePlan;
   compact?: boolean;
 }) {
+  // Safety checks for potentially undefined data
+  const semesters = plan.semesters || [];
+  const program = plan.program || 'Not specified';
+  const startSemester = plan.start_semester || 'TBD';
+  const targetGraduation = plan.target_graduation || 'TBD';
+  const totalUnits = plan.total_units || 0;
+
   if (compact) {
     return (
-      <div className="text-sm text-gray-300 space-y-1">
-        <div>
-          <span className="text-gray-500">Program:</span> {plan.program}
+      <div className="text-sm text-gray-300 space-y-2">
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <span className="text-gray-500">Program:</span>{' '}
+            <span className="text-white font-medium">{program}</span>
+          </div>
+          <div>
+            <span className="text-gray-500">Units:</span>{' '}
+            <span className="text-white font-medium">{totalUnits}</span>
+          </div>
         </div>
         <div>
-          <span className="text-gray-500">Timeline:</span> {plan.start_semester}{' '}
-          → {plan.target_graduation}
+          <span className="text-gray-500">Timeline:</span>{' '}
+          <span className="text-white">{startSemester} → {targetGraduation}</span>
         </div>
-        <div>
-          <span className="text-gray-500">Total Units:</span> {plan.total_units}
-        </div>
-        <div className="flex flex-wrap gap-1 mt-2">
-          {plan.semesters.slice(0, 3).map((sem) => (
-            <span
-              key={sem.semester}
-              className="text-xs px-2 py-1 bg-gray-700 rounded"
-            >
-              {sem.semester}: {sem.courses.length} courses
-            </span>
-          ))}
-          {plan.semesters.length > 3 && (
-            <span className="text-xs px-2 py-1 bg-gray-700 rounded">
-              +{plan.semesters.length - 3} more
-            </span>
-          )}
-        </div>
+        {semesters.length > 0 && (
+          <div className="mt-2">
+            <span className="text-gray-500 text-xs">Semester Overview:</span>
+            <div className="flex flex-wrap gap-1 mt-1">
+              {semesters.slice(0, 4).map((sem) => (
+                <span
+                  key={sem.semester}
+                  className="text-xs px-2 py-1 bg-gray-700 rounded text-white"
+                >
+                  {sem.semester}: {sem.courses?.length || 0} courses ({sem.total_units || 0}u)
+                </span>
+              ))}
+              {semesters.length > 4 && (
+                <span className="text-xs px-2 py-1 bg-gray-600 rounded">
+                  +{semesters.length - 4} more semesters
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+        {semesters.length === 0 && (
+          <div className="text-yellow-400 text-xs mt-1">
+            ⚠️ No semester details available
+          </div>
+        )}
       </div>
     );
   }
+
+  const requirementsPending = plan.requirements_pending || [];
 
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
           <span className="text-gray-500">Program:</span>{' '}
-          <span className="text-white">{plan.program}</span>
+          <span className="text-white font-medium">{program}</span>
         </div>
         <div>
           <span className="text-gray-500">Total Units:</span>{' '}
-          <span className="text-white">{plan.total_units}</span>
+          <span className="text-white font-medium">{totalUnits}</span>
         </div>
         <div>
           <span className="text-gray-500">Start:</span>{' '}
-          <span className="text-white">{plan.start_semester}</span>
+          <span className="text-white">{startSemester}</span>
         </div>
         <div>
           <span className="text-gray-500">Graduation:</span>{' '}
-          <span className="text-white">{plan.target_graduation}</span>
+          <span className="text-white">{targetGraduation}</span>
         </div>
       </div>
 
       <div className="space-y-2">
         <h4 className="text-sm font-medium text-gray-300">Semester Schedule:</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {plan.semesters.map((sem) => (
-            <div
-              key={sem.semester}
-              className="bg-gray-800 rounded-lg p-3 text-sm"
-            >
-              <div className="font-medium text-white mb-1">
-                {sem.semester}
-                <span className="text-gray-500 ml-2">
-                  ({sem.total_units} units)
-                </span>
+        {semesters.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {semesters.map((sem) => (
+              <div
+                key={sem.semester}
+                className="bg-gray-800 rounded-lg p-3 text-sm"
+              >
+                <div className="font-medium text-white mb-1">
+                  {sem.semester}
+                  <span className="text-gray-500 ml-2">
+                    ({sem.total_units || 0} units)
+                  </span>
+                </div>
+                <div className="text-gray-300">
+                  {(sem.courses || []).join(', ') || 'No courses listed'}
+                </div>
+                {sem.notes && (
+                  <div className="text-xs text-gray-500 mt-1">{sem.notes}</div>
+                )}
               </div>
-              <div className="text-gray-300">
-                {sem.courses.join(', ')}
-              </div>
-              {sem.notes && (
-                <div className="text-xs text-gray-500 mt-1">{sem.notes}</div>
-              )}
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-yellow-400 text-sm">
+            ⚠️ No semester schedule available
+          </div>
+        )}
       </div>
 
-      {plan.requirements_pending.length > 0 && (
+      {requirementsPending.length > 0 && (
         <div className="text-sm">
-          <span className="text-gray-500">Pending:</span>{' '}
+          <span className="text-gray-500">Pending Requirements:</span>{' '}
           <span className="text-yellow-400">
-            {plan.requirements_pending.join(', ')}
+            {requirementsPending.join(', ')}
           </span>
         </div>
       )}
