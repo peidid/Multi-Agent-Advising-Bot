@@ -251,6 +251,15 @@ class PlanningModeCoordinator:
 
         return plan_json
 
+    def _get_program_name(self, student_profile: Dict[str, Any]) -> str:
+        """Safely extract program/major name from student profile."""
+        major = student_profile.get('major')
+        if isinstance(major, list) and len(major) > 0:
+            return major[0]
+        elif isinstance(major, str) and major:
+            return major
+        return 'CS'  # Default fallback
+
     def _generate_plan_json(
         self,
         request: str,
@@ -260,6 +269,9 @@ class PlanningModeCoordinator:
     ) -> CoursePlanJSON:
         """Generate plan using planning agent's LLM."""
         from langchain_core.messages import SystemMessage
+
+        # Safely get program name
+        program_name = self._get_program_name(student_profile)
 
         revision_instruction = ""
         if critique_context:
@@ -286,7 +298,7 @@ OUTPUT FORMAT - You MUST respond with ONLY valid JSON, no other text:
 {{
     "plan_id": "plan_{round_num}",
     "student_id": "{student_profile.get('_id', 'unknown')}",
-    "program": "{student_profile.get('major', ['CS'])[0] if isinstance(student_profile.get('major'), list) else student_profile.get('major', 'CS')}",
+    "program": "{program_name}",
     "start_semester": "Fall 2025",
     "target_graduation": "Spring 2029",
     "semesters": [
@@ -339,7 +351,7 @@ Respond with ONLY the JSON, no explanation."""
             return CoursePlanJSON(
                 plan_id=f"plan_{round_num}",
                 student_id=str(student_profile.get('_id', 'unknown')),
-                program=student_profile.get('major', ['CS'])[0] if isinstance(student_profile.get('major'), list) else student_profile.get('major', 'CS'),
+                program=program_name,
                 start_semester="Fall 2025",
                 target_graduation="Spring 2029",
                 semesters=[
