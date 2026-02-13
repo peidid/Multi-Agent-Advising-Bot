@@ -145,6 +145,62 @@ class BaseAgent(ABC):
         self.emit_retrieving(query, len(results))
 
         return "\n".join([doc.page_content for doc in results])
+
+    def get_memory_context(self, state: BlackboardState) -> str:
+        """
+        Get formatted memory context from state.
+
+        This includes:
+        - Recent conversation history (so agent understands "it", "the course", etc.)
+        - Student profile (major, courses taken, goals)
+
+        Args:
+            state: Current workflow state
+
+        Returns:
+            Formatted context string for inclusion in prompts
+        """
+        # Check if context_text was pre-built by coordinator
+        if state.get("context_text"):
+            return state["context_text"]
+
+        # Build context from state components
+        try:
+            from memory.context_formatter import build_agent_context
+            conversation_history = state.get("conversation_history", [])
+            student_profile = state.get("student_profile", {})
+            return build_agent_context(conversation_history, student_profile)
+        except ImportError:
+            # Fallback: simple formatting
+            return self._simple_context_format(state)
+
+    def _simple_context_format(self, state: BlackboardState) -> str:
+        """Simple fallback context formatting."""
+        parts = []
+
+        # Student profile
+        profile = state.get("student_profile", {})
+        if profile:
+            major = profile.get("major")
+            if isinstance(major, list) and major:
+                major = major[0]
+            if major:
+                parts.append(f"Student Major: {major}")
+
+            courses = profile.get("completed_courses", [])
+            if courses:
+                parts.append(f"Completed Courses: {', '.join(courses[:5])}")
+
+        # Conversation history
+        history = state.get("conversation_history", [])
+        if history:
+            recent = history[-3:]
+            for msg in recent:
+                role = "Student" if msg.get("role") == "user" else "Advisor"
+                content = msg.get("content", "")[:200]
+                parts.append(f"{role}: {content}")
+
+        return "\n".join(parts) if parts else ""
     
     @abstractmethod
     def execute(self, state: BlackboardState) -> AgentOutput:

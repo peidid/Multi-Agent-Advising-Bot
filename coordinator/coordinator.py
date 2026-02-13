@@ -29,6 +29,13 @@ from config import get_coordinator_model, get_coordinator_temperature, get_opena
 from coordinator.llm_driven_coordinator import LLMDrivenCoordinator
 from coordinator.clarification_handler import ClarificationHandler
 
+# Context formatter for passing context to agents (lightweight, no processing)
+try:
+    from memory.context_formatter import build_agent_context, format_conversation_context
+    CONTEXT_FORMATTER_AVAILABLE = True
+except ImportError:
+    CONTEXT_FORMATTER_AVAILABLE = False
+
 # Fine-tuned classifier (fast routing)
 try:
     from coordinator.finetuned_classifier import FineTunedClassifier
@@ -116,6 +123,12 @@ class Coordinator:
             print("   • Dynamic agent coordination")
             print("   • Context-aware decision making")
             print("   • Interactive clarification support")
+
+        # Context formatting available
+        if CONTEXT_FORMATTER_AVAILABLE:
+            print("✅ Context Formatter enabled")
+            print("   • Conversation context passed to agents")
+            print("   • Student profile included in prompts")
     
     def classify_intent(self, query: str, conversation_history: List[Dict] = None,
                        student_profile: Dict = None) -> Dict[str, Any]:
@@ -133,6 +146,17 @@ class Coordinator:
         Returns:
             Intent dictionary with agents, confidence, reasoning, etc.
         """
+        # Build context string for agents (no processing, just formatting)
+        context_text = ""
+        if CONTEXT_FORMATTER_AVAILABLE:
+            try:
+                context_text = build_agent_context(
+                    conversation_history or [],
+                    student_profile or {}
+                )
+            except Exception as e:
+                print(f"⚠️  Context formatting error: {e}")
+
         try:
             # === FAST PATH: Use fine-tuned classifier ===
             if self.finetuned_classifier:
@@ -152,17 +176,18 @@ class Coordinator:
                     "priority": "high",
                     "intents": result["intents"],
                     "is_multi_agent": result["is_multi"],
-                    "mode": "finetuned"
+                    "mode": "finetuned",
+                    "context_text": context_text  # Pass context to agents
                 }
 
             # === SLOW PATH: Full LLM reasoning ===
-            # Normal workflow planning
+            # Normal workflow planning with original query
             plan = self.llm_coordinator.understand_and_plan(
                 query,
                 conversation_history or [],
                 student_profile or {}
             )
-            
+
             # Convert WorkflowPlan to intent dictionary format for compatibility
             result = {
                 "intent_type": "llm_planned",
@@ -179,7 +204,8 @@ class Coordinator:
                 "success_criteria": plan.success_criteria,
                 "understanding": plan.full_analysis.get('understanding', {}) if hasattr(plan, 'full_analysis') else {},
                 "agent_analysis": plan.full_analysis.get('agent_analysis', {}) if hasattr(plan, 'full_analysis') else {},
-                "mode": "llm_driven"
+                "mode": "llm_driven",
+                "context_text": context_text  # Pass context to agents
             }
             
             return result
@@ -392,4 +418,26 @@ Remember: Students want the answer FIRST, details SECOND. Make it easy to scan q
         return {
             "workflow_step": WorkflowStep.SYNTHESIS
         }
+
+    def build_context_for_agents(
+        self,
+        conversation_history: List[Dict] = None,
+        student_profile: Dict = None
+    ) -> str:
+        """
+        Build context string to pass to agents.
+
+        Args:
+            conversation_history: Recent conversation messages
+            student_profile: Student profile data
+
+        Returns:
+            Formatted context string for agent prompts
+        """
+        if CONTEXT_FORMATTER_AVAILABLE:
+            return build_agent_context(
+                conversation_history or [],
+                student_profile or {}
+            )
+        return ""
 

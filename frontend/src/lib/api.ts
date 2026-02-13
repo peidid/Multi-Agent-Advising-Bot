@@ -12,13 +12,25 @@ export interface User {
   profile?: UserProfile;
 }
 
+export interface CourseTaken {
+  code: string;
+  name?: string;
+  grade: string;
+  semester: string;
+  units?: number;
+}
+
 export interface UserProfile {
   major?: string;
   year?: string;  // First Year, Sophomore, Junior, Senior
   minors?: string[];
+  concentration?: string;
   gpa?: number;
+  expected_graduation?: string;
   completed_courses?: string[];
+  courses_taken?: CourseTaken[];
   interests?: string[];
+  career_goals?: string[];
 }
 
 export interface Conversation {

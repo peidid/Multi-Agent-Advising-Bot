@@ -124,10 +124,15 @@ async def create_user(email: str, name: str, password_hash: str) -> Dict[str, An
         "created_at": datetime.utcnow(),
         "profile": {
             "major": None,
+            "year": None,
             "minors": [],
+            "concentration": None,
             "gpa": None,
+            "expected_graduation": None,
             "completed_courses": [],
-            "interests": []
+            "courses_taken": [],  # Array of {code, name, grade, semester, units}
+            "interests": [],
+            "career_goals": []
         }
     }
 

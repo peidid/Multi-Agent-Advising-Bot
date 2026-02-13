@@ -40,6 +40,9 @@ class AcademicPlanningAgent(BaseAgent):
             student_profile = state.get("student_profile", {})
             agent_outputs = state.get("agent_outputs", {})
 
+            # Get memory context (conversation history + student profile)
+            memory_context = self.get_memory_context(state)
+
             # Extract planning parameters
             self.emit_thinking("Analyzing planning parameters...")
             planning_params = self._extract_planning_parameters(
@@ -57,7 +60,8 @@ class AcademicPlanningAgent(BaseAgent):
                 planning_params,
                 program_requirements,
                 course_schedules,
-                student_profile
+                student_profile,
+                memory_context
             )
 
             # Generate plan
@@ -174,15 +178,25 @@ class AcademicPlanningAgent(BaseAgent):
                         with open(filepath, 'r', encoding='utf-8') as f:
                             data = json.load(f)
 
-                            # Determine key from filename or content
-                            if "semester" in data:
-                                term = data.get("semester", {})
-                                key = f"{term.get('year', '')}_{term.get('term', '')}".lower()
-                            else:
-                                # Use filename as key (e.g., "Fall_2024_courses")
+                            # Handle different JSON formats
+                            if isinstance(data, list):
+                                # List format (e.g., Fall_2025_courses.json)
+                                # Wrap in a dict structure
                                 key = filename.replace('.json', '').lower()
-
-                            schedules[key] = data
+                                schedules[key] = {
+                                    "offerings": data,
+                                    "total_courses": len(data),
+                                    "semester": self._parse_semester_from_filename(filename)
+                                }
+                            elif isinstance(data, dict):
+                                # Dict format (e.g., schedule_2026_spring.json)
+                                if "semester" in data:
+                                    term = data.get("semester", {})
+                                    key = f"{term.get('year', '')}_{term.get('term', '')}".lower()
+                                else:
+                                    key = filename.replace('.json', '').lower()
+                                schedules[key] = data
+                            # Skip other formats
 
                 print(f"📅 Loaded {len(schedules)} schedule files from {schedule_dir}")
 
@@ -191,8 +205,17 @@ class AcademicPlanningAgent(BaseAgent):
 
         return schedules
 
+    def _parse_semester_from_filename(self, filename: str) -> dict:
+        """Extract semester info from filename like 'Fall_2025_courses.json'."""
+        import re
+        match = re.search(r'(Fall|Spring|Summer)_(\d{4})', filename, re.IGNORECASE)
+        if match:
+            return {"term": match.group(1).title(), "year": int(match.group(2))}
+        return {}
+
     def _build_planning_prompt(self, params: dict, requirements: dict,
-                               schedules: dict, profile: dict) -> str:
+                               schedules: dict, profile: dict,
+                               memory_context: str = "") -> str:
         """Build comprehensive planning prompt."""
 
         # Summarize available schedules
@@ -201,8 +224,17 @@ class AcademicPlanningAgent(BaseAgent):
         # Get RAG-retrieved schedule context
         schedule_rag_context = requirements.get('schedule_context', '')
 
-        prompt = f"""You are an expert academic advisor creating a semester-by-semester course plan.
+        # Include conversation context if available
+        context_section = ""
+        if memory_context:
+            context_section = f"""
+{memory_context}
 
+IMPORTANT: Use the conversation context above to understand what courses, semesters, or constraints the student has mentioned. If they refer to "it", "the course", or "that semester", look at the context to understand what they mean.
+"""
+
+        prompt = f"""You are an expert academic advisor creating a semester-by-semester course plan.
+{context_section}
 **Student Profile:**
 - Program: {params.get('program', 'N/A')}
 - Current Status: {params.get('current_semester', 'Starting')}
@@ -265,17 +297,33 @@ RATIONALE FOR PLAN A:
 
         summary_lines = []
         for key, data in sorted(schedules.items()):
+            # Skip if data is not a dict (shouldn't happen after _get_course_schedules fix)
+            if not isinstance(data, dict):
+                continue
+
             term = data.get("semester", {})
-            term_name = f"{term.get('term', '')} {term.get('year', '')}"
-            course_count = data.get("total_courses", len(data.get("offerings", [])))
+            if isinstance(term, dict):
+                term_name = f"{term.get('term', '')} {term.get('year', '')}".strip()
+            else:
+                term_name = key.replace('_', ' ').title()
 
-            # Sample some courses
-            offerings = data.get("offerings", [])[:5]
-            course_codes = [o.get("course_code", "") for o in offerings]
+            course_count = data.get("total_courses", 0)
+            offerings = data.get("offerings", [])
+            if not course_count and offerings:
+                course_count = len(offerings)
 
-            summary_lines.append(
-                f"{term_name}: {course_count} courses (e.g., {', '.join(course_codes[:3])}...)"
-            )
+            # Sample some courses - handle different field names
+            sample_offerings = offerings[:5] if offerings else []
+            course_codes = []
+            for o in sample_offerings:
+                if isinstance(o, dict):
+                    code = o.get("course_code") or o.get("Course - ID", "")
+                    if code:
+                        course_codes.append(code)
+
+            if term_name:
+                sample_str = f"(e.g., {', '.join(course_codes[:3])}...)" if course_codes else ""
+                summary_lines.append(f"{term_name}: {course_count} courses {sample_str}")
 
         return "\n".join(summary_lines) if summary_lines else "Schedule data loaded."
 

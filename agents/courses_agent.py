@@ -33,11 +33,14 @@ class CourseSchedulingAgent(BaseAgent):
             agent_outputs = state.get("agent_outputs", {})
             messages = state.get("messages", [])
 
+            # Get memory context (conversation history + student profile)
+            memory_context = self.get_memory_context(state)
+
             # Extract courses from plan or query
             courses = self._extract_courses(plan_options, user_query, agent_outputs, messages)
 
             if not courses:
-                result = self._answer_general_question(user_query, messages)
+                result = self._answer_general_question(user_query, messages, memory_context)
                 self.emit_output(result)
                 self.emit_complete(confidence=result.confidence, summary="Answered course question")
                 return result
@@ -64,7 +67,7 @@ class CourseSchedulingAgent(BaseAgent):
 
             # Build prompt and call LLM
             self.emit_thinking("Generating course information...")
-            prompt = self._build_prompt(user_query, course_info, risks)
+            prompt = self._build_prompt(user_query, course_info, risks, memory_context)
             response = self.llm.invoke([SystemMessage(content=prompt)])
 
             result = AgentOutput(
@@ -123,15 +126,15 @@ class CourseSchedulingAgent(BaseAgent):
         
         return list(courses)
     
-    def _answer_general_question(self, query: str, messages: list = None) -> AgentOutput:
+    def _answer_general_question(self, query: str, messages: list = None, memory_context: str = "") -> AgentOutput:
         """Answer general course questions."""
         # Try to extract course codes even if not explicitly mentioned
         course_codes = find_course_codes_in_text(query)
-        
+
         # Also check for course mentions
         course_mentions = re.findall(r'(?:course|COURSE)\s+(\d{2}-\d{3})', query, re.IGNORECASE)
         course_codes.extend(course_mentions)
-        
+
         # Check previous messages if no course found in current query
         if not course_codes and messages:
             for msg in messages:
@@ -140,7 +143,7 @@ class CourseSchedulingAgent(BaseAgent):
                     course_codes.extend(find_course_codes_in_text(content))
                     course_mentions = re.findall(r'(?:course|COURSE)\s+(\d{2}-\d{3})', content, re.IGNORECASE)
                     course_codes.extend(course_mentions)
-        
+
         if course_codes:
             # If we found course codes, try to get their info
             course_info = []
@@ -153,9 +156,9 @@ class CourseSchedulingAgent(BaseAgent):
                         "data": course_data,
                         "context": context
                     })
-            
+
             if course_info:
-                prompt = self._build_prompt(query, course_info, [])
+                prompt = self._build_prompt(query, course_info, [], memory_context)
                 response = self.llm.invoke([SystemMessage(content=prompt)])
                 return AgentOutput(
                     agent_name=self.name,
@@ -165,24 +168,27 @@ class CourseSchedulingAgent(BaseAgent):
                     risks=[],
                     constraints=[]
                 )
-        
+
         # Fallback to general RAG search
         context = self.retrieve_context(query)
+
+        context_section = ""
+        if memory_context:
+            context_section = f"""
+{memory_context}
+
+IMPORTANT: Use the conversation context above to understand what "it", "the course", "this class" etc. refer to.
+"""
+
         prompt = f"""You are the Course & Scheduling Agent for CMU-Q.
-
+{context_section}
 Query: {query}
-Context: {context}
+RAG Context: {context}
 
-IMPORTANT - How to Use Retrieved Context:
-- Each retrieved chunk includes [DOCUMENT CONTEXT] metadata showing:
-  * File name (which course JSON file)
-  * Courses mentioned in that section
-  * Summary of content
-- Use this metadata to identify which courses are being discussed
-- If the query mentions "this course" or similar, look at the courses mentioned in the metadata
-
-Answer questions about course offerings, schedules, availability, prerequisites, assessment structure, and course content.
-If the query mentions a specific course but no course code was found, try to infer which course is being discussed from the context and metadata.
+IMPORTANT:
+- If the student refers to "it", "the course", "this class", look at the CONVERSATION CONTEXT above to understand what they mean
+- Each retrieved chunk includes [DOCUMENT CONTEXT] metadata showing the source
+- Answer questions about course offerings, schedules, availability, prerequisites, assessment structure, and course content
 """
         response = self.llm.invoke([SystemMessage(content=prompt)])
         return AgentOutput(
@@ -194,23 +200,33 @@ If the query mentions a specific course but no course code was found, try to inf
             constraints=[]
         )
     
-    def _build_prompt(self, query: str, course_info: list, risks: list) -> str:
+    def _build_prompt(self, query: str, course_info: list, risks: list, memory_context: str = "") -> str:
         """Build prompt for course checking."""
         courses_text = json.dumps(course_info, indent=2, default=str)
-        return f"""You are the Course & Scheduling Agent for CMU-Q.
 
+        context_section = ""
+        if memory_context:
+            context_section = f"""
+{memory_context}
+
+IMPORTANT: Use the conversation context above to understand what "it", "the course", "this class" etc. refer to.
+"""
+
+        return f"""You are the Course & Scheduling Agent for CMU-Q.
+{context_section}
 Your Responsibilities:
 - Provide detailed information about specific courses
 - Answer questions about prerequisites, assessment structure, course content, description
 - Provide course offering details, schedules, and availability
 - Check for schedule conflicts
 
-Query: {query}
+Current Query: {query}
 
 Course Information:
 {courses_text}
 
-IMPORTANT: 
+IMPORTANT:
+- If the student refers to "it", "the course", "this class", look at the CONVERSATION CONTEXT above to understand what they mean
 - If course data is provided, use it directly to answer questions about prerequisites, assessment structure, course content, etc.
 - The "data" field contains structured course information including:
   * prereqs.text: Prerequisites text
@@ -220,15 +236,8 @@ IMPORTANT:
   * custom_fields.prerequisite_knowledge: Prerequisite knowledge needed
   * long_desc: Course description
   * units, min_units, max_units: Course units
-- The "context" field contains RAG-retrieved information with [DOCUMENT CONTEXT] metadata showing:
-  * File name (which course JSON file the info comes from)
-  * Document type (course_description)
-  * Summary of what's in that course document
-- Use this metadata to understand the source of information
+- The "context" field contains RAG-retrieved information
 - Be specific and accurate - cite exact information from the course data
-- If asked about prerequisites, provide the exact text from prereqs.text
-- If asked about assessment structure, provide details from custom_fields.assessment_structure
-- If referencing information from context, you can mention it comes from the course's documentation
 
 Provide a comprehensive answer that directly addresses the user's query using the course information provided.
 """

@@ -35,6 +35,9 @@ class PolicyComplianceAgent(BaseAgent):
             agent_outputs = state.get("agent_outputs", {})
             student_profile = state.get("student_profile", {})
 
+            # Get memory context (conversation history + student profile)
+            memory_context = self.get_memory_context(state)
+
             # Check if we need to critique a plan
             programs_output = agent_outputs.get("programs_requirements")
             has_plan = (
@@ -45,7 +48,7 @@ class PolicyComplianceAgent(BaseAgent):
 
             if has_plan:
                 self.emit_thinking("Critiquing proposed plan for compliance...")
-                result = self._critique_plan(programs_output.plan_options[0], student_profile)
+                result = self._critique_plan(programs_output.plan_options[0], student_profile, memory_context)
                 risk_count = len(result.risks) if result.risks else 0
                 self.emit_output(result)
                 self.emit_complete(
@@ -55,7 +58,7 @@ class PolicyComplianceAgent(BaseAgent):
                 return result
             else:
                 self.emit_thinking("Searching policy documents...")
-                result = self._answer_policy_question(user_query)
+                result = self._answer_policy_question(user_query, memory_context)
                 self.emit_output(result)
                 self.emit_complete(confidence=result.confidence, summary="Answered policy question")
                 return result
@@ -64,14 +67,23 @@ class PolicyComplianceAgent(BaseAgent):
             self.emit_error(str(e))
             raise
     
-    def _critique_plan(self, plan_option, student_profile: dict) -> AgentOutput:
+    def _critique_plan(self, plan_option, student_profile: dict, memory_context: str = "") -> AgentOutput:
         """Critique a proposed plan for policy compliance."""
         context = self.retrieve_context(
             "overload limits probation rules course repeat policies registration deadlines"
         )
-        
-        prompt = f"""You are the Policy & Compliance Agent for CMU-Q.
 
+        # Include conversation context if available
+        context_section = ""
+        if memory_context:
+            context_section = f"""
+{memory_context}
+
+IMPORTANT: Use the conversation context above to understand references to previous discussions about courses, plans, or policies.
+"""
+
+        prompt = f"""You are the Policy & Compliance Agent for CMU-Q.
+{context_section}
 Your role: CRITIQUE proposed plans for policy compliance.
 
 Student Profile: {json.dumps(student_profile, indent=2)}
@@ -123,11 +135,21 @@ Format as JSON:
         response = self.llm.invoke([SystemMessage(content=prompt)])
         return self._parse_response(response.content)
     
-    def _answer_policy_question(self, query: str) -> AgentOutput:
+    def _answer_policy_question(self, query: str, memory_context: str = "") -> AgentOutput:
         """Answer general policy questions."""
         context = self.retrieve_context(query)
-        prompt = f"""You are the Policy & Compliance Agent.
 
+        # Include conversation context if available
+        context_section = ""
+        if memory_context:
+            context_section = f"""
+{memory_context}
+
+IMPORTANT: Use the conversation context above to understand what "it", "the policy", "this rule" etc. refer to. If the student mentions something from a previous message, look at the context to understand what they mean.
+"""
+
+        prompt = f"""You are the Policy & Compliance Agent.
+{context_section}
 Query: {query}
 
 Retrieved Policies:

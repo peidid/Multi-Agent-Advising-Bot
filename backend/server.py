@@ -64,12 +64,25 @@ class UserLogin(BaseModel):
     password: str
 
 
+class CourseTaken(BaseModel):
+    code: str
+    name: Optional[str] = None
+    grade: str
+    semester: str
+    units: Optional[float] = None
+
+
 class UserProfile(BaseModel):
     major: Optional[str] = None
+    year: Optional[str] = None  # First Year, Sophomore, Junior, Senior
     minors: List[str] = []
+    concentration: Optional[str] = None
     gpa: Optional[float] = None
+    expected_graduation: Optional[str] = None
     completed_courses: List[str] = []
+    courses_taken: List[CourseTaken] = []
     interests: List[str] = []
+    career_goals: List[str] = []
 
 
 class ChatMessage(BaseModel):
@@ -171,6 +184,7 @@ class AgentRunner:
         state = {
             "user_query": query,
             "student_profile": user_profile or {},
+            "conversation_history": history or [],  # Pass conversation for context
             "agent_outputs": {},
             "constraints": [],
             "risks": [],
@@ -184,7 +198,8 @@ class AgentRunner:
             "next_agent": None,
             "user_goal": None,
             "execution_metadata": None,
-            "phase_timing": {}
+            "phase_timing": {},
+            "context_text": ""  # Will be filled by coordinator
         }
 
         # Run in thread pool
@@ -405,8 +420,13 @@ async def chat(data: ChatMessage, user: dict = Depends(get_current_user)):
         "major": [profile.get("major")] if profile.get("major") else [],
         "year": profile.get("year"),
         "minors": profile.get("minors", []),
+        "concentration": profile.get("concentration"),
         "gpa": profile.get("gpa"),
-        "completed_courses": profile.get("completed_courses", [])
+        "expected_graduation": profile.get("expected_graduation"),
+        "completed_courses": profile.get("completed_courses", []),
+        "courses_taken": profile.get("courses_taken", []),
+        "interests": profile.get("interests", []),
+        "career_goals": profile.get("career_goals", [])
     }
 
     # Run multi-agent workflow
@@ -557,8 +577,13 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
         "major": [profile.get("major")] if profile.get("major") else [],
         "year": profile.get("year"),
         "minors": profile.get("minors", []),
+        "concentration": profile.get("concentration"),
         "gpa": profile.get("gpa"),
-        "completed_courses": profile.get("completed_courses", [])
+        "expected_graduation": profile.get("expected_graduation"),
+        "completed_courses": profile.get("completed_courses", []),
+        "courses_taken": profile.get("courses_taken", []),
+        "interests": profile.get("interests", []),
+        "career_goals": profile.get("career_goals", [])
     }
 
     async def generate():
@@ -598,6 +623,7 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
                 state = {
                     "user_query": data.message,
                     "student_profile": student_profile,
+                    "conversation_history": history[:-1],  # Pass conversation for context
                     "agent_outputs": {},
                     "constraints": [],
                     "risks": [],
@@ -611,7 +637,8 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
                     "next_agent": None,
                     "user_goal": None,
                     "execution_metadata": None,
-                    "phase_timing": {}
+                    "phase_timing": {},
+                    "context_text": ""  # Will be filled by coordinator
                 }
 
                 result = workflow_app.invoke(state)

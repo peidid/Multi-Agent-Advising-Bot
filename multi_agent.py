@@ -81,6 +81,8 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
     """Coordinator node: Classifies intent, plans workflow. Emits streaming events."""
     user_query = state.get("user_query", "")
     workflow_step = state.get("workflow_step", WorkflowStep.INITIAL)
+    conversation_history = state.get("conversation_history", [])
+    student_profile = state.get("student_profile", {})
 
     if workflow_step == WorkflowStep.INITIAL:
         # Emit thinking event
@@ -89,7 +91,12 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
 
         # Track intent classification time
         intent_start = time.time()
-        intent = coordinator.classify_intent(user_query)
+        # Pass conversation history and profile for context-aware classification
+        intent = coordinator.classify_intent(
+            user_query,
+            conversation_history=conversation_history,
+            student_profile=student_profile
+        )
         workflow = coordinator.plan_workflow(intent)
         intent_time = time.time() - intent_start
 
@@ -107,7 +114,9 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
             "workflow_step": WorkflowStep.AGENT_EXECUTION,
             "next_agent": None,  # No longer used in parallel mode
             "user_goal": intent.get("intent_type", ""),
-            "phase_timing": phase_timing
+            "phase_timing": phase_timing,
+            # Pass context_text to agents
+            "context_text": intent.get("context_text", "")
         }
 
     elif workflow_step == WorkflowStep.NEGOTIATION:

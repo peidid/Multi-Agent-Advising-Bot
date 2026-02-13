@@ -39,13 +39,16 @@ class ProgramsRequirementsAgent(BaseAgent):
             student_profile = state.get("student_profile", {})
             constraints = state.get("constraints", [])
 
+            # Get memory context (conversation history + student profile)
+            memory_context = self.get_memory_context(state)
+
             # 2. Retrieve domain-specific context (emits its own events)
             query_for_rag = f"{user_query} {user_goal}"
             context = self.retrieve_context(query_for_rag)
 
             # 3. Build prompt
             self.emit_thinking("Analyzing program requirements...")
-            prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints)
+            prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints, memory_context)
 
             # 4. Call LLM
             self.emit_thinking("Generating response...")
@@ -69,12 +72,22 @@ class ProgramsRequirementsAgent(BaseAgent):
             self.emit_error(str(e))
             raise
     
-    def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list) -> str:
+    def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list, memory_context: str = "") -> str:
         """Build detailed prompt for Programs agent."""
         constraints_text = "\n".join([f"- {c.description}" for c in constraints]) if constraints else "None"
         profile_text = json.dumps(profile, indent=2) if profile else "Not provided"
-        
+
+        # Include conversation context if available
+        context_section = ""
+        if memory_context:
+            context_section = f"""
+{memory_context}
+
+IMPORTANT: Use the conversation context above to understand what "it", "the course", "this program", "that requirement" etc. refer to. If the student mentions something from a previous message, look at the context to understand what they mean.
+"""
+
         return f"""You are the Programs & Requirements Agent for CMU-Q.
+{context_section}
 
 Your Responsibilities:
 1. Answer questions about major/minor requirements
