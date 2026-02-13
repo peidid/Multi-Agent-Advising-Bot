@@ -39,7 +39,7 @@ EMBEDDING_MODEL = OpenAIEmbeddings(
 # NEW STRUCTURE: Each agent has its own folder for easier data management
 DOMAIN_PATHS = {
     "programs": [
-        "programs"  # All Programs Agent data in one folder
+        "programs"   # Programs Agent - program requirements only
     ],
     "courses": [
         "courses",   # All Courses Agent data in one folder
@@ -50,6 +50,10 @@ DOMAIN_PATHS = {
     ],
     "schedules": [
         "schedules"  # Course schedules and academic calendars (standalone)
+    ],
+    "planning": [
+        "programs",  # Program requirements for academic planning
+        "schedules"  # Course schedules for availability checking
     ]
 }
 

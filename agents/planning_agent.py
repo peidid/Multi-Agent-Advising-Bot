@@ -7,7 +7,7 @@ Responsibilities:
 - Balance workload across semesters
 - Consider course availability patterns
 
-Knowledge Base: chroma_db_programs/ + chroma_db_schedules/
+Knowledge Base: chroma_db_planning/ (programs + schedules)
 """
 from agents.base_agent import BaseAgent
 from blackboard.schema import BlackboardState, AgentOutput, PlanOption, Risk
@@ -25,9 +25,9 @@ class AcademicPlanningAgent(BaseAgent):
     def __init__(self):
         super().__init__(
             name="academic_planning",
-            domain="programs"  # Primary domain for program requirements
+            domain="planning"  # Combined domain: programs + schedules
         )
-        # Add schedules retriever for course availability
+        # Keep separate schedules retriever for targeted schedule queries
         self.schedules_retriever = get_retriever(domain="schedules", k=5)
 
     def execute(self, state: BlackboardState) -> AgentOutput:
