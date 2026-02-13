@@ -46,6 +46,9 @@ DOMAIN_PATHS = {
     ],
     "policies": [
         "policies"   # All Policy Agent data in one folder
+    ],
+    "schedules": [
+        "schedules"  # Course schedules and academic calendars
     ]
 }
 

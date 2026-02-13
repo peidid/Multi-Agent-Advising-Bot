@@ -7,11 +7,12 @@ Responsibilities:
 - Balance workload across semesters
 - Consider course availability patterns
 
-Knowledge Base: chroma_db_programs/ + chroma_db_courses/
+Knowledge Base: chroma_db_programs/ + chroma_db_schedules/
 """
 from agents.base_agent import BaseAgent
 from blackboard.schema import BlackboardState, AgentOutput, PlanOption, Risk
 from langchain_core.messages import SystemMessage
+from rag_engine_improved import get_retriever
 from typing import List, Dict, Set
 import json
 import re
@@ -24,8 +25,10 @@ class AcademicPlanningAgent(BaseAgent):
     def __init__(self):
         super().__init__(
             name="academic_planning",
-            domain="programs"  # Primary domain, but will also use course data
+            domain="programs"  # Primary domain for program requirements
         )
+        # Add schedules retriever for course availability
+        self.schedules_retriever = get_retriever(domain="schedules", k=5)
 
     def execute(self, state: BlackboardState) -> AgentOutput:
         """Generate multi-semester academic plan with streaming events."""
@@ -141,42 +144,47 @@ class AcademicPlanningAgent(BaseAgent):
             rag_query = f"{program} major requirements core courses electives sample curriculum"
             context = self.retrieve_context(rag_query)
 
+        # Also get schedule context from schedules RAG
+        schedule_rag_query = f"{program} course offerings schedule availability"
+        try:
+            schedule_docs = self.schedules_retriever.invoke(schedule_rag_query)
+            schedule_context = "\n\n".join([doc.page_content for doc in schedule_docs])
+        except Exception as e:
+            print(f"Warning: Could not retrieve schedule context: {e}")
+            schedule_context = ""
+
         return {
             "program": program,
-            "requirements_context": context
+            "requirements_context": context,
+            "schedule_context": schedule_context
         }
 
     def _get_course_schedules(self, params: dict) -> dict:
         """Load course schedule data for planning."""
-        # Load schedule JSONs
         schedules = {}
 
         try:
-            # Load available schedules (using absolute path)
+            # Load all JSON files from data/schedules/
             schedule_dir = os.path.join(PROJECT_ROOT, "data", "schedules")
 
             if os.path.exists(schedule_dir):
                 for filename in os.listdir(schedule_dir):
-                    if filename.endswith('.json') and 'schedule_' in filename:
+                    if filename.endswith('.json'):
                         filepath = os.path.join(schedule_dir, filename)
                         with open(filepath, 'r', encoding='utf-8') as f:
                             data = json.load(f)
-                            term = data.get("semester", {})
-                            key = f"{term.get('year', '')}_{term.get('term', '')}".lower()
-                            schedules[key] = data
 
-            # Also check the Schedule folder for existing JSON (using absolute path)
-            alt_schedule_dir = os.path.join(PROJECT_ROOT, "data", "courses", "Schedule")
-            if os.path.exists(alt_schedule_dir):
-                for filename in os.listdir(alt_schedule_dir):
-                    if filename.endswith('.json') and 'schedule_' in filename:
-                        filepath = os.path.join(alt_schedule_dir, filename)
-                        with open(filepath, 'r', encoding='utf-8') as f:
-                            data = json.load(f)
+                            # Determine key from filename or content
                             if "semester" in data:
                                 term = data.get("semester", {})
                                 key = f"{term.get('year', '')}_{term.get('term', '')}".lower()
-                                schedules[key] = data
+                            else:
+                                # Use filename as key (e.g., "Fall_2024_courses")
+                                key = filename.replace('.json', '').lower()
+
+                            schedules[key] = data
+
+                print(f"📅 Loaded {len(schedules)} schedule files from {schedule_dir}")
 
         except Exception as e:
             print(f"Warning: Could not load schedules: {e}")
@@ -189,6 +197,9 @@ class AcademicPlanningAgent(BaseAgent):
 
         # Summarize available schedules
         schedule_summary = self._summarize_schedules(schedules)
+
+        # Get RAG-retrieved schedule context
+        schedule_rag_context = requirements.get('schedule_context', '')
 
         prompt = f"""You are an expert academic advisor creating a semester-by-semester course plan.
 
@@ -203,8 +214,11 @@ class AcademicPlanningAgent(BaseAgent):
 **Program Requirements:**
 {requirements.get('requirements_context', 'See program requirements')}
 
-**Course Availability (from schedules):**
+**Course Schedule Data (from database):**
 {schedule_summary}
+
+**Additional Schedule Context (from RAG):**
+{schedule_rag_context[:2000] if schedule_rag_context else 'No additional context'}
 
 **Planning Instructions:**
 1. Create a semester-by-semester plan from current status to graduation
