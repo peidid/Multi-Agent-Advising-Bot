@@ -413,13 +413,200 @@ INSTRUCTIONS:
             return {"term": match.group(1).title(), "year": int(match.group(2))}
         return {}
 
+    def _normalize_course_code(self, code: str) -> str:
+        """
+        Normalize course codes to XX-XXX format.
+
+        Handles:
+        - "03121" -> "03-121"
+        - "03-121" -> "03-121" (already normalized)
+        - "15112" -> "15-112"
+        """
+        if not code:
+            return code
+
+        # Remove any existing hyphens and whitespace
+        clean_code = code.replace("-", "").replace(" ", "")
+
+        # If it's 5-6 digits, insert hyphen after first 2
+        if clean_code.isdigit() and len(clean_code) >= 5:
+            return f"{clean_code[:2]}-{clean_code[2:]}"
+
+        return code
+
+    def _lookup_course_availability(self, course_code: str, semester: str, schedules: dict) -> dict:
+        """
+        Look up if a specific course is offered in a specific semester.
+
+        Args:
+            course_code: Course code like "15-122" or "15122"
+            semester: Semester like "Fall 2025" or "Spring 2026"
+            schedules: Loaded schedule data
+
+        Returns:
+            {
+                "available": bool,
+                "sections": [...],  # List of sections with times
+                "semester_key": str  # Which schedule file matched
+            }
+        """
+        normalized_code = self._normalize_course_code(course_code)
+        semester_lower = semester.lower().replace(" ", "_")
+
+        result = {
+            "available": False,
+            "sections": [],
+            "semester_key": None,
+            "course_code": normalized_code
+        }
+
+        for key, data in schedules.items():
+            # Check if this schedule matches the requested semester
+            key_lower = key.lower()
+            term_info = data.get("semester", {})
+
+            # Match by semester term
+            semester_matches = False
+            if isinstance(term_info, dict):
+                term_str = f"{term_info.get('term', '')} {term_info.get('year', '')}".lower()
+                semester_matches = semester.lower() in term_str or term_str in semester.lower()
+            else:
+                # Match by key (e.g., "fall_2025_courses")
+                semester_matches = any(part in key_lower for part in semester_lower.split("_"))
+
+            if not semester_matches:
+                continue
+
+            # Search for the course
+            offerings = data.get("offerings", [])
+            for offering in offerings:
+                # Handle different field names
+                offer_code = offering.get("course_code") or offering.get("Course - ID", "")
+                offer_code_normalized = self._normalize_course_code(str(offer_code))
+
+                if offer_code_normalized == normalized_code:
+                    result["available"] = True
+                    result["semester_key"] = key
+
+                    # Extract section info
+                    if "sections" in offering:
+                        # New format (schedule_2026_spring.json)
+                        for section in offering["sections"]:
+                            result["sections"].append({
+                                "section": section.get("section", ""),
+                                "days": section.get("days", []),
+                                "start_time": section.get("start_time", ""),
+                                "end_time": section.get("end_time", ""),
+                                "instructor": section.get("instructor", "TBA"),
+                                "capacity": section.get("capacity", 0)
+                            })
+                    else:
+                        # Old format (Fall_2025_courses.json)
+                        result["sections"].append({
+                            "section": offering.get("Section", ""),
+                            "days": offering.get("Delivery times - Day", "").split(),
+                            "start_time": offering.get("Delivery times - Start time", "").split()[0] if offering.get("Delivery times - Start time") else "",
+                            "end_time": offering.get("Delivery times - End time", "").split()[0] if offering.get("Delivery times - End time") else "",
+                            "instructor": offering.get("Professor - Last name", "TBA"),
+                            "capacity": int(offering.get("Max Enrollment", 0)) if offering.get("Max Enrollment") else 0
+                        })
+
+        return result
+
+    def _get_detailed_schedule_for_semester(self, semester: str, schedules: dict,
+                                             relevant_courses: List[str] = None) -> str:
+        """
+        Get detailed schedule information for a specific semester.
+
+        If relevant_courses is provided, only show those courses.
+        Otherwise show all courses (limited to first 30).
+        """
+        semester_lower = semester.lower()
+        details = []
+
+        for key, data in schedules.items():
+            # Check semester match
+            term_info = data.get("semester", {})
+            if isinstance(term_info, dict):
+                term_str = f"{term_info.get('term', '')} {term_info.get('year', '')}".lower()
+                matches = semester_lower in term_str or any(part in key.lower() for part in semester_lower.split())
+            else:
+                matches = any(part in key.lower() for part in semester_lower.split())
+
+            if not matches:
+                continue
+
+            offerings = data.get("offerings", [])
+            course_count = 0
+
+            for offering in offerings:
+                # Get course code
+                code = offering.get("course_code") or offering.get("Course - ID", "")
+                code_normalized = self._normalize_course_code(str(code))
+
+                # If filtering by relevant courses, check if this one matches
+                if relevant_courses:
+                    if not any(self._normalize_course_code(rc) == code_normalized for rc in relevant_courses):
+                        continue
+
+                # Limit to 30 courses if not filtering
+                if not relevant_courses and course_count >= 30:
+                    details.append(f"... and {len(offerings) - 30} more courses")
+                    break
+
+                course_count += 1
+
+                # Build schedule string
+                if "sections" in offering:
+                    for section in offering["sections"]:
+                        days = ", ".join(section.get("days", []))
+                        time_str = f"{section.get('start_time', '')}-{section.get('end_time', '')}"
+                        instructor = section.get("instructor", "TBA")
+                        details.append(f"  {code_normalized}: {days} {time_str} ({instructor})")
+                else:
+                    days = offering.get("Delivery times - Day", "TBA")
+                    start = offering.get("Delivery times - Start time", "").split()[0] if offering.get("Delivery times - Start time") else "TBA"
+                    end = offering.get("Delivery times - End time", "").split()[0] if offering.get("Delivery times - End time") else ""
+                    instructor = offering.get("Professor - Last name", "TBA")
+                    details.append(f"  {code_normalized}: {days} {start}-{end} ({instructor})")
+
+        if not details:
+            return f"No schedule data found for {semester}"
+
+        return f"\n{semester}:\n" + "\n".join(details)
+
     def _build_planning_prompt(self, params: dict, requirements: dict,
                                schedules: dict, profile: dict,
                                memory_context: str = "") -> str:
         """Build comprehensive planning prompt based on scope."""
 
-        # Summarize available schedules
-        schedule_summary = self._summarize_schedules(schedules)
+        # Get target semesters for focused schedule summary
+        scope = params.get("scope", "full")
+        specific_semesters = params.get("specific_semesters", [])
+        target_program = params.get("target_program") or params.get("program", "")
+
+        # For first_year scope, determine the likely semesters
+        target_semesters = specific_semesters
+        if scope == "first_year" and not target_semesters:
+            # Assume current year's fall and next year's spring
+            import datetime
+            year = datetime.datetime.now().year
+            target_semesters = [f"Fall {year}", f"Spring {year + 1}"]
+        elif scope == "next_semester" and not target_semesters:
+            import datetime
+            month = datetime.datetime.now().month
+            year = datetime.datetime.now().year
+            if month < 6:
+                target_semesters = [f"Fall {year}"]
+            else:
+                target_semesters = [f"Spring {year + 1}"]
+
+        # Summarize available schedules with focus on target semesters
+        schedule_summary = self._summarize_schedules(
+            schedules,
+            target_semesters=target_semesters,
+            program=target_program
+        )
 
         # Get RAG-retrieved schedule context
         schedule_rag_context = requirements.get('schedule_context', '')
@@ -545,14 +732,39 @@ The student wants to SWITCH TO {target_program}. This plan must:
 
         return prompt
 
-    def _summarize_schedules(self, schedules: dict) -> str:
-        """Summarize available schedule data."""
+    def _summarize_schedules(self, schedules: dict, target_semesters: List[str] = None,
+                             program: str = None) -> str:
+        """
+        Summarize available schedule data with enhanced details.
+
+        Args:
+            schedules: Loaded schedule data
+            target_semesters: Specific semesters to focus on (e.g., ["Fall 2025", "Spring 2026"])
+            program: Target program to filter relevant courses (e.g., "CS", "IS")
+
+        Returns:
+            Detailed schedule summary with course availability info
+        """
         if not schedules:
             return "No detailed schedule data available. Use general course offering patterns."
 
         summary_lines = []
+        detailed_sections = []
+
+        # Program-relevant course prefixes
+        program_prefixes = {
+            "CS": ["15-", "02-"],
+            "Computer Science": ["15-", "02-"],
+            "IS": ["67-", "95-", "15-"],
+            "Information Systems": ["67-", "95-", "15-"],
+            "BA": ["70-", "73-"],
+            "Business Administration": ["70-", "73-"],
+            "BIO": ["03-", "02-"],
+            "Biological Sciences": ["03-", "02-"]
+        }
+        relevant_prefixes = program_prefixes.get(program, [])
+
         for key, data in sorted(schedules.items()):
-            # Skip if data is not a dict (shouldn't happen after _get_course_schedules fix)
             if not isinstance(data, dict):
                 continue
 
@@ -562,25 +774,58 @@ The student wants to SWITCH TO {target_program}. This plan must:
             else:
                 term_name = key.replace('_', ' ').title()
 
-            course_count = data.get("total_courses", 0)
+            # Check if this is a target semester
+            is_target = False
+            if target_semesters:
+                for target in target_semesters:
+                    if target.lower() in term_name.lower() or term_name.lower() in target.lower():
+                        is_target = True
+                        break
+
             offerings = data.get("offerings", [])
-            if not course_count and offerings:
-                course_count = len(offerings)
+            course_count = data.get("total_courses", len(offerings))
 
-            # Sample some courses - handle different field names
-            sample_offerings = offerings[:5] if offerings else []
-            course_codes = []
-            for o in sample_offerings:
-                if isinstance(o, dict):
-                    code = o.get("course_code") or o.get("Course - ID", "")
-                    if code:
-                        course_codes.append(code)
+            # Build course list with schedule details
+            course_details = []
+            for offering in offerings:
+                code = offering.get("course_code") or offering.get("Course - ID", "")
+                code_normalized = self._normalize_course_code(str(code))
 
+                # For target semesters, show more courses (especially relevant ones)
+                if is_target or (relevant_prefixes and any(code_normalized.startswith(p) for p in relevant_prefixes)):
+                    if "sections" in offering:
+                        for section in offering["sections"][:2]:  # Limit sections
+                            days = ", ".join(section.get("days", ["TBA"]))
+                            time_str = f"{section.get('start_time', 'TBA')}-{section.get('end_time', '')}"
+                            instructor = section.get("instructor", "TBA")
+                            course_details.append(f"    {code_normalized}: {days} {time_str} ({instructor})")
+                    else:
+                        days = offering.get("Delivery times - Day", "TBA")
+                        start = offering.get("Delivery times - Start time", "").split()[0] if offering.get("Delivery times - Start time") else "TBA"
+                        instructor = offering.get("Professor - Last name", "TBA")
+                        course_details.append(f"    {code_normalized}: {days} {start} ({instructor})")
+
+                # Limit to 20 courses per semester for prompt length
+                if len(course_details) >= 20:
+                    course_details.append(f"    ... and {len(offerings) - 20} more courses")
+                    break
+
+            # Add summary line
             if term_name:
-                sample_str = f"(e.g., {', '.join(course_codes[:3])}...)" if course_codes else ""
-                summary_lines.append(f"{term_name}: {course_count} courses {sample_str}")
+                summary_lines.append(f"\n📅 {term_name}: {course_count} courses offered")
+                if is_target and course_details:
+                    summary_lines.append("  Relevant courses with schedules:")
+                    summary_lines.extend(course_details[:15])  # Limit to prevent huge prompts
+                elif course_details:
+                    summary_lines.append("  Sample courses:")
+                    summary_lines.extend(course_details[:8])
 
-        return "\n".join(summary_lines) if summary_lines else "Schedule data loaded."
+        result = "\n".join(summary_lines) if summary_lines else "Schedule data loaded."
+
+        # Add availability lookup instructions
+        result += "\n\n📌 Note: Use the course codes shown above when planning. If a course doesn't appear in a semester, it may not be offered that term."
+
+        return result
 
     def _parse_plan_options(self, response: str) -> List[PlanOption]:
         """Parse generated plans into structured format."""
