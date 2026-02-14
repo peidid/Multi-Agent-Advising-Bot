@@ -591,12 +591,13 @@ Risks identified: {len(risks) if isinstance(risks, list) else 0}
                             "courses": semester_courses
                         })
 
+                # Get completed courses from student profile (moved outside if block to fix UnboundLocalError)
+                completed_courses = []
+                if student_profile:
+                    completed_courses = student_profile.get("completed_courses", [])
+
                 # Validate the parsed plan
                 if parsed_plan:
-                    # Get completed courses from student profile
-                    completed_courses = []
-                    if student_profile:
-                        completed_courses = student_profile.get("completed_courses", [])
                     validation_result = validate_full_plan(parsed_plan, completed_courses)
 
                     if not validation_result["valid"]:

@@ -139,9 +139,17 @@ class CourseSchedulingAgent(BaseAgent):
                 schedule_data = None
                 if is_schedule_query:
                     schedule_data = get_course_schedule(course_code, semester)
+                    if schedule_data:
+                        print(f"[CourseAgent] Found schedule for {course_code}: {len(schedule_data)} entries")
+                    else:
+                        print(f"[CourseAgent] WARNING: No schedule found for {course_code} in {semester}")
 
                 # Get RAG context - improved query to capture all course details
-                rag_query = f"course {course_code} prerequisites assessment structure content description"
+                # For schedule queries, use shorter RAG to not overwhelm the schedule data
+                if is_schedule_query:
+                    rag_query = f"course {course_code}"
+                else:
+                    rag_query = f"course {course_code} prerequisites assessment structure content description"
                 context = self.retrieve_context(rag_query)
 
                 course_info.append({
@@ -296,6 +304,49 @@ IMPORTANT:
         """Build prompt for course checking."""
         courses_text = json.dumps(course_info, indent=2, default=str)
 
+        # Build a prominent schedule summary for schedule queries
+        schedule_summary = ""
+        has_schedule_data = any(c.get("schedule") for c in course_info)
+        if has_schedule_data:
+            schedule_lines = ["", "=" * 50, "SCHEDULE DATA (USE THIS FOR TIME QUESTIONS):", "=" * 50]
+            for c in course_info:
+                code = c.get("code", "")
+                sched = c.get("schedule", [])
+                if sched:
+                    schedule_lines.append(f"\n{code}:")
+                    for entry in sched:
+                        for section in entry.get("sections", []):
+                            days = ", ".join(section.get("days", []))
+                            start = section.get("start_time", "")
+                            end = section.get("end_time", "")
+                            loc = section.get("location", "")
+                            inst = section.get("instructor", "")
+                            sec_num = section.get("section", "")
+                            notes = section.get("notes", "")
+                            line = f"  Section {sec_num}: {days} {start}-{end}"
+                            if loc:
+                                line += f" @ {loc}"
+                            if inst:
+                                line += f" ({inst})"
+                            if notes:
+                                line += f" [{notes}]"
+                            schedule_lines.append(line)
+                else:
+                    schedule_lines.append(f"\n{code}: No schedule data found")
+            schedule_lines.append("=" * 50 + "\n")
+            schedule_summary = "\n".join(schedule_lines)
+
+        # Build co-requisite summary
+        coreq_summary = ""
+        for c in course_info:
+            code = c.get("code", "")
+            data = c.get("data", {})
+            if data:
+                co_reqs = data.get("co_reqs", [])
+                if co_reqs:
+                    coreq_names = [f"{cr.get('code')} ({cr.get('name')})" for cr in co_reqs]
+                    coreq_summary += f"\n** {code} has CO-REQUISITE: {', '.join(coreq_names)} - these courses are DESIGNED to be taken TOGETHER **\n"
+
         context_section = ""
         if memory_context:
             context_section = f"""
@@ -325,7 +376,7 @@ Your Responsibilities:
 - Answer questions about prerequisites, assessment structure, course content, description
 - Provide course offering details, schedules, and availability
 - Check for schedule conflicts
-
+{schedule_summary}{coreq_summary}
 Current Query: {query}
 
 Course Information:
@@ -335,7 +386,9 @@ IMPORTANT:
 - If the student refers to "it", "the course", "this class", look at the CONVERSATION CONTEXT above to understand what they mean
 - If course data is provided, use it directly to answer questions about prerequisites, assessment structure, course content, etc.
 - The "data" field contains structured course information including:
-  * prereqs.text: Prerequisites text
+  * prereqs.text: Prerequisites text (courses that must be completed BEFORE taking this course)
+  * co_reqs: CO-REQUISITES - courses that MUST be taken together (concurrently) with this course
+  * anti_reqs: ANTI-REQUISITES - courses that CANNOT be taken if you've taken this course
   * custom_fields.assessment_structure: Assessment structure
   * custom_fields.goals: Course goals
   * custom_fields.key_topics: Key topics covered
@@ -343,12 +396,17 @@ IMPORTANT:
   * long_desc: Course description
   * units, min_units, max_units: Course units
 - The "schedule" field contains ACTUAL schedule data from the database including:
-  * sections: List of course sections
-  * Each section has: days, start_time, end_time, location, instructor
+  * sections: List of course sections with section number
+  * Each section has: days (e.g., ["Mon", "Wed"]), start_time, end_time, location, instructor
   * Use this data to answer questions about when the course meets, class times, etc.
+  * Compare section times to check for schedule conflicts
 - The "context" field contains RAG-retrieved information
 - Be specific and accurate - cite exact information from the course data
 - For schedule questions, use the "schedule" field data, NOT the RAG context
+- When asked if courses can be taken together:
+  * Check co_reqs - if course A lists course B as a co-req, they are DESIGNED to be taken together
+  * Check schedule data to see if their times conflict
+  * Check prereqs to ensure prerequisites are met
 
 Provide a comprehensive answer that directly addresses the user's query using the course information provided.
 """
