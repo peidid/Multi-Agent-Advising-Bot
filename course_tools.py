@@ -144,8 +144,30 @@ def find_course_by_name(name: str) -> Optional[Dict]:
 
 
 def find_course_codes_in_text(text: str) -> List[str]:
-    """Extract course codes (e.g., 15-112) from text."""
-    return re.findall(r"\d{2}-\d{3}", text)
+    """
+    Extract course codes from text.
+
+    Handles both formats:
+    - "15-112" (with hyphen)
+    - "15112" (without hyphen, normalized to "15-112")
+    """
+    codes = []
+
+    # First find codes with hyphens (XX-XXX)
+    hyphenated = re.findall(r"\d{2}-\d{3}", text)
+    codes.extend(hyphenated)
+
+    # Then find 5-digit codes without hyphens
+    # Use word boundaries to avoid matching parts of larger numbers
+    for match in re.finditer(r"(?<!\d)(\d{5})(?!\d)", text):
+        five_digit = match.group(1)
+        # Normalize to XX-XXX format
+        normalized = f"{five_digit[:2]}-{five_digit[2:]}"
+        # Only add if not already found (avoid duplicates)
+        if normalized not in codes:
+            codes.append(normalized)
+
+    return codes
 
 
 def get_course_schedule(course_code: str, semester: str = None) -> List[Dict]:
