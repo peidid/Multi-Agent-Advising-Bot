@@ -46,6 +46,16 @@ class AcademicPlanningAgent(BaseAgent):
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
 
+            # Get coordinator feedback if this is a re-run
+            coordinator_guidance = self.get_coordinator_guidance()
+
+            # Enhance query with coordinator guidance if available
+            if coordinator_guidance:
+                gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
+                if gaps:
+                    # Use gaps to improve retrieval
+                    self._coordinator_gaps = gaps
+
             # Check if user is asking for a full academic plan or just a specific question
             if not self._is_planning_request(user_query):
                 # This is NOT a planning request - defer to other agents or answer briefly

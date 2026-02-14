@@ -45,13 +45,22 @@ class ProgramsRequirementsAgent(BaseAgent):
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
 
+            # Get coordinator feedback if this is a re-run
+            coordinator_guidance = self.get_coordinator_guidance()
+
             # 2. Retrieve domain-specific context (emits its own events)
+            # If we have coordinator guidance, enhance the query with it
             query_for_rag = f"{user_query} {user_goal}"
+            if coordinator_guidance:
+                # Add guidance-based keywords to improve retrieval
+                gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
+                if gaps:
+                    query_for_rag += " " + " ".join(gaps[:3])
             context = self.retrieve_context(query_for_rag)
 
             # 3. Build prompt
             self.emit_thinking("Analyzing program requirements...")
-            prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints, memory_context)
+            prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints, memory_context, coordinator_guidance)
 
             # 4. Call LLM
             self.emit_thinking("Generating response...")
@@ -75,7 +84,7 @@ class ProgramsRequirementsAgent(BaseAgent):
             self.emit_error(str(e))
             raise
     
-    def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list, memory_context: str = "") -> str:
+    def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list, memory_context: str = "", coordinator_guidance: str = "") -> str:
         """Build detailed prompt for Programs agent."""
         constraints_text = "\n".join([f"- {c.description}" for c in constraints]) if constraints else "None"
         profile_text = json.dumps(profile, indent=2) if profile else "Not provided"
@@ -89,8 +98,16 @@ class ProgramsRequirementsAgent(BaseAgent):
 IMPORTANT: Use the conversation context above to understand what "it", "the course", "this program", "that requirement" etc. refer to. If the student mentions something from a previous message, look at the context to understand what they mean.
 """
 
+        # Include coordinator guidance if this is a re-run
+        guidance_section = ""
+        if coordinator_guidance:
+            guidance_section = f"""
+{coordinator_guidance}
+IMPORTANT: The coordinator has identified gaps in your previous response. Focus on addressing these specific areas to improve your answer quality.
+"""
+
         return f"""You are the Programs & Requirements Agent for CMU-Q.
-{context_section}
+{context_section}{guidance_section}
 
 Your Responsibilities:
 1. Answer questions about major/minor requirements

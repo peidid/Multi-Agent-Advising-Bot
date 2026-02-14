@@ -58,11 +58,13 @@ AGENT_REGISTRY = {
 }
 
 # ============================================================================
-# CONFIDENCE-BASED RE-RETRIEVAL SETTINGS (Chat Mode)
+# COORDINATOR-EVALUATED RE-RETRIEVAL SETTINGS (Chat Mode)
 # ============================================================================
+# The coordinator evaluates all agent outputs holistically and decides
+# if more information is needed. This is better than agent self-reported
+# confidence because the coordinator has full context.
 
-CONFIDENCE_THRESHOLD = 0.85  # If below this, re-run with enhanced retrieval
-MAX_RETRIEVAL_ROUNDS = 3     # Max rounds of confidence checking
+MAX_EVALUATION_ROUNDS = 3    # Max rounds of coordinator evaluation
 ENHANCED_K = 10              # k value for enhanced retrieval (vs default 5-8)
 
 
@@ -158,10 +160,18 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
 def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
     """
     Execute ALL active agents in PARALLEL using ThreadPoolExecutor.
-    Includes confidence-based re-retrieval: if agent confidence < 85%,
-    re-run with enhanced k=10 (up to 3 rounds max).
+
+    Uses COORDINATOR-EVALUATED sufficiency checking:
+    1. Run all agents in parallel (round 1)
+    2. Coordinator evaluates if outputs are sufficient
+    3. If not, coordinator specifies which agents to re-run with enhanced k
+    4. Maximum 3 rounds total
+
+    This is better than agent self-reported confidence because the coordinator
+    has full context of all outputs and can make holistic decisions.
     """
     active_agents = state.get("active_agents", [])
+    user_query = state.get("user_query", "")
 
     if not active_agents:
         return {
@@ -175,13 +185,10 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
             }
         }
 
-    # Track execution times
+    # Track execution times and evaluation rounds
     execution_times = {}
     agent_outputs = {}
-    all_risks = list(state.get("risks", []))
-    all_constraints = list(state.get("constraints", []))
-    plan_options = []
-    confidence_rounds = {}  # Track how many confidence rounds each agent went through
+    evaluation_history = []  # Track coordinator evaluation decisions
 
     # Start timing
     parallel_start = time.time()
@@ -189,6 +196,8 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
     # =========================================================================
     # ROUND 1: Initial parallel execution (default k)
     # =========================================================================
+    print(f"[Chat Mode] Round 1: Executing {len(active_agents)} agents in parallel")
+
     with ThreadPoolExecutor(max_workers=len(active_agents)) as executor:
         future_to_agent = {
             executor.submit(execute_single_agent, agent_name, state): agent_name
@@ -201,59 +210,140 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
             if output is not None:
                 agent_outputs[agent_name] = output
                 execution_times[agent_name] = round(exec_time, 2)
-                confidence_rounds[agent_name] = 1
 
     # =========================================================================
-    # ROUNDS 2-3: Confidence-based re-retrieval
+    # COORDINATOR EVALUATION LOOP (max 3 rounds)
+    # Uses GPT-5.2 for holistic evaluation and semantic feedback
     # =========================================================================
-    for round_num in range(2, MAX_RETRIEVAL_ROUNDS + 1):
-        # Find agents with low confidence
-        low_confidence_agents = [
-            agent_name for agent_name, output in agent_outputs.items()
-            if output.confidence < CONFIDENCE_THRESHOLD
-        ]
+    for round_num in range(1, MAX_EVALUATION_ROUNDS + 1):
+        # Coordinator evaluates all outputs using GPT-5.2
+        print(f"\n{'='*60}")
+        print(f"[Coordinator Evaluation] Round {round_num}/{MAX_EVALUATION_ROUNDS}")
+        print(f"{'='*60}")
 
-        if not low_confidence_agents:
-            # All agents have sufficient confidence
-            break
+        eval_start = time.time()
+        evaluation = coordinator.evaluate_outputs_for_sufficiency(
+            user_query=user_query,
+            agent_outputs=agent_outputs,
+            current_round=round_num
+        )
+        eval_time = time.time() - eval_start
 
-        print(f"[Chat Mode] Round {round_num}: Re-running {len(low_confidence_agents)} agents with low confidence (k={ENHANCED_K})")
+        # Extract evaluation details
+        quality_score = evaluation.get("quality_score", 0)
+        agent_feedback = evaluation.get("agent_feedback", {})
+        missing_info = evaluation.get("missing_info", [])
 
-        # Emit streaming event for enhanced retrieval
+        # Store comprehensive evaluation history
+        evaluation_history.append({
+            "round": round_num,
+            "sufficient": evaluation["sufficient"],
+            "quality_score": quality_score,
+            "agents_to_rerun": evaluation.get("agents_to_rerun", []),
+            "agent_feedback": agent_feedback,
+            "reasoning": evaluation.get("reasoning", ""),
+            "missing_info": missing_info,
+            "eval_time": round(eval_time, 2)
+        })
+
+        # Display detailed evaluation results
+        print(f"\n📊 Quality Score: {quality_score}/100")
+        print(f"📝 Decision: {'✅ SUFFICIENT' if evaluation['sufficient'] else '🔄 NEED MORE INFO'}")
+        print(f"💭 Reasoning: {evaluation.get('reasoning', 'N/A')}")
+
+        # Display per-agent feedback
+        if agent_feedback:
+            print(f"\n📋 Agent Feedback:")
+            for agent_name, feedback in agent_feedback.items():
+                agent_score = feedback.get("score", "N/A")
+                print(f"   • {agent_name}: {agent_score}/100")
+                if feedback.get("strengths"):
+                    print(f"     ✓ Strengths: {', '.join(feedback['strengths'][:2])}")
+                if feedback.get("gaps"):
+                    print(f"     ✗ Gaps: {', '.join(feedback['gaps'][:2])}")
+                if feedback.get("guidance"):
+                    print(f"     → Guidance: {feedback['guidance'][:100]}...")
+
+        if missing_info:
+            print(f"\n❓ Missing Info: {', '.join(missing_info[:3])}")
+
+        # Emit comprehensive streaming event for real-time UI
         if STREAMING_AVAILABLE:
             emit_event({
-                "type": "confidence_reretrieval",
+                "type": "coordinator_evaluation",
                 "round": round_num,
-                "agents": low_confidence_agents,
-                "threshold": CONFIDENCE_THRESHOLD,
-                "enhanced_k": ENHANCED_K
+                "sufficient": evaluation["sufficient"],
+                "quality_score": quality_score,
+                "agents_to_rerun": evaluation.get("agents_to_rerun", []),
+                "agent_feedback": agent_feedback,
+                "reasoning": evaluation.get("reasoning", ""),
+                "missing_info": missing_info,
+                "eval_time": round(eval_time, 2)
             })
 
-        # Re-run low confidence agents with enhanced k
-        with ThreadPoolExecutor(max_workers=len(low_confidence_agents)) as executor:
+        if evaluation["sufficient"]:
+            # Ready for synthesis
+            print(f"\n✅ Outputs sufficient after round {round_num} (score: {quality_score}/100)")
+            break
+
+        if round_num >= MAX_EVALUATION_ROUNDS:
+            # Max rounds reached, proceed with what we have
+            print(f"\n⏱️ Max rounds ({MAX_EVALUATION_ROUNDS}) reached, proceeding with synthesis")
+            break
+
+        # Re-run specified agents with enhanced k and coordinator feedback
+        agents_to_rerun = evaluation.get("agents_to_rerun", [])
+        if not agents_to_rerun:
+            # Coordinator said insufficient but didn't specify agents - proceed anyway
+            print("\n⚠️ No agents specified to re-run, proceeding with synthesis")
+            break
+
+        print(f"\n🔄 Round {round_num + 1}: Re-running {agents_to_rerun} with enhanced k={ENHANCED_K}")
+
+        # Emit streaming event for re-retrieval
+        if STREAMING_AVAILABLE:
+            emit_event({
+                "type": "agent_rerun_start",
+                "round": round_num + 1,
+                "agents": agents_to_rerun,
+                "enhanced_k": ENHANCED_K,
+                "feedback": {name: agent_feedback.get(name, {}).get("guidance", "")
+                            for name in agents_to_rerun}
+            })
+
+        # Prepare state with coordinator feedback for agents
+        rerun_state = dict(state)
+        rerun_state["retrieval_k"] = ENHANCED_K
+        rerun_state["coordinator_feedback"] = agent_feedback  # Pass feedback to agents
+
+        with ThreadPoolExecutor(max_workers=len(agents_to_rerun)) as executor:
             future_to_agent = {
-                executor.submit(execute_single_agent, agent_name, state, ENHANCED_K): agent_name
-                for agent_name in low_confidence_agents
+                executor.submit(execute_single_agent, agent_name, rerun_state, ENHANCED_K): agent_name
+                for agent_name in agents_to_rerun
             }
 
             for future in as_completed(future_to_agent):
                 agent_name, output, exec_time = future.result()
 
                 if output is not None:
-                    old_confidence = agent_outputs[agent_name].confidence
-                    new_confidence = output.confidence
+                    # Update with new output (enhanced retrieval)
+                    agent_outputs[agent_name] = output
+                    execution_times[agent_name] = round(
+                        execution_times.get(agent_name, 0) + exec_time, 2
+                    )
+                    guidance = agent_feedback.get(agent_name, {}).get("guidance", "")
+                    print(f"   ✓ {agent_name}: re-executed with k={ENHANCED_K}")
+                    if guidance:
+                        print(f"     Applied guidance: {guidance[:80]}...")
 
-                    print(f"[Chat Mode] {agent_name}: confidence {old_confidence:.2f} → {new_confidence:.2f}")
-
-                    # Only update if new confidence is better
-                    if new_confidence > old_confidence:
-                        # Remove old risks/constraints before adding new ones
-                        agent_outputs[agent_name] = output
-                        execution_times[agent_name] = round(
-                            execution_times.get(agent_name, 0) + exec_time, 2
-                        )
-
-                    confidence_rounds[agent_name] = round_num
+                    # Emit streaming event for agent completion
+                    if STREAMING_AVAILABLE:
+                        emit_event({
+                            "type": "agent_rerun_complete",
+                            "agent": agent_name,
+                            "round": round_num + 1,
+                            "execution_time": round(exec_time, 2)
+                        })
 
     # Aggregate final risks and constraints
     all_risks = list(state.get("risks", []))
@@ -275,16 +365,22 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
     # Calculate speedup factor
     speedup = sequential_total / parallel_total if parallel_total > 0 else 1.0
 
-    # Build execution metadata
+    # Extract final quality score from last evaluation
+    final_quality_score = evaluation_history[-1].get("quality_score", 0) if evaluation_history else 0
+    final_agent_feedback = evaluation_history[-1].get("agent_feedback", {}) if evaluation_history else {}
+
+    # Build execution metadata with comprehensive evaluation info
     execution_metadata = {
-        "execution_mode": "parallel_with_confidence_check",
+        "execution_mode": "parallel_with_coordinator_evaluation",
         "agents_executed": list(agent_outputs.keys()),
         "execution_times": execution_times,
         "total_execution_time": round(parallel_total, 2),
         "sequential_equivalent": round(sequential_total, 2),
         "parallel_speedup": round(speedup, 2),
-        "confidence_rounds": confidence_rounds,
-        "confidence_threshold": CONFIDENCE_THRESHOLD,
+        "evaluation_rounds": len(evaluation_history),
+        "final_quality_score": final_quality_score,
+        "final_agent_feedback": final_agent_feedback,
+        "evaluation_history": evaluation_history,
         "final_confidences": {
             name: round(output.confidence, 2)
             for name, output in agent_outputs.items()
@@ -369,17 +465,21 @@ def route_after_parallel(state: BlackboardState) -> str:
         return "synthesize"
 
 # ============================================================================
-# BUILD WORKFLOW (Parallel Execution)
+# BUILD WORKFLOW (Parallel Execution with Coordinator Evaluation)
 # ============================================================================
 #
-# New Flow (Parallel):
-#   START → Coordinator → Parallel Agents (all at once) → Synthesize → END
-#                              ↓
-#                    [Programs, Courses, Policy, Planning]
-#                         (executed simultaneously)
+# Flow:
+#   START → Coordinator (Intent) → Parallel Agents → [Coordinator Eval] → Synthesize → END
+#                                        ↓                    ↓
+#                           [All agents run in parallel]   [Evaluate sufficiency]
+#                                                               ↓
+#                                                    [If insufficient: re-run
+#                                                     specified agents with k=10]
+#                                                    [Max 3 rounds]
 #
-# This replaces the old sequential flow:
-#   START → Coordinator → Agent1 → Coordinator → Agent2 → ... → Synthesize → END
+# The coordinator evaluates all agent outputs holistically before synthesis.
+# This is better than agent self-reported confidence because the coordinator
+# has full context of all outputs and can make better decisions.
 #
 
 workflow = StateGraph(BlackboardState)
@@ -431,7 +531,7 @@ if __name__ == "__main__":
     total_time = time.time() - start_time
 
     print("\n" + "=" * 70)
-    print("EXECUTION METADATA (Parallel):")
+    print("EXECUTION METADATA (Parallel with Coordinator Evaluation):")
     print("=" * 70)
     exec_meta = result.get("execution_metadata", {})
     if exec_meta:
@@ -443,6 +543,34 @@ if __name__ == "__main__":
         print(f"  Parallel Total: {exec_meta.get('total_execution_time', 0)}s")
         print(f"  Sequential Equivalent: {exec_meta.get('sequential_equivalent', 0)}s")
         print(f"  Speedup: {exec_meta.get('parallel_speedup', 1.0)}x")
+
+        # Print final quality score
+        final_score = exec_meta.get('final_quality_score', 0)
+        print(f"\n  📊 Final Quality Score: {final_score}/100")
+
+        # Print coordinator evaluation history
+        eval_history = exec_meta.get('evaluation_history', [])
+        if eval_history:
+            print(f"\n  Coordinator Evaluation Rounds: {len(eval_history)}")
+            for eval_round in eval_history:
+                score = eval_round.get('quality_score', 'N/A')
+                print(f"    Round {eval_round['round']}: {'✓ Sufficient' if eval_round['sufficient'] else '✗ Need more'} (Score: {score})")
+                print(f"      Reasoning: {eval_round['reasoning'][:100]}...")
+                if eval_round.get('agents_to_rerun'):
+                    print(f"      Re-run: {eval_round['agents_to_rerun']}")
+                # Print agent feedback summary
+                agent_feedback = eval_round.get('agent_feedback', {})
+                if agent_feedback:
+                    print("      Agent Scores:")
+                    for agent, fb in agent_feedback.items():
+                        agent_score = fb.get('score', 'N/A')
+                        gaps = fb.get('gaps', [])
+                        print(f"        - {agent}: {agent_score}/100", end="")
+                        if gaps:
+                            print(f" (gaps: {', '.join(gaps[:2])})")
+                        else:
+                            print()
+
     print(f"  Overall Total (incl. coordinator): {total_time:.2f}s")
 
     print("\n" + "=" * 70)

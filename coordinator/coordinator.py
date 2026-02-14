@@ -23,7 +23,10 @@ import os
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
-from config import get_coordinator_model, get_coordinator_temperature, get_openai_base_url
+from config import (
+    get_coordinator_model, get_coordinator_temperature, get_openai_base_url,
+    get_coordinator_eval_model, get_coordinator_eval_temperature
+)
 
 # Import LLM-driven coordinator
 from coordinator.llm_driven_coordinator import LLMDrivenCoordinator
@@ -102,6 +105,24 @@ class Coordinator:
             clarification_llm_kwargs["base_url"] = base_url
         clarification_llm = ChatOpenAI(**clarification_llm_kwargs)
         self.clarification_handler = ClarificationHandler(clarification_llm)
+
+        # Initialize evaluation LLM - uses GPT-5.2 for best quality evaluation
+        # This LLM evaluates agent outputs and provides semantic feedback
+        eval_model = get_coordinator_eval_model()
+        eval_temperature = get_coordinator_eval_temperature()
+        eval_http_client = httpx.Client(verify=False, timeout=180.0)
+        eval_llm_kwargs = {
+            "model": eval_model,
+            "temperature": eval_temperature,
+            "http_client": eval_http_client,
+            "request_timeout": 180.0
+        }
+        if base_url:
+            eval_llm_kwargs["base_url"] = base_url
+        self.eval_llm = ChatOpenAI(**eval_llm_kwargs)
+        print(f"✅ Coordinator Evaluation LLM: {eval_model}")
+        print("   • Holistic output evaluation")
+        print("   • Semantic feedback generation")
 
         # Initialize fine-tuned classifier if available and enabled
         self.finetuned_classifier = None
@@ -440,4 +461,173 @@ Remember: Students want the answer FIRST, details SECOND. Make it easy to scan q
                 student_profile or {}
             )
         return ""
+
+    def evaluate_outputs_for_sufficiency(
+        self,
+        user_query: str,
+        agent_outputs: Dict[str, Any],
+        current_round: int = 1
+    ) -> Dict[str, Any]:
+        """
+        Evaluate if agent outputs sufficiently answer the user's query.
+        Uses GPT-5.2 for most accurate evaluation and provides semantic feedback.
+
+        This is called by multi_agent.py BEFORE synthesis to decide if
+        we need more information from agents (up to 3 rounds max).
+
+        Args:
+            user_query: The original user question
+            agent_outputs: Dict of agent_name -> AgentOutput
+            current_round: Current evaluation round (1-3)
+
+        Returns:
+            {
+                "sufficient": bool,  # True if ready to synthesize
+                "quality_score": int,  # 0-100 overall quality score
+                "agents_to_rerun": [],  # List of agent names to re-run
+                "agent_feedback": {  # Per-agent semantic feedback
+                    "agent_name": {
+                        "score": int,  # 0-100 for this agent
+                        "strengths": ["..."],
+                        "gaps": ["..."],
+                        "guidance": "Specific guidance for re-retrieval"
+                    }
+                },
+                "reasoning": str,  # Overall explanation
+                "missing_info": []  # What information is missing
+            }
+        """
+        if not agent_outputs:
+            return {
+                "sufficient": False,
+                "quality_score": 0,
+                "agents_to_rerun": self.available_agents[:2],
+                "agent_feedback": {},
+                "reasoning": "No agent outputs received",
+                "missing_info": ["No information gathered yet"]
+            }
+
+        # Build detailed summary of all agent outputs
+        outputs_summary = []
+        for agent_name, output in agent_outputs.items():
+            # Handle both AgentOutput objects and dicts
+            if hasattr(output, 'answer'):
+                answer = output.answer
+                confidence = output.confidence
+                policies = output.relevant_policies if hasattr(output, 'relevant_policies') else []
+                risks = output.risks if hasattr(output, 'risks') else []
+            else:
+                answer = output.get('answer', str(output))
+                confidence = output.get('confidence', 0.5)
+                policies = output.get('relevant_policies', [])
+                risks = output.get('risks', [])
+
+            # Include full answer for better evaluation
+            outputs_summary.append(f"""
+=== Agent: {agent_name} ===
+Full Answer:
+{answer}
+
+Self-reported confidence: {confidence}
+Policies cited: {', '.join(policies) if policies else 'None'}
+Risks identified: {len(risks) if isinstance(risks, list) else 0}
+""")
+
+        prompt = f"""You are a senior academic advisor coordinator using GPT-5.2. Your task is to evaluate agent responses and provide actionable feedback.
+
+USER QUERY: {user_query}
+
+AGENT OUTPUTS (Round {current_round}/3):
+{''.join(outputs_summary)}
+
+EVALUATION TASK:
+1. Evaluate the OVERALL quality of these combined outputs for answering the student's question
+2. Provide a QUALITY SCORE (0-100) based on completeness, accuracy, and relevance
+3. For EACH agent, provide specific feedback including strengths, gaps, and guidance
+4. Decide if we need more information (only if score < 75 AND clear gaps exist)
+
+SCORING GUIDELINES:
+- 90-100: Excellent - comprehensive, specific, well-cited answers
+- 75-89: Good - addresses the question well, minor gaps acceptable
+- 60-74: Fair - some useful info but notable gaps or vagueness
+- Below 60: Insufficient - major gaps, vague, or doesn't address the question
+
+IMPORTANT:
+- Be judicious - students need timely responses
+- Only request re-runs if there are CLEAR, ACTIONABLE gaps
+- If score >= 75, mark as sufficient even if not perfect
+- Maximum 3 rounds total (currently round {current_round})
+- Provide SPECIFIC guidance for agents to re-run (what to search for, what details needed)
+
+Respond in JSON format:
+{{
+    "sufficient": true/false,
+    "quality_score": 85,
+    "reasoning": "Overall evaluation explanation",
+    "agents_to_rerun": ["agent_name1"],
+    "agent_feedback": {{
+        "programs_requirements": {{
+            "score": 90,
+            "strengths": ["Correctly identified major requirements", "Cited specific policies"],
+            "gaps": [],
+            "guidance": ""
+        }},
+        "course_scheduling": {{
+            "score": 65,
+            "strengths": ["Listed available courses"],
+            "gaps": ["Missing prerequisite information", "No schedule details"],
+            "guidance": "Search for prerequisites and course schedules for Fall 2024"
+        }}
+    }},
+    "missing_info": ["Prerequisite chain for 15-213", "Course availability for Spring"]
+}}
+
+Available agents: {self.available_agents}
+Respond ONLY with valid JSON."""
+
+        try:
+            # Use the evaluation LLM (GPT-5.2) for best quality
+            response = self.eval_llm.invoke([SystemMessage(content=prompt)])
+
+            # Parse JSON response
+            json_match = re.search(r'\{.*\}', response.content, re.DOTALL)
+            if json_match:
+                result = json.loads(json_match.group())
+
+                # Validate agents_to_rerun
+                valid_agents = [a for a in result.get("agents_to_rerun", [])
+                               if a in self.available_agents]
+                result["agents_to_rerun"] = valid_agents
+
+                # Ensure quality_score exists
+                if "quality_score" not in result:
+                    result["quality_score"] = 75 if result.get("sufficient") else 50
+
+                # Ensure agent_feedback exists
+                if "agent_feedback" not in result:
+                    result["agent_feedback"] = {}
+
+                return result
+            else:
+                # If can't parse, assume sufficient to avoid infinite loops
+                return {
+                    "sufficient": True,
+                    "quality_score": 70,
+                    "agents_to_rerun": [],
+                    "agent_feedback": {},
+                    "reasoning": "Could not parse evaluation response, proceeding with synthesis",
+                    "missing_info": []
+                }
+
+        except Exception as e:
+            print(f"⚠️  Coordinator evaluation error: {e}")
+            # On error, proceed with synthesis to avoid blocking
+            return {
+                "sufficient": True,
+                "quality_score": 70,
+                "agents_to_rerun": [],
+                "agent_feedback": {},
+                "reasoning": f"Evaluation error: {str(e)}, proceeding with synthesis",
+                "missing_info": []
+            }
 

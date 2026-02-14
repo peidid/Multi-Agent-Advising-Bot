@@ -142,6 +142,44 @@ class BaseAgent(ABC):
         Call this at the start of execute() to enable enhanced retrieval.
         """
         self._state_retrieval_k = state.get("retrieval_k")
+        # Also store coordinator feedback if available
+        self._coordinator_feedback = state.get("coordinator_feedback", {}).get(self.name, {})
+
+    def get_coordinator_guidance(self) -> str:
+        """
+        Get coordinator guidance for this agent (if available from re-retrieval).
+
+        Returns semantic feedback from the coordinator about what information
+        is missing or needs improvement. This helps the agent focus its
+        retrieval on what's actually needed.
+        """
+        if not hasattr(self, '_coordinator_feedback') or not self._coordinator_feedback:
+            return ""
+
+        guidance_parts = []
+
+        # Add guidance text
+        guidance = self._coordinator_feedback.get("guidance", "")
+        if guidance:
+            guidance_parts.append(f"Coordinator Guidance: {guidance}")
+
+        # Add identified gaps
+        gaps = self._coordinator_feedback.get("gaps", [])
+        if gaps:
+            guidance_parts.append(f"Information Gaps to Address: {', '.join(gaps)}")
+
+        # Add score context
+        score = self._coordinator_feedback.get("score", 0)
+        if score > 0:
+            guidance_parts.append(f"Previous Response Score: {score}/100")
+
+        if guidance_parts:
+            return "\n".join([
+                "\n--- COORDINATOR FEEDBACK (Focus on these areas) ---",
+                *guidance_parts,
+                "--- END FEEDBACK ---\n"
+            ])
+        return ""
 
     def retrieve_context(self, query: str, k: int = None) -> str:
         """

@@ -28,6 +28,11 @@ def get_openai_base_url() -> Optional[str]:
 COORDINATOR_MODEL = "gpt-4-turbo"  # Best available model for complex tasks
 COORDINATOR_TEMPERATURE = 0.3
 
+# Coordinator Evaluation Model - Uses most powerful model for holistic evaluation
+# This evaluates agent outputs and provides semantic feedback
+COORDINATOR_EVAL_MODEL = "gpt-5.2"  # Most capable model for evaluation decisions
+COORDINATOR_EVAL_TEMPERATURE = 0.2  # Lower temperature for more consistent evaluation
+
 # Agent Models - All domain agents use GPT-5.2
 AGENT_MODEL = "gpt-5.2"  # Most capable model for domain agents
 AGENT_TEMPERATURE = 0.3
@@ -39,6 +44,14 @@ AGENT_TEMPERATURE = 0.3
 def get_coordinator_model() -> str:
     """Get the model name for the Coordinator."""
     return COORDINATOR_MODEL
+
+def get_coordinator_eval_model() -> str:
+    """Get the model name for Coordinator output evaluation (most powerful)."""
+    return COORDINATOR_EVAL_MODEL
+
+def get_coordinator_eval_temperature() -> float:
+    """Get temperature for Coordinator evaluation."""
+    return COORDINATOR_EVAL_TEMPERATURE
 
 def get_agent_model() -> str:
     """Get the model name for Agents."""
@@ -63,6 +76,12 @@ MODEL_INFO = {
         "purpose": "Complex routing, intent classification, conflict resolution, answer synthesis",
         "upgrade_note": "Set to 'gpt-5' when OpenAI releases GPT-5"
     },
+    "coordinator_eval": {
+        "model": COORDINATOR_EVAL_MODEL,
+        "temperature": COORDINATOR_EVAL_TEMPERATURE,
+        "purpose": "Holistic evaluation of agent outputs, semantic feedback generation",
+        "upgrade_note": "Uses GPT-5.2 for most accurate evaluation and feedback"
+    },
     "agents": {
         "model": AGENT_MODEL,
         "temperature": AGENT_TEMPERATURE,
@@ -80,6 +99,9 @@ def print_model_config():
     print(f"   Temperature: {COORDINATOR_TEMPERATURE}")
     print(f"   Purpose: {MODEL_INFO['coordinator']['purpose']}")
     print(f"   Note: {MODEL_INFO['coordinator']['upgrade_note']}")
+    print(f"\n🔍 Coordinator Evaluation Model: {COORDINATOR_EVAL_MODEL}")
+    print(f"   Temperature: {COORDINATOR_EVAL_TEMPERATURE}")
+    print(f"   Purpose: {MODEL_INFO['coordinator_eval']['purpose']}")
     print(f"\n🤖 Agent Model: {AGENT_MODEL}")
     print(f"   Temperature: {AGENT_TEMPERATURE}")
     print(f"   Purpose: {MODEL_INFO['agents']['purpose']}")

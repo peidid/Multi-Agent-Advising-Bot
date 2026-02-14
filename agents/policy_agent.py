@@ -41,6 +41,16 @@ class PolicyComplianceAgent(BaseAgent):
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
 
+            # Get coordinator feedback if this is a re-run
+            coordinator_guidance = self.get_coordinator_guidance()
+
+            # Enhance query with coordinator guidance if available
+            enhanced_query = user_query
+            if coordinator_guidance:
+                gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
+                if gaps:
+                    enhanced_query += " " + " ".join(gaps[:3])
+
             # Check if we need to critique a plan
             programs_output = agent_outputs.get("programs_requirements")
             has_plan = (

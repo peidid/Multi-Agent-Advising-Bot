@@ -81,6 +81,16 @@ class CourseSchedulingAgent(BaseAgent):
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
 
+            # Get coordinator feedback if this is a re-run
+            coordinator_guidance = self.get_coordinator_guidance()
+
+            # Enhance query with coordinator guidance if available
+            enhanced_query = user_query
+            if coordinator_guidance:
+                gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
+                if gaps:
+                    enhanced_query += " " + " ".join(gaps[:3])
+
             # Check if this is a schedule conflict query
             conflict_info = self._detect_schedule_conflict_query(user_query)
             if conflict_info:
