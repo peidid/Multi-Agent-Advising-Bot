@@ -48,6 +48,9 @@ class ProgramsRequirementsAgent(BaseAgent):
             # Get coordinator feedback if this is a re-run
             coordinator_guidance = self.get_coordinator_guidance()
 
+            # Get specific task assignment from coordinator (initial run)
+            assigned_task = self.get_assigned_task()
+
             # 2. Retrieve domain-specific context (emits its own events)
             # If we have coordinator guidance, enhance the query with it
             query_for_rag = f"{user_query} {user_goal}"
@@ -60,7 +63,7 @@ class ProgramsRequirementsAgent(BaseAgent):
 
             # 3. Build prompt
             self.emit_thinking("Analyzing program requirements...")
-            prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints, memory_context, coordinator_guidance)
+            prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints, memory_context, coordinator_guidance, assigned_task)
 
             # 4. Call LLM
             self.emit_thinking("Generating response...")
@@ -84,7 +87,7 @@ class ProgramsRequirementsAgent(BaseAgent):
             self.emit_error(str(e))
             raise
     
-    def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list, memory_context: str = "", coordinator_guidance: str = "") -> str:
+    def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list, memory_context: str = "", coordinator_guidance: str = "", assigned_task: str = "") -> str:
         """Build detailed prompt for Programs agent."""
         constraints_text = "\n".join([f"- {c.description}" for c in constraints]) if constraints else "None"
         profile_text = json.dumps(profile, indent=2) if profile else "Not provided"
@@ -98,6 +101,13 @@ class ProgramsRequirementsAgent(BaseAgent):
 IMPORTANT: Use the conversation context above to understand what "it", "the course", "this program", "that requirement" etc. refer to. If the student mentions something from a previous message, look at the context to understand what they mean.
 """
 
+        # Include coordinator's task assignment (initial run)
+        task_section = ""
+        if assigned_task:
+            task_section = f"""
+{assigned_task}
+"""
+
         # Include coordinator guidance if this is a re-run
         guidance_section = ""
         if coordinator_guidance:
@@ -107,7 +117,7 @@ IMPORTANT: The coordinator has identified gaps in your previous response. Focus 
 """
 
         return f"""You are the Programs & Requirements Agent for CMU-Q.
-{context_section}{guidance_section}
+{context_section}{task_section}{guidance_section}
 
 Your Responsibilities:
 1. Answer questions about major/minor requirements

@@ -42,6 +42,7 @@ class WorkflowPlan:
     decision_points: List[Dict]  # Where to check results and adapt
     expected_challenges: List[str]  # What might go wrong
     success_criteria: str  # How do we know we succeeded
+    agent_tasks: Dict[str, str] = None  # Specific task for each agent
 
 
 class LLMDrivenCoordinator:
@@ -243,7 +244,8 @@ RESPOND IN JSON FORMAT:
             "can_help_with": ["Specific things this agent can do for this query"],
             "cannot_help_with": ["Things this agent cannot do"],
             "priority": "high" | "medium" | "low",
-            "reasoning": "Why we need (or don't need) this agent"
+            "reasoning": "Why we need (or don't need) this agent",
+            "specific_task": "Clear, actionable instruction for this agent. E.g., 'Check if 15-213 is offered in Fall 2025 and list its prerequisites' or 'Verify the student's CS major requirements progress'"
         }}
     }},
     "workflow_plan": {{
@@ -285,6 +287,16 @@ IMPORTANT:
                 
                 # Convert to WorkflowPlan
                 workflow_data = result.get('workflow_plan', {})
+
+                # Extract specific tasks for each agent from agent_analysis
+                agent_analysis = result.get('agent_analysis', {})
+                agent_tasks = {}
+                for agent_name, analysis in agent_analysis.items():
+                    if isinstance(analysis, dict):
+                        task = analysis.get('specific_task', '')
+                        if task:
+                            agent_tasks[agent_name] = task
+
                 plan = WorkflowPlan(
                     goal=workflow_data.get('goal', ''),
                     reasoning=workflow_data.get('reasoning', ''),
@@ -293,12 +305,13 @@ IMPORTANT:
                     parallel_stages=workflow_data.get('parallel_stages', []),
                     decision_points=workflow_data.get('decision_points', []),
                     expected_challenges=workflow_data.get('expected_challenges', []),
-                    success_criteria=workflow_data.get('success_criteria', '')
+                    success_criteria=workflow_data.get('success_criteria', ''),
+                    agent_tasks=agent_tasks
                 )
-                
+
                 # Store full result for debugging
                 plan.full_analysis = result
-                
+
                 return plan
         
         except Exception as e:

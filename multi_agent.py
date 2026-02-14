@@ -139,7 +139,9 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
             "user_goal": intent.get("intent_type", ""),
             "phase_timing": phase_timing,
             # Pass context_text to agents
-            "context_text": intent.get("context_text", "")
+            "context_text": intent.get("context_text", ""),
+            # Pass specific task instructions for each agent
+            "agent_tasks": intent.get("agent_tasks", {})
         }
 
     elif workflow_step == WorkflowStep.NEGOTIATION:

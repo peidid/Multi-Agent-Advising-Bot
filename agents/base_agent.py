@@ -144,6 +144,26 @@ class BaseAgent(ABC):
         self._state_retrieval_k = state.get("retrieval_k")
         # Also store coordinator feedback if available
         self._coordinator_feedback = state.get("coordinator_feedback", {}).get(self.name, {})
+        # Store specific task from coordinator
+        self._assigned_task = state.get("agent_tasks", {}).get(self.name, "")
+
+    def get_assigned_task(self) -> str:
+        """
+        Get the specific task assigned by the coordinator for this query.
+
+        Returns the task instruction that tells this agent exactly what
+        to focus on for the current user query.
+        """
+        if not hasattr(self, '_assigned_task') or not self._assigned_task:
+            return ""
+
+        return f"""
+--- COORDINATOR TASK ASSIGNMENT ---
+Your specific task for this query: {self._assigned_task}
+
+Focus on accomplishing this task. Retrieve relevant information and provide a focused response.
+--- END TASK ---
+"""
 
     def get_coordinator_guidance(self) -> str:
         """

@@ -61,6 +61,13 @@ class AcademicPlanningAgent(BaseAgent):
             # Get coordinator feedback if this is a re-run
             coordinator_guidance = self.get_coordinator_guidance()
 
+            # Get specific task assignment from coordinator (initial run)
+            assigned_task = self.get_assigned_task()
+
+            # Store for use in prompt building
+            self._current_assigned_task = assigned_task
+            self._current_coordinator_guidance = coordinator_guidance
+
             # Enhance query with coordinator guidance if available
             if coordinator_guidance:
                 gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
@@ -632,6 +639,20 @@ INSTRUCTIONS:
 IMPORTANT: Use the conversation context above to understand what courses, semesters, or constraints the student has mentioned.
 """
 
+        # Include coordinator's task assignment if available
+        task_section = ""
+        if hasattr(self, '_current_assigned_task') and self._current_assigned_task:
+            task_section = f"""
+{self._current_assigned_task}
+"""
+
+        # Include coordinator guidance if this is a re-run
+        guidance_section = ""
+        if hasattr(self, '_current_coordinator_guidance') and self._current_coordinator_guidance:
+            guidance_section = f"""
+{self._current_coordinator_guidance}
+"""
+
         # Determine scope-specific instructions
         scope = params.get("scope", "full")
         specific_semesters = params.get("specific_semesters", [])
@@ -708,7 +729,7 @@ The student wants to SWITCH TO {target_program}. This plan must:
 """
 
         prompt = f"""You are an expert academic advisor creating a course plan for CMU-Q.
-{context_section}
+{context_section}{task_section}{guidance_section}
 {scope_instruction}
 {transfer_section}
 **Student Profile:**

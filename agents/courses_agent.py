@@ -84,6 +84,13 @@ class CourseSchedulingAgent(BaseAgent):
             # Get coordinator feedback if this is a re-run
             coordinator_guidance = self.get_coordinator_guidance()
 
+            # Get specific task assignment from coordinator (initial run)
+            assigned_task = self.get_assigned_task()
+
+            # Store for use in prompt building
+            self._current_assigned_task = assigned_task
+            self._current_coordinator_guidance = coordinator_guidance
+
             # Enhance query with coordinator guidance if available
             enhanced_query = user_query
             if coordinator_guidance:
@@ -297,8 +304,22 @@ IMPORTANT:
 IMPORTANT: Use the conversation context above to understand what "it", "the course", "this class" etc. refer to.
 """
 
+        # Include coordinator's task assignment if available
+        task_section = ""
+        if hasattr(self, '_current_assigned_task') and self._current_assigned_task:
+            task_section = f"""
+{self._current_assigned_task}
+"""
+
+        # Include coordinator guidance if this is a re-run
+        guidance_section = ""
+        if hasattr(self, '_current_coordinator_guidance') and self._current_coordinator_guidance:
+            guidance_section = f"""
+{self._current_coordinator_guidance}
+"""
+
         return f"""You are the Course & Scheduling Agent for CMU-Q.
-{context_section}
+{context_section}{task_section}{guidance_section}
 Your Responsibilities:
 - Provide detailed information about specific courses
 - Answer questions about prerequisites, assessment structure, course content, description

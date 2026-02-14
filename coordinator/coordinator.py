@@ -238,6 +238,7 @@ class Coordinator:
                 "success_criteria": plan.success_criteria,
                 "understanding": plan.full_analysis.get('understanding', {}) if hasattr(plan, 'full_analysis') else {},
                 "agent_analysis": plan.full_analysis.get('agent_analysis', {}) if hasattr(plan, 'full_analysis') else {},
+                "agent_tasks": plan.agent_tasks or {},  # Specific task instructions for each agent
                 "mode": "llm_driven",
                 "context_text": context_text  # Pass context to agents
             }
