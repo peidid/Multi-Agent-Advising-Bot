@@ -54,16 +54,6 @@ class CourseSchedulingAgent(BaseAgent):
                     return codes[0]  # Return first (most prominent) code in that message
         return None
 
-    def _is_schedule_query(self, query: str) -> bool:
-        """Check if query is about course schedule/timing."""
-        query_lower = query.lower()
-        schedule_keywords = [
-            "time", "when", "schedule", "offered", "section",
-            "days", "hours", "meet", "class time", "lecture time",
-            "what time", "when is", "when does"
-        ]
-        return any(kw in query_lower for kw in schedule_keywords)
-    
     def execute(self, state: BlackboardState) -> AgentOutput:
         """Execute Course & Scheduling agent with streaming events."""
         # Emit start event
@@ -111,9 +101,6 @@ class CourseSchedulingAgent(BaseAgent):
             course_info = []
             risks = []
 
-            # Detect if query is about schedule/time
-            is_schedule_query = self._is_schedule_query(user_query)
-
             # Extract semester if mentioned
             semester = None
             semester_match = re.search(r'(spring|fall|summer)\s*(\d{4})', user_query, re.IGNORECASE)
@@ -126,21 +113,13 @@ class CourseSchedulingAgent(BaseAgent):
                 # Get structured data
                 course_data = look_up_course_info(course_code)
 
-                # Get schedule data if this is a schedule-related query
-                schedule_data = None
-                if is_schedule_query:
-                    schedule_data = get_course_schedule(course_code, semester)
-                    if schedule_data:
-                        print(f"[CourseAgent] Found schedule for {course_code}: {len(schedule_data)} entries")
-                    else:
-                        print(f"[CourseAgent] WARNING: No schedule found for {course_code} in {semester}")
+                # ALWAYS get schedule data - it's small and the LLM can decide whether to use it
+                schedule_data = get_course_schedule(course_code, semester)
+                if schedule_data:
+                    print(f"[CourseAgent] Found schedule for {course_code}: {len(schedule_data)} entries")
 
-                # Get RAG context - improved query to capture all course details
-                # For schedule queries, use shorter RAG to not overwhelm the schedule data
-                if is_schedule_query:
-                    rag_query = f"course {course_code}"
-                else:
-                    rag_query = f"course {course_code} prerequisites assessment structure content description"
+                # Get RAG context
+                rag_query = f"course {course_code}"
                 context = self.retrieve_context(rag_query)
 
                 course_info.append({
