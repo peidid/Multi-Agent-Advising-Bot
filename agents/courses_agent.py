@@ -177,17 +177,27 @@ class CourseSchedulingAgent(BaseAgent):
             if recent_course:
                 course_codes = [recent_course]
 
-        # Check if a semester is mentioned - if so, get full schedule data
+        # Extract semester if mentioned
         semester = None
         semester_match = re.search(r'(spring|fall|summer)\s*(\d{4})', query, re.IGNORECASE)
         if semester_match:
             semester = f"{semester_match.group(1).lower()}_{semester_match.group(2)}"
 
-        # Get full semester schedule if semester is mentioned (for "list all X courses" type queries)
-        semester_schedule = None
-        if semester:
-            from course_tools import DB
-            semester_schedule = DB.get("schedules", {}).get(semester, {}).get("offerings", [])
+        # ALWAYS get schedule data - either specified semester or recent semesters
+        from course_tools import DB
+        all_schedules = DB.get("schedules", {})
+
+        if semester and semester in all_schedules:
+            # User specified a semester - get that one
+            semester_schedule = {semester: all_schedules[semester].get("offerings", [])}
+        else:
+            # No semester specified - get all available semester schedules
+            # (LLM will figure out which is relevant)
+            semester_schedule = {
+                k: v.get("offerings", [])
+                for k, v in all_schedules.items()
+                if v.get("offerings")  # Only include semesters with actual offerings
+            }
 
         if course_codes:
             # If we found course codes, try to get their info
@@ -227,12 +237,9 @@ class CourseSchedulingAgent(BaseAgent):
 IMPORTANT: Use the conversation context above to understand what "it", "the course", "this class" etc. refer to.
 """
 
-        # Include semester schedule data if available
-        schedule_section = ""
-        if semester_schedule:
-            schedule_section = f"""
-SEMESTER SCHEDULE DATA ({semester}):
-The following courses are offered in {semester.replace('_', ' ')}:
+        # Include semester schedule data (always available now)
+        schedule_section = f"""
+AVAILABLE COURSE SCHEDULES:
 {json.dumps(semester_schedule, indent=2, default=str)}
 """
 
