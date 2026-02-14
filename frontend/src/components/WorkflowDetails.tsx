@@ -13,6 +13,8 @@ import {
   AlertTriangle,
   FileText,
   CheckCircle,
+  Brain,
+  TrendingUp,
 } from 'lucide-react';
 
 interface AgentDetail {
@@ -22,6 +24,21 @@ interface AgentDetail {
   relevant_policies: string[];
 }
 
+interface EvaluationRound {
+  round: number;
+  sufficient: boolean;
+  quality_score: number;
+  agents_to_rerun: string[];
+  agent_feedback: Record<string, {
+    score: number;
+    strengths: string[];
+    gaps: string[];
+    guidance: string;
+  }>;
+  reasoning: string;
+  eval_time: number;
+}
+
 interface WorkflowDetailsProps {
   agentsUsed: string[];
   agentDetails: Record<string, AgentDetail>;
@@ -29,9 +46,12 @@ interface WorkflowDetailsProps {
     execution_mode?: string;
     total_execution_time?: number;
     parallel_speedup?: number;
+    final_quality_score?: number;
+    evaluation_rounds?: number;
+    evaluation_history?: EvaluationRound[];
   };
   phaseTiming?: Record<string, number>;
-  streamEvents?: Array<{ type: string; agent?: string; message?: string }>;
+  streamEvents?: Array<{ type: string; agent?: string; message?: string; data?: Record<string, unknown> }>;
 }
 
 const agentMeta: Record<string, { name: string; icon: React.ElementType; color: string; bgColor: string }> = {
@@ -141,12 +161,77 @@ export default function WorkflowDetails({
                     <span>{executionStats.parallel_speedup.toFixed(1)}x speedup</span>
                   </div>
                 )}
+                {executionStats?.final_quality_score !== undefined && (
+                  <div className="flex items-center gap-1 text-indigo-600">
+                    <TrendingUp className="w-3.5 h-3.5" />
+                    <span>Quality: {executionStats.final_quality_score}/100</span>
+                  </div>
+                )}
                 {phaseTiming?.intent_classification && (
                   <span>Intent: {phaseTiming.intent_classification.toFixed(2)}s</span>
                 )}
                 {phaseTiming?.synthesis && (
                   <span>Synthesis: {phaseTiming.synthesis.toFixed(2)}s</span>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* Coordinator Evaluation History */}
+          {executionStats?.evaluation_history && executionStats.evaluation_history.length > 0 && (
+            <div className="px-4 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-gray-200">
+              <div className="flex items-center gap-2 mb-2">
+                <Brain className="w-4 h-4 text-indigo-600" />
+                <span className="text-xs font-medium text-indigo-700">
+                  Coordinator Evaluation ({executionStats.evaluation_rounds} round{executionStats.evaluation_rounds !== 1 ? 's' : ''})
+                </span>
+              </div>
+              <div className="space-y-2">
+                {executionStats.evaluation_history.map((evalRound) => (
+                  <div key={evalRound.round} className="text-xs p-2 bg-white rounded border border-indigo-100">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-medium text-gray-700">Round {evalRound.round}</span>
+                      <div className="flex items-center gap-2">
+                        <span className={`px-1.5 py-0.5 rounded ${
+                          evalRound.quality_score >= 75
+                            ? 'bg-green-100 text-green-700'
+                            : evalRound.quality_score >= 60
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : 'bg-red-100 text-red-700'
+                        }`}>
+                          {evalRound.quality_score}/100
+                        </span>
+                        <span className={`px-1.5 py-0.5 rounded ${
+                          evalRound.sufficient
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-yellow-100 text-yellow-700'
+                        }`}>
+                          {evalRound.sufficient ? 'Sufficient' : 'Need more'}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 text-xs">{evalRound.reasoning}</p>
+                    {evalRound.agent_feedback && Object.keys(evalRound.agent_feedback).length > 0 && (
+                      <div className="mt-1.5 flex flex-wrap gap-1">
+                        {Object.entries(evalRound.agent_feedback).map(([agentId, fb]) => (
+                          <span
+                            key={agentId}
+                            className={`px-1.5 py-0.5 rounded text-xs ${
+                              fb.score >= 75
+                                ? 'bg-green-50 text-green-700'
+                                : fb.score >= 60
+                                ? 'bg-yellow-50 text-yellow-700'
+                                : 'bg-red-50 text-red-700'
+                            }`}
+                            title={fb.gaps?.join(', ') || 'No gaps'}
+                          >
+                            {agentMeta[agentId]?.name.split(' ')[0] || agentId}: {fb.score}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           )}

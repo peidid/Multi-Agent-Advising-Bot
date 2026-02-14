@@ -197,6 +197,25 @@ export default function Home() {
             } else if (event.type === 'coordinator_routing') {
               const agents = (event.data?.agents as string[]) || [];
               setActiveAgents(agents);
+            } else if (event.type === 'coordinator_evaluation') {
+              // Show evaluation status with quality score
+              const evalData = event.data as {
+                round: number;
+                sufficient: boolean;
+                quality_score: number;
+                reasoning: string;
+              };
+              if (evalData.sufficient) {
+                setCurrentPhase(`Quality: ${evalData.quality_score}/100 - Ready for synthesis`);
+              } else {
+                setCurrentPhase(`Evaluation ${evalData.round}/3: Score ${evalData.quality_score}/100 - Need more info`);
+              }
+            } else if (event.type === 'agent_rerun_start') {
+              const agentsToRerun = (event.data?.agents as string[]) || [];
+              setCurrentPhase(`Re-running ${agentsToRerun.length} agent(s) with enhanced retrieval...`);
+              setActiveAgents(agentsToRerun);
+            } else if (event.type === 'agent_rerun_complete' && event.agent) {
+              setActiveAgents((prev) => prev.filter((a) => a !== event.agent));
             } else if (event.type === 'synthesis_start') {
               setCurrentPhase('Synthesizing final answer...');
             }

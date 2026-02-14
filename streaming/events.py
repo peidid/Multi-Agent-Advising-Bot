@@ -36,6 +36,11 @@ class EventType(str, Enum):
     STATUS = "status"
     ERROR = "error"
 
+    # Coordinator Evaluation events (for chat mode)
+    COORDINATOR_EVALUATION = "coordinator_evaluation"
+    AGENT_RERUN_START = "agent_rerun_start"
+    AGENT_RERUN_COMPLETE = "agent_rerun_complete"
+
     # Planning Mode events
     PLANNING_SESSION_START = "planning_session_start"
     PLANNING_ROUND_START = "planning_round_start"
@@ -236,6 +241,85 @@ def workflow_complete_event(agents_used: list, total_time: float) -> StreamEvent
         data={
             "agents_used": agents_used,
             "total_time_seconds": round(total_time, 2)
+        }
+    )
+
+
+# ============================================================================
+# COORDINATOR EVALUATION EVENTS (Chat Mode)
+# ============================================================================
+
+def coordinator_evaluation_event(
+    round_num: int,
+    sufficient: bool,
+    quality_score: int,
+    agent_feedback: dict,
+    reasoning: str,
+    agents_to_rerun: list = None,
+    eval_time: float = 0.0
+) -> StreamEvent:
+    """Emitted when the coordinator evaluates agent outputs."""
+    if sufficient:
+        message = f"Round {round_num}: Quality {quality_score}/100 - Sufficient"
+    else:
+        message = f"Round {round_num}: Quality {quality_score}/100 - Need more info"
+
+    return StreamEvent(
+        event_type=EventType.COORDINATOR_EVALUATION,
+        agent_name="coordinator",
+        message=message,
+        data={
+            "round": round_num,
+            "sufficient": sufficient,
+            "quality_score": quality_score,
+            "agent_feedback": agent_feedback,
+            "reasoning": reasoning,
+            "agents_to_rerun": agents_to_rerun or [],
+            "eval_time": eval_time
+        }
+    )
+
+
+def agent_rerun_start_event(
+    round_num: int,
+    agents: list,
+    enhanced_k: int = 10
+) -> StreamEvent:
+    """Emitted when agents are being re-run with enhanced retrieval."""
+    agent_names = {
+        "programs_requirements": "Programs",
+        "course_scheduling": "Courses",
+        "policy_compliance": "Policy",
+        "academic_planning": "Planning"
+    }
+    friendly_names = [agent_names.get(a, a) for a in agents]
+
+    return StreamEvent(
+        event_type=EventType.AGENT_RERUN_START,
+        agent_name="coordinator",
+        message=f"Re-running {len(agents)} agent(s) with enhanced retrieval (k={enhanced_k})",
+        data={
+            "round": round_num,
+            "agents": agents,
+            "enhanced_k": enhanced_k,
+            "agent_names": friendly_names
+        }
+    )
+
+
+def agent_rerun_complete_event(
+    agent_name: str,
+    round_num: int,
+    execution_time: float
+) -> StreamEvent:
+    """Emitted when a re-run agent completes."""
+    return StreamEvent(
+        event_type=EventType.AGENT_RERUN_COMPLETE,
+        agent_name=agent_name,
+        message=f"Re-run complete ({execution_time:.2f}s)",
+        data={
+            "round": round_num,
+            "execution_time": execution_time
         }
     )
 

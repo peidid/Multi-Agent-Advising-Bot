@@ -26,7 +26,10 @@ try:
         coordinator_routing_event,
         synthesis_start_event,
         synthesis_complete_event,
-        workflow_complete_event
+        workflow_complete_event,
+        coordinator_evaluation_event,
+        agent_rerun_start_event,
+        agent_rerun_complete_event
     )
     STREAMING_AVAILABLE = True
 except ImportError:
@@ -269,17 +272,15 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
 
         # Emit comprehensive streaming event for real-time UI
         if STREAMING_AVAILABLE:
-            emit_event({
-                "type": "coordinator_evaluation",
-                "round": round_num,
-                "sufficient": evaluation["sufficient"],
-                "quality_score": quality_score,
-                "agents_to_rerun": evaluation.get("agents_to_rerun", []),
-                "agent_feedback": agent_feedback,
-                "reasoning": evaluation.get("reasoning", ""),
-                "missing_info": missing_info,
-                "eval_time": round(eval_time, 2)
-            })
+            emit_event(coordinator_evaluation_event(
+                round_num=round_num,
+                sufficient=evaluation["sufficient"],
+                quality_score=quality_score,
+                agent_feedback=agent_feedback,
+                reasoning=evaluation.get("reasoning", ""),
+                agents_to_rerun=evaluation.get("agents_to_rerun", []),
+                eval_time=round(eval_time, 2)
+            ))
 
         if evaluation["sufficient"]:
             # Ready for synthesis
@@ -302,14 +303,11 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
 
         # Emit streaming event for re-retrieval
         if STREAMING_AVAILABLE:
-            emit_event({
-                "type": "agent_rerun_start",
-                "round": round_num + 1,
-                "agents": agents_to_rerun,
-                "enhanced_k": ENHANCED_K,
-                "feedback": {name: agent_feedback.get(name, {}).get("guidance", "")
-                            for name in agents_to_rerun}
-            })
+            emit_event(agent_rerun_start_event(
+                round_num=round_num + 1,
+                agents=agents_to_rerun,
+                enhanced_k=ENHANCED_K
+            ))
 
         # Prepare state with coordinator feedback for agents
         rerun_state = dict(state)
@@ -338,12 +336,11 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
 
                     # Emit streaming event for agent completion
                     if STREAMING_AVAILABLE:
-                        emit_event({
-                            "type": "agent_rerun_complete",
-                            "agent": agent_name,
-                            "round": round_num + 1,
-                            "execution_time": round(exec_time, 2)
-                        })
+                        emit_event(agent_rerun_complete_event(
+                            agent_name=agent_name,
+                            round_num=round_num + 1,
+                            execution_time=round(exec_time, 2)
+                        ))
 
     # Aggregate final risks and constraints
     all_risks = list(state.get("risks", []))

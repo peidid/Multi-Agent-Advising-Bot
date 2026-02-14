@@ -33,6 +33,22 @@ interface AgentOutput {
   relevant_policies: string[];
 }
 
+interface CoordinatorEvaluation {
+  round: number;
+  sufficient: boolean;
+  quality_score: number;
+  agents_to_rerun: string[];
+  agent_feedback: Record<string, {
+    score: number;
+    strengths: string[];
+    gaps: string[];
+    guidance: string;
+  }>;
+  reasoning: string;
+  missing_info: string[];
+  eval_time: number;
+}
+
 interface AgentStatusProps {
   activeAgents: string[];
   completedAgents: string[];
@@ -109,6 +125,23 @@ export default function AgentStatus({
     }
   }
 
+  // Extract coordinator evaluations from stream events
+  const coordinatorEvaluations: CoordinatorEvaluation[] = [];
+  for (const event of streamEvents) {
+    if (event.type === 'coordinator_evaluation' && event.data) {
+      coordinatorEvaluations.push(event.data as unknown as CoordinatorEvaluation);
+    }
+  }
+  const latestEvaluation = coordinatorEvaluations[coordinatorEvaluations.length - 1];
+
+  // Check if agents are being re-run
+  const agentsBeingRerun: string[] = [];
+  for (const event of streamEvents) {
+    if (event.type === 'agent_rerun_start' && event.data?.agents) {
+      agentsBeingRerun.push(...(event.data.agents as string[]));
+    }
+  }
+
   const toggleAgent = (agentId: string) => {
     setExpandedAgents((prev) => ({
       ...prev,
@@ -126,6 +159,91 @@ export default function AgentStatus({
             <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-cmu-red rounded-full animate-ping" />
           </div>
           <span className="text-sm font-medium text-gray-700">{currentPhase}</span>
+        </div>
+      )}
+
+      {/* Coordinator Evaluation Panel */}
+      {latestEvaluation && (
+        <div className="mb-4 p-3 rounded-lg border bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-200">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <Brain className="w-4 h-4 text-indigo-600" />
+              <span className="text-sm font-medium text-indigo-700">
+                Coordinator Evaluation (Round {latestEvaluation.round}/3)
+              </span>
+            </div>
+            <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+              latestEvaluation.sufficient
+                ? 'bg-green-100 text-green-700'
+                : 'bg-yellow-100 text-yellow-700'
+            }`}>
+              {latestEvaluation.sufficient ? 'Sufficient' : 'Need More Info'}
+            </div>
+          </div>
+
+          {/* Quality Score Bar */}
+          <div className="mb-2">
+            <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
+              <span>Quality Score</span>
+              <span className="font-medium">{latestEvaluation.quality_score}/100</span>
+            </div>
+            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className={`h-full transition-all duration-500 ${
+                  latestEvaluation.quality_score >= 75
+                    ? 'bg-green-500'
+                    : latestEvaluation.quality_score >= 60
+                    ? 'bg-yellow-500'
+                    : 'bg-red-500'
+                }`}
+                style={{ width: `${latestEvaluation.quality_score}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Reasoning */}
+          <p className="text-xs text-gray-600 mb-2">
+            {latestEvaluation.reasoning}
+          </p>
+
+          {/* Agent Feedback Summary */}
+          {latestEvaluation.agent_feedback && Object.keys(latestEvaluation.agent_feedback).length > 0 && (
+            <div className="space-y-1.5 mt-2 pt-2 border-t border-indigo-200">
+              <span className="text-xs font-medium text-indigo-700">Agent Scores:</span>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(latestEvaluation.agent_feedback).map(([agentId, feedback]) => {
+                  const agentMeta = agents.find(a => a.id === agentId);
+                  return (
+                    <div
+                      key={agentId}
+                      className={`text-xs px-2 py-1 rounded-full border ${
+                        feedback.score >= 75
+                          ? 'bg-green-50 border-green-200 text-green-700'
+                          : feedback.score >= 60
+                          ? 'bg-yellow-50 border-yellow-200 text-yellow-700'
+                          : 'bg-red-50 border-red-200 text-red-700'
+                      }`}
+                      title={feedback.gaps?.join(', ') || 'No gaps'}
+                    >
+                      {agentMeta?.shortName || agentId}: {feedback.score}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Re-run Info */}
+          {!latestEvaluation.sufficient && latestEvaluation.agents_to_rerun?.length > 0 && (
+            <div className="mt-2 pt-2 border-t border-indigo-200">
+              <div className="flex items-center gap-1 text-xs text-orange-600">
+                <Loader2 className="w-3 h-3 animate-spin" />
+                <span>Re-running: {latestEvaluation.agents_to_rerun.map(id =>
+                  agents.find(a => a.id === id)?.shortName || id
+                ).join(', ')}</span>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
