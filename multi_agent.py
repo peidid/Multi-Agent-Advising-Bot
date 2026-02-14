@@ -225,10 +225,13 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
         print(f"{'='*60}")
 
         eval_start = time.time()
+        # Get student profile for validation (completed courses, etc.)
+        student_profile = state.get("student_profile", {})
         evaluation = coordinator.evaluate_outputs_for_sufficiency(
             user_query=user_query,
             agent_outputs=agent_outputs,
-            current_round=round_num
+            current_round=round_num,
+            student_profile=student_profile
         )
         eval_time = time.time() - eval_start
 

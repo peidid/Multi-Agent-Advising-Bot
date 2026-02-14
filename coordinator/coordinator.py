@@ -492,7 +492,8 @@ If the student asked for a PLAN, your response should BE a plan, not a summary a
         self,
         user_query: str,
         agent_outputs: Dict[str, Any],
-        current_round: int = 1
+        current_round: int = 1,
+        student_profile: Dict = None
     ) -> Dict[str, Any]:
         """
         Evaluate if agent outputs sufficiently answer the user's query.
@@ -505,6 +506,7 @@ If the student asked for a PLAN, your response should BE a plan, not a summary a
             user_query: The original user question
             agent_outputs: Dict of agent_name -> AgentOutput
             current_round: Current evaluation round (1-3)
+            student_profile: Student profile dict with completed_courses for validation
 
         Returns:
             {
@@ -590,7 +592,11 @@ Risks identified: {len(risks) if isinstance(risks, list) else 0}
 
                 # Validate the parsed plan
                 if parsed_plan:
-                    validation_result = validate_full_plan(parsed_plan, [])
+                    # Get completed courses from student profile
+                    completed_courses = []
+                    if student_profile:
+                        completed_courses = student_profile.get("completed_courses", [])
+                    validation_result = validate_full_plan(parsed_plan, completed_courses)
 
                     if not validation_result["valid"]:
                         for sem_result in validation_result["semester_results"]:
@@ -620,9 +626,10 @@ IMPORTANT: These are REAL violations detected by the system. The plan MUST be re
 """
                 else:
                     # Check individual courses for prereqs as a sanity check
+                    # Use completed courses from student profile
                     prereq_warnings = []
                     for course in all_courses[:10]:  # Check first 10 courses
-                        prereq_check = check_prereqs_satisfied(course, [])
+                        prereq_check = check_prereqs_satisfied(course, completed_courses)
                         if prereq_check.get("has_prereqs") and not prereq_check.get("satisfied"):
                             prereq_warnings.append(
                                 f"  - {course} requires: {', '.join(prereq_check.get('required_courses', []))}"
