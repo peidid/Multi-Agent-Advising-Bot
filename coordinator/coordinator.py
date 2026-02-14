@@ -320,61 +320,74 @@ class Coordinator:
         agent_outputs = state.get("agent_outputs", {})
         user_query = state.get("user_query", "")
         conflicts = state.get("conflicts", [])
-        
-        # Combine agent outputs
+
+        # Combine agent outputs with FULL content
         agent_summaries = []
         for agent_name, output in agent_outputs.items():
             agent_summaries.append(f"""
-{agent_name.upper()}:
-Answer: {output.answer}
-Confidence: {output.confidence}
-Policies: {', '.join(output.relevant_policies)}
-Risks: {len(output.risks)}
+=== {agent_name.upper()} ===
+{output.answer}
+
+[Confidence: {output.confidence}, Policies: {', '.join(output.relevant_policies)}, Risks: {len(output.risks)}]
 """)
-        
+
         conflicts_text = ""
         if conflicts:
             conflicts_text = "\nConflicts Detected:\n"
             for conflict in conflicts:
                 conflicts_text += f"- {conflict.conflict_type.value}: {conflict.description}\n"
-        
-        prompt = f"""You are an academic advisor helping a student. Synthesize information from specialized agents into a clear, well-formatted answer.
 
-User Query: {user_query}
+        prompt = f"""You are an academic advisor helping a student. Synthesize information from specialized agents into a clear, helpful answer.
 
-Agent Outputs:
+USER QUERY: {user_query}
+
+AGENT OUTPUTS (Use these as your primary source):
 {chr(10).join(agent_summaries)}
 {conflicts_text}
 
-CRITICAL: Below is a form of structure you could follow. you can adapt as needed, as long as it help students to understand what you're saying effectively
+YOUR TASK:
+Create a response that DIRECTLY addresses what the student asked for. The format should match the query type:
 
-## 📌 Direct Answer (Quick Summary)
-[Give a clear, direct answer to the student's question. This should immediately tell them what they need to know.]
+**For planning/schedule queries** (e.g., "give me a 4-year plan", "sample curriculum"):
+- Present the ACTUAL semester-by-semester plan with specific course codes
+- Use clear semester headers (Fall 2025, Spring 2026, etc.)
+- Include unit counts per semester
+- Add brief notes about prerequisites or sequencing
+- Highlight any flexibility or alternatives
 
-### Key Points
-• [Most critical information first]
-• [What the student MUST know]
-• [Clear, actionable points]
+**For course questions** (e.g., "what courses do I need", "prerequisites for X"):
+- List specific courses with codes and names
+- Show prerequisite chains if relevant
+- Include when courses are offered
 
-### Detailed Explanation
-[Now provide the full context, reasoning, and background]
+**For requirement questions** (e.g., "what are the IS requirements"):
+- List requirements clearly by category
+- Specify how many units/courses needed
+- Note any important rules or restrictions
 
-### What You Should Do / Next Steps
-[Clear action items, numbered list]
+**For policy/procedure questions**:
+- Give the direct answer first
+- Include relevant deadlines or conditions
+- Cite specific policies if applicable
 
-FORMATTING REQUIREMENTS:
-1. better to include a summary/directn answer at the top
-2. Use **bold** for critical information (deadlines, requirements, warnings)
-3. Use bullet points (•) for easy scanning
-4. Avoid useless & redundant words.
-5. Use ⚠️ for warnings, ✅ for recommendations
-6. Only include policy references if relevant
-8. Don't hallucinate policies - only use information from agents
-9. Use friendly, conversational tone
+**For validation queries** (e.g., "can I do X", "does this plan work"):
+- Give a clear yes/no/maybe answer first
+- Explain the reasoning
+- Note any conditions or alternatives
 
-Remember: Students want the answer FIRST, details SECOND. Make it easy to scan quickly.
+FORMATTING RULES:
+1. **Match the format to what the student needs** - don't force a rigid template
+2. For detailed plans, use markdown tables or clear headings for each semester
+3. Use **bold** for critical info, ⚠️ for warnings, ✅ for recommendations
+4. Be specific - use actual course codes and numbers from the agent outputs
+5. If agents provided multiple plans/options, present the BEST one clearly (mention alternatives briefly)
+6. Don't add generic "next steps" unless truly needed
+7. Keep it scannable - students should find what they need quickly
+8. DON'T hallucinate - only use information from agent outputs
+
+If the student asked for a PLAN, your response should BE a plan, not a summary about planning.
 """
-        
+
         response = self.llm.invoke([SystemMessage(content=prompt)])
         return response.content
     
