@@ -413,11 +413,19 @@ Provide a comprehensive answer that directly addresses the user's query using th
 
     def _detect_schedule_conflict_query(self, query: str) -> dict:
         """
-        Detect if the query is about schedule conflicts.
+        Detect if the query is about schedule conflicts with a SINGLE course.
 
         Returns dict with course_name, semester, busy_day, busy_start, busy_end if detected.
+        Returns None for multi-course queries (e.g., "can I take X and Y together?")
+        so they are handled by the normal multi-course flow.
         """
         query_lower = query.lower()
+
+        # If multiple courses are mentioned, skip this handler and use normal flow
+        # which properly handles multiple courses
+        codes = find_course_codes_in_text(query)
+        if len(codes) > 1:
+            return None  # Let normal multi-course flow handle this
 
         # Check for conflict-related keywords
         conflict_keywords = ["busy", "conflict", "available", "free", "can i take", "will this work", "schedule"]
