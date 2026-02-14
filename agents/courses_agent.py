@@ -26,20 +26,6 @@ class CourseSchedulingAgent(BaseAgent):
             domain="courses"  # Uses chroma_db_courses/
         )
 
-    def _is_reference_query(self, query: str) -> bool:
-        """Check if query uses pronouns/references to a previous course."""
-        query_lower = query.lower()
-        reference_patterns = [
-            r'\bits\b',           # "its unit", "its prereq"
-            r'\bit\b',            # "is it hard"
-            r'\bthe course\b',    # "the course"
-            r'\bthis course\b',   # "this course"
-            r'\bthat course\b',   # "that course"
-            r'\bthe class\b',     # "the class"
-            r'\bthis class\b',    # "this class"
-        ]
-        return any(re.search(p, query_lower) for p in reference_patterns)
-
     def _get_most_recent_course(self, messages: list) -> str:
         """Extract the most recently mentioned course code from messages (reverse order)."""
         if not messages:
@@ -155,20 +141,8 @@ class CourseSchedulingAgent(BaseAgent):
         """Extract course codes from various sources."""
         courses = set()
 
-        # From query - improved extraction
+        # From query - extract course codes
         courses.update(find_course_codes_in_text(query))
-
-        # Also check for course mentions in context (e.g., "this course", "67-364")
-        # Look for patterns like "COURSE 67-364" or "course 67-364"
-        course_mentions = re.findall(r'(?:course|COURSE)\s+(\d{2}-\d{3})', query, re.IGNORECASE)
-        courses.update(course_mentions)
-
-        # If query uses reference pronouns (its, it, the course) and no course in query,
-        # get ONLY the most recently mentioned course
-        if not courses and self._is_reference_query(query) and messages:
-            recent_course = self._get_most_recent_course(messages)
-            if recent_course:
-                return [recent_course]  # Return only the referenced course
 
         # From plan options
         for plan in plan_options:
@@ -194,21 +168,10 @@ class CourseSchedulingAgent(BaseAgent):
     
     def _answer_general_question(self, query: str, messages: list = None, memory_context: str = "") -> AgentOutput:
         """Answer general course questions."""
-        # Try to extract course codes even if not explicitly mentioned
+        # Extract course codes from query
         course_codes = find_course_codes_in_text(query)
 
-        # Also check for course mentions
-        course_mentions = re.findall(r'(?:course|COURSE)\s+(\d{2}-\d{3})', query, re.IGNORECASE)
-        course_codes.extend(course_mentions)
-
-        # If query uses reference pronouns (its, it, the course) and no course in query,
-        # get ONLY the most recently mentioned course
-        if not course_codes and self._is_reference_query(query) and messages:
-            recent_course = self._get_most_recent_course(messages)
-            if recent_course:
-                course_codes = [recent_course]
-
-        # If still no course found, check previous messages for the most recent course
+        # If no course found, check previous messages for the most recent course
         if not course_codes and messages:
             recent_course = self._get_most_recent_course(messages)
             if recent_course:
