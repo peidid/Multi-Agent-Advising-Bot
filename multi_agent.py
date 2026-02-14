@@ -57,16 +57,34 @@ AGENT_REGISTRY = {
     "academic_planning": planning_agent
 }
 
+# ============================================================================
+# CONFIDENCE-BASED RE-RETRIEVAL SETTINGS (Chat Mode)
+# ============================================================================
 
-def execute_single_agent(agent_name: str, state: BlackboardState) -> tuple:
+CONFIDENCE_THRESHOLD = 0.85  # If below this, re-run with enhanced retrieval
+MAX_RETRIEVAL_ROUNDS = 3     # Max rounds of confidence checking
+ENHANCED_K = 10              # k value for enhanced retrieval (vs default 5-8)
+
+
+def execute_single_agent(agent_name: str, state: BlackboardState, enhanced_k: int = None) -> tuple:
     """
     Execute a single agent and return (agent_name, output, execution_time).
     Used by ThreadPoolExecutor for parallel execution.
+
+    Args:
+        agent_name: Name of the agent to execute
+        state: Current blackboard state
+        enhanced_k: Optional enhanced k value for retrieval (for confidence re-retrieval)
     """
     start_time = time.time()
     agent = AGENT_REGISTRY.get(agent_name)
     if agent is None:
         return (agent_name, None, 0.0)
+
+    # If enhanced_k is specified, add it to state for agent to use
+    if enhanced_k is not None:
+        state = dict(state)  # Make a copy
+        state["retrieval_k"] = enhanced_k
 
     output = agent.execute(state)
     execution_time = time.time() - start_time
@@ -140,7 +158,8 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
 def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
     """
     Execute ALL active agents in PARALLEL using ThreadPoolExecutor.
-    This is the key optimization - agents run simultaneously instead of sequentially.
+    Includes confidence-based re-retrieval: if agent confidence < 85%,
+    re-run with enhanced k=10 (up to 3 rounds max).
     """
     active_agents = state.get("active_agents", [])
 
@@ -162,38 +181,95 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
     all_risks = list(state.get("risks", []))
     all_constraints = list(state.get("constraints", []))
     plan_options = []
+    confidence_rounds = {}  # Track how many confidence rounds each agent went through
 
     # Start timing
     parallel_start = time.time()
 
-    # Execute agents in parallel
+    # =========================================================================
+    # ROUND 1: Initial parallel execution (default k)
+    # =========================================================================
     with ThreadPoolExecutor(max_workers=len(active_agents)) as executor:
-        # Submit all agents simultaneously
         future_to_agent = {
             executor.submit(execute_single_agent, agent_name, state): agent_name
             for agent_name in active_agents
         }
 
-        # Collect results as they complete
         for future in as_completed(future_to_agent):
             agent_name, output, exec_time = future.result()
 
             if output is not None:
                 agent_outputs[agent_name] = output
                 execution_times[agent_name] = round(exec_time, 2)
+                confidence_rounds[agent_name] = 1
 
-                # Aggregate risks and constraints
-                all_risks.extend(output.risks)
-                all_constraints.extend(output.constraints)
+    # =========================================================================
+    # ROUNDS 2-3: Confidence-based re-retrieval
+    # =========================================================================
+    for round_num in range(2, MAX_RETRIEVAL_ROUNDS + 1):
+        # Find agents with low confidence
+        low_confidence_agents = [
+            agent_name for agent_name, output in agent_outputs.items()
+            if output.confidence < CONFIDENCE_THRESHOLD
+        ]
 
-                # Collect plan options
-                if output.plan_options:
-                    plan_options.extend(output.plan_options)
+        if not low_confidence_agents:
+            # All agents have sufficient confidence
+            break
+
+        print(f"[Chat Mode] Round {round_num}: Re-running {len(low_confidence_agents)} agents with low confidence (k={ENHANCED_K})")
+
+        # Emit streaming event for enhanced retrieval
+        if STREAMING_AVAILABLE:
+            emit_event({
+                "type": "confidence_reretrieval",
+                "round": round_num,
+                "agents": low_confidence_agents,
+                "threshold": CONFIDENCE_THRESHOLD,
+                "enhanced_k": ENHANCED_K
+            })
+
+        # Re-run low confidence agents with enhanced k
+        with ThreadPoolExecutor(max_workers=len(low_confidence_agents)) as executor:
+            future_to_agent = {
+                executor.submit(execute_single_agent, agent_name, state, ENHANCED_K): agent_name
+                for agent_name in low_confidence_agents
+            }
+
+            for future in as_completed(future_to_agent):
+                agent_name, output, exec_time = future.result()
+
+                if output is not None:
+                    old_confidence = agent_outputs[agent_name].confidence
+                    new_confidence = output.confidence
+
+                    print(f"[Chat Mode] {agent_name}: confidence {old_confidence:.2f} → {new_confidence:.2f}")
+
+                    # Only update if new confidence is better
+                    if new_confidence > old_confidence:
+                        # Remove old risks/constraints before adding new ones
+                        agent_outputs[agent_name] = output
+                        execution_times[agent_name] = round(
+                            execution_times.get(agent_name, 0) + exec_time, 2
+                        )
+
+                    confidence_rounds[agent_name] = round_num
+
+    # Aggregate final risks and constraints
+    all_risks = list(state.get("risks", []))
+    all_constraints = list(state.get("constraints", []))
+    plan_options = []
+
+    for output in agent_outputs.values():
+        all_risks.extend(output.risks)
+        all_constraints.extend(output.constraints)
+        if output.plan_options:
+            plan_options.extend(output.plan_options)
 
     # Calculate total parallel time
     parallel_total = time.time() - parallel_start
 
-    # Calculate theoretical sequential time (sum of all agent times)
+    # Calculate theoretical sequential time
     sequential_total = sum(execution_times.values())
 
     # Calculate speedup factor
@@ -201,12 +277,18 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
 
     # Build execution metadata
     execution_metadata = {
-        "execution_mode": "parallel",
+        "execution_mode": "parallel_with_confidence_check",
         "agents_executed": list(agent_outputs.keys()),
         "execution_times": execution_times,
         "total_execution_time": round(parallel_total, 2),
         "sequential_equivalent": round(sequential_total, 2),
-        "parallel_speedup": round(speedup, 2)
+        "parallel_speedup": round(speedup, 2),
+        "confidence_rounds": confidence_rounds,
+        "confidence_threshold": CONFIDENCE_THRESHOLD,
+        "final_confidences": {
+            name: round(output.confidence, 2)
+            for name, output in agent_outputs.items()
+        }
     }
 
     # Update phase timing
@@ -219,7 +301,7 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
         "risks": all_risks,
         "constraints": all_constraints,
         "plan_options": plan_options if plan_options else state.get("plan_options", []),
-        "workflow_step": WorkflowStep.AGENT_EXECUTION,  # Keep for routing
+        "workflow_step": WorkflowStep.AGENT_EXECUTION,
         "execution_metadata": execution_metadata,
         "phase_timing": phase_timing
     }

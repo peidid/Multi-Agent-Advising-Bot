@@ -30,6 +30,9 @@ class PolicyComplianceAgent(BaseAgent):
         # Emit start event
         self.emit_start()
 
+        # Set enhanced retrieval k if provided (for confidence-based re-retrieval)
+        self.set_retrieval_k_from_state(state)
+
         try:
             user_query = state.get("user_query", "")
             agent_outputs = state.get("agent_outputs", {})

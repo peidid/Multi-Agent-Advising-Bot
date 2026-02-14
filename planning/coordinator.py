@@ -27,7 +27,6 @@ class PlanningModeCoordinator:
     """Coordinates the collaborative planning process."""
 
     MAX_ROUNDS = 3
-    CONFIDENCE_THRESHOLD = 0.85  # If below this, retrieve more documents
 
     def __init__(
         self,
@@ -368,9 +367,8 @@ Respond with ONLY the JSON, no explanation."""
         plan: CoursePlanJSON,
         student_profile: Dict[str, Any]
     ) -> List[AgentCritique]:
-        """Run all three critique agents in PARALLEL with confidence-based re-retrieval."""
+        """Run all three critique agents in PARALLEL."""
 
-        # Create tasks for parallel execution with default k=5
         loop = asyncio.get_event_loop()
 
         tasks = [
@@ -378,93 +376,37 @@ Respond with ONLY the JSON, no explanation."""
                 self.executor,
                 self._critique_programs,
                 plan,
-                student_profile,
-                5  # default k
+                student_profile
             ),
             loop.run_in_executor(
                 self.executor,
                 self._critique_courses,
                 plan,
-                student_profile,
-                5  # default k
+                student_profile
             ),
             loop.run_in_executor(
                 self.executor,
                 self._critique_policy,
                 plan,
-                student_profile,
-                5  # default k
+                student_profile
             )
         ]
 
         # Wait for all critiques in parallel
         critiques = list(await asyncio.gather(*tasks))
-
-        # Check for low confidence and re-retrieve with more documents
-        enhanced_k = 10  # Enhanced retrieval count
-        re_run_tasks = []
-        re_run_indices = []
-
-        for i, critique in enumerate(critiques):
-            if critique.confidence < self.CONFIDENCE_THRESHOLD:
-                print(f"[Coordinator] {critique.agent_name} confidence {critique.confidence:.2f} < {self.CONFIDENCE_THRESHOLD}, re-retrieving with k={enhanced_k}")
-
-                if "programs" in critique.agent_name:
-                    re_run_tasks.append(loop.run_in_executor(
-                        self.executor,
-                        self._critique_programs,
-                        plan,
-                        student_profile,
-                        enhanced_k
-                    ))
-                elif "course" in critique.agent_name:
-                    re_run_tasks.append(loop.run_in_executor(
-                        self.executor,
-                        self._critique_courses,
-                        plan,
-                        student_profile,
-                        enhanced_k
-                    ))
-                elif "policy" in critique.agent_name:
-                    re_run_tasks.append(loop.run_in_executor(
-                        self.executor,
-                        self._critique_policy,
-                        plan,
-                        student_profile,
-                        enhanced_k
-                    ))
-                re_run_indices.append(i)
-
-        # If any agents need re-running, do it in parallel
-        if re_run_tasks:
-            self._emit({
-                "type": "planning_enhanced_retrieval",
-                "agents": [critiques[i].agent_name for i in re_run_indices],
-                "reason": "confidence below threshold",
-                "enhanced_k": enhanced_k
-            })
-            enhanced_critiques = await asyncio.gather(*re_run_tasks)
-
-            # Replace low-confidence critiques with enhanced ones
-            for idx, enhanced in zip(re_run_indices, enhanced_critiques):
-                print(f"[Coordinator] {enhanced.agent_name} enhanced confidence: {enhanced.confidence:.2f}")
-                critiques[idx] = enhanced
-
         return critiques
 
     def _critique_programs(
         self,
         plan: CoursePlanJSON,
-        student_profile: Dict[str, Any],
-        k: int = 5
+        student_profile: Dict[str, Any]
     ) -> AgentCritique:
         """Programs agent checks if plan meets degree requirements."""
         from langchain_core.messages import SystemMessage
 
-        # Get program requirements context with specified k
+        # Get program requirements context
         context = self.programs_agent.retrieve_context(
-            f"{plan.program} degree requirements courses needed",
-            k=k
+            f"{plan.program} degree requirements courses needed"
         )
 
         prompt = f"""You are the Programs & Requirements Agent. Critique this course plan for requirement compliance.
@@ -531,8 +473,7 @@ Respond with ONLY JSON."""
     def _critique_courses(
         self,
         plan: CoursePlanJSON,
-        student_profile: Dict[str, Any],
-        k: int = 5
+        student_profile: Dict[str, Any]
     ) -> AgentCritique:
         """Courses agent checks course availability and scheduling."""
         from langchain_core.messages import SystemMessage
@@ -556,10 +497,9 @@ Respond with ONLY JSON."""
                         f"{course_code} may not be offered in {sem_plan.semester}"
                     )
 
-        # Get additional context from RAG with specified k
+        # Get additional context from RAG
         context = self.courses_agent.retrieve_context(
-            "course offerings schedule availability prerequisites",
-            k=k
+            "course offerings schedule availability prerequisites"
         )
 
         prompt = f"""You are the Course Scheduling Agent. Critique this course plan for scheduling feasibility.
@@ -628,8 +568,7 @@ Respond with ONLY JSON."""
     def _critique_policy(
         self,
         plan: CoursePlanJSON,
-        student_profile: Dict[str, Any],
-        k: int = 5
+        student_profile: Dict[str, Any]
     ) -> AgentCritique:
         """Policy agent checks for policy compliance."""
         from langchain_core.messages import SystemMessage
@@ -644,10 +583,9 @@ Respond with ONLY JSON."""
                     f"{sem_plan.semester}: {sem_plan.total_units} units exceeds maximum {MAX_UNITS_PER_SEMESTER}"
                 )
 
-        # Get policy context from RAG with specified k
+        # Get policy context from RAG
         context = self.policy_agent.retrieve_context(
-            "unit limits overload registration policies academic standing",
-            k=k
+            "unit limits overload registration policies academic standing"
         )
 
         prompt = f"""You are the Policy & Compliance Agent. Critique this course plan for policy compliance.

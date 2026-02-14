@@ -34,11 +34,16 @@ class BaseAgent(ABC):
         self.name = name
         self.domain = domain
 
+        # Track enhanced retrieval k (set from state during execute)
+        # This allows confidence-based re-retrieval to override default k
+        self._state_retrieval_k = None
+
         # Domain-specific RAG retriever
         # This automatically loads the correct vector database
         # Programs/planning domains need higher k due to structured requirements data
         default_k = 8 if domain in ["programs", "planning"] else 5
         self.retriever = get_retriever(domain=domain, k=default_k)
+        self._default_k = default_k
 
         # LLM for agent reasoning - uses faster, cost-effective model
         model = get_agent_model()
@@ -131,6 +136,13 @@ class BaseAgent(ABC):
         except ImportError:
             pass
 
+    def set_retrieval_k_from_state(self, state: BlackboardState) -> None:
+        """
+        Set enhanced retrieval k from state (for confidence-based re-retrieval).
+        Call this at the start of execute() to enable enhanced retrieval.
+        """
+        self._state_retrieval_k = state.get("retrieval_k")
+
     def retrieve_context(self, query: str, k: int = None) -> str:
         """
         Retrieve domain-specific context using RAG.
@@ -140,15 +152,21 @@ class BaseAgent(ABC):
 
         Args:
             query: The search query
-            k: Number of documents to retrieve (optional, uses default if not specified)
+            k: Number of documents to retrieve (optional, uses state/default if not specified)
         """
         # Emit that we're starting retrieval
         self.emit_retrieving(query)
 
-        if k is not None and k != 5:
+        # Determine effective k value:
+        # 1. Explicit k parameter (from method call)
+        # 2. State retrieval_k (from confidence-based re-retrieval)
+        # 3. Default k for this domain
+        effective_k = k if k is not None else self._state_retrieval_k
+
+        if effective_k is not None and effective_k != self._default_k:
             # Use custom k value - get a new retriever with different k
             from rag_engine_improved import get_retriever
-            custom_retriever = get_retriever(domain=self.domain, k=k)
+            custom_retriever = get_retriever(domain=self.domain, k=effective_k)
             results = custom_retriever.invoke(query)
         else:
             results = self.retriever.invoke(query)
