@@ -29,7 +29,8 @@ try:
         workflow_complete_event,
         coordinator_evaluation_event,
         agent_rerun_start_event,
-        agent_rerun_complete_event
+        agent_rerun_complete_event,
+        agent_output_event
     )
     STREAMING_AVAILABLE = True
 except ImportError:
@@ -339,8 +340,19 @@ def parallel_agents_node(state: BlackboardState) -> Dict[str, Any]:
                     if guidance:
                         print(f"     Applied guidance: {guidance[:80]}...")
 
-                    # Emit streaming event for agent completion
+                    # Emit streaming events for agent completion
                     if STREAMING_AVAILABLE:
+                        # Emit updated agent output so frontend can display new answer
+                        risks = [{"type": r.type, "severity": r.severity, "description": r.description}
+                                 for r in (output.risks or [])]
+                        emit_event(agent_output_event(
+                            agent_name,
+                            answer=output.answer,
+                            confidence=output.confidence,
+                            risks=risks,
+                            relevant_policies=output.relevant_policies or []
+                        ))
+                        # Emit rerun complete event
                         emit_event(agent_rerun_complete_event(
                             agent_name=agent_name,
                             round_num=round_num + 1,
