@@ -118,22 +118,12 @@ class AcademicPlanningAgent(BaseAgent):
 
     def _is_planning_request(self, query: str) -> bool:
         """
-        Determine if the user is asking for a full academic plan.
+        Determine if the user is asking for an academic plan (full or partial).
 
-        Returns True only if user explicitly asks for a plan, schedule, or curriculum.
-        Returns False for specific questions about courses, conflicts, single semesters, etc.
+        Returns True if user asks for any kind of plan/schedule.
+        The SCOPE of the plan is determined separately in _extract_planning_parameters.
         """
         query_lower = query.lower()
-
-        # Keywords that indicate a FULL PLANNING request
-        planning_keywords = [
-            "plan my", "create a plan", "make a plan", "generate a plan",
-            "semester plan", "course plan", "academic plan", "graduation plan",
-            "full schedule", "full plan", "entire plan",
-            "plan for all semesters", "plan from now", "plan until graduation",
-            "how should i plan", "help me plan my courses",
-            "4 year plan", "four year plan", "remaining semesters"
-        ]
 
         # Keywords that indicate NOT a planning request (specific questions)
         non_planning_keywords = [
@@ -148,20 +138,75 @@ class AcademicPlanningAgent(BaseAgent):
             if keyword in query_lower:
                 return False
 
+        # Keywords that indicate a planning request (any scope)
+        planning_keywords = [
+            "plan", "schedule", "curriculum", "course plan", "courses for",
+            "what courses", "which courses", "semester plan",
+            "first year", "second year", "third year", "fourth year",
+            "fall", "spring", "sample"
+        ]
+
         # Check for planning indicators
         for keyword in planning_keywords:
             if keyword in query_lower:
                 return True
 
-        # Default: if asking about a single course/semester with constraints, not a plan
-        # If asking broadly about "my plan" or "courses to take", it's a plan
-        if re.search(r'plan\s+(my|for|to)', query_lower):
-            return True
-        if "semester by semester" in query_lower:
-            return True
-
-        # Otherwise, default to NOT a planning request
         return False
+
+    def _extract_plan_scope(self, query: str) -> dict:
+        """
+        Extract the SCOPE of the planning request.
+
+        Returns:
+            {
+                "scope": "full" | "first_year" | "specific_semesters" | "next_semester",
+                "semesters": ["Fall 2025", "Spring 2026"],  # specific semesters if mentioned
+                "target_program": "CS" | "IS" | None,  # if switching majors
+                "is_transfer": bool  # if user wants to switch majors
+            }
+        """
+        query_lower = query.lower()
+        scope = {
+            "scope": "full",
+            "semesters": [],
+            "target_program": None,
+            "is_transfer": False
+        }
+
+        # Detect major transfer intent
+        transfer_patterns = [
+            r'switch\s+(?:from\s+)?(\w+)\s+to\s+(\w+)',
+            r'transfer\s+(?:from\s+)?(\w+)\s+to\s+(\w+)',
+            r'change\s+(?:from\s+)?(\w+)\s+to\s+(\w+)',
+            r'switch\s+to\s+(\w+)',
+            r'transfer\s+to\s+(\w+)',
+            r'change\s+to\s+(\w+)'
+        ]
+        for pattern in transfer_patterns:
+            match = re.search(pattern, query_lower)
+            if match:
+                scope["is_transfer"] = True
+                groups = match.groups()
+                # Last group is always the target
+                scope["target_program"] = groups[-1].upper()
+                break
+
+        # Detect scope limitations
+        if re.search(r'first\s*year|year\s*1|freshman', query_lower):
+            scope["scope"] = "first_year"
+        elif re.search(r'second\s*year|year\s*2|sophomore', query_lower):
+            scope["scope"] = "second_year"
+        elif re.search(r'next\s*semester', query_lower):
+            scope["scope"] = "next_semester"
+
+        # Extract specific semesters mentioned
+        semester_pattern = r'(fall|spring|summer)\s*(\d{4})'
+        matches = re.findall(semester_pattern, query_lower)
+        if matches:
+            scope["semesters"] = [f"{term.title()} {year}" for term, year in matches]
+            scope["scope"] = "specific_semesters"
+
+        return scope
 
     def _answer_non_planning_question(self, query: str, profile: dict, memory_context: str) -> AgentOutput:
         """
@@ -230,14 +275,33 @@ INSTRUCTIONS:
 
     def _extract_planning_parameters(self, query: str, profile: dict, outputs: dict) -> dict:
         """Extract planning parameters from query and context."""
+        # Get scope first
+        scope_info = self._extract_plan_scope(query)
+
+        # Determine the target program (for transfers) or current program
+        target_program = scope_info.get("target_program")
+        if not target_program:
+            # Use profile major, extract first if it's a list
+            major = profile.get("major", "Computer Science")
+            if isinstance(major, list) and major:
+                target_program = major[0]
+            else:
+                target_program = major or "Computer Science"
+
         params = {
-            "program": profile.get("major", "Computer Science"),
+            "program": target_program,
+            "current_program": profile.get("major", "Information Systems"),  # What they're currently in
             "current_semester": profile.get("current_semester", "First-Year Fall"),
             "completed_courses": profile.get("completed_courses", []),
             "target_graduation": None,
             "include_minor": None,
             "workload_preference": "balanced",  # balanced, light, heavy
-            "constraints": []
+            "constraints": [],
+            # Scope-related fields
+            "scope": scope_info["scope"],
+            "specific_semesters": scope_info["semesters"],
+            "is_transfer": scope_info["is_transfer"],
+            "target_program": scope_info["target_program"]
         }
 
         # Extract from query
@@ -260,30 +324,30 @@ INSTRUCTIONS:
         elif "heavy" in query_lower or "aggressive" in query_lower:
             params["workload_preference"] = "heavy"
 
-        # Get program from Programs agent if available
-        if "programs_requirements" in outputs:
-            prog_output = outputs["programs_requirements"]
-            if hasattr(prog_output, 'answer'):
-                # Extract program mentions
-                pass
-
         return params
 
     def _get_program_requirements(self, params: dict, outputs: dict) -> dict:
         """Retrieve program requirements from RAG or previous agent outputs."""
         program = params.get("program", "Computer Science")
+        is_transfer = params.get("is_transfer", False)
+        target_program = params.get("target_program")
 
-        # Try to get from Programs agent output first
+        # Use Programs agent output if available (it has already done research)
         if "programs_requirements" in outputs:
             prog_output = outputs["programs_requirements"]
             context = prog_output.answer if hasattr(prog_output, 'answer') else ""
         else:
             # Query RAG for requirements
-            rag_query = f"{program} major requirements core courses electives sample curriculum"
+            if is_transfer and target_program:
+                # For transfers, search for transfer requirements and target program
+                rag_query = f"{target_program} internal transfer requirements prerequisites policy switch major"
+            else:
+                rag_query = f"{program} major requirements core courses electives sample curriculum"
             context = self.retrieve_context(rag_query)
 
         # Also get schedule context from schedules RAG
-        schedule_rag_query = f"{program} course offerings schedule availability"
+        schedule_program = target_program if is_transfer else program
+        schedule_rag_query = f"{schedule_program} course offerings schedule availability"
         try:
             schedule_docs = self.schedules_retriever.invoke(schedule_rag_query)
             schedule_context = "\n\n".join([doc.page_content for doc in schedule_docs])
@@ -293,6 +357,8 @@ INSTRUCTIONS:
 
         return {
             "program": program,
+            "target_program": target_program,
+            "is_transfer": is_transfer,
             "requirements_context": context,
             "schedule_context": schedule_context
         }
@@ -350,7 +416,7 @@ INSTRUCTIONS:
     def _build_planning_prompt(self, params: dict, requirements: dict,
                                schedules: dict, profile: dict,
                                memory_context: str = "") -> str:
-        """Build comprehensive planning prompt."""
+        """Build comprehensive planning prompt based on scope."""
 
         # Summarize available schedules
         schedule_summary = self._summarize_schedules(schedules)
@@ -364,62 +430,117 @@ INSTRUCTIONS:
             context_section = f"""
 {memory_context}
 
-IMPORTANT: Use the conversation context above to understand what courses, semesters, or constraints the student has mentioned. If they refer to "it", "the course", or "that semester", look at the context to understand what they mean.
+IMPORTANT: Use the conversation context above to understand what courses, semesters, or constraints the student has mentioned.
 """
 
-        prompt = f"""You are an expert academic advisor creating a semester-by-semester course plan.
+        # Determine scope-specific instructions
+        scope = params.get("scope", "full")
+        specific_semesters = params.get("specific_semesters", [])
+        is_transfer = params.get("is_transfer", False)
+        target_program = params.get("target_program")
+
+        # Build scope-aware planning instructions
+        if scope == "specific_semesters" and specific_semesters:
+            scope_instruction = f"""**SCOPE: SPECIFIC SEMESTERS ONLY**
+The user is asking for a plan for ONLY these semesters: {', '.join(specific_semesters)}
+DO NOT generate a full 4-year or 8-semester plan.
+ONLY provide the courses for the requested semesters."""
+            output_format = f"""**Output Format:**
+For each requested semester ({', '.join(specific_semesters)}), provide:
+
+{specific_semesters[0]}:
+- XX-XXX: Course Name (X units)
+- XX-XXX: Course Name (X units)
+- ...
+Total: X units
+
+{specific_semesters[1] if len(specific_semesters) > 1 else ''}
+..."""
+        elif scope == "first_year":
+            scope_instruction = """**SCOPE: FIRST YEAR ONLY**
+The user is asking for a FIRST-YEAR plan only (typically Fall and Spring of year 1).
+DO NOT generate a full 4-year plan. ONLY provide courses for the first year (2 semesters)."""
+            output_format = """**Output Format:**
+Fall [Year]:
+- XX-XXX: Course Name (X units)
+- XX-XXX: Course Name (X units)
+Total: X units
+
+Spring [Year]:
+- XX-XXX: Course Name (X units)
+- XX-XXX: Course Name (X units)
+Total: X units
+
+Key Notes:
+- [Important sequencing/prerequisite notes]
+- [What to prioritize]"""
+        elif scope == "next_semester":
+            scope_instruction = """**SCOPE: NEXT SEMESTER ONLY**
+The user is asking for recommendations for the NEXT semester only.
+DO NOT generate a full plan."""
+            output_format = """**Output Format:**
+[Semester Year]:
+- XX-XXX: Course Name (X units)
+- XX-XXX: Course Name (X units)
+Total: X units"""
+        else:
+            scope_instruction = """**SCOPE: FULL GRADUATION PLAN**
+Create a complete semester-by-semester plan from current status to graduation."""
+            output_format = """**Output Format:**
+PLAN A: [Brief description]
+Semester 1 (Term Year):
+- XX-XXX: Course Name (X units)
+...
+[Continue for all semesters until graduation]
+
+RATIONALE FOR PLAN A:
+[Explain sequencing strategy]"""
+
+        # Add transfer-specific context if switching majors
+        transfer_section = ""
+        if is_transfer and target_program:
+            transfer_section = f"""
+**MAJOR TRANSFER CONTEXT:**
+The student wants to SWITCH TO {target_program}. This plan must:
+1. Prioritize courses required for internal transfer to {target_program}
+2. Include any transfer-prerequisite courses (check transfer policy requirements)
+3. Focus on meeting transfer eligibility, not the current major's requirements
+4. Note the transfer application timing and requirements
+"""
+
+        prompt = f"""You are an expert academic advisor creating a course plan for CMU-Q.
 {context_section}
+{scope_instruction}
+{transfer_section}
 **Student Profile:**
-- Program: {params.get('program', 'N/A')}
+- Current Program: {params.get('current_program', 'N/A')}
+- Target Program: {params.get('program', params.get('current_program', 'N/A'))}
 - Current Status: {params.get('current_semester', 'Starting')}
 - Completed Courses: {', '.join(params.get('completed_courses', [])) or 'None'}
-- Target Graduation: {params.get('target_graduation', 'Standard 4 years')}
-- Minor Interest: {params.get('include_minor', 'None')}
 - Workload Preference: {params.get('workload_preference', 'balanced')}
 
 **Program Requirements:**
 {requirements.get('requirements_context', 'See program requirements')}
 
-**Course Schedule Data (from database):**
+**Course Schedule Data:**
 {schedule_summary}
 
-**Additional Schedule Context (from RAG):**
+**Additional Context:**
 {schedule_rag_context[:2000] if schedule_rag_context else 'No additional context'}
 
 **Planning Instructions:**
-1. Create a semester-by-semester plan from current status to graduation
-2. Ensure prerequisites are satisfied in correct order
-3. Consider course availability patterns (Fall-only, Spring-only, every semester)
+1. RESPECT THE SCOPE - only plan for the semesters requested
+2. Use specific course codes (XX-XXX format), not placeholders
+3. Ensure prerequisites are satisfied
 4. Balance workload (typically 45-54 units per semester)
-5. Include specific course codes, not just placeholders
-6. If minor is requested, integrate minor requirements
-7. Account for already completed courses
+5. If this is a transfer plan, prioritize transfer requirements
 
-**Output Format:**
-Provide 1-2 alternative plans in this structure:
+{output_format}
 
-PLAN A: [Brief description]
-Semester 1 (Term Year):
-- XX-XXX: Course Name (X units)
-- XX-XXX: Course Name (X units)
-Total: X units
-
-Semester 2 (Term Year):
-- XX-XXX: Course Name (X units)
-...
-
-Continue for all semesters until graduation.
-
-RATIONALE FOR PLAN A:
-[Explain the sequencing strategy, workload distribution, and key decisions]
-
-[If applicable, provide PLAN B with different approach]
-
-**Important Considerations:**
-- Flag any risky semesters (overload, high-difficulty courses together)
-- Note if any required courses might not be available when needed
-- Consider study abroad opportunities if mentioned
-- Ensure all degree requirements are met
+**Important:**
+- If scope is limited, DO NOT extend beyond requested semesters
+- Flag any risks (overload, prerequisite issues, availability)
+- Be specific with course recommendations
 """
 
         return prompt
