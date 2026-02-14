@@ -177,27 +177,9 @@ class CourseSchedulingAgent(BaseAgent):
             if recent_course:
                 course_codes = [recent_course]
 
-        # Extract semester if mentioned
-        semester = None
-        semester_match = re.search(r'(spring|fall|summer)\s*(\d{4})', query, re.IGNORECASE)
-        if semester_match:
-            semester = f"{semester_match.group(1).lower()}_{semester_match.group(2)}"
-
-        # ALWAYS get schedule data - either specified semester or recent semesters
+        # Get ALL schedule data - let LLM figure out what's relevant
         from course_tools import DB
         all_schedules = DB.get("schedules", {})
-
-        if semester and semester in all_schedules:
-            # User specified a semester - get that one
-            semester_schedule = {semester: all_schedules[semester].get("offerings", [])}
-        else:
-            # No semester specified - get all available semester schedules
-            # (LLM will figure out which is relevant)
-            semester_schedule = {
-                k: v.get("offerings", [])
-                for k, v in all_schedules.items()
-                if v.get("offerings")  # Only include semesters with actual offerings
-            }
 
         if course_codes:
             # If we found course codes, try to get their info
@@ -205,7 +187,7 @@ class CourseSchedulingAgent(BaseAgent):
             for course_code in course_codes:
                 course_data = look_up_course_info(course_code)
                 if course_data:
-                    schedule_data = get_course_schedule(course_code, semester)
+                    schedule_data = get_course_schedule(course_code, None)  # Get all semesters
                     context = self.retrieve_context(f"course {course_code}")
                     course_info.append({
                         "code": course_code,
@@ -237,10 +219,10 @@ class CourseSchedulingAgent(BaseAgent):
 IMPORTANT: Use the conversation context above to understand what "it", "the course", "this class" etc. refer to.
 """
 
-        # Include semester schedule data (always available now)
+        # Include ALL schedule data - LLM will filter based on query
         schedule_section = f"""
-AVAILABLE COURSE SCHEDULES:
-{json.dumps(semester_schedule, indent=2, default=str)}
+AVAILABLE COURSE SCHEDULES (all semesters):
+{json.dumps(all_schedules, indent=2, default=str)}
 """
 
         prompt = f"""You are the Course & Scheduling Agent for CMU-Q.
@@ -267,7 +249,7 @@ RAG Context: {context}
         return AgentOutput(
             agent_name=self.name,
             answer=response.content,
-            confidence=0.8 if semester_schedule else 0.7,
+            confidence=0.8,
             relevant_policies=[],
             risks=[],
             constraints=[]
