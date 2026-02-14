@@ -336,3 +336,469 @@ def search_courses_by_name(query: str, limit: int = 10) -> List[Dict]:
     # Return in priority order: exact > starts with > contains
     results = exact_name_matches + starts_with_matches + contains_matches
     return results[:limit]
+
+
+# ============================================================================
+# PREREQUISITE CHECKING
+# ============================================================================
+
+def get_course_prereqs(course_code: str) -> Dict[str, Any]:
+    """
+    Get prerequisite information for a course.
+
+    Returns:
+        {
+            "course_code": str,
+            "prereq_text": str,  # Raw prereq text
+            "prereq_courses": List[str],  # List of all course codes mentioned
+            "has_prereqs": bool
+        }
+    """
+    course = DB["courses"].get(course_code)
+    if not course:
+        return {
+            "course_code": course_code,
+            "prereq_text": None,
+            "prereq_courses": [],
+            "has_prereqs": False,
+            "error": f"Course {course_code} not found"
+        }
+
+    prereq_text = course.get("prereqs", {}).get("text", "")
+    if not prereq_text:
+        return {
+            "course_code": course_code,
+            "prereq_text": None,
+            "prereq_courses": [],
+            "has_prereqs": False
+        }
+
+    # Extract all course codes from prereq text
+    prereq_courses = re.findall(r'\d{2}-\d{3}', prereq_text)
+
+    return {
+        "course_code": course_code,
+        "prereq_text": prereq_text,
+        "prereq_courses": list(set(prereq_courses)),
+        "has_prereqs": len(prereq_courses) > 0
+    }
+
+
+def parse_prereq_expression(prereq_text: str) -> Dict[str, Any]:
+    """
+    Parse prerequisite text into a structured logical expression.
+
+    Handles formats like:
+    - "15-213 [] at least C"
+    - "(A) or (B)"
+    - "(A) and (B)"
+    - "((A) or (B)) and (C)"
+
+    Returns:
+        {
+            "type": "and" | "or" | "course" | "none",
+            "courses": [...] for simple cases,
+            "conditions": [...] for complex cases
+        }
+    """
+    if not prereq_text:
+        return {"type": "none", "courses": []}
+
+    # Extract all course codes
+    all_courses = re.findall(r'\d{2}-\d{3}', prereq_text)
+    if not all_courses:
+        return {"type": "none", "courses": []}
+
+    # Simple case: single course
+    if len(all_courses) == 1:
+        return {"type": "course", "courses": all_courses}
+
+    # Check for AND/OR at the top level (outside parentheses)
+    # Count parentheses depth
+    def split_at_top_level(text: str, operator: str) -> List[str]:
+        """Split text by operator only when at parentheses depth 0."""
+        parts = []
+        current = ""
+        depth = 0
+        i = 0
+        op_lower = operator.lower()
+
+        while i < len(text):
+            char = text[i]
+            if char == '(':
+                depth += 1
+                current += char
+            elif char == ')':
+                depth -= 1
+                current += char
+            elif depth == 0 and text[i:i+len(operator)].lower() == op_lower:
+                if current.strip():
+                    parts.append(current.strip())
+                current = ""
+                i += len(operator) - 1  # Skip operator
+            else:
+                current += char
+            i += 1
+
+        if current.strip():
+            parts.append(current.strip())
+
+        return parts if len(parts) > 1 else []
+
+    # Try AND first (higher precedence in evaluation)
+    and_parts = split_at_top_level(prereq_text, " and ")
+    if and_parts:
+        return {
+            "type": "and",
+            "conditions": [parse_prereq_expression(p) for p in and_parts],
+            "courses": all_courses
+        }
+
+    # Try OR
+    or_parts = split_at_top_level(prereq_text, " or ")
+    if or_parts:
+        return {
+            "type": "or",
+            "conditions": [parse_prereq_expression(p) for p in or_parts],
+            "courses": all_courses
+        }
+
+    # If no top-level operators, it might be a single course or wrapped expression
+    # Strip outer parentheses and try again
+    stripped = prereq_text.strip()
+    if stripped.startswith('(') and stripped.endswith(')'):
+        return parse_prereq_expression(stripped[1:-1])
+
+    # Default: treat as list of courses (OR relationship assumed)
+    return {"type": "or", "courses": all_courses}
+
+
+def evaluate_prereq_expression(expr: Dict, completed_courses: List[str]) -> bool:
+    """
+    Evaluate if a prerequisite expression is satisfied.
+
+    Args:
+        expr: Parsed prerequisite expression from parse_prereq_expression()
+        completed_courses: List of course codes the student has completed
+
+    Returns:
+        True if prerequisites are satisfied
+    """
+    completed_set = set(completed_courses)
+
+    if expr["type"] == "none":
+        return True
+
+    if expr["type"] == "course":
+        # Single course requirement
+        return any(c in completed_set for c in expr.get("courses", []))
+
+    if expr["type"] == "or":
+        # OR: at least one condition must be true
+        if "conditions" in expr:
+            return any(evaluate_prereq_expression(cond, completed_courses)
+                      for cond in expr["conditions"])
+        else:
+            # Simple OR of courses
+            return any(c in completed_set for c in expr.get("courses", []))
+
+    if expr["type"] == "and":
+        # AND: all conditions must be true
+        if "conditions" in expr:
+            return all(evaluate_prereq_expression(cond, completed_courses)
+                      for cond in expr["conditions"])
+        else:
+            # Simple AND of courses
+            return all(c in completed_set for c in expr.get("courses", []))
+
+    return True  # Default to satisfied if unknown
+
+
+def check_prereqs_satisfied(course_code: str, completed_courses: List[str]) -> Dict[str, Any]:
+    """
+    Check if prerequisites for a course are satisfied.
+
+    Args:
+        course_code: Course to check prerequisites for
+        completed_courses: List of courses the student has completed
+
+    Returns:
+        {
+            "course_code": str,
+            "satisfied": bool,
+            "prereq_text": str,
+            "required_courses": List[str],  # All courses mentioned in prereqs
+            "completed": List[str],  # Which prereq courses are completed
+            "missing": List[str],  # Which prereq courses are missing
+            "reason": str  # Human-readable explanation
+        }
+    """
+    prereq_info = get_course_prereqs(course_code)
+
+    if "error" in prereq_info:
+        return {
+            "course_code": course_code,
+            "satisfied": None,  # Unknown
+            "reason": prereq_info["error"]
+        }
+
+    if not prereq_info["has_prereqs"]:
+        return {
+            "course_code": course_code,
+            "satisfied": True,
+            "prereq_text": None,
+            "required_courses": [],
+            "completed": [],
+            "missing": [],
+            "reason": "No prerequisites required"
+        }
+
+    prereq_text = prereq_info["prereq_text"]
+    required_courses = prereq_info["prereq_courses"]
+    completed_set = set(completed_courses)
+
+    # Parse and evaluate
+    expr = parse_prereq_expression(prereq_text)
+    satisfied = evaluate_prereq_expression(expr, completed_courses)
+
+    # Find which are completed/missing
+    completed_prereqs = [c for c in required_courses if c in completed_set]
+    missing_prereqs = [c for c in required_courses if c not in completed_set]
+
+    if satisfied:
+        reason = "Prerequisites satisfied"
+    else:
+        reason = f"Missing prerequisites: {', '.join(missing_prereqs)}"
+
+    return {
+        "course_code": course_code,
+        "satisfied": satisfied,
+        "prereq_text": prereq_text,
+        "required_courses": required_courses,
+        "completed": completed_prereqs,
+        "missing": missing_prereqs,
+        "reason": reason
+    }
+
+
+# ============================================================================
+# COURSE-TO-COURSE CONFLICT DETECTION
+# ============================================================================
+
+def check_courses_conflict(course1: str, course2: str, semester: str) -> Dict[str, Any]:
+    """
+    Check if two courses have schedule conflicts in a given semester.
+
+    Args:
+        course1: First course code
+        course2: Second course code
+        semester: Semester to check (e.g., "spring_2026", "Fall 2025")
+
+    Returns:
+        {
+            "has_conflict": bool,
+            "course1_schedule": List of sections,
+            "course2_schedule": List of sections,
+            "conflicts": List of conflict details,
+            "message": str
+        }
+    """
+    sched1 = get_course_schedule(course1, semester)
+    sched2 = get_course_schedule(course2, semester)
+
+    if not sched1:
+        return {
+            "has_conflict": None,
+            "message": f"No schedule found for {course1} in {semester}"
+        }
+    if not sched2:
+        return {
+            "has_conflict": None,
+            "message": f"No schedule found for {course2} in {semester}"
+        }
+
+    conflicts = []
+
+    # Compare all sections
+    for s1 in sched1:
+        for section1 in s1.get("sections", []):
+            days1 = set(section1.get("days", []))
+            start1 = section1.get("start_time", "")
+            end1 = section1.get("end_time", "")
+
+            for s2 in sched2:
+                for section2 in s2.get("sections", []):
+                    days2 = set(section2.get("days", []))
+                    start2 = section2.get("start_time", "")
+                    end2 = section2.get("end_time", "")
+
+                    # Check for day overlap
+                    common_days = days1 & days2
+                    if not common_days:
+                        continue
+
+                    # Check for time overlap
+                    if start1 and end1 and start2 and end2:
+                        # Times overlap if: start1 < end2 and start2 < end1
+                        if start1 < end2 and start2 < end1:
+                            conflicts.append({
+                                "days": list(common_days),
+                                "course1": {
+                                    "code": course1,
+                                    "time": f"{start1}-{end1}"
+                                },
+                                "course2": {
+                                    "code": course2,
+                                    "time": f"{start2}-{end2}"
+                                },
+                                "reason": f"{course1} ({start1}-{end1}) overlaps with {course2} ({start2}-{end2}) on {', '.join(common_days)}"
+                            })
+
+    return {
+        "has_conflict": len(conflicts) > 0,
+        "course1": course1,
+        "course2": course2,
+        "semester": semester,
+        "conflicts": conflicts,
+        "message": f"Found {len(conflicts)} schedule conflict(s)" if conflicts else "No conflicts found"
+    }
+
+
+# ============================================================================
+# PLAN VALIDATION
+# ============================================================================
+
+def validate_semester_plan(
+    semester: str,
+    courses: List[str],
+    completed_courses: List[str]
+) -> Dict[str, Any]:
+    """
+    Validate a single semester's course plan.
+
+    Checks:
+    1. Prerequisites are satisfied for each course
+    2. No schedule conflicts between courses
+
+    Args:
+        semester: Semester name (e.g., "Fall 2025")
+        courses: List of course codes planned for this semester
+        completed_courses: Courses completed BEFORE this semester
+
+    Returns:
+        {
+            "semester": str,
+            "courses": List[str],
+            "valid": bool,
+            "prereq_violations": List of violations,
+            "schedule_conflicts": List of conflicts,
+            "warnings": List of warnings
+        }
+    """
+    prereq_violations = []
+    schedule_conflicts = []
+    warnings = []
+
+    # Check prerequisites for each course
+    for course in courses:
+        prereq_check = check_prereqs_satisfied(course, completed_courses)
+        if prereq_check.get("satisfied") is False:
+            prereq_violations.append({
+                "course": course,
+                "missing": prereq_check.get("missing", []),
+                "prereq_text": prereq_check.get("prereq_text", ""),
+                "reason": prereq_check.get("reason", "")
+            })
+        elif prereq_check.get("satisfied") is None:
+            warnings.append(f"Could not verify prerequisites for {course}")
+
+    # Check for schedule conflicts between all pairs of courses
+    semester_normalized = semester.lower().replace(" ", "_")
+    checked_pairs = set()
+
+    for i, course1 in enumerate(courses):
+        for course2 in courses[i+1:]:
+            pair = tuple(sorted([course1, course2]))
+            if pair in checked_pairs:
+                continue
+            checked_pairs.add(pair)
+
+            conflict_check = check_courses_conflict(course1, course2, semester_normalized)
+            if conflict_check.get("has_conflict"):
+                schedule_conflicts.append({
+                    "courses": [course1, course2],
+                    "conflicts": conflict_check.get("conflicts", []),
+                    "message": conflict_check.get("message", "")
+                })
+            elif conflict_check.get("has_conflict") is None:
+                warnings.append(f"Could not verify schedule for {course1} or {course2} in {semester}")
+
+    return {
+        "semester": semester,
+        "courses": courses,
+        "valid": len(prereq_violations) == 0 and len(schedule_conflicts) == 0,
+        "prereq_violations": prereq_violations,
+        "schedule_conflicts": schedule_conflicts,
+        "warnings": warnings
+    }
+
+
+def validate_full_plan(
+    plan: List[Dict],
+    initial_completed_courses: List[str] = None
+) -> Dict[str, Any]:
+    """
+    Validate a full multi-semester academic plan.
+
+    Args:
+        plan: List of semester plans, each with:
+            {"semester": "Fall 2025", "courses": ["15-112", "21-127", ...]}
+        initial_completed_courses: Courses already completed before the plan
+
+    Returns:
+        {
+            "valid": bool,
+            "semester_results": List of per-semester validation results,
+            "total_prereq_violations": int,
+            "total_schedule_conflicts": int,
+            "summary": str
+        }
+    """
+    completed = list(initial_completed_courses or [])
+    semester_results = []
+    total_prereq_violations = 0
+    total_schedule_conflicts = 0
+
+    for semester_plan in plan:
+        semester = semester_plan.get("semester", "Unknown")
+        courses = semester_plan.get("courses", [])
+
+        # Validate this semester
+        result = validate_semester_plan(semester, courses, completed)
+        semester_results.append(result)
+
+        total_prereq_violations += len(result["prereq_violations"])
+        total_schedule_conflicts += len(result["schedule_conflicts"])
+
+        # Add this semester's courses to completed for next semester
+        completed.extend(courses)
+
+    valid = total_prereq_violations == 0 and total_schedule_conflicts == 0
+
+    if valid:
+        summary = "Plan is valid: all prerequisites satisfied, no schedule conflicts"
+    else:
+        issues = []
+        if total_prereq_violations > 0:
+            issues.append(f"{total_prereq_violations} prerequisite violation(s)")
+        if total_schedule_conflicts > 0:
+            issues.append(f"{total_schedule_conflicts} schedule conflict(s)")
+        summary = f"Plan has issues: {', '.join(issues)}"
+
+    return {
+        "valid": valid,
+        "semester_results": semester_results,
+        "total_prereq_violations": total_prereq_violations,
+        "total_schedule_conflicts": total_schedule_conflicts,
+        "summary": summary
+    }

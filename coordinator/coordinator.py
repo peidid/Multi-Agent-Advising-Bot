@@ -39,6 +39,19 @@ try:
 except ImportError:
     CONTEXT_FORMATTER_AVAILABLE = False
 
+# Course validation tools for plan checking
+try:
+    from course_tools import (
+        check_prereqs_satisfied,
+        check_courses_conflict,
+        validate_semester_plan,
+        validate_full_plan
+    )
+    VALIDATION_TOOLS_AVAILABLE = True
+except ImportError:
+    VALIDATION_TOOLS_AVAILABLE = False
+    print("Warning: course_tools validation not available")
+
 # Fine-tuned classifier (fast routing)
 try:
     from coordinator.finetuned_classifier import FineTunedClassifier
@@ -546,13 +559,92 @@ Policies cited: {', '.join(policies) if policies else 'None'}
 Risks identified: {len(risks) if isinstance(risks, list) else 0}
 """)
 
+        # =====================================================================
+        # PLAN VALIDATION (if planning agent is involved)
+        # =====================================================================
+        plan_validation_section = ""
+        if VALIDATION_TOOLS_AVAILABLE and "academic_planning" in agent_outputs:
+            planning_output = agent_outputs["academic_planning"]
+            planning_answer = planning_output.answer if hasattr(planning_output, 'answer') else str(planning_output)
+
+            # Extract courses from the planning output
+            all_courses = re.findall(r'\d{2}-\d{3}', planning_answer)
+
+            if all_courses:
+                # Try to parse semester structure from the output
+                plan_issues = []
+
+                # Extract semesters with their courses
+                # Look for patterns like "Fall 2025:" or "Semester 1 (Fall 2025):"
+                semester_pattern = r'(?:Semester \d+\s*\()?([A-Za-z]+\s+\d{4})\)?:?\s*([^S\n]*(?:\n(?!\s*Semester|\s*[A-Z][a-z]+\s+\d{4})[^\n]*)*)'
+                semester_matches = re.findall(semester_pattern, planning_answer, re.IGNORECASE)
+
+                parsed_plan = []
+                for semester_name, courses_text in semester_matches:
+                    semester_courses = re.findall(r'\d{2}-\d{3}', courses_text)
+                    if semester_courses:
+                        parsed_plan.append({
+                            "semester": semester_name.strip(),
+                            "courses": semester_courses
+                        })
+
+                # Validate the parsed plan
+                if parsed_plan:
+                    validation_result = validate_full_plan(parsed_plan, [])
+
+                    if not validation_result["valid"]:
+                        for sem_result in validation_result["semester_results"]:
+                            # Report prereq violations
+                            for violation in sem_result.get("prereq_violations", []):
+                                plan_issues.append(
+                                    f"⚠️ PREREQ VIOLATION in {sem_result['semester']}: "
+                                    f"{violation['course']} requires {', '.join(violation['missing'])}"
+                                )
+
+                            # Report schedule conflicts
+                            for conflict in sem_result.get("schedule_conflicts", []):
+                                plan_issues.append(
+                                    f"⚠️ SCHEDULE CONFLICT in {sem_result['semester']}: "
+                                    f"{', '.join(conflict['courses'])} have overlapping times"
+                                )
+
+                if plan_issues:
+                    plan_validation_section = f"""
+
+=== AUTOMATED PLAN VALIDATION ===
+The following issues were detected in the proposed academic plan:
+
+{chr(10).join(plan_issues)}
+
+IMPORTANT: These are REAL violations detected by the system. The plan MUST be revised to fix these issues before being considered valid.
+"""
+                else:
+                    # Check individual courses for prereqs as a sanity check
+                    prereq_warnings = []
+                    for course in all_courses[:10]:  # Check first 10 courses
+                        prereq_check = check_prereqs_satisfied(course, [])
+                        if prereq_check.get("has_prereqs") and not prereq_check.get("satisfied"):
+                            prereq_warnings.append(
+                                f"  - {course} requires: {', '.join(prereq_check.get('required_courses', []))}"
+                            )
+
+                    if prereq_warnings:
+                        plan_validation_section = f"""
+
+=== AUTOMATED PLAN VALIDATION ===
+Note: The following courses have prerequisites that should be verified:
+{chr(10).join(prereq_warnings[:5])}
+
+The plan should ensure prerequisites are completed in earlier semesters.
+"""
+
         prompt = f"""You are a senior academic advisor coordinator using GPT-5.2. Your task is to evaluate agent responses and provide actionable feedback.
 
 USER QUERY: {user_query}
 
 AGENT OUTPUTS (Round {current_round}/3):
 {''.join(outputs_summary)}
-
+{plan_validation_section}
 EVALUATION TASK:
 1. Evaluate the OVERALL quality of these combined outputs for answering the student's question
 2. Provide a QUALITY SCORE (0-100) based on completeness, accuracy, and relevance
@@ -571,6 +663,8 @@ IMPORTANT:
 - If score >= 75, mark as sufficient even if not perfect
 - Maximum 3 rounds total (currently round {current_round})
 - Provide SPECIFIC guidance for agents to re-run (what to search for, what details needed)
+- If AUTOMATED PLAN VALIDATION shows violations, the plan is NOT sufficient - request academic_planning to fix issues
+- Prerequisite violations and schedule conflicts are CRITICAL issues that must be resolved
 
 Respond in JSON format:
 {{

@@ -21,6 +21,18 @@ import os
 # Use absolute path based on project root
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Import validation tools
+try:
+    from course_tools import (
+        check_prereqs_satisfied,
+        check_courses_conflict,
+        validate_semester_plan,
+        look_up_course_info
+    )
+    VALIDATION_AVAILABLE = True
+except ImportError:
+    VALIDATION_AVAILABLE = False
+
 class AcademicPlanningAgent(BaseAgent):
     def __init__(self):
         super().__init__(
@@ -882,17 +894,82 @@ The student wants to SWITCH TO {target_program}. This plan must:
         return plan_options
 
     def _identify_risks(self, plan_options: List[PlanOption], params: dict) -> List[Risk]:
-        """Identify potential risks in the generated plans."""
-        risks = []
+        """
+        Identify potential risks in the generated plans.
 
-        # This would need more sophisticated logic
-        # For now, placeholder for common risks
+        Checks for:
+        1. Prerequisite violations (course taken before prereqs completed)
+        2. Schedule conflicts (overlapping class times)
+        3. Overload semesters (> 54 units)
+        """
+        risks = []
+        completed_courses = list(params.get("completed_courses", []))
+
+        if not VALIDATION_AVAILABLE:
+            return risks
 
         for plan in plan_options:
-            # Check for overload semesters (would need unit counting)
-            # Check for prerequisite violations
-            # Check for course availability issues
-            pass
+            semester_completed = list(completed_courses)  # Track cumulative completed
+
+            for semester_info in plan.semesters:
+                semester_name = semester_info.get("term", "Unknown Semester")
+                courses = semester_info.get("courses", [])
+
+                # Check prerequisites for each course
+                for course in courses:
+                    prereq_check = check_prereqs_satisfied(course, semester_completed)
+                    if prereq_check.get("satisfied") is False:
+                        missing = prereq_check.get("missing", [])
+                        risks.append(Risk(
+                            risk_type="prerequisite_violation",
+                            severity="high",
+                            description=f"{course} in {semester_name}: missing prerequisites {', '.join(missing)}",
+                            affected_courses=[course] + missing,
+                            mitigation=f"Take {', '.join(missing)} before {course}"
+                        ))
+
+                # Check for schedule conflicts between courses in same semester
+                semester_normalized = semester_name.lower().replace(" ", "_")
+                checked_pairs = set()
+
+                for i, course1 in enumerate(courses):
+                    for course2 in courses[i+1:]:
+                        pair = tuple(sorted([course1, course2]))
+                        if pair in checked_pairs:
+                            continue
+                        checked_pairs.add(pair)
+
+                        conflict_check = check_courses_conflict(course1, course2, semester_normalized)
+                        if conflict_check.get("has_conflict"):
+                            risks.append(Risk(
+                                risk_type="schedule_conflict",
+                                severity="high",
+                                description=f"Schedule conflict in {semester_name}: {course1} and {course2} have overlapping times",
+                                affected_courses=[course1, course2],
+                                mitigation=f"Choose a different section or take one course in a different semester"
+                            ))
+
+                # Check for overload (> 54 units)
+                total_units = semester_info.get("total_units", 0)
+                if not total_units and VALIDATION_AVAILABLE:
+                    # Calculate units from course data
+                    total_units = 0
+                    for course in courses:
+                        course_info = look_up_course_info(course)
+                        if course_info:
+                            total_units += course_info.get("units", 0) or course_info.get("min_units", 0) or 0
+
+                if total_units > 54:
+                    risks.append(Risk(
+                        risk_type="overload",
+                        severity="medium",
+                        description=f"Semester {semester_name} has {total_units} units (max recommended: 54)",
+                        affected_courses=courses,
+                        mitigation="Consider moving one course to another semester"
+                    ))
+
+                # Add this semester's courses to completed for next iteration
+                semester_completed.extend(courses)
 
         return risks
 
