@@ -177,16 +177,30 @@ class CourseSchedulingAgent(BaseAgent):
             if recent_course:
                 course_codes = [recent_course]
 
+        # Check if a semester is mentioned - if so, get full schedule data
+        semester = None
+        semester_match = re.search(r'(spring|fall|summer)\s*(\d{4})', query, re.IGNORECASE)
+        if semester_match:
+            semester = f"{semester_match.group(1).lower()}_{semester_match.group(2)}"
+
+        # Get full semester schedule if semester is mentioned (for "list all X courses" type queries)
+        semester_schedule = None
+        if semester:
+            from course_tools import DB
+            semester_schedule = DB.get("schedules", {}).get(semester, {}).get("offerings", [])
+
         if course_codes:
             # If we found course codes, try to get their info
             course_info = []
             for course_code in course_codes:
                 course_data = look_up_course_info(course_code)
                 if course_data:
-                    context = self.retrieve_context(f"course {course_code} {query}")
+                    schedule_data = get_course_schedule(course_code, semester)
+                    context = self.retrieve_context(f"course {course_code}")
                     course_info.append({
                         "code": course_code,
                         "data": course_data,
+                        "schedule": schedule_data,
                         "context": context
                     })
 
@@ -202,7 +216,7 @@ class CourseSchedulingAgent(BaseAgent):
                     constraints=[]
                 )
 
-        # Fallback to general RAG search
+        # Fallback to general RAG search + semester schedule if available
         context = self.retrieve_context(query)
 
         context_section = ""
@@ -213,21 +227,40 @@ class CourseSchedulingAgent(BaseAgent):
 IMPORTANT: Use the conversation context above to understand what "it", "the course", "this class" etc. refer to.
 """
 
+        # Include semester schedule data if available
+        schedule_section = ""
+        if semester_schedule:
+            schedule_section = f"""
+SEMESTER SCHEDULE DATA ({semester}):
+The following courses are offered in {semester.replace('_', ' ')}:
+{json.dumps(semester_schedule, indent=2, default=str)}
+"""
+
         prompt = f"""You are the Course & Scheduling Agent for CMU-Q.
 {context_section}
 Query: {query}
-RAG Context: {context}
+
+DEPARTMENT CODES (first 2 digits of course code):
+- 67-XXX = Information Systems (IS)
+- 15-XXX = Computer Science (CS)
+- 03-XXX = Biological Sciences
+- 73-XXX = Statistics
+- 79-XXX = Dietrich College (History, Philosophy, etc.)
+- 88-XXX = Social Sciences
+- 76-XXX = Humanities
 
 IMPORTANT:
-- If the student refers to "it", "the course", "this class", look at the CONVERSATION CONTEXT above to understand what they mean
-- Each retrieved chunk includes [DOCUMENT CONTEXT] metadata showing the source
-- Answer questions about course offerings, schedules, availability, prerequisites, assessment structure, and course content
+- If asked about courses for a specific department (e.g., "IS courses", "CS courses"), filter by the department code prefix
+- If a course is NOT in the semester schedule data, it is NOT offered that semester
+- If the student refers to "it", "the course", "this class", look at the CONVERSATION CONTEXT above
+{schedule_section}
+RAG Context: {context}
 """
         response = self.llm.invoke([SystemMessage(content=prompt)])
         return AgentOutput(
             agent_name=self.name,
             answer=response.content,
-            confidence=0.7,
+            confidence=0.8 if semester_schedule else 0.7,
             relevant_policies=[],
             risks=[],
             constraints=[]
@@ -315,7 +348,17 @@ Current Query: {query}
 Course Information:
 {courses_text}
 
+DEPARTMENT CODES (first 2 digits of course code):
+- 67-XXX = Information Systems (IS)
+- 15-XXX = Computer Science (CS)
+- 03-XXX = Biological Sciences
+- 73-XXX = Statistics
+- 79-XXX = Dietrich College (History, Philosophy, etc.)
+- 88-XXX = Social Sciences
+- 76-XXX = Humanities
+
 IMPORTANT:
+- If a course is NOT in the schedule data for a semester, it is NOT offered that semester
 - If the student refers to "it", "the course", "this class", look at the CONVERSATION CONTEXT above to understand what they mean
 - If course data is provided, use it directly to answer questions about prerequisites, assessment structure, course content, etc.
 - The "data" field contains structured course information including:

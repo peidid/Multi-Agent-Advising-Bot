@@ -748,12 +748,23 @@ The student wants to SWITCH TO {target_program}. This plan must:
 **Additional Context:**
 {schedule_rag_context[:2000] if schedule_rag_context else 'No additional context'}
 
+**Department Codes (first 2 digits of course code):**
+- 67-XXX = Information Systems (IS)
+- 15-XXX = Computer Science (CS)
+- 03-XXX = Biological Sciences
+- 73-XXX = Statistics
+- 70-XXX = Business Administration
+- 79-XXX = Dietrich College (History, Philosophy, etc.)
+- 88-XXX = Social Sciences
+- 76-XXX = Humanities
+
 **Planning Instructions:**
 1. RESPECT THE SCOPE - only plan for the semesters requested
 2. Use specific course codes (XX-XXX format), not placeholders
 3. Ensure prerequisites are satisfied
 4. Balance workload (typically 45-54 units per semester)
 5. If this is a transfer plan, prioritize transfer requirements
+6. If a course is NOT in the schedule data for a semester, it is NOT offered that semester
 
 {output_format}
 
