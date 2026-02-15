@@ -53,7 +53,8 @@ DOMAIN_PATHS = {
     ],
     "planning": [
         "programs",  # Program requirements for academic planning
-        "schedules"  # Course schedules for availability checking
+        "schedules", # Course schedules for availability checking
+        "planning"   # Extracted course prerequisites (compact)
     ]
 }
 
