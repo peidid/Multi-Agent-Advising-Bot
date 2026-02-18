@@ -9,8 +9,6 @@ import AgentStatus from '@/components/AgentStatus';
 import WorkflowDetails from '@/components/WorkflowDetails';
 import AuthModal from '@/components/AuthModal';
 import ProfileModal from '@/components/ProfileModal';
-import PlanningToggle from '@/components/PlanningToggle';
-import PlanningPanel from '@/components/PlanningPanel';
 import SystemSelector from '@/components/SystemSelector';
 import {
   auth,
@@ -45,16 +43,14 @@ export default function Home() {
   const [currentPhase, setCurrentPhase] = useState<string>('');
   const [messageWorkflows, setMessageWorkflows] = useState<Record<string, WorkflowDetailsType>>({});
 
-  // Planning mode state
-  const [showPlanningPanel, setShowPlanningPanel] = useState(false);
-  const [isPlanningMode, setIsPlanningMode] = useState(false);
-
   // System selector state (for ablation study)
   const [availableSystems, setAvailableSystems] = useState<SystemInfo[]>([]);
   const [selectedSystem, setSelectedSystem] = useState<string>('multi_agent');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const streamEventsRef = useRef<StreamEvent[]>([]);
+  // AbortController for cancelling in-flight generation
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -164,6 +160,11 @@ export default function Home() {
     }
   };
 
+  // Stop current generation
+  const handleStop = () => {
+    abortControllerRef.current?.abort();
+  };
+
   // Handle send message with streaming
   const handleSendMessage = async (message: string) => {
     if (!user) {
@@ -188,6 +189,10 @@ export default function Home() {
     setStreamEvents([]);
     streamEventsRef.current = [];
     setCurrentPhase('starting');
+
+    // Create a fresh AbortController for this request
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
 
     try {
       // Use streaming endpoint for real-time updates
@@ -218,7 +223,6 @@ export default function Home() {
               const agents = (event.data?.agents as string[]) || [];
               setActiveAgents(agents);
             } else if (event.type === 'coordinator_evaluation') {
-              // Show evaluation status with quality score
               const evalData = event.data as {
                 round: number;
                 sufficient: boolean;
@@ -239,13 +243,9 @@ export default function Home() {
             } else if (event.type === 'synthesis_start') {
               setCurrentPhase('Synthesizing final answer...');
             }
-
           },
           onAnswer: async (answer: string, conversationId: string, workflowDetails?: WorkflowDetailsType) => {
-            // Create message ID
             const messageId = `temp-${Date.now()}-response`;
-
-            // Add assistant message
             const assistantMessage: Message = {
               _id: messageId,
               conversation_id: conversationId,
@@ -256,7 +256,6 @@ export default function Home() {
             };
             setMessages((prev) => [...prev, assistantMessage]);
 
-            // Store workflow details with stream events
             if (workflowDetails) {
               setMessageWorkflows((prev) => ({
                 ...prev,
@@ -267,7 +266,6 @@ export default function Home() {
               }));
             }
 
-            // Update conversation if new
             if (!currentConversation) {
               try {
                 const conv = await conversations.get(conversationId);
@@ -293,19 +291,26 @@ export default function Home() {
             setCurrentPhase('');
           },
         },
-        selectedSystem
+        selectedSystem,
+        abortController.signal
       );
     } catch (err) {
-      console.error('Failed to send message:', err);
-      const errorMessage: Message = {
-        _id: `temp-${Date.now()}-error`,
-        conversation_id: currentConversation?._id || '',
-        role: 'assistant',
-        content: 'Sorry, I encountered an error processing your request. Please try again.',
-        timestamp: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      // AbortError = user clicked stop — not an error worth showing
+      if (err instanceof Error && err.name === 'AbortError') {
+        // silent — the finally block handles cleanup
+      } else {
+        console.error('Failed to send message:', err);
+        const errorMessage: Message = {
+          _id: `temp-${Date.now()}-error`,
+          conversation_id: currentConversation?._id || '',
+          role: 'assistant',
+          content: 'Sorry, I encountered an error processing your request. Please try again.',
+          timestamp: new Date().toISOString(),
+        };
+        setMessages((prev) => [...prev, errorMessage]);
+      }
     } finally {
+      abortControllerRef.current = null;
       setSending(false);
       setActiveAgents([]);
       setCurrentPhase('');
@@ -352,7 +357,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* System selector (ablation study — shown to all users) */}
+          {/* System selector (ablation study) */}
           {availableSystems.length > 0 && (
             <SystemSelector
               systems={availableSystems}
@@ -363,18 +368,6 @@ export default function Home() {
           )}
 
           <div className="flex items-center gap-3 shrink-0">
-            {user && (
-              <PlanningToggle
-                isPlanningMode={isPlanningMode}
-                onToggle={() => {
-                  setIsPlanningMode(!isPlanningMode);
-                  if (!isPlanningMode) {
-                    setShowPlanningPanel(true);
-                  }
-                }}
-                disabled={sending}
-              />
-            )}
             {!user && (
               <button
                 onClick={() => setShowAuth(true)}
@@ -396,7 +389,7 @@ export default function Home() {
                   Welcome to Academic Advisor
                 </h2>
                 <p className="text-gray-500 max-w-md mx-auto">
-                  I'm a multi-agent system designed to help you with academic advising.
+                  I&apos;m a multi-agent system designed to help you with academic advising.
                   Ask me about course requirements, schedules, policies, or degree planning.
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -421,7 +414,6 @@ export default function Home() {
                 {messages.map((msg) => (
                   <div key={msg._id}>
                     <ChatMessage message={msg} />
-                    {/* Show workflow details for assistant messages */}
                     {msg.role === 'assistant' && messageWorkflows[msg._id] && (
                       <WorkflowDetails
                         agentsUsed={messageWorkflows[msg._id].agents_used}
@@ -449,7 +441,9 @@ export default function Home() {
             {sending && availableSystems.find((s) => s.id === selectedSystem)?.streaming === false && (
               <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" />
-                <span className="text-sm text-gray-500">Processing with {availableSystems.find((s) => s.id === selectedSystem)?.name}…</span>
+                <span className="text-sm text-gray-500">
+                  Processing with {availableSystems.find((s) => s.id === selectedSystem)?.name}…
+                </span>
               </div>
             )}
 
@@ -458,7 +452,11 @@ export default function Home() {
         </div>
 
         {/* Input */}
-        <ChatInput onSend={handleSendMessage} disabled={sending} />
+        <ChatInput
+          onSend={handleSendMessage}
+          onStop={handleStop}
+          disabled={sending}
+        />
       </div>
 
       {/* Modals */}
@@ -476,16 +474,6 @@ export default function Home() {
           onSave={handleProfileSave}
         />
       )}
-
-      {/* Planning Panel */}
-      <PlanningPanel
-        isOpen={showPlanningPanel}
-        onClose={() => {
-          setShowPlanningPanel(false);
-          setIsPlanningMode(false);
-        }}
-        conversationId={currentConversation?._id}
-      />
     </div>
   );
 }

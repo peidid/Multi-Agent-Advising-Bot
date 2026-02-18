@@ -242,7 +242,8 @@ export const chat = {
     message: string,
     conversationId: string | undefined,
     callbacks: StreamCallbacks,
-    system: string = 'multi_agent'
+    system: string = 'multi_agent',
+    signal?: AbortSignal
   ): Promise<void> {
     const token = getToken();
 
@@ -257,6 +258,7 @@ export const chat = {
         conversation_id: conversationId,
         system,
       }),
+      signal,
     });
 
     if (!response.ok) {
@@ -345,7 +347,11 @@ export const chat = {
       }
 
     } catch (error) {
-      callbacks.onError?.(error instanceof Error ? error.message : 'Stream error');
+      if (error instanceof Error && error.name === 'AbortError') {
+        callbacks.onComplete?.();
+      } else {
+        callbacks.onError?.(error instanceof Error ? error.message : 'Stream error');
+      }
     } finally {
       reader.releaseLock();
     }
