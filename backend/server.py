@@ -90,6 +90,7 @@ class ChatMessage(BaseModel):
     message: str
     conversation_id: Optional[str] = None
     planning_mode: bool = False  # Enable collaborative planning mode
+    system: str = "multi_agent"  # Which system to use — see /api/systems
 
 
 class ChatResponse(BaseModel):
@@ -227,6 +228,61 @@ class AgentRunner:
 
 
 agent_runner = AgentRunner()
+
+
+# =============================================================================
+# Baseline Runners — Ablation Study (ACL 2026)
+# =============================================================================
+
+try:
+    from baselines.runners import (
+        OpaqueMultiAgentRunner,
+        OneShotRunner,
+        SingleAgentCoTRunner,
+        SingleAgentRunner,
+    )
+
+    SYSTEM_RUNNERS = {
+        # ── Experiment ──────────────────────────────────────────────────────
+        # Full system: LLM routing → 4 parallel agents → coordinator
+        # evaluation (up to 3 rounds, k=10 re-retrieval) → LLM synthesis.
+        # Streaming events emitted → user sees agent reasoning in real time.
+        "multi_agent": agent_runner,
+
+        # ── Ablation 1 ──────────────────────────────────────────────────────
+        # Identical processing to multi_agent. Streaming events suppressed.
+        # User sees only the final answer — no transparency panel.
+        # → Tests: does visibility itself change trust / decision quality?
+        "multi_agent_opaque": OpaqueMultiAgentRunner(),
+
+        # ── Ablation 2 ──────────────────────────────────────────────────────
+        # One GPT-5.2 call. All 5 RAG domains concatenated. No coordinator.
+        # No specialisation. Same model and same data as the full system.
+        # → Tests: does multi-agent specialisation add value at all?
+        "single_agent": SingleAgentRunner(),
+
+        # ── Ablation 3 ──────────────────────────────────────────────────────
+        # Same as single_agent + explicit chain-of-thought prompt.
+        # → Tests: does CoT within one call match multi-agent negotiation?
+        "single_agent_cot": SingleAgentCoTRunner(),
+
+        # ── Ablation 4 ──────────────────────────────────────────────────────
+        # LLM routing → parallel agents → LLM synthesis.
+        # evaluate_outputs_for_sufficiency() is SKIPPED entirely.
+        # → Tests: does the iterative evaluation loop improve quality?
+        "one_shot": OneShotRunner(),
+    }
+    BASELINES_AVAILABLE = True
+    logger.info("✅ Baseline runners loaded: %s", list(SYSTEM_RUNNERS.keys()))
+except Exception as _e:
+    logger.warning("⚠️  Baseline runners not available: %s", _e)
+    SYSTEM_RUNNERS = {"multi_agent": agent_runner}
+    BASELINES_AVAILABLE = False
+
+
+def _get_runner(system: str):
+    """Return the runner for the requested system, defaulting to multi_agent."""
+    return SYSTEM_RUNNERS.get(system, agent_runner)
 
 
 # =============================================================================
@@ -446,9 +502,10 @@ async def chat(data: ChatMessage, user: dict = Depends(get_current_user)):
         "career_goals": profile.get("career_goals", [])
     }
 
-    # Run multi-agent workflow
+    # Run the selected system (full multi-agent or a baseline)
     try:
-        result = await agent_runner.run(
+        runner = _get_runner(data.system)
+        result = await runner.run(
             query=data.message,
             user_profile=student_profile,
             history=history[:-1]  # Exclude the just-added message
@@ -508,6 +565,7 @@ async def chat(data: ChatMessage, user: dict = Depends(get_current_user)):
 
     # Full workflow metadata for developer access
     workflow_metadata = {
+        "system": data.system,  # which baseline/experiment was used
         "agents_used": agents_used,
         "agent_outputs": agent_outputs_data,
         "conflicts": conflicts_data,
@@ -686,40 +744,66 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
 
         def run_workflow():
             try:
-                from langchain_core.messages import HumanMessage, AIMessage
-                from blackboard.schema import WorkflowStep
-                from multi_agent import app as workflow_app
+                if data.system == "multi_agent":
+                    # ── Full transparent system ──────────────────────────────
+                    # Runs the complete LangGraph workflow. Streaming events
+                    # ARE emitted (stream_manager is already registered above),
+                    # so the frontend sees agent cards and coordinator scores
+                    # in real time.
+                    from langchain_core.messages import HumanMessage, AIMessage
+                    from blackboard.schema import WorkflowStep
+                    from multi_agent import app as workflow_app
 
-                msgs = []
-                for msg in history[:-1]:
-                    if msg["role"] == "user":
-                        msgs.append(HumanMessage(content=msg["content"]))
-                    else:
-                        msgs.append(AIMessage(content=msg["content"]))
-                msgs.append(HumanMessage(content=data.message))
+                    msgs = []
+                    for msg in history[:-1]:
+                        if msg["role"] == "user":
+                            msgs.append(HumanMessage(content=msg["content"]))
+                        else:
+                            msgs.append(AIMessage(content=msg["content"]))
+                    msgs.append(HumanMessage(content=data.message))
 
-                state = {
-                    "user_query": data.message,
-                    "student_profile": student_profile,
-                    "conversation_history": history[:-1],  # Pass conversation for context
-                    "agent_outputs": {},
-                    "constraints": [],
-                    "risks": [],
-                    "plan_options": [],
-                    "conflicts": [],
-                    "open_questions": [],
-                    "messages": msgs,
-                    "active_agents": [],
-                    "workflow_step": WorkflowStep.INITIAL,
-                    "iteration_count": 0,
-                    "next_agent": None,
-                    "user_goal": None,
-                    "execution_metadata": None,
-                    "phase_timing": {},
-                    "context_text": ""  # Will be filled by coordinator
-                }
+                    state = {
+                        "user_query": data.message,
+                        "student_profile": student_profile,
+                        "conversation_history": history[:-1],
+                        "agent_outputs": {},
+                        "constraints": [],
+                        "risks": [],
+                        "plan_options": [],
+                        "conflicts": [],
+                        "open_questions": [],
+                        "messages": msgs,
+                        "active_agents": [],
+                        "workflow_step": WorkflowStep.INITIAL,
+                        "iteration_count": 0,
+                        "next_agent": None,
+                        "user_goal": None,
+                        "execution_metadata": None,
+                        "phase_timing": {},
+                        "context_text": "",
+                    }
+                    result = workflow_app.invoke(state)
 
-                result = workflow_app.invoke(state)
+                else:
+                    # ── Baseline / opaque system ─────────────────────────────
+                    # run_sync() is called directly in this thread.
+                    # For multi_agent_opaque: it runs the FULL LangGraph
+                    # workflow (app.invoke), which internally calls emit_event().
+                    # We must deregister the stream_manager BEFORE invoking,
+                    # otherwise events would be emitted — defeating the opaque
+                    # purpose. The local stream_manager object still receives
+                    # mark_done() in the finally block, ending the SSE loop.
+                    if data.system == "multi_agent_opaque" and streaming_available:
+                        from streaming.callback import set_stream_manager as _ssm
+                        _ssm(None)  # suppress all emit_event() calls
+
+                    runner = _get_runner(data.system)
+                    result = runner.run_sync(
+                        query=data.message,
+                        user_profile=student_profile,
+                        history=history[:-1],
+                    )
+
                 workflow_result["result"] = result
             except Exception as e:
                 workflow_result["error"] = str(e)
@@ -868,6 +952,7 @@ async def chat_stream(data: ChatMessage, user: dict = Depends(get_current_user))
 
             # Build comprehensive metadata for MongoDB (restore full detail)
             full_metadata = {
+                "system": data.system,  # which baseline/experiment was used
                 "agents_used": agents_used,
                 "agent_outputs": agent_details,
                 "workflow_step": result.get("workflow_step", "WorkflowStep.COMPLETE"),
@@ -1139,6 +1224,87 @@ async def approve_planning_session(
     })
 
     return {"status": "approved", "session_id": session_id, "plan": final_plan}
+
+
+# =============================================================================
+# System Registry — Ablation Study
+# =============================================================================
+
+@app.get("/api/systems")
+async def list_systems():
+    """
+    List available system configurations for the ablation study.
+
+    The frontend uses this to populate the system-selector dropdown.
+    Each system sends its ID in the `system` field of POST /api/chat.
+
+    Ablation map
+    ------------
+    multi_agent vs multi_agent_opaque  → value of transparency
+    multi_agent_opaque vs one_shot     → value of iterative evaluation
+    one_shot vs single_agent           → value of agent specialisation
+    single_agent vs single_agent_cot   → value of CoT within one call
+    """
+    return {
+        "available": BASELINES_AVAILABLE,
+        "default": "multi_agent",
+        "systems": [
+            {
+                "id": "multi_agent",
+                "name": "Full Multi-Agent (Transparent)",
+                "description": (
+                    "LLM routing → 4 parallel agents → coordinator evaluation "
+                    "(up to 3 rounds) → LLM synthesis. Agent reasoning visible "
+                    "in real time via streaming panel."
+                ),
+                "streaming": True,
+                "ablation_variable": "experiment (full system)",
+            },
+            {
+                "id": "multi_agent_opaque",
+                "name": "Full Multi-Agent (Opaque)",
+                "description": (
+                    "Identical processing to multi_agent — same routing, same "
+                    "agents, same evaluation loop, same synthesis — but streaming "
+                    "events are suppressed. User sees only the final answer."
+                ),
+                "streaming": False,
+                "ablation_variable": "removes: transparency / user visibility",
+            },
+            {
+                "id": "one_shot",
+                "name": "One-Shot Multi-Agent",
+                "description": (
+                    "LLM routing → 4 parallel agents → LLM synthesis. "
+                    "The coordinator evaluation loop is skipped entirely "
+                    "(no re-runs, no enhanced k=10 retrieval)."
+                ),
+                "streaming": False,
+                "ablation_variable": "removes: iterative coordinator evaluation",
+            },
+            {
+                "id": "single_agent",
+                "name": "Baseline A — Single Agent",
+                "description": (
+                    "One GPT-5.2 call. All 5 RAG domains concatenated into "
+                    "a single prompt. No coordinator, no specialisation. "
+                    "Same model and same data as the full system."
+                ),
+                "streaming": False,
+                "ablation_variable": "removes: multi-agent specialisation",
+            },
+            {
+                "id": "single_agent_cot",
+                "name": "Baseline B — Single Agent + CoT",
+                "description": (
+                    "Same as single_agent with explicit chain-of-thought "
+                    "instructions injected before the answer."
+                ),
+                "streaming": False,
+                "ablation_variable": "removes: specialisation; adds: CoT reasoning",
+            },
+        ],
+    }
 
 
 # =============================================================================

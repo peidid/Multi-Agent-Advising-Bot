@@ -64,6 +64,14 @@ export interface ChatResponse {
   };
 }
 
+export interface SystemInfo {
+  id: string;
+  name: string;
+  description: string;
+  streaming: boolean;
+  ablation_variable: string;
+}
+
 // Token management
 let authToken: string | null = null;
 
@@ -206,14 +214,22 @@ export interface StreamCallbacks {
   onComplete?: () => void;
 }
 
+// Systems API
+export const systems = {
+  async list(): Promise<{ systems: SystemInfo[] }> {
+    return apiFetch('/api/systems');
+  },
+};
+
 // Chat API
 export const chat = {
-  async send(message: string, conversationId?: string): Promise<ChatResponse> {
+  async send(message: string, conversationId?: string, system: string = 'multi_agent'): Promise<ChatResponse> {
     return apiFetch('/api/chat', {
       method: 'POST',
       body: JSON.stringify({
         message,
         conversation_id: conversationId,
+        system,
       }),
     });
   },
@@ -225,7 +241,8 @@ export const chat = {
   async sendStreaming(
     message: string,
     conversationId: string | undefined,
-    callbacks: StreamCallbacks
+    callbacks: StreamCallbacks,
+    system: string = 'multi_agent'
   ): Promise<void> {
     const token = getToken();
 
@@ -238,6 +255,7 @@ export const chat = {
       body: JSON.stringify({
         message,
         conversation_id: conversationId,
+        system,
       }),
     });
 

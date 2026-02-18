@@ -11,16 +11,19 @@ import AuthModal from '@/components/AuthModal';
 import ProfileModal from '@/components/ProfileModal';
 import PlanningToggle from '@/components/PlanningToggle';
 import PlanningPanel from '@/components/PlanningPanel';
+import SystemSelector from '@/components/SystemSelector';
 import {
   auth,
   conversations,
   chat,
+  systems as systemsApi,
   getToken,
   User,
   Conversation,
   Message,
   UserProfile,
   StreamEvent,
+  SystemInfo,
   WorkflowDetails as WorkflowDetailsType,
 } from '@/lib/api';
 
@@ -46,6 +49,10 @@ export default function Home() {
   const [showPlanningPanel, setShowPlanningPanel] = useState(false);
   const [isPlanningMode, setIsPlanningMode] = useState(false);
 
+  // System selector state (for ablation study)
+  const [availableSystems, setAvailableSystems] = useState<SystemInfo[]>([]);
+  const [selectedSystem, setSelectedSystem] = useState<string>('multi_agent');
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const streamEventsRef = useRef<StreamEvent[]>([]);
 
@@ -54,7 +61,7 @@ export default function Home() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Check auth on load
+  // Check auth on load and fetch available systems
   useEffect(() => {
     const checkAuth = async () => {
       const token = getToken();
@@ -69,7 +76,20 @@ export default function Home() {
       }
       setLoading(false);
     };
+
+    const loadSystems = async () => {
+      try {
+        const result = await systemsApi.list();
+        if (result.systems?.length) {
+          setAvailableSystems(result.systems);
+        }
+      } catch {
+        // Backend may not have /api/systems yet — degrade gracefully
+      }
+    };
+
     checkAuth();
+    loadSystems();
   }, []);
 
   // Load conversations
@@ -272,7 +292,8 @@ export default function Home() {
           onComplete: () => {
             setCurrentPhase('');
           },
-        }
+        },
+        selectedSystem
       );
     } catch (err) {
       console.error('Failed to send message:', err);
@@ -320,8 +341,8 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col bg-white">
         {/* Header */}
-        <header className="border-b px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <header className="border-b px-6 py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 shrink-0">
             <div className="w-10 h-10 bg-cmu-red rounded-lg flex items-center justify-center">
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
@@ -330,26 +351,39 @@ export default function Home() {
               <p className="text-sm text-gray-500">CMU Qatar Multi-Agent System</p>
             </div>
           </div>
-          {user && (
-            <PlanningToggle
-              isPlanningMode={isPlanningMode}
-              onToggle={() => {
-                setIsPlanningMode(!isPlanningMode);
-                if (!isPlanningMode) {
-                  setShowPlanningPanel(true);
-                }
-              }}
+
+          {/* System selector (ablation study — shown to all users) */}
+          {availableSystems.length > 0 && (
+            <SystemSelector
+              systems={availableSystems}
+              selectedId={selectedSystem}
+              onChange={setSelectedSystem}
               disabled={sending}
             />
           )}
-          {!user && (
-            <button
-              onClick={() => setShowAuth(true)}
-              className="px-4 py-2 bg-cmu-red text-white rounded-lg hover:bg-cmu-darkred transition-colors"
-            >
-              Sign In
-            </button>
-          )}
+
+          <div className="flex items-center gap-3 shrink-0">
+            {user && (
+              <PlanningToggle
+                isPlanningMode={isPlanningMode}
+                onToggle={() => {
+                  setIsPlanningMode(!isPlanningMode);
+                  if (!isPlanningMode) {
+                    setShowPlanningPanel(true);
+                  }
+                }}
+                disabled={sending}
+              />
+            )}
+            {!user && (
+              <button
+                onClick={() => setShowAuth(true)}
+                className="px-4 py-2 bg-cmu-red text-white rounded-lg hover:bg-cmu-darkred transition-colors"
+              >
+                Sign In
+              </button>
+            )}
+          </div>
         </header>
 
         {/* Messages */}
@@ -402,14 +436,21 @@ export default function Home() {
               </>
             )}
 
-            {/* Agent status while processing */}
-            {sending && (
+            {/* Agent status while processing — only for streaming-capable systems */}
+            {sending && availableSystems.find((s) => s.id === selectedSystem)?.streaming !== false && (
               <AgentStatus
                 activeAgents={activeAgents}
                 completedAgents={completedAgents}
                 streamEvents={streamEvents}
                 currentPhase={currentPhase}
               />
+            )}
+            {/* Baseline processing indicator for non-streaming systems */}
+            {sending && availableSystems.find((s) => s.id === selectedSystem)?.streaming === false && (
+              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" />
+                <span className="text-sm text-gray-500">Processing with {availableSystems.find((s) => s.id === selectedSystem)?.name}…</span>
+              </div>
             )}
 
             <div ref={messagesEndRef} />
