@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-043",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-046",
+  "question": "I'm a CS 5th-year student (P-046) on academic warning with a Math minor. Given my AW restrictions and remaining requirements, can I realistically complete both the CS degree and Math minor by Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-046 has completed core CS milestones and extensive Math minor courses (21-355, 21-356, 21-484, etc.); remaining requirements likely include CS electives (15-316, 15-440) and any Math minor gaps",
+    "schedules": "15-316 \u2713 Spring 2026; 15-440 NOT offered Spring 2026; 21-441 \u2713 Spring 2026",
+    "policies": "AW = normal load cap (~45 units); Spring 2026 is one semester \u2014 capacity is ~3-4 courses"
+  },
+  "key_facts": [
+    "P-046 CS courses done: 15-112, 15-122, 15-150, 15-213, 15-210, 15-251, 15-441, 15-451, 15-317, 15-453",
+    "P-046 Math done: 21-355, 21-356, 21-484, 21-259, 21-260, 21-127, 21-241, 36-217, 36-226",
+    "15-440 (possibly required) NOT offered Spring 2026 \u2014 critical bottleneck",
+    "15-316 is offered Spring 2026 \u2713",
+    "AW: normal load = ~3-4 courses; cannot overload",
+    "If 15-440 is a remaining requirement, graduation by Spring 2026 is NOT feasible"
+  ],
+  "wrong_if_single_domain": "Knowing only program requirements identifies 15-440 as needed. Knowing only the schedule reveals 15-440 is not offered Spring 2026. Only combining these domains reveals the bottleneck. The AW policy adds a third constraint limiting how much can be completed even if courses were available.",
+  "common_mistake": "Assuming remaining CS courses can be completed in one semester without checking Spring 2026 availability; missing that 15-440 is only offered in Fall semesters",
+  "reasoning_chain": [
+    "Step 1 (programs): Remaining CS requirements \u2014 identify specific courses needed (15-440, 15-316, etc.)",
+    "Step 2 (schedules): 15-440 NOT in Spring 2026; 15-316 \u2713",
+    "Step 3 (policies): AW = max ~45 units \u2192 ~3-4 courses possible",
+    "Conclusion: If 15-440 is required, Spring 2026 graduation is NOT feasible; earliest graduation would be after Fall 2026 when 15-440 is next available"
+  ]
+}

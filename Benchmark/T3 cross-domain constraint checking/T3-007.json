@@ -1,0 +1,33 @@
+{
+  "query_id": "T3-007",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-005",
+  "question": "I'm a CS junior (P-005) with a Math minor. I've completed 15-213 and want to take 15-441 (Networking) and 21-355 (Real Analysis I) together in Spring 2026. Is this possible without a schedule conflict?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "courses": "15-441 prereqs (15-213 \u2014 P-005 has it \u2713); 21-355 prereqs (multi-variable calc, proof experience \u2014 P-005 has 21-120, 21-122, 21-127, 21-241, 21-259 \u2713)",
+    "schedules": "15-441 Sec1: Mon/Wed 08:30\u201309:45; 21-355 SecW: Sun/Tue 08:30\u201309:45 \u2014 different days, no conflict"
+  },
+  "key_facts": [
+    "P-005 completed 15-213 in Fall 2024 \u2713",
+    "P-005 has 21-120, 21-122, 21-127, 21-241, 21-259 \u2014 prereqs for 21-355 \u2713",
+    "15-441 Section 1 Spring 2026: Mon/Wed 08:30\u201309:45",
+    "21-355 SecW Spring 2026: Sun/Tue 08:30\u201309:45",
+    "15-441 meets Mon/Wed; 21-355 meets Sun/Tue \u2014 no shared days, no conflict",
+    "21-355 contributes to Math minor requirements"
+  ],
+  "wrong_if_single_domain": "Checking only prerequisites confirms eligibility but misses whether the times align. Checking only schedules confirms no time conflict but cannot determine if P-005 meets the prerequisites for both courses.",
+  "common_mistake": "Assuming that two courses starting at the same time (08:30) on different days must conflict",
+  "reasoning_chain": [
+    "Step 1: 15-441 prereqs \u2192 15-213 \u2713",
+    "Step 2: 21-355 prereqs \u2192 multi-variable calc and proof background \u2713",
+    "Step 3: Spring 2026 offerings \u2192 both offered \u2713",
+    "Step 4: 15-441 Mon/Wed 08:30-09:45 vs 21-355 Sun/Tue 08:30-09:45 \u2192 no shared days \u2192 no conflict",
+    "Conclusion: Both courses can be taken together in Spring 2026"
+  ]
+}

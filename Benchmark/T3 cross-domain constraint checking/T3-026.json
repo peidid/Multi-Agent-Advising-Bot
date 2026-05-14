@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-026",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore (P-013) on academic warning, currently enrolled in 3 courses (36 units) in Spring 2026. If I withdraw from one 9-unit course, what happens to my academic status?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "courses"
+  ],
+  "domain_contributions": {
+    "policies": "Withdrawn courses receive W grade (non-factorable, does not affect QPA) but still count toward semester units. Going below 36 units (full-time threshold) without Dean approval triggers additional consequences. AW students already face heightened scrutiny.",
+    "courses": "Starting at 36 units; withdrawing 9 units \u2192 27 units remaining = below full-time threshold of 36 units"
+  },
+  "key_facts": [
+    "W grade: stays on transcript, does not affect QPA, but does count toward semester unit total",
+    "27 enrolled units (after withdrawal) = below 36-unit full-time threshold \u2192 part-time status",
+    "Going part-time without Dean of Education exception triggers additional academic consequences",
+    "P-013 is already on AW \u2014 adding a part-time status complication is highly risky",
+    "P-013 should consult advisor before withdrawing; dropping to part-time may not be advised"
+  ],
+  "wrong_if_single_domain": "Knowing only the withdrawal policy (W grade, no QPA impact) would suggest withdrawal is relatively safe. Only by combining with the unit-count calculation (courses domain) and full-time threshold (policies domain) does the part-time risk become apparent.",
+  "common_mistake": "Assuming a W grade is always a safe choice because it doesn't hurt QPA; missing that the resulting unit count below 36 triggers a separate part-time policy risk",
+  "reasoning_chain": [
+    "Step 1 (courses): 36 units - 9 units withdrawn = 27 units",
+    "Step 2 (policies): 27 < 36 \u2192 part-time status",
+    "Step 3 (policies): Part-time without Dean approval \u2192 additional consequences; especially risky while on AW",
+    "Conclusion: P-013 should NOT withdraw unless 6+ units are added elsewhere to stay at 36+; consult advisor immediately"
+  ]
+}

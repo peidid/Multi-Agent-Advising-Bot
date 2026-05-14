@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-D04",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-016",
+  "persona_summary": "IS Junior, ISP concentration, 39 courses, Good standing",
+  "variation": "Choosing between elective pools",
+  "question": "For my ISP concentration, I need to choose electives. Should I focus on network security courses or on cryptography courses? What does each path look like schedule-wise?",
+  "what_makes_this_hard": "System must present two elective tracks with their pros/cons and availability, letting the student make an informed choice.",
+  "needs_verification": [
+    "ISP elective options in network security vs cryptography",
+    "Availability of each track's courses",
+    "Prerequisites for each track",
+    "Whether both tracks satisfy ISP requirements equally"
+  ]
+}

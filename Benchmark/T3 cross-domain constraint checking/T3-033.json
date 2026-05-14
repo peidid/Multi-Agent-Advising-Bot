@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-033",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-025",
+  "question": "I'm a BA junior (P-025) with dual Finance and BAT concentrations and an Economics minor. Can 73-102 (Microeconomics) count toward both my Finance concentration and my Economics minor?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "Finance concentration: 73-102 may appear as a required or elective course. Economics minor: 73-102 (Microeconomics) is a standard Economics minor foundation course",
+    "courses": "73-102 (9 units) \u2014 its content directly overlaps between Finance and Economics; the double-counting question is whether both programs can claim it"
+  },
+  "key_facts": [
+    "P-025 completed 73-102 in Fall 2023",
+    "73-102 is foundational for both Economics (minor) and Finance (concentration) content",
+    "CMU's double-counting policy generally prohibits a course from satisfying requirements in two separate programs (major concentration AND minor)",
+    "The specific Finance concentration requirements and Economics minor requirements need cross-referencing",
+    "P-025's advisor must decide which program receives credit for 73-102"
+  ],
+  "wrong_if_single_domain": "Looking only at Finance concentration requirements might accept 73-102. Looking only at Econ minor requirements would also accept it. Only by combining both program views does the double-counting conflict emerge.",
+  "common_mistake": "Counting 73-102 toward both Finance and Economics simultaneously, unknowingly reducing the effective course requirements for one of the programs",
+  "reasoning_chain": [
+    "Step 1 (programs, Finance): Is 73-102 required/accepted for Finance concentration? \u2192 likely yes",
+    "Step 2 (programs, Econ minor): Is 73-102 required for Econ minor? \u2192 yes (foundational)",
+    "Step 3 (policies): Double-counting restriction \u2192 one course, one program",
+    "Conclusion: 73-102 can satisfy either Finance concentration or Econ minor, but not both \u2014 P-025 needs an additional Econ course if 73-102 goes to Finance"
+  ]
+}

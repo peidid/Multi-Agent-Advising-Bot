@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-018",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-019",
+  "question": "I'm an IS 5th-year student (P-019) in the Applied Informatics concentration. Which concentration courses are offered in Spring 2026 that I still need to complete?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-019 Applied Informatics concentration requirements and P-019's completed IS courses (52 total, needs audit against Applied Informatics curriculum)",
+    "schedules": "Spring 2026 IS offerings: 67-272, 67-301, 67-352, 67-357, 67-364, 67-373, 67-425, 67-426, 67-427"
+  },
+  "key_facts": [
+    "P-019 has 52 completed courses but their IS-specific courses need to be mapped against Applied Informatics requirements",
+    "Applied Informatics is described as a 'rare concentration' \u2014 specific requirements need verification",
+    "Spring 2026 IS courses offered: 67-301, 67-352, 67-357, 67-364, 67-373, 67-425, 67-426, 67-427",
+    "P-019's last recorded semester is Spring 2024 \u2014 Spring 2026 would be after a 2-year gap",
+    "Old courses taken under 2019-era curriculum may or may not satisfy current Applied Informatics requirements"
+  ],
+  "wrong_if_single_domain": "Listing Applied Informatics requirements without checking the Spring 2026 schedule cannot tell P-019 what can be taken now. Listing Spring 2026 IS offerings without knowing P-019's specific remaining requirements cannot determine which ones P-019 actually needs.",
+  "common_mistake": "Assuming all IS courses offered count toward Applied Informatics; not accounting for P-019's unusual situation of returning after a long gap with potential curriculum changes",
+  "reasoning_chain": [
+    "Step 1 (programs): Audit P-019's course history against Applied Informatics concentration requirements",
+    "Step 2: Identify specific remaining Applied Informatics courses",
+    "Step 3 (schedules): Check which of those are offered Spring 2026",
+    "Conclusion: Requires advisor verification of Applied Informatics requirements and comparison with P-019's 2019-catalog-year requirements"
+  ]
+}

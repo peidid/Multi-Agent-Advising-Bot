@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-037",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": "P-046",
+  "question": "I'm currently on academic warning. I earned a semester QPA of 2.3 this semester, but my cumulative QPA is still 1.75. What happens to my academic standing?",
+  "expected_answer": "P-046 would be placed on Continued Academic Warning. The policy states that if a student on Academic Warning earns a semester QPA above 2.0 but their cumulative QPA is still below 2.0, they are placed on Continued Academic Warning status. A semester QPA of 2.3 satisfies the semester requirement, but the cumulative QPA of 1.75 still falls below the 2.0 threshold needed to return to Good Standing.",
+  "reasoning_type": "Multi-condition academic standing determination",
+  "domain": "policies",
+  "common_mistake": "Assuming that a semester QPA above 2.0 is sufficient to exit academic warning; not knowing that cumulative QPA must also reach 2.0 to return to good standing",
+  "needs_verification": [
+    "Confirm P-046 is currently on academic warning (not confirmed from available data)",
+    "Confirm the Continued Academic Warning policy language: semester QPA > 2.0 but cumulative < 2.0",
+    "Confirm whether P-046's cumulative QPA is actually below 2.0"
+  ]
+}

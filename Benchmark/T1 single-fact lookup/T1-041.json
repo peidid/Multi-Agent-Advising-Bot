@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-041",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": null,
+  "question": "What time does 15-210 meet in Spring 2026?",
+  "answer": "10:00\u201311:15 on Sundays, Tuesdays, and Thursdays",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings[15-210].sections[0].start_time, end_time, days",
+  "domain": "schedules",
+  "verification_note": "days=['Sun','Tue','Thu'], start='10:00', end='11:15' in Spring 2026"
+}

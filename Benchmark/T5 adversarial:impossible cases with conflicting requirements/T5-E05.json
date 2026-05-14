@@ -1,0 +1,29 @@
+{
+  "query_id": "T5-E05",
+  "tier": "T5",
+  "pattern": "E",
+  "pattern_name": "Double-Counting / Requirement Ambiguity",
+  "persona_id": "P-049",
+  "persona_summary": "IS Junior, Digitalization concentration, dual minors BA + History, 35 courses, Good standing",
+  "question": "I'm counting a business analytics course toward both my Digitalization concentration and my BA minor. My spreadsheet says I'm on track. Is that right?",
+  "false_assumption_or_hidden_conflict": "The student maintains their own tracking spreadsheet and believes a course counts for both concentration and minor. If the double-counting policy doesn't allow this combination, their spreadsheet is wrong and they're behind schedule without knowing it.",
+  "naive_system_response": "A naive system checks that the course appears in both requirement lists and confirms the student's tracking: 'Yes, that course satisfies both.' It doesn't check double-counting policy.",
+  "correct_response": "The business analytics course does appear in both the Digitalization concentration requirements and the BA minor requirements. However, CMU-Q's double-counting policy [states specific rule]. If double-counting is [not allowed/limited], you need to assign this course to one program and find an additional course for the other. Your corrected remaining requirements are: [updated list]. I recommend updating your tracking spreadsheet to reflect this.",
+  "domains_required": [
+    "policies",
+    "programs"
+  ],
+  "why_multi_agent_helps": "The Policy Agent checks double-counting rules. The Programs Agent verifies both requirement sets. A single agent might simply confirm that the course appears in both lists without checking if counting it for both is permitted.",
+  "key_facts": [
+    "Student maintains their own tracking which may contain errors",
+    "Course appearing in two requirement lists \u2260 counting for both",
+    "Policy determines whether double-counting is allowed",
+    "Self-tracking errors compound over time and create surprise gaps"
+  ],
+  "known_traps": [
+    "Confirming the student's self-tracking without independent verification",
+    "Confusing 'course qualifies for requirement' with 'course can be counted for requirement given other assignments'",
+    "Not checking double-counting policy for concentration + minor combination"
+  ],
+  "advisor_validation_needed": "Verify: (1) which course is at issue, (2) double-counting policy for concentration vs minor, (3) P-049's corrected requirement status"
+}

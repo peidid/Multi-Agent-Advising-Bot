@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C02",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-002",
+  "persona_summary": "CS Sophomore, no minor, 24 courses, Good standing",
+  "variation": "Dropped a prerequisite course \u2014 cascading delay",
+  "question": "I dropped 15-122 this semester because I was struggling. How does this affect my plan for the rest of my CS degree? What's the cascading impact on courses that need 15-122 as a prereq?",
+  "what_makes_this_hard": "Dropping a foundational course delays everything downstream. System must trace the prereq chain and show the cascade.",
+  "needs_verification": [
+    "Full list of courses requiring 15-122 as prereq",
+    "Prereq chain depth from 15-122",
+    "When 15-122 is next offered",
+    "P-002's remaining required courses that depend on 15-122"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-071",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What are the two required Section A courses for the BA Entrepreneurship concentration?",
+  "answer": "70-415 (Introduction to Entrepreneurship) and 70-416 (New Venture Creation)",
+  "source_file": "data/programs/Business Administration/BA_Major_Concentrations.json",
+  "source_field": "Concentration Course Requirements Section A (Entrepreneurship)",
+  "domain": "programs",
+  "verification_note": "Section A lists 70-415 and 70-416 for Entrepreneurship concentration"
+}

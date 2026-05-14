@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-020",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-015",
+  "question": "I'm an IS junior (P-015) in the Data Science concentration with a Tech Entrepreneurship minor. Which DS concentration courses are available in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-015 DS concentration requirements: advanced statistics/analytics courses, data management, machine learning \u2014 identify which P-015 still needs given 35 completed courses",
+    "schedules": "Spring 2026 IS electives offered: 67-301, 67-352, 67-357, 67-364 plus 36-202 (Methods for Stats & Data Science) and potentially others"
+  },
+  "key_facts": [
+    "P-015 is an IS junior with DS concentration, 35 courses completed",
+    "Spring 2026 DS-relevant offerings: 67-352, 67-357, 67-364, 36-202, 36-218",
+    "36-202 (Methods for Statistics & Data Science) is offered Spring 2026 \u2713",
+    "36-218 (Probability Theory for CS) is offered Spring 2026 \u2713",
+    "P-015's specific completed courses need to be mapped against DS concentration curriculum"
+  ],
+  "wrong_if_single_domain": "Knowing DS concentration requirements without checking the schedule cannot identify which to take now. The schedule alone cannot identify which courses still fulfill P-015's outstanding DS requirements.",
+  "common_mistake": "Listing all analytics-related courses in Spring 2026 as DS concentration options without verifying they appear in the official DS concentration course list",
+  "reasoning_chain": [
+    "Step 1 (programs): Identify remaining DS concentration courses for P-015",
+    "Step 2 (schedules): Check Spring 2026 offerings relevant to DS",
+    "Step 3: Match remaining requirements to available courses",
+    "Conclusion: 67-352, 67-357, 67-364, 36-202 are potential Spring 2026 options for P-015's DS concentration \u2014 specific mapping requires official DS course list"
+  ]
+}

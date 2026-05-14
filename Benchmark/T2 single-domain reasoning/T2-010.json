@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-010",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-003",
+  "question": "I got exactly a C in 15-112 this semester. Does this meet the prerequisite for 15-122 (Principles of Imperative Computation)?",
+  "expected_answer": "Yes \u2014 15-122 requires 15-112 at least C. An exact C meets this minimum threshold; the phrase 'at least C' is inclusive of a C grade.",
+  "reasoning_type": "Boundary condition prerequisite check",
+  "domain": "courses",
+  "common_mistake": "Treating 'at least C' as strictly greater than C; interpreting the boundary as exclusive",
+  "needs_verification": [
+    "Confirm CMU's grading policy treats 'at least C' as inclusive of a C grade",
+    "Confirm P-003's grade in 15-112 is indeed exactly a C (not C- or D+)",
+    "Check if CMU-Q uses +/- grading and whether a C- would satisfy 'at least C'"
+  ]
+}

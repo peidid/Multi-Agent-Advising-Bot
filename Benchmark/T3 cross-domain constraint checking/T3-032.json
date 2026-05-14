@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-032",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-007",
+  "question": "I'm a CS senior (P-007) with a BA minor. I took 70-332 (Business, Society and Ethics). Can this satisfy both a CS humanities requirement and a BA minor requirement at the same time?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "CS degree: 70-332 may satisfy a CS humanities/ethics general education requirement. BA minor: 70-332 is listed as a BA course and may count toward the minor",
+    "courses": "70-332 is a business/ethics course \u2014 its interdisciplinary nature makes it a double-counting candidate, but policy limits this"
+  },
+  "key_facts": [
+    "P-007 completed 70-332 (Business, Society and Ethics) in Spring 2025",
+    "70-332 is a business school course with humanities/ethics content",
+    "CMU's double-counting restriction: a course generally cannot satisfy both a major requirement and a minor/additional major requirement",
+    "The specific applicability to CS humanities requirements needs verification from the CS advising document",
+    "P-007's advisor must decide which requirement 70-332 is applied to"
+  ],
+  "wrong_if_single_domain": "Checking only CS program requirements might show 70-332 satisfies a humanities requirement. Checking only BA minor requirements might show it satisfies a minor requirement. The double-counting policy question requires combining both program domains.",
+  "common_mistake": "Counting 70-332 toward both CS humanities and BA minor, reducing total course requirements \u2014 a common student error not caught without cross-checking",
+  "reasoning_chain": [
+    "Step 1 (programs, CS): 70-332 and CS humanities requirement \u2014 verify if applicable",
+    "Step 2 (programs, BA minor): 70-332 in BA minor course list \u2014 verify",
+    "Step 3 (policies): Double-counting restriction \u2192 one course, one requirement",
+    "Conclusion: P-007 must choose which requirement 70-332 satisfies; cannot count toward both"
+  ]
+}

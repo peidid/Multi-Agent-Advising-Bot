@@ -1,0 +1,92 @@
+{
+  "tier": "T5",
+  "tier_description": "Adversarial & Edge Cases \u2014 questions with false assumptions, hidden conflicts, or policy violations that a naive system would miss; correct response requires identifying and explaining why the student's premise or plan fails",
+  "version": "1.0",
+  "total_queries": 30,
+  "query_id_range": "T5-A01 to T5-F05",
+  "pattern_distribution": {
+    "A": 5,
+    "B": 5,
+    "C": 5,
+    "D": 5,
+    "E": 5,
+    "F": 5
+  },
+  "pattern_descriptions": {
+    "A": "Impossible Timeline (5 questions) \u2014 student requests something that cannot be completed given scheduling, prereq chains, or AW unit caps",
+    "B": "Hidden Prerequisite Violation (5 questions) \u2014 shallow prereq check passes but a deeper transitive requirement is unmet",
+    "C": "Policy Conflict (5 questions) \u2014 student's plan violates a policy (overload, P/N, double-counting) they are unaware of",
+    "D": "Course Availability Trap (5 questions) \u2014 course exists in catalog but is not offered in the target semester",
+    "E": "Double-Counting / Requirement Ambiguity (5 questions) \u2014 student attempts to count one course toward two requirements where policy disallows it",
+    "F": "False Premise (5 questions) \u2014 student's question contains a factual error the system must identify and correct"
+  },
+  "domain_distribution": {
+    "programs": 19,
+    "courses": 19,
+    "schedules": 12,
+    "policies": 17
+  },
+  "persona_grounding": {
+    "persona_grounded_count": 30,
+    "generic_count": 0,
+    "total_unique_personas": 29,
+    "academic_warning_appearances": 3,
+    "personas_used": [
+      "P-004",
+      "P-008",
+      "P-009",
+      "P-010",
+      "P-013",
+      "P-014",
+      "P-015",
+      "P-018",
+      "P-020",
+      "P-024",
+      "P-025",
+      "P-029",
+      "P-031",
+      "P-035",
+      "P-036",
+      "P-039",
+      "P-042",
+      "P-044",
+      "P-045",
+      "P-046",
+      "P-047",
+      "P-049",
+      "P-052",
+      "P-053",
+      "P-056",
+      "P-057",
+      "P-058",
+      "P-060",
+      "P-062"
+    ]
+  },
+  "schema": {
+    "query_id": "Unique identifier (T5-A01 through T5-F05)",
+    "tier": "Always 'T5' for this set",
+    "pattern": "A/B/C/D/E/F \u2014 the adversarial pattern this question exemplifies",
+    "pattern_name": "Human-readable pattern label",
+    "persona_id": "Persona identifier (always present for T5 questions)",
+    "persona_summary": "One-line description of the student's situation",
+    "question": "Natural-language question containing a trap, false assumption, or hidden conflict",
+    "false_assumption_or_hidden_conflict": "What the student believes vs. what is actually true or permissible",
+    "naive_system_response": "What a less careful advising system would incorrectly say",
+    "correct_response": "What the system should actually say, identifying the conflict/error",
+    "domains_required": "List of domains needed to detect the trap",
+    "why_multi_agent_helps": "How a multi-agent architecture reduces the risk of falling into this trap",
+    "key_facts": "Critical facts that must be retrieved to answer correctly",
+    "known_traps": "Specific pitfalls that make this question hard",
+    "advisor_validation_needed": "Items requiring human advisor sign-off before acting on the answer"
+  },
+  "quality_notes": [
+    "All 30 questions have an identifiable trap that causes naive systems to fail",
+    "All 6 patterns have exactly 5 questions each",
+    "All 30 questions are persona-grounded using 29 distinct personas",
+    "naive_system_response documents the wrong answer for contrast with the correct one",
+    "known_traps field explicitly names the pitfalls for use in failure-mode analysis",
+    "Answers require advisor validation before deployment",
+    "why_multi_agent_helps field supports architectural analysis of the advising system"
+  ]
+}

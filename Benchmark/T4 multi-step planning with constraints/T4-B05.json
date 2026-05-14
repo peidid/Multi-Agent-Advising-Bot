@@ -1,0 +1,16 @@
+{
+  "query_id": "T4-B05",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-003",
+  "persona_summary": "CS Sophomore, BA minor, 23 courses, Good standing",
+  "variation": "Minor overlaps with major \u2014 exploit double-counting",
+  "question": "I already have a BA minor. I've noticed some BA courses also count toward general education. Can you plan my remaining semesters to maximize this overlap and lighten my load?",
+  "what_makes_this_hard": "Tests whether system identifies double-counting opportunities and exploits them to create an efficient plan.",
+  "needs_verification": [
+    "Double-counting policy between BA minor and CS gen-ed requirements",
+    "Which specific courses overlap",
+    "Remaining CS + BA minor requirements for P-003"
+  ]
+}

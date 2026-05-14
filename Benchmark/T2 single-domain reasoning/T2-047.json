@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-047",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": "P-014",
+  "question": "I'm an IS sophomore with a Data Science concentration and a Business Administration minor. I completed 36-200 (Reasoning with Data). Does 36-200 count toward the IS Data Science concentration requirements, or only as a general elective?",
+  "expected_answer": "This requires checking the IS Data Science concentration requirements specifically. Many IS Data Science concentrations require statistics/data reasoning courses, and 36-200 is a likely candidate for this. However, if the DS concentration requires a specific analytics course from the IS or Statistics department at a higher level, 36-200 might count only as a free elective. P-014 should verify through Stellic whether 36-200 is mapped to the DS concentration or the general elective bucket.",
+  "reasoning_type": "Course-to-concentration mapping verification",
+  "domain": "courses",
+  "common_mistake": "Assuming all data-related courses count for the Data Science concentration; not checking whether 36-200 specifically appears in the DS concentration course list",
+  "needs_verification": [
+    "Confirm the IS Data Science concentration required and elective course list",
+    "Confirm whether 36-200 is explicitly listed as a DS concentration course or a general requirement",
+    "Confirm P-014's Stellic audit shows 36-200 mapped correctly"
+  ]
+}

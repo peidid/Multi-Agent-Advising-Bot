@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-029",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": null,
+  "question": "Which courses can satisfy the prerequisite for 67-262?",
+  "answer": "15-112, 15-122, 15-121, or 02-120 \u2014 each requiring at least a D grade",
+  "source_file": "data/courses/67-262.json",
+  "source_field": "prereqs.text",
+  "domain": "courses",
+  "verification_note": "prereqs.text in course JSON"
+}

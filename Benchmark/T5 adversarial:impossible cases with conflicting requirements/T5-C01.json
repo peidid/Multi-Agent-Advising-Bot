@@ -1,0 +1,29 @@
+{
+  "query_id": "T5-C01",
+  "tier": "T5",
+  "pattern": "C",
+  "pattern_name": "Policy Conflict",
+  "persona_id": "P-013",
+  "persona_summary": "IS Sophomore, no concentration, Academic warning, 25 courses",
+  "question": "I want to take 6 courses next semester to catch up and get back on track. I know it's a lot but I'm motivated. Can you build me an intensive schedule?",
+  "false_assumption_or_hidden_conflict": "Academic warning policy limits the number of units a student can take per semester. Six courses would total approximately 54-72 units, almost certainly exceeding the academic warning cap. The student's motivation doesn't override policy.",
+  "naive_system_response": "A naive system builds an intensive 6-course schedule, optimizing for the student's stated goal of catching up. It doesn't check the academic warning unit restriction and produces a plan the registrar would reject.",
+  "correct_response": "I understand you want to catch up, but your academic warning status limits you to [X] units per semester. Six courses would total approximately [Y] units, exceeding this limit. You can take a maximum of [N] courses. Here's an optimized [N]-course schedule for next semester that prioritizes your most important requirements: [plan]. To fully catch up, here's a multi-semester recovery plan: [extended plan].",
+  "domains_required": [
+    "policies",
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Policy Agent immediately flags the academic warning unit cap before any plan is built. In a single-agent system, the 'catch up' framing biases the agent toward building an intensive schedule, and the policy check may never be triggered.",
+  "key_facts": [
+    "P-013 is on academic warning",
+    "Academic warning imposes a unit cap per semester",
+    "Six courses would exceed the cap",
+    "Student motivation doesn't override academic policy"
+  ],
+  "known_traps": [
+    "Building an intensive schedule without checking unit cap policy",
+    "Optimizing for the student's stated goal without checking constraints",
+    "Not explaining WHY the limitation exists and HOW to work within it"
+  ],
+  "advisor_validation_needed": "Verify: (1) exact academic warning unit cap, (2) typical units for 6 IS courses, (3) maximum number of courses allowed under the cap"
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-082",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "What is the minimum number of units a student must be registered for to be considered full-time?",
+  "answer": "36 units",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Drop/Withdrawal Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'Full-time is defined as registered for a minimum of 36 units'"
+}

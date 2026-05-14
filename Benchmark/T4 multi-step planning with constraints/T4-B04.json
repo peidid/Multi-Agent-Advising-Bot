@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-B04",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-062",
+  "persona_summary": "BIO Senior, Genetics concentration, no minor, 51 courses, Good standing",
+  "variation": "Senior wanting to add minor \u2014 likely too late",
+  "question": "I'm a senior in Genetics and I want to add a Neuroscience minor before I graduate. Is this possible in my remaining time?",
+  "what_makes_this_hard": "System should honestly assess that adding a minor as a senior is likely infeasible, explain why, and suggest alternatives.",
+  "needs_verification": [
+    "Neuroscience minor full requirement list",
+    "Which Neuro minor courses P-062 may have already taken via Genetics",
+    "Remaining semesters available",
+    "Whether any overlap makes it feasible"
+  ]
+}

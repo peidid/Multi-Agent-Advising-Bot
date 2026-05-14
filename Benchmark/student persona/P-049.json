@@ -1,0 +1,194 @@
+{
+  "persona_id": "P-049",
+  "source_student_id": "student123",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [
+      "Digitalization"
+    ],
+    "minors": [
+      "Business Administration",
+      "History"
+    ],
+    "level": "junior",
+    "entry_year": "Fall 2023",
+    "program_full": "BS in Information Systems (Digitalization)|Minor in Business Administration (No concentrations)|Minor in History (No concentrations)",
+    "narrative": {
+      "background_notes": "Digitalization concentration with dual minors in Business Administration and History. Broad interdisciplinary interests.",
+      "goals": "Work in digital transformation consulting",
+      "concerns": "Digitalization concentration has fewer dedicated courses; dual minors add scheduling complexity"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 35,
+    "semesters_completed": [
+      "Summer 2021",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2021": [
+        {
+          "course_code": "00-012",
+          "course_name": "QSP SAT Preparation 2"
+        },
+        {
+          "course_code": "00-005",
+          "course_name": "QSP Mathematics 2 Pre-Calculus"
+        },
+        {
+          "course_code": "00-003",
+          "course_name": "QSP English 3"
+        },
+        {
+          "course_code": "00-007",
+          "course_name": "QSP Business Project"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "21-111",
+          "course_name": "Differential Calculus"
+        },
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "79-104",
+          "course_name": "Global Histories"
+        },
+        {
+          "course_code": "67-100",
+          "course_name": "Information Systems First Year Colloquium"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "66-182",
+          "course_name": "Grand Challenges Seminar: Preserving History with Blockchain Technology"
+        },
+        {
+          "course_code": "99-408",
+          "course_name": "Get Career Ready: Unlocking Pathways to Success"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "21-112",
+          "course_name": "Integral Calculus"
+        },
+        {
+          "course_code": "67-250",
+          "course_name": "The Information Systems Milieux"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "67-316",
+          "course_name": "Human Computer Interface Design and Testing"
+        },
+        {
+          "course_code": "79-366",
+          "course_name": "Power & Politics: A Global History of Food"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "67-262",
+          "course_name": "Database Design and Development"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "98-059",
+          "course_name": "Student Taught Courses (StuCo): Chinese Charms-Unlocking the Secrets of Mandarin"
+        },
+        {
+          "course_code": "80-210",
+          "course_name": "Logic and Proofs"
+        },
+        {
+          "course_code": "15-121",
+          "course_name": "Introduction to Data Structures"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "85-241",
+          "course_name": "Social Psychology"
+        },
+        {
+          "course_code": "70-381",
+          "course_name": "Marketing I"
+        },
+        {
+          "course_code": "67-272",
+          "course_name": "Application Design and Development"
+        },
+        {
+          "course_code": "82-299",
+          "course_name": "Global Minorities: Stories of Diversity, Resistance and Survivance"
+        },
+        {
+          "course_code": "79-293",
+          "course_name": "Inward Odyssey"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "51-368",
+          "course_name": "Moving Pictures"
+        },
+        {
+          "course_code": "79-234",
+          "course_name": "Technology and Society"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "17-313",
+          "course_name": "Foundations of Software Engineering"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "67-443",
+          "course_name": "Mobile Application Design and Development"
+        },
+        {
+          "course_code": "67-382",
+          "course_name": "Digital Transformation, Strategy and Management"
+        },
+        {
+          "course_code": "69-156",
+          "course_name": "First Aid and Emergency Response"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

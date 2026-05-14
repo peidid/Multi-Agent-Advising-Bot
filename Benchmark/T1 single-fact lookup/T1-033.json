@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-033",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": null,
+  "question": "What days does 67-272 meet in Spring 2026?",
+  "answer": "Monday and Wednesday",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings[67-272].sections[0].days",
+  "domain": "schedules",
+  "verification_note": "days field for 67-272 in Spring 2026 schedule"
+}

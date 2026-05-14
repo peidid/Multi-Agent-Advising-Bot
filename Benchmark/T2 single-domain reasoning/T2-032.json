@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-032",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore on academic warning. Can I take an independent study course this semester to work on a research project I'm passionate about?",
+  "expected_answer": "No \u2014 the academic actions policy explicitly prohibits students on academic warning from taking independent studies. P-013 will need to resolve the academic warning (by meeting minimum academic standards for one semester) before becoming eligible for independent study enrollment.",
+  "reasoning_type": "Academic action policy restriction identification",
+  "domain": "policies",
+  "common_mistake": "Assuming that academic warning only restricts overloads, not independent studies; not knowing the full list of restrictions that come with academic warning status",
+  "needs_verification": [
+    "Confirm P-013 is on academic warning (verified from record)",
+    "Confirm the policy language banning independent studies while on academic action applies at CMU-Q",
+    "Confirm whether any exceptions exist for independent studies if pre-approved by Dean"
+  ]
+}

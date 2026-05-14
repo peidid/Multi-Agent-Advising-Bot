@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-022",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore (P-013) on academic warning. I plan to take 67-272 (12 units), 36-200 (9 units), and one more 9-unit course in Spring 2026, totaling 30 units. Am I considered full-time, and does my AW status restrict this?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "courses"
+  ],
+  "domain_contributions": {
+    "policies": "Full-time = 36+ units. Part-time requires Dean's exception; going part-time without approval triggers additional academic consequences. AW prohibits overload (not applicable here) but going below 36 units is its own risk.",
+    "courses": "Planned load: 67-272 (12 units) + 36-200 (9 units) + one 9-unit course = 30 units \u2014 below the 36-unit full-time threshold"
+  },
+  "key_facts": [
+    "P-013 is on academic warning",
+    "Full-time status requires 36+ units per semester",
+    "30 units = below 36 \u2192 part-time status",
+    "Going part-time without Dean of Education exception triggers additional consequences (and can compound AW situation)",
+    "P-013 should take at least 36 units to maintain full-time status; a 4th course (e.g., 6-unit mini or another 9-unit course) would bring total to 36"
+  ],
+  "wrong_if_single_domain": "Knowing only the AW policy would flag overload risk but miss the part-time risk from being below 36 units. Knowing only the course units shows a 30-unit total but cannot identify the policy implications of being below 36 units.",
+  "common_mistake": "Focusing only on the AW overload restriction and missing the separate risk of falling below the 36-unit full-time minimum",
+  "reasoning_chain": [
+    "Step 1 (courses): Sum planned units \u2192 12 + 9 + 9 = 30 units",
+    "Step 2 (policies): Full-time threshold = 36 units; 30 < 36 \u2192 part-time",
+    "Step 3 (policies): Part-time without Dean approval \u2192 additional academic consequences",
+    "Conclusion: P-013 needs to add at least 6 more units to maintain full-time status and avoid compounding academic problems"
+  ]
+}

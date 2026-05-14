@@ -1,0 +1,224 @@
+{
+  "persona_id": "P-010",
+  "source_student_id": "student38",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Tech Entrepreneurship"
+    ],
+    "level": "5th year student",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Tech Entrepreneurship (No concentrations)",
+    "narrative": {
+      "background_notes": "Fifth-year student with Tech Entrepreneurship minor. Spent extra year due to co-op/internship semester.",
+      "goals": "Complete final courses and graduate; already has a job offer contingent on degree completion",
+      "concerns": "Needs exactly the right courses offered this year to graduate; no room for error"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 41,
+    "semesters_completed": [
+      "Fall 2021",
+      "Spring 2022",
+      "Fall 2022",
+      "Spring 2023",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Fall 2021": [
+        {
+          "course_code": "79-001",
+          "course_name": "HISTORY ELECTIVE"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "76-001",
+          "course_name": "ENGLISH ELECTIVE"
+        }
+      ],
+      "Spring 2022": [
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "33-121",
+          "course_name": "Physics I for Science Students"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "95-401",
+          "course_name": "IdeaLab"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        },
+        {
+          "course_code": "70-381",
+          "course_name": "Marketing I"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "85-102",
+          "course_name": "Introduction to Psychology"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "17-313",
+          "course_name": "Foundations of Software Engineering"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "15-390",
+          "course_name": "Entrepreneurship for Computer Science"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "15-316",
+          "course_name": "Software Foundations of Security and Privacy"
+        },
+        {
+          "course_code": "21-150",
+          "course_name": "Mathematics and the Arts"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "10-301",
+          "course_name": "Introduction to Machine Learning"
+        },
+        {
+          "course_code": "33-104",
+          "course_name": "Experimental Physics"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "70-311",
+          "course_name": "Organizational Behavior"
+        },
+        {
+          "course_code": "15-440",
+          "course_name": "Distributed Systems"
+        },
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        },
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "67-474",
+          "course_name": "Tech Startup Launchpad"
+        },
+        {
+          "course_code": "69-103",
+          "course_name": "Archery"
+        },
+        {
+          "course_code": "05-391",
+          "course_name": "Designing Human Centered Software"
+        },
+        {
+          "course_code": "09-111",
+          "course_name": "Nanolegos: Chemical Building Blocks"
+        },
+        {
+          "course_code": "98-029",
+          "course_name": "Student Taught Courses (StuCo): Sports Analytics in a Nutshell"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "69-121",
+          "course_name": "Table Tennis"
+        },
+        {
+          "course_code": "15-348",
+          "course_name": "Embedded Systems"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

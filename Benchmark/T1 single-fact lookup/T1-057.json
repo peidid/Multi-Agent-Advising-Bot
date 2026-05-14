@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-057",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What are the two course options for the IS 'Managing Digital Transformation' requirement?",
+  "answer": "67-382 (Digital Transformation, Strategy and Management) or 95-422 (Managing Digital Transformation)",
+  "source_file": "data/programs/Information Systems/cmu_information_systems_degree_requirements.json",
+  "source_field": "requirements.information_systems_core.managing_digital_transformation.choose_one_from",
+  "domain": "programs",
+  "verification_note": "choose_one_from in managing_digital_transformation section"
+}

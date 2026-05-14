@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A10",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-017",
+  "persona_summary": "IS Senior, ISP concentration, Dean's List, 49 courses",
+  "variation": "Student with elective flexibility",
+  "question": "I'm close to finishing my ISP concentration and I have a couple of free elective slots. I want to graduate with the strongest possible transcript for cybersecurity employers. What should I take and when?",
+  "what_makes_this_hard": "Plan should optimize elective choices for career relevance, not just satisfy minimum requirements. Tests whether system goes beyond bare requirement satisfaction.",
+  "needs_verification": [
+    "Remaining ISP requirements for P-017",
+    "Number of free elective slots",
+    "Available cybersecurity-relevant electives",
+    "Course availability in remaining semesters"
+  ]
+}

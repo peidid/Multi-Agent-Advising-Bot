@@ -1,0 +1,18 @@
+{
+  "query_id": "T4-A03",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-025",
+  "persona_summary": "BA Junior, dual concentration Finance + BAT, Econ minor, 37 courses, Good standing",
+  "variation": "3 semesters left, multiple options",
+  "question": "I have 3 semesters left and I'm doing Finance, BAT, and an Econ minor. There's a lot to fit in. Can you give me a semester-by-semester plan that gets everything done without overloading me?",
+  "what_makes_this_hard": "Dual concentration + minor = complex requirement set. Multiple valid plans exist. System should balance workload across semesters rather than front-loading.",
+  "needs_verification": [
+    "Remaining Finance concentration requirements",
+    "Remaining BAT concentration requirements",
+    "Remaining Econ minor requirements",
+    "Double-counting rules between concentrations and minor",
+    "Course availability across 3 semesters"
+  ]
+}

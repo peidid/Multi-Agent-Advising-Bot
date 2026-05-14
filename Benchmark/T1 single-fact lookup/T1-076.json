@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-076",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What course satisfies the IS Consulting Project requirement?",
+  "answer": "67-373 (Information Systems Consulting Project)",
+  "source_file": "data/programs/Information Systems/cmu_information_systems_degree_requirements.json",
+  "source_field": "requirements.information_systems_core.information_systems_consulting_project.required_course",
+  "domain": "programs",
+  "verification_note": "required_course code 67-373 in IS consulting_project section"
+}

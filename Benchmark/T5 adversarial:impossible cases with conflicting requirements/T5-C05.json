@@ -1,0 +1,31 @@
+{
+  "query_id": "T5-C05",
+  "tier": "T5",
+  "pattern": "C",
+  "pattern_name": "Policy Conflict",
+  "persona_id": "P-047",
+  "persona_summary": "IS Sophomore, Data Science, HCI minor, 24 courses, Good standing",
+  "question": "I want to take a graduate-level HCI course that counts for my minor. My advisor in the HCI department said it's fine. Can you add it to my plan?",
+  "false_assumption_or_hidden_conflict": "Undergraduate students taking graduate courses typically need formal permission, may have unit limits on graduate credits counting toward undergraduate degrees, and the course may not actually satisfy the minor requirement even if the HCI department approves enrollment. Multiple policies interact here.",
+  "naive_system_response": "A naive system accepts 'my advisor said it's fine' at face value and adds the course to the plan without checking undergraduate/graduate enrollment policies, unit counting rules, or whether the course actually satisfies the minor requirement.",
+  "correct_response": "Taking graduate courses as an undergraduate involves several policy checks: (1) formal permission process beyond departmental advisor approval \u2014 you may need registrar approval, (2) there may be a limit on graduate units counting toward your undergraduate degree, (3) the graduate course must be approved to satisfy your HCI minor requirement specifically \u2014 department approval for enrollment is not the same as degree requirement satisfaction. I recommend: [specific steps to verify all three].",
+  "domains_required": [
+    "policies",
+    "programs",
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Policy Agent checks undergraduate-graduate enrollment policies. The Programs Agent verifies whether the graduate course satisfies the minor requirement. The Courses Agent checks prerequisites. Three separate checks that a single agent might collapse into 'advisor said it's fine, you're good.'",
+  "key_facts": [
+    "Departmental advisor approval \u2260 university-level permission for grad course enrollment",
+    "Graduate units may not automatically count toward undergraduate degree",
+    "Course satisfying enrollment eligibility \u2260 course satisfying degree requirement",
+    "Multiple levels of approval may be needed"
+  ],
+  "known_traps": [
+    "Accepting 'my advisor said it's fine' without checking formal policies",
+    "Confusing enrollment permission with degree requirement satisfaction",
+    "Not checking graduate-undergraduate unit counting rules",
+    "Not distinguishing between departmental and university-level approvals"
+  ],
+  "advisor_validation_needed": "Verify: (1) policy on undergraduates taking graduate courses, (2) unit counting rules for grad courses in undergrad degrees, (3) whether grad HCI courses satisfy the HCI minor requirement, (4) approval process"
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E08",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-047",
+  "persona_summary": "IS Sophomore, Data Science, HCI minor, 24 courses, Good standing",
+  "variation": "Two elective paths toward same career goal",
+  "question": "I want to do UX research. Should I focus my electives on more HCI/design courses, or more data analytics/statistics courses? Show me both paths and their tradeoffs.",
+  "what_makes_this_hard": "Two different elective strategies for the same career goal. System should compare and recommend based on availability and career relevance.",
+  "needs_verification": [
+    "Available HCI/design electives at CMU-Q",
+    "Available data analytics/stats electives",
+    "Prerequisites for each track",
+    "Which path provides more flexibility"
+  ]
+}

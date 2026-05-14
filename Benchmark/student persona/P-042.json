@@ -1,0 +1,177 @@
+{
+  "persona_id": "P-042",
+  "source_student_id": "student3",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Mathematical Sciences",
+      "SCS Concentration in Computer Systems"
+    ],
+    "level": "junior",
+    "entry_year": "Fall 2023",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Mathematical Sciences (No concentrations)|Minor in SCS Concentration in Computer Systems (No concentrations)",
+    "narrative": {
+      "background_notes": "Pursuing both Mathematical Sciences minor and SCS Computer Systems concentration. Deeply technical profile.",
+      "goals": "PhD in systems research; wants to maximize theoretical and systems coursework",
+      "concerns": "Two additional specializations create an extremely constrained schedule with few free electives"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 32,
+    "semesters_completed": [
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2023": [
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "85-221",
+          "course_name": "Principles of Child Development"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        },
+        {
+          "course_code": "15-288",
+          "course_name": "Special Topic: Machine Learning in a Nutshell"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "85-251",
+          "course_name": "Personality"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        },
+        {
+          "course_code": "98-193",
+          "course_name": "Student Taught Courses (StuCo): Intro to Quantum Computing"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "99-520",
+          "course_name": "Collaborative Research through Projects"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "09-212",
+          "course_name": "Special Topics: Nanotechnology in Context"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "85-241",
+          "course_name": "Social Psychology"
+        },
+        {
+          "course_code": "15-591",
+          "course_name": "Independent Study in Computer Science"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        },
+        {
+          "course_code": "15-348",
+          "course_name": "Embedded Systems"
+        },
+        {
+          "course_code": "15-382",
+          "course_name": "Collective Intelligence"
+        },
+        {
+          "course_code": "21-301",
+          "course_name": "Combinatorics"
+        },
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

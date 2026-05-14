@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-035",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student on academic warning. I've been offered a fantastic opportunity to study at another campus abroad next semester. Am I permitted to participate in the study abroad program?",
+  "expected_answer": "No \u2014 the academic actions policy explicitly states that a student on an academic action (including academic warning) cannot study abroad. P-009 must first return to good academic standing before being eligible for study abroad programs.",
+  "reasoning_type": "Academic action policy \u2014 study abroad restriction",
+  "domain": "policies",
+  "common_mistake": "Assuming study abroad is a separate administrative process unaffected by academic standing; not knowing the study abroad restriction is part of the academic action consequences",
+  "needs_verification": [
+    "Confirm P-009's current academic standing is academic warning",
+    "Confirm the CMU-Q policy explicitly includes study abroad as a prohibited activity during academic warning",
+    "Confirm whether any exception process exists if the opportunity is exceptional"
+  ]
+}

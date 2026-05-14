@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-096",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "What symbol appears on the transcript for a course taken as an audit?",
+  "answer": "O",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "University Grading Standards (undergraduate table), Audit Grades section",
+  "domain": "policies",
+  "verification_note": "Grading table shows O = Non-factorable Audit; Audit Grades section also describes it"
+}

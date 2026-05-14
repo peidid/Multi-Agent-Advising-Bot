@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-029",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": "P-002",
+  "question": "As a CS sophomore in Fall 2025, I want to take 15-451 (Section W: Monday 14:30\u201315:20) and 15-440 (Section W: Sunday 11:30\u201312:20) together. Would there be a schedule conflict?",
+  "expected_answer": "No \u2014 15-451 Section W meets only on Monday 14:30\u201315:20, and 15-440 Section W meets only on Sunday 11:30\u201312:20. They do not share any meeting days, so no conflict exists.",
+  "reasoning_type": "Simple no-conflict verification on non-overlapping days",
+  "domain": "schedules",
+  "common_mistake": "Assuming heavy upper-level CS courses must conflict; not verifying actual days/times",
+  "needs_verification": [
+    "Confirm 15-451 Section W Fall 2025: Monday 14:30\u201315:20 (only Monday)",
+    "Confirm 15-440 Section W Fall 2025: Sunday 11:30\u201312:20 (only Sunday)",
+    "Confirm P-002 meets prerequisites for both 15-451 and 15-440 (this is a schedule-only question)"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "query_id": "T5-D04",
+  "tier": "T5",
+  "pattern": "D",
+  "pattern_name": "Course Availability Trap",
+  "persona_id": "P-058",
+  "persona_summary": "BA 5th-year, Marketing Management concentration, Tech Entrepreneurship minor, 49 courses, Good standing",
+  "question": "I need two more Marketing Management courses to finish my concentration. I'll take them both in Spring 2026 and graduate. Which ones should I pick?",
+  "false_assumption_or_hidden_conflict": "Marketing Management courses are noted as being offered infrequently in P-058's persona. The student assumes two courses will be available in Spring 2026, but one or both may not be offered that semester. This is the bottleneck the student's persona specifically warns about.",
+  "naive_system_response": "A naive system lists Marketing Management courses from the catalog and recommends two, without verifying Spring 2026 offerings.",
+  "correct_response": "Marketing Management courses are offered infrequently at CMU-Q. Checking Spring 2026: [actual offerings]. Only [0/1/2] of the courses you need are offered. If fewer than 2 are available, you cannot complete the concentration in Spring 2026. Options: (1) take the available one in Spring 2026 and the other in Summer/Fall 2026, (2) check if any course substitutions are approved, (3) petition the department.",
+  "domains_required": [
+    "schedules",
+    "programs"
+  ],
+  "why_multi_agent_helps": "The Courses Agent checks actual availability. The Programs Agent verifies which courses satisfy the concentration. A single agent might present catalog options as available.",
+  "key_facts": [
+    "Marketing Management courses offered infrequently at CMU-Q",
+    "P-058's persona explicitly mentions this concern",
+    "5th-year student \u2014 wants to finish immediately",
+    "Infrequent offerings may force another semester"
+  ],
+  "known_traps": [
+    "Listing catalog courses as if all are currently available",
+    "Not checking the specific Spring 2026 schedule",
+    "Building a graduation plan on courses that aren't actually offered"
+  ],
+  "advisor_validation_needed": "Verify: (1) Marketing Management course offerings in Spring 2026, (2) which satisfy concentration requirements, (3) P-058's specific remaining requirements"
+}

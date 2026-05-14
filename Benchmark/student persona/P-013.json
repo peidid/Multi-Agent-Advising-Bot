@@ -1,0 +1,140 @@
+{
+  "persona_id": "P-013",
+  "source_student_id": "student181",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [],
+    "minors": [],
+    "level": "sophomore",
+    "entry_year": "Fall 2024",
+    "program_full": "BS in Information Systems (No concentrations)",
+    "narrative": {
+      "background_notes": "Has not declared concentration yet. Broad interest across IS topics. Active in student government. Was placed on academic warning after underperforming in first year.",
+      "goals": "Decide on concentration this semester; wants to graduate in 4 years",
+      "concerns": "Delaying concentration choice may limit elective options in later semesters. Academic warning limits units per semester, making it harder to catch up."
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 25,
+    "semesters_completed": [
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2024": [
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "03-110",
+          "course_name": "General Biology"
+        },
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "67-100",
+          "course_name": "Information Systems First Year Colloquium"
+        },
+        {
+          "course_code": "98-059",
+          "course_name": "Student Taught Courses (StuCo): Chinese Charms-Unlocking the Secrets of Mandarin"
+        },
+        {
+          "course_code": "80-210",
+          "course_name": "Logic and Proofs"
+        },
+        {
+          "course_code": "79-367",
+          "course_name": "Disastrous Encounters"
+        },
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "67-250",
+          "course_name": "The Information Systems Milieux"
+        },
+        {
+          "course_code": "66-182",
+          "course_name": "Grand Challenges Seminar: Preserving History with Blockchain Technology"
+        },
+        {
+          "course_code": "85-211",
+          "course_name": "Cognitive Psychology"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "99-270",
+          "course_name": "Summer Undergraduate Research Apprenticeship"
+        },
+        {
+          "course_code": "79-234",
+          "course_name": "Technology and Society"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        },
+        {
+          "course_code": "15-121",
+          "course_name": "Introduction to Data Structures"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "33-124",
+          "course_name": "Introduction to Astronomy"
+        },
+        {
+          "course_code": "67-262",
+          "course_name": "Database Design and Development"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Academic warning"
+}

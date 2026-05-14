@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-038",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": null,
+  "question": "A student on academic warning wants to drop one course to have a more manageable load, which would bring their total enrolled units from 36 to 27. Is this straightforward, and what are the consequences?",
+  "expected_answer": "This is not straightforward. Dropping from 36 to 27 units would make the student part-time (below 36 units), which requires an exception from the Associate Dean for Education. Without that exception, going part-time would itself trigger additional academic consequences. Students on academic warning face this bind: they cannot overload to take more courses, and going below 36 units without approval creates new problems. The advisor should be consulted before any action.",
+  "reasoning_type": "Policy interaction \u2014 academic action + full-time/part-time rules",
+  "domain": "policies",
+  "common_mistake": "Treating dropping as a simple administrative step without recognizing the full-time status implications; not connecting the 36-unit full-time threshold with the academic action policy",
+  "needs_verification": [
+    "Confirm the full-time threshold is 36 units at CMU-Q",
+    "Confirm that going below 36 units without Dean approval triggers additional academic consequences",
+    "Confirm whether the Academic Warning status changes the standard advice for dropping courses"
+  ]
+}

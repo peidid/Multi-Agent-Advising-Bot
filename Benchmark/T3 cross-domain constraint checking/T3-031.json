@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-031",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-003",
+  "question": "I'm a CS sophomore (P-003) with a BA minor. I completed 73-102 (Microeconomics) this semester. Can this course count toward both my CS degree's social science requirement AND my BA minor requirements?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "CS degree: check whether 73-102 satisfies a CS social science or general education requirement. BA minor: check whether 73-102 appears in the BA minor course list",
+    "courses": "73-102 (Microeconomics) is a 9-unit course in the Economics department \u2014 its department prefix (73) and content determine which requirements it can satisfy"
+  },
+  "key_facts": [
+    "73-102 (Principles of Microeconomics) is an Economics department course",
+    "CMU's double-counting policy generally does not allow a course to satisfy both a major requirement and a minor requirement simultaneously",
+    "Whether 73-102 satisfies the CS degree's general education component needs verification",
+    "Whether 73-102 appears in the BA minor required course list needs verification",
+    "If 73-102 satisfies a CS gen-ed requirement, it likely cannot also count for the BA minor"
+  ],
+  "wrong_if_single_domain": "Checking only the CS program requirements might confirm 73-102 satisfies a gen-ed slot. Checking only the BA minor requirements might confirm it satisfies a minor requirement. Only by combining both domains and applying the double-counting policy does the correct answer emerge.",
+  "common_mistake": "Assuming a course can freely satisfy requirements in both a major and a minor; not knowing CMU's anti-double-counting policy",
+  "reasoning_chain": [
+    "Step 1 (programs, CS): Does 73-102 satisfy a CS degree requirement? \u2192 verify",
+    "Step 2 (programs, BA minor): Does 73-102 appear in BA minor requirements? \u2192 verify",
+    "Step 3 (courses + policies): Double-counting rule \u2192 if it satisfies CS requirement, likely cannot also count for BA minor",
+    "Conclusion: 73-102 can satisfy ONE requirement (either CS gen-ed OR BA minor) \u2014 not both; requires advisor decision on which to apply it to"
+  ]
+}

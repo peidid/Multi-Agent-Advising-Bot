@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-093",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "How many quality points does an R grade (failure) carry for undergraduates?",
+  "answer": "0.0 quality points",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "University Grading Standards (undergraduate table)",
+  "domain": "policies",
+  "verification_note": "Undergraduate grading table: R = 0.0 quality points"
+}

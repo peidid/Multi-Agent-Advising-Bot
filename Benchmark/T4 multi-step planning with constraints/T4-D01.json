@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-D01",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-015",
+  "persona_summary": "IS Junior, Data Science concentration, Tech Entrepreneurship minor, 35 courses, Good standing",
+  "variation": "Career goal: machine learning",
+  "question": "I want to work in machine learning after graduation. Which electives should I take in my remaining semesters to best prepare for ML roles, given my Data Science concentration?",
+  "what_makes_this_hard": "System must identify ML-relevant electives from the catalog, check prerequisites, and sequence them into the remaining plan alongside DS requirements.",
+  "needs_verification": [
+    "Available ML-related electives at CMU-Q",
+    "Prerequisites for those electives",
+    "Which prereqs P-015 has already completed",
+    "Course availability in remaining semesters"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A08",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-028",
+  "persona_summary": "BA Senior, dual concentration Finance + Strategic Mgmt, Media & Politics minor, 54 courses, Good standing",
+  "variation": "Dual concentration, many remaining",
+  "question": "I'm doing Finance, Strategic Management, and a Media & Politics minor. It's been extremely tight. Can you plan my final semesters to make sure I haven't missed anything?",
+  "what_makes_this_hard": "Most complex requirement set in the BA cohort. System must track requirements across two concentrations plus a minor and verify completeness.",
+  "needs_verification": [
+    "Remaining Finance concentration requirements",
+    "Remaining Strategic Management requirements",
+    "Remaining Media & Politics minor requirements",
+    "Whether all remaining courses can fit in final semesters"
+  ]
+}

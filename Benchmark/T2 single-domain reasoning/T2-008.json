@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-008",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student. I've completed 15-112 (Fundamentals of Programming, grade: B) and 21-127 (Concepts of Mathematics, grade: C). I haven't taken 15-151. Can I register for 15-150 (Principles of Functional Programming)?",
+  "expected_answer": "Yes \u2014 15-150 requires (15-151 at least C OR 21-127 at least C OR 21-128 at least C) AND (15-112 at least C). P-009 has 15-112 with a B (satisfies the second condition) and 21-127 with a C (satisfies the first condition). 15-151 is not required because 21-127 is an accepted alternative.",
+  "reasoning_type": "Prerequisite with alternative math options",
+  "domain": "courses",
+  "common_mistake": "Assuming 15-151 is required when 21-127 serves as an accepted alternative; missing that both the math prereq AND 15-112 must be satisfied simultaneously",
+  "needs_verification": [
+    "Confirm P-009's grades in 15-112 (need C+) and 21-127 (need C+)",
+    "Confirm P-009 hasn't already completed 15-150 (appears they have, in Fall 2023 \u2014 this question may need rephrasing for an earlier time point)",
+    "Confirm the current prereq text for 15-150 still accepts 21-127 as alternative to 15-151"
+  ]
+}

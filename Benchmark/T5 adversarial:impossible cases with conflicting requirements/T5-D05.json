@@ -1,0 +1,28 @@
+{
+  "query_id": "T5-D05",
+  "tier": "T5",
+  "pattern": "D",
+  "pattern_name": "Course Availability Trap",
+  "persona_id": "P-057",
+  "persona_summary": "BA Senior, Strategic Management, Politics and Public Policy minor, 52 courses, Good standing",
+  "question": "I have one Politics and Public Policy minor course left. I'm planning to take it in my final semester. When does it meet?",
+  "false_assumption_or_hidden_conflict": "Politics and Public Policy is noted as having limited course options at CMU-Q. The one remaining course the student needs may not be offered in their final semester. The question asks 'when does it meet' \u2014 presupposing it's offered.",
+  "naive_system_response": "A naive system looks up the course in the catalog and provides generic schedule information, or fabricates a time slot, without confirming it's actually offered in the specific semester.",
+  "correct_response": "Checking the [semester] schedule for your remaining Politics and Public Policy course [XX-XXX]: [it is/is not offered]. If not offered: this is a problem for your graduation timeline. The course was last offered in [semester]. Options: (1) check if it's offered in Summer, (2) petition for a substitute course, (3) if no alternative exists, you may need to extend by one semester. I recommend contacting the department immediately.",
+  "domains_required": [
+    "schedules",
+    "programs"
+  ],
+  "why_multi_agent_helps": "The Courses Agent checks actual semester schedule rather than just catalog data. A single agent might provide catalog-based information without verifying current availability.",
+  "key_facts": [
+    "Politics and Public Policy minor has limited CMU-Q offerings",
+    "Student presupposes the course is offered \u2014 question contains a false assumption about availability",
+    "One unavailable course can block graduation for an otherwise-complete student"
+  ],
+  "known_traps": [
+    "Accepting the presupposition that the course is offered and providing meeting times",
+    "Using catalog data instead of current semester schedule",
+    "Not flagging the graduation risk when the course isn't available"
+  ],
+  "advisor_validation_needed": "Verify: (1) P-057's remaining PPP minor course, (2) whether it's offered in their final semester, (3) substitute options if not"
+}

@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-011",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student. I've completed 15-112, 15-122, 15-150, 15-213, 15-251, 15-210, and 15-451. Have I satisfied all the required CS core milestones as defined in the CS progress policy?",
+  "expected_answer": "Yes \u2014 the CS satisfactory progress policy requires: First-Year Spring: 21-127, 15-112 (done); Sophomore Spring: 15-122 (done); Junior Fall: 15-150, 15-213 (done); Junior Spring: 15-210, 15-251 (done). P-009 has completed all milestone courses. However, additional graduation requirements (electives, humanities, etc.) may remain.",
+  "reasoning_type": "Progress milestone checklist matching",
+  "domain": "programs",
+  "common_mistake": "Conflating the milestone policy with full graduation requirements; missing that milestone completion \u2260 graduation readiness",
+  "needs_verification": [
+    "Confirm P-009's grades in all listed milestone courses meet passing standards",
+    "Confirm the full graduation requirement list for CS (additional electives, humanities, etc.)",
+    "Confirm P-009 has completed 21-127 (shown in Fall 2022) per milestone policy"
+  ]
+}

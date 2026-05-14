@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-D05",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-035",
+  "persona_summary": "BIO Junior, Computational Biology + Neuroscience minors, 41 courses, Good standing",
+  "variation": "Finding courses that satisfy multiple requirements",
+  "question": "I'm doing Comp Bio and Neuroscience minors. Are there any electives that count toward both? I need to find efficiencies because my schedule is packed.",
+  "what_makes_this_hard": "Tests whether the system can find overlapping courses between two requirement sets to create a more efficient plan.",
+  "needs_verification": [
+    "Computational Biology minor elective list",
+    "Neuroscience minor elective list",
+    "Courses appearing in both lists",
+    "Double-counting policy for minor electives"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "query_id": "T5-F01",
+  "tier": "T5",
+  "pattern": "F",
+  "pattern_name": "False Premise",
+  "persona_id": "P-004",
+  "persona_summary": "CS Junior, no minor, 36 courses, Good standing",
+  "question": "I need to take 15-214 for my CS degree. It's a required course, right? When is it offered at CMU-Q?",
+  "false_assumption_or_hidden_conflict": "15-214 (Principles of Software Construction) may not be offered at CMU-Q \u2014 it could be a Pittsburgh campus course. Or the course code may be slightly wrong. The student assumes it's both required and available at their campus.",
+  "naive_system_response": "A naive system either fabricates a schedule for 15-214 or says 'let me look that up' and returns catalog data without noting the campus distinction, leading the student to believe they can take it at CMU-Q.",
+  "correct_response": "15-214 [does not appear in the CMU-Q course catalog / is a Pittsburgh campus course not offered at CMU-Q]. For your CS degree at CMU-Q, the equivalent requirement is satisfied by [correct course code and name]. This course is offered in [semester] at [time]. Would you like me to add it to your plan?",
+  "domains_required": [
+    "courses",
+    "schedules"
+  ],
+  "why_multi_agent_helps": "The Courses Agent checks the CMU-Q specific catalog and would flag that 15-214 doesn't exist at CMU-Q. A single agent might search the broader CMU catalog and return Pittsburgh campus information as if it applies locally.",
+  "key_facts": [
+    "Not all CMU Pittsburgh courses are offered at CMU-Q",
+    "Course codes may be similar but campus availability differs",
+    "The correct response identifies the right CMU-Q equivalent"
+  ],
+  "known_traps": [
+    "Accepting the course code and fabricating availability information",
+    "Not distinguishing CMU-Q catalog from Pittsburgh catalog",
+    "Confirming a course is 'required' without checking CMU-Q specific requirements"
+  ],
+  "advisor_validation_needed": "Verify: (1) whether 15-214 exists at CMU-Q, (2) the correct CMU-Q equivalent, (3) CMU-Q CS degree requirements list"
+}

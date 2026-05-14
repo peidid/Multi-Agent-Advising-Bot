@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-077",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What is the required application design and development course in the IS core?",
+  "answer": "67-272 (Application Design and Development)",
+  "source_file": "data/programs/Information Systems/cmu_information_systems_degree_requirements.json",
+  "source_field": "requirements.information_systems_core.application_design_and_development.required_course",
+  "domain": "programs",
+  "verification_note": "required_course code 67-272 in IS application_design_and_development section"
+}

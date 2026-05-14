@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-040",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-014",
+  "question": "I'm an IS sophomore (P-014) with a Data Science concentration and BA minor. If I take 70-122 (Introduction to Accounting), can it satisfy both a BA minor required course AND an IS free elective?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "BA minor: 70-122 (Accounting) is a standard required BA minor course. IS degree: 70-122 could count as an IS free elective slot",
+    "courses": "70-122 (Introduction to Accounting, 9 units) \u2014 foundational BA course with cross-program applicability"
+  },
+  "key_facts": [
+    "70-122 is listed as a core BA course and standard BA minor requirement",
+    "IS degree includes free elective slots that could accept 70-122",
+    "Double-counting policy: applying 70-122 to both BA minor (as a minor requirement) and IS degree (as a free elective) may be treated differently than satisfying two core requirements",
+    "Some institutions allow minor courses to also fill free elective slots in the major \u2014 CMU-Q policy on this needs verification",
+    "P-014's Stellic audit should show how 70-122 is currently categorized"
+  ],
+  "wrong_if_single_domain": "Checking only BA minor requirements confirms 70-122 fits. Checking only IS degree requirements might accept it as a free elective. The critical interaction is whether double-counting between a minor requirement and a major free elective is permitted.",
+  "common_mistake": "Assuming that because a slot is labeled 'free elective' it can freely absorb a course that already satisfies a minor requirement; not verifying the double-counting rule applies even to free elective slots",
+  "reasoning_chain": [
+    "Step 1 (programs, BA minor): 70-122 satisfies BA minor requirement",
+    "Step 2 (programs, IS): 70-122 could fill IS free elective",
+    "Step 3 (policies): Does CMU-Q allow minor courses to also fill major free elective slots? \u2192 verify",
+    "Conclusion: This may or may not be permitted \u2014 P-014 should check with advisor; Stellic audit will show current mapping"
+  ]
+}

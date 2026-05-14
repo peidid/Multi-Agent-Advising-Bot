@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-012",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore. I've taken 67-100, 67-250, 67-262, and 15-121. Which IS core professional courses am I still missing before I can graduate?",
+  "expected_answer": "P-013 has completed some IS core courses but is still missing at minimum 67-272 (Application Design and Development) and 67-373 (Information Systems Consulting Project), which are required professional core courses for the IS degree. Additional requirements (concentration courses, general education, etc.) would also need to be checked.",
+  "reasoning_type": "Requirement gap identification from course history",
+  "domain": "programs",
+  "common_mistake": "Listing only some missing core courses but omitting others; not distinguishing between the IS professional core and elective/concentration requirements",
+  "needs_verification": [
+    "Confirm the complete list of IS professional core required courses",
+    "Confirm whether 67-100 (IS First Year Colloquium) is a graduation requirement or just recommended",
+    "Confirm all IS concentration/elective requirements relevant to P-013's undeclared status",
+    "Confirm P-013 has not declared a concentration that adds additional required courses"
+  ]
+}

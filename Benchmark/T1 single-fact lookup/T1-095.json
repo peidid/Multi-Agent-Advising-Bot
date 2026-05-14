@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-095",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "By when must a student complete the required work for an incomplete (I) grade?",
+  "answer": "By the end of the following academic semester (or sooner if agreed with the instructor)",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Incomplete Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'Students must complete the required course work no later than the end of the following academic semester'"
+}

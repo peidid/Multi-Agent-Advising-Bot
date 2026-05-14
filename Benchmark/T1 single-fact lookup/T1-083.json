@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-083",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": "P-054",
+  "question": "I'm a first-year BA student \u2014 can I request a course overload in my very first semester?",
+  "answer": "No \u2014 first-year students are limited to a normal course load in their first semester of attendance",
+  "source_file": "data/policies/registration/Course_Overload_-_The_HUB_-_Division_of_Enrollment_Management_-_Carnegie_Mellon_University.md",
+  "source_field": "Course Overload section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'First-years and transfer students are limited to a normal course load for their first semester of attendance'"
+}

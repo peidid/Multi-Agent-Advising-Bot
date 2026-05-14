@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-078",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What is the minimum number of units the Tech Entrepreneurship minor's Digital Design and Technology requirement requires?",
+  "answer": "At least 18 units (at least 2 courses)",
+  "source_file": "data/programs/Minors/cmu_minor_tech_entrepreneurship.json",
+  "source_field": "program_requirements.requirements.digital_design_and_technology.min_units",
+  "domain": "programs",
+  "verification_note": "min_units: 18 in digital_design_and_technology requirement"
+}

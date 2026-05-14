@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-039",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": "P-017",
+  "question": "I'm an IS senior on the Dean's List. I want to take an independent study course in my final semester to pursue a cybersecurity research project with a faculty member. Is this permitted under policy?",
+  "expected_answer": "Yes \u2014 P-017 is on the Dean's List, which indicates good academic standing. The restriction on independent studies applies only to students on academic actions (warning, suspension, etc.). Since P-017 is not on any academic action, she is eligible to take an independent study, subject to the standard requirements (faculty agreement, registration process, unit limits).",
+  "reasoning_type": "Policy restriction scoping \u2014 applies only to students on academic actions",
+  "domain": "policies",
+  "common_mistake": "Assuming the independent study restriction is universal rather than specific to students on academic actions; conflating any senior with the restrictions that apply only to at-risk students",
+  "needs_verification": [
+    "Confirm P-017's current academic standing is Dean's List or otherwise good standing (not an academic action)",
+    "Confirm whether P-017's final-semester unit count would put her at or near overload with the independent study added",
+    "Confirm the standard independent study registration process at CMU-Q (faculty must agree, units registered)"
+  ]
+}

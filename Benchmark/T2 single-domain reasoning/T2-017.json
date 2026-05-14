@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-017",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-016",
+  "question": "I'm an IS junior in the Information Security and Privacy (ISP) concentration. I've completed 39 courses. What IS core courses (not ISP-specific) have I likely finished, and am I on track with the non-concentration IS requirements?",
+  "expected_answer": "As an IS junior who has completed 39 courses, P-016 has likely finished most IS professional core courses (67-100, 67-250, 67-262, 67-272, possibly 67-373). The non-concentration IS core typically includes foundational computing, math, and IS professional core requirements. Given 39 courses completed at the junior level, most core courses should be done. P-016 should verify through Stellic that the IS professional core is complete before focusing remaining semesters on ISP electives and final requirements.",
+  "reasoning_type": "Core vs. concentration requirement separation",
+  "domain": "programs",
+  "common_mistake": "Conflating IS core requirements with ISP concentration requirements; assuming that having taken many courses means core is complete without checking specifically",
+  "needs_verification": [
+    "Retrieve P-016's full course list to identify completed IS core courses",
+    "Confirm the complete IS professional core course list separate from ISP concentration",
+    "Confirm whether P-016 has completed 67-373 (IS Consulting Project) \u2014 a key required core course",
+    "Confirm semester availability of remaining ISP electives at CMU-Q"
+  ]
+}

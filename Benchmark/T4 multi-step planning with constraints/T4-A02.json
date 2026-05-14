@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A02",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-020",
+  "persona_summary": "IS Senior, ISP concentration, History minor, 46 courses, Good standing",
+  "variation": "2 semesters left, prereq chain",
+  "question": "I have Fall 2025 and Spring 2026 left. I still need a couple of ISP electives and a History minor course. Can you plan both semesters so I graduate on time, making sure I take things in the right order?",
+  "what_makes_this_hard": "Must sequence ISP courses with prerequisites correctly across 2 semesters while fitting History minor courses into remaining slots.",
+  "needs_verification": [
+    "Remaining ISP elective requirements for P-020",
+    "Remaining History minor requirements for P-020",
+    "Prerequisite ordering among remaining ISP courses",
+    "Course availability in Fall 2025 and Spring 2026"
+  ]
+}

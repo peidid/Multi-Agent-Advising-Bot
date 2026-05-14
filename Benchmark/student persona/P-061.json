@@ -1,0 +1,178 @@
+{
+  "persona_id": "P-061",
+  "source_student_id": "student415",
+  "demographic": {
+    "major": "Biological Sciences",
+    "concentrations": [],
+    "minors": [],
+    "level": "sophomore",
+    "entry_year": "Fall 2024",
+    "program_full": "BS in Biological Sciences (No concentrations)",
+    "narrative": {
+      "background_notes": "Sophomore with no concentration and no minor but has taken 33 courses already. Prolific course-taker.",
+      "goals": "Explore broadly before committing to a concentration by end of sophomore year",
+      "concerns": "Has taken many courses but may not have focused enough on any one area to declare a concentration efficiently"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 33,
+    "semesters_completed": [
+      "Summer 2022",
+      "Summer 2023",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2022": [
+        {
+          "course_code": "85-011",
+          "course_name": "AP PSYCHOLOGY"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "00-005",
+          "course_name": "QSP Mathematics 2 Pre-Calculus"
+        },
+        {
+          "course_code": "03-110",
+          "course_name": "General Biology"
+        },
+        {
+          "course_code": "00-014",
+          "course_name": "QSP Biological Science Project"
+        },
+        {
+          "course_code": "00-011",
+          "course_name": "QSP SAT Preparation 1"
+        },
+        {
+          "course_code": "00-002",
+          "course_name": "QSP English 2"
+        },
+        {
+          "course_code": "73-011",
+          "course_name": "AP ECONOMICS"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "73-012",
+          "course_name": "AP ECONOMICS:MICRO"
+        },
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "09-212",
+          "course_name": "Special Topics: Nanotechnology in Context"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "03-151",
+          "course_name": "Honors Modern Biology"
+        },
+        {
+          "course_code": "38-101",
+          "course_name": "EUREKA!: Discovery and Its Impact"
+        },
+        {
+          "course_code": "03-120",
+          "course_name": "Biology for Life Special Topics Mini"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "85-219",
+          "course_name": "Foundations of Brain and Behavior"
+        },
+        {
+          "course_code": "03-117",
+          "course_name": "Frontiers, Analysis, and Discovery in Biological Sciences"
+        },
+        {
+          "course_code": "09-106",
+          "course_name": "Modern Chemistry II"
+        },
+        {
+          "course_code": "03-119",
+          "course_name": "Biology for Life Special Topics Micro"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "02-250",
+          "course_name": "Introduction to Computational Biology"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "99-270",
+          "course_name": "Summer Undergraduate Research Apprenticeship"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        },
+        {
+          "course_code": "09-217",
+          "course_name": "Organic Chemistry I"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        },
+        {
+          "course_code": "09-207",
+          "course_name": "Techniques in Quantitative Analysis"
+        },
+        {
+          "course_code": "03-201",
+          "course_name": "Undergraduate Colloquium for Sophomores"
+        },
+        {
+          "course_code": "03-231",
+          "course_name": "Honors Biochemistry"
+        },
+        {
+          "course_code": "82-141",
+          "course_name": "Elementary Spanish I"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-036",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-014",
+  "question": "I'm an IS sophomore (P-014) with a Data Science concentration and BA minor. I plan to take 36-200 (Reasoning with Data). Can this satisfy both an IS foundation requirement and a BA minor requirement simultaneously?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "IS degree: 36-200 may appear as an IS foundation or DS concentration course. BA minor: statistics/data courses may appear in BA minor requirements",
+    "courses": "36-200 (Reasoning with Data, 9 units) \u2014 introductory statistics course with broad applicability"
+  },
+  "key_facts": [
+    "36-200 is a statistics/data reasoning course applicable across multiple programs",
+    "IS degree typically requires a statistics/quantitative reasoning course \u2014 36-200 is a common choice",
+    "BA minor may or may not include 36-200 as an accepted course \u2014 verify against official BA minor list",
+    "Double-counting policy: if 36-200 satisfies IS requirement, it may not also count toward BA minor",
+    "P-014 should verify Stellic to see how 36-200 is currently mapped"
+  ],
+  "wrong_if_single_domain": "Checking only IS requirements confirms 36-200 fits. Checking only BA minor requirements may also confirm it fits. Without combining both and applying double-counting policy, the conflict is missed.",
+  "common_mistake": "Applying 36-200 to both IS and BA minor requirements, thereby reducing total courses needed \u2014 this likely violates the double-counting rule",
+  "reasoning_chain": [
+    "Step 1 (programs, IS): 36-200 satisfies IS quantitative foundation",
+    "Step 2 (programs, BA minor): Does 36-200 appear in BA minor requirements? \u2192 verify",
+    "Step 3 (policies): Double-counting rule \u2192 one requirement only",
+    "Conclusion: P-014 must choose which program 36-200 is applied to; likely IS (where it is more central)"
+  ]
+}

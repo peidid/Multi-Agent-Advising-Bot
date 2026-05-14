@@ -1,0 +1,269 @@
+{
+  "persona_id": "P-009",
+  "source_student_id": "student454",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [],
+    "level": "5th year student",
+    "entry_year": "Fall 2021",
+    "program_full": "BS in Computer Science (No concentrations)",
+    "narrative": {
+      "background_notes": "Fifth-year student who took a lighter course load in earlier years due to personal circumstances. No minor declared. Was placed on academic warning after a difficult semester.",
+      "goals": "Graduate by end of this academic year",
+      "concerns": "Needs to confirm all remaining requirements can be completed in final semesters; worried about course availability. Academic warning restricts course load, which conflicts with needing to finish quickly."
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 52,
+    "semesters_completed": [
+      "Summer 2021",
+      "Fall 2021",
+      "Spring 2022",
+      "Summer 2022",
+      "Fall 2022",
+      "Spring 2023",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2021": [
+        {
+          "course_code": "03-011",
+          "course_name": "AP BIOLOGY"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        }
+      ],
+      "Fall 2021": [
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "85-211",
+          "course_name": "Cognitive Psychology"
+        },
+        {
+          "course_code": "38-101",
+          "course_name": "EUREKA!: Discovery and Its Impact"
+        },
+        {
+          "course_code": "03-151",
+          "course_name": "Honors Modern Biology"
+        }
+      ],
+      "Spring 2022": [
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "09-106",
+          "course_name": "Modern Chemistry II"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "03-119",
+          "course_name": "Biology for Life Special Topics Micro"
+        },
+        {
+          "course_code": "03-117",
+          "course_name": "Frontiers, Analysis, and Discovery in Biological Sciences"
+        },
+        {
+          "course_code": "85-241",
+          "course_name": "Social Psychology"
+        }
+      ],
+      "Summer 2022": [
+        {
+          "course_code": "99-270",
+          "course_name": "Summer Undergraduate Research Apprenticeship"
+        },
+        {
+          "course_code": "03-232",
+          "course_name": "Biochemistry I"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "76-239",
+          "course_name": "Introduction to Film Studies"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "79-293",
+          "course_name": "Inward Odyssey"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        },
+        {
+          "course_code": "15-288",
+          "course_name": "Special Topic: Machine Learning in a Nutshell"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "09-217",
+          "course_name": "Organic Chemistry I"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "84-215",
+          "course_name": "Tomorrow's Professionals"
+        },
+        {
+          "course_code": "82-143",
+          "course_name": "Elementary Spanish I Online"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "15-390",
+          "course_name": "Entrepreneurship for Computer Science"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "15-440",
+          "course_name": "Distributed Systems"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        },
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "98-031",
+          "course_name": "Student Taught Courses (StuCo): NLP Ethics in a Nutshell"
+        },
+        {
+          "course_code": "03-363",
+          "course_name": "Systems Neuroscience"
+        },
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "17-313",
+          "course_name": "Foundations of Software Engineering"
+        },
+        {
+          "course_code": "03-220",
+          "course_name": "Genetics"
+        },
+        {
+          "course_code": "15-591",
+          "course_name": "Independent Study in Computer Science"
+        },
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "09-111",
+          "course_name": "Nanolegos: Chemical Building Blocks"
+        },
+        {
+          "course_code": "11-685",
+          "course_name": "Introduction to Deep Learning"
+        },
+        {
+          "course_code": "05-391",
+          "course_name": "Designing Human Centered Software"
+        },
+        {
+          "course_code": "69-103",
+          "course_name": "Archery"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "11-411",
+          "course_name": "Natural Language Processing"
+        },
+        {
+          "course_code": "11-345",
+          "course_name": "Undergrad Independent Study"
+        },
+        {
+          "course_code": "17-437",
+          "course_name": "Web Application Development"
+        },
+        {
+          "course_code": "10-423",
+          "course_name": "Generative AI"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Academic warning"
+}

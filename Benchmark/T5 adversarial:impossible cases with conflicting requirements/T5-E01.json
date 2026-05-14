@@ -1,0 +1,28 @@
+{
+  "query_id": "T5-E01",
+  "tier": "T5",
+  "pattern": "E",
+  "pattern_name": "Double-Counting / Requirement Ambiguity",
+  "persona_id": "P-025",
+  "persona_summary": "BA Junior, dual concentration Finance + BAT, Econ minor, 37 courses, Good standing",
+  "question": "I'm counting 73-102 for both my Finance concentration and my Economics minor. That way I need one fewer course total. Is my plan correct?",
+  "false_assumption_or_hidden_conflict": "The student assumes double-counting is allowed between a concentration and a minor. If policy prohibits counting the same course toward both, the student is one course short of completing their plan and doesn't know it.",
+  "naive_system_response": "A naive system accepts the student's claim and confirms the plan is correct, not checking double-counting policy.",
+  "correct_response": "CMU-Q's policy on double-counting states [specific rule]. If double-counting between concentration and minor is [not permitted], then 73-102 can only count toward one of Finance or Economics \u2014 not both. This means you need one additional course for [whichever program doesn't get the credit]. Here are your options for that additional course: [list].",
+  "domains_required": [
+    "policies",
+    "programs"
+  ],
+  "why_multi_agent_helps": "The Policy Agent checks double-counting rules. The Programs Agent verifies both requirement sets. Together they catch the overcounting. A single agent might accept the student's reasoning without checking policy.",
+  "key_facts": [
+    "Double-counting rules vary by institution and by program combination",
+    "Student's entire plan relies on one course counting for two programs",
+    "If disallowed, student is one course short of graduation"
+  ],
+  "known_traps": [
+    "Accepting the student's assumption about double-counting",
+    "Not checking the specific double-counting policy",
+    "Confirming a plan that is one course short"
+  ],
+  "advisor_validation_needed": "Verify: (1) double-counting policy between concentrations and minors, (2) whether 73-102 appears in both Finance and Econ requirements, (3) impact on P-025's graduation plan"
+}

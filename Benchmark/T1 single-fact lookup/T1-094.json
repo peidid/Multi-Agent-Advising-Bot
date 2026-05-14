@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-094",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": "P-007",
+  "question": "I'm a CS senior and want to take a course pass/fail \u2014 what form do I need to submit?",
+  "answer": "A Grade Option Request Form, submitted to Enrollment Services before the end of the university's withdraw period",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Pass/Fail Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'A student must submit a Grade Option Request Form to Enrollment Services'"
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C06",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-014",
+  "persona_summary": "IS Sophomore, Data Science concentration, BA minor, 27 courses, Good standing",
+  "variation": "Took wrong elective \u2014 doesn't count",
+  "question": "I just realized that one of the courses I took last semester doesn't actually count toward my Data Science concentration like I thought. What should I do now? Can you revise my plan?",
+  "what_makes_this_hard": "System must identify the miscount, determine what still needs to be taken, and fit the replacement into the remaining plan.",
+  "needs_verification": [
+    "DS concentration elective requirements",
+    "Which courses P-014 took that may not count",
+    "Replacement course options",
+    "Impact on remaining plan"
+  ]
+}

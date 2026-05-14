@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-027",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": "P-004",
+  "question": "I'm a CS junior. I want to take 15-213 (Section 3: Mon/Wed 11:30\u201312:45) and 15-440 (Distributed Systems, Section 3: Tue/Sun 08:30\u201309:45) simultaneously in Fall 2025. Is there a schedule conflict between these two sections?",
+  "expected_answer": "No \u2014 15-213 Section 3 meets Monday and Wednesday 11:30\u201312:45, while 15-440 Section 3 meets Tuesday and Sunday 08:30\u201309:45. These courses share no common meeting days or times.",
+  "reasoning_type": "No-conflict verification for non-overlapping weekday sections",
+  "domain": "schedules",
+  "common_mistake": "Checking only days without times; assuming two different courses must conflict if both are heavy CS courses",
+  "needs_verification": [
+    "Confirm 15-213 Section 3 Fall 2025: Mon/Wed 11:30\u201312:45",
+    "Confirm 15-440 Section 3 Fall 2025: Tue/Sun 08:30\u201309:45",
+    "Confirm P-004 meets prerequisites for both courses (15-122 for 15-213; advanced prereqs for 15-440)"
+  ]
+}

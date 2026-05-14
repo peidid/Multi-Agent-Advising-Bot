@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-011",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": "P-015",
+  "question": "I need 67-373 for my IS Data Science concentration \u2014 how many units is it?",
+  "answer": "12 units",
+  "source_file": "data/courses/67-373.json",
+  "source_field": "units",
+  "domain": "courses",
+  "verification_note": "units field is 12.0 in course JSON"
+}

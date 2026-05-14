@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C07",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-054",
+  "persona_summary": "BA First-year, dual concentration Global Economics & Finance, 12 courses, Good standing",
+  "variation": "Wants to accelerate \u2014 3-year graduation",
+  "question": "I want to graduate in 3 years instead of 4. I'm doing both Global Economics and Finance concentrations. Is this possible? Plan the most aggressive schedule that gets me out in 3 years.",
+  "what_makes_this_hard": "Maximum load planning. Dual concentration in 3 years likely requires overload semesters + summers. System must check overload policy and be honest about feasibility.",
+  "needs_verification": [
+    "Full requirement list for BA + Global Economics + Finance",
+    "Overload policy and GPA threshold",
+    "Summer course availability and limits",
+    "Minimum semesters needed given prereq chains"
+  ]
+}

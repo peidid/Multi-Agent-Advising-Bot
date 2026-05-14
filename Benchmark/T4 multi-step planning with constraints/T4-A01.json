@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A01",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-007",
+  "persona_summary": "CS Senior, BA minor, 49 courses, Good standing",
+  "variation": "1 semester left, 4-5 courses remaining",
+  "question": "I'm planning to graduate in Spring 2026. I have my BA minor and most of my CS courses done. Can you lay out exactly what I need to take in my final semester to finish everything?",
+  "what_makes_this_hard": "Tight single-semester plan with no flexibility. System must verify both CS and BA minor completion, identify any gaps, and confirm all remaining courses are offered Spring 2026.",
+  "needs_verification": [
+    "Exact remaining CS requirements for P-007",
+    "Exact remaining BA minor requirements for P-007",
+    "All remaining courses offered in Spring 2026",
+    "Total units fit within semester limit"
+  ]
+}

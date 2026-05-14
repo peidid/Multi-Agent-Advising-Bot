@@ -1,0 +1,92 @@
+{
+  "persona_id": "P-012",
+  "source_student_id": "student152",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [
+      "Data Science"
+    ],
+    "minors": [],
+    "level": "first-year",
+    "entry_year": "Summer 2023",
+    "program_full": "BS in Information Systems (Data Science)",
+    "narrative": {
+      "background_notes": "Already declared Data Science concentration. Took pre-college summer courses. Strong quantitative background.",
+      "goals": "Complete Data Science concentration and possibly add a minor in Business Administration",
+      "concerns": "Wants to ensure DS concentration prerequisites are completed early enough"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 14,
+    "semesters_completed": [
+      "Summer 2023",
+      "Summer 2024",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2023": [
+        {
+          "course_code": "00-011",
+          "course_name": "QSP SAT Preparation 1"
+        },
+        {
+          "course_code": "00-005",
+          "course_name": "QSP Mathematics 2 Pre-Calculus"
+        },
+        {
+          "course_code": "00-008",
+          "course_name": "QSP Computer Science Project"
+        },
+        {
+          "course_code": "00-003",
+          "course_name": "QSP English 3"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "00-001",
+          "course_name": "QSP English 1"
+        },
+        {
+          "course_code": "00-004",
+          "course_name": "QSP Mathematics 1 Calculus"
+        },
+        {
+          "course_code": "00-015",
+          "course_name": "QSP ACT"
+        },
+        {
+          "course_code": "00-009",
+          "course_name": "QSP Information System Project"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "33-124",
+          "course_name": "Introduction to Astronomy"
+        },
+        {
+          "course_code": "67-100",
+          "course_name": "Information Systems First Year Colloquium"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "80-210",
+          "course_name": "Logic and Proofs"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

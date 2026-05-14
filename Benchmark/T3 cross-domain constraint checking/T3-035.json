@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-035",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-046",
+  "question": "I'm a CS 5th-year student (P-046) with a Math minor and academic warning. I completed 21-355 and 21-356 (Real Analysis I & II). Do these satisfy CS program requirements, Math minor requirements, or both?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "CS degree: Real Analysis courses are typically free electives or advanced math electives for CS, not core requirements. Math minor: 21-355/356 are core upper-level Math minor courses",
+    "courses": "21-355 (12 units, Real Analysis I) and 21-356 (12 units, Real Analysis II) \u2014 upper-level proof-based math"
+  },
+  "key_facts": [
+    "P-046 completed 21-355 (Spring 2018) and 21-356 (Fall 2018)",
+    "Real Analysis is central to the Mathematical Sciences minor but is typically an elective for CS (not a core requirement)",
+    "These likely count toward the Math minor as core courses",
+    "Whether they also satisfy a CS elective requirement depends on CS elective policies (verify)",
+    "Double-counting policy: if they count as CS electives, they may not also count for the Math minor"
+  ],
+  "wrong_if_single_domain": "Checking only CS requirements might categorize 21-355/356 as free electives or advanced CS electives. Checking only Math minor requirements confirms they are core minor courses. The interaction requires both domains to determine whether double-counting applies.",
+  "common_mistake": "Counting 21-355 and 21-356 toward both CS elective requirements and Math minor, reducing the perceived remaining course count",
+  "reasoning_chain": [
+    "Step 1 (programs, CS): 21-355/356 likely satisfy CS advanced elective slots",
+    "Step 2 (programs, Math minor): 21-355/356 are core Math minor courses",
+    "Step 3 (policies): Double-counting restriction \u2014 clarify with advisors whether one or both programs can claim these courses",
+    "Conclusion: P-046 needs advisor clarification on double-counting; most likely they satisfy Math minor primarily, and separate electives are needed for CS"
+  ]
+}

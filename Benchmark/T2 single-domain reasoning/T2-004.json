@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-004",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore who has completed 67-262 and 67-250 but have not yet taken 67-272. Can I register for 67-373 (Information Systems Consulting Project) this semester?",
+  "expected_answer": "No \u2014 67-373 requires 67-272 at least D, and P-013 has not yet completed 67-272. The system should prevent registration without the direct prerequisite being satisfied.",
+  "reasoning_type": "Missing prerequisite identification",
+  "domain": "courses",
+  "common_mistake": "Confusing prerequisite chain \u2014 student has the prereqs FOR 67-272 but not 67-272 itself; treating 67-262 + 67-250 as sufficient for 67-373",
+  "needs_verification": [
+    "Confirm P-013 has NOT taken 67-272",
+    "Confirm 67-373 prerequisite is strictly 67-272 (no alternative paths)",
+    "Confirm 67-373 is being requested for a semester where P-013 hasn't registered for 67-272 concurrently"
+  ]
+}

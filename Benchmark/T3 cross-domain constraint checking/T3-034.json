@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-034",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-005",
+  "question": "I'm a CS junior (P-005) with a Mathematical Sciences minor. I completed 21-259 (Calculus in Three Dimensions). Does this count toward both my CS math requirement and my Mathematical Sciences minor, or only one?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "CS degree: multi-variable calculus is a standard CS math requirement. Mathematical Sciences minor: 21-259 may count as a minor course depending on whether the minor accepts this level",
+    "courses": "21-259 (9 units, Calculus in Three Dimensions) \u2014 foundational upper-level calculus; it feeds into CS math requirements"
+  },
+  "key_facts": [
+    "P-005 completed 21-259 (Fall 2025)",
+    "21-259 is typically a required math course for CS students (part of the CS math sequence)",
+    "The Mathematical Sciences minor likely requires upper-level math courses; whether 21-259 counts or is treated as a prerequisite for the minor depends on requirements",
+    "Double-counting policy: if 21-259 satisfies the CS math requirement, it may not also count toward the Math minor",
+    "This is a key question P-005 should verify with advisors from both CS and Math departments"
+  ],
+  "wrong_if_single_domain": "Checking only the CS program confirms 21-259 is a CS math requirement. Checking only the Math minor might confirm 21-259 satisfies a minor course slot. The interaction \u2014 whether double-counting is allowed \u2014 requires both domains.",
+  "common_mistake": "Assuming 21-259 freely counts toward both CS and the Math minor, thereby reducing the total course burden \u2014 a common planning error",
+  "reasoning_chain": [
+    "Step 1 (programs, CS): 21-259 satisfies CS math requirement \u2192 yes",
+    "Step 2 (programs, Math minor): Does 21-259 count toward Math minor? \u2192 verify",
+    "Step 3 (policies): If counted for CS requirement, double-counting policy may block it from also counting for the minor",
+    "Conclusion: P-005 should clarify with advisors whether 21-259 can double-count; likely cannot, meaning the Math minor requires additional dedicated math courses"
+  ]
+}

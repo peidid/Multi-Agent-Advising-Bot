@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-009",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore. I've completed 15-121 (Introduction to Data Structures) and 21-127 (Concepts of Mathematics), but I haven't taken 15-122 or 15-150. Can I register for 15-251 (Great Ideas in Theoretical Computer Science)?",
+  "expected_answer": "No \u2014 15-251 requires (15-122 at least C OR 15-150 at least C) as the programming prerequisite. 15-121 is NOT listed as an acceptable alternative for 15-251. Having 21-127 satisfies the math component, but the programming component (15-122 or 15-150) is still missing.",
+  "reasoning_type": "Prerequisite chain \u2014 identifying an invalid substitute",
+  "domain": "courses",
+  "common_mistake": "Assuming 15-121 is equivalent to 15-122 for 15-251 eligibility because both are intro CS courses; satisfying only one of the two required prerequisite branches",
+  "needs_verification": [
+    "Confirm 15-251 does not accept 15-121 as an alternative to 15-122 or 15-150",
+    "Confirm P-013 has not taken 15-122 in a semester not captured here",
+    "Verify IS sophomore students are typically eligible for 15-251 if prerequisites are met"
+  ]
+}

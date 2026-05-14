@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-098",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "If a student repeats a course, how many sets of units count toward graduation requirements?",
+  "answer": "Only one set of units counts toward graduation requirements",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Course Repeats section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'only one set of units will count towards graduation requirements'"
+}

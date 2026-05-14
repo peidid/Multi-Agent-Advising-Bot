@@ -1,0 +1,27 @@
+{
+  "query_id": "T5-F02",
+  "tier": "T5",
+  "pattern": "F",
+  "pattern_name": "False Premise",
+  "persona_id": "P-053",
+  "persona_summary": "BA Sophomore, Finance, dual minors Econ + History, 25 courses, Good standing",
+  "question": "I heard the maximum units you can take per semester is 60. I'm planning a heavy semester with 5 courses. That should be under the limit, right?",
+  "false_assumption_or_hidden_conflict": "The student cites an incorrect unit limit (60). The actual limit may be different (e.g., 54). If the student plans based on the wrong number, they might schedule a load that exceeds the real limit.",
+  "naive_system_response": "A naive system accepts '60 units' as correct and confirms: 'Yes, 5 courses at approximately 10 units each = 50, you're under 60.' It doesn't correct the wrong limit.",
+  "correct_response": "The maximum unit limit per semester at CMU-Q is actually [X] units, not 60. With 5 courses totaling approximately [Y] units, you are [under/over] the actual limit. [If over]: You would need to drop one course or request an overload. [If under]: You're fine, but make sure to check the exact unit count once you have your specific courses selected.",
+  "domains_required": [
+    "policies"
+  ],
+  "why_multi_agent_helps": "The Policy Agent has the actual unit limit and would immediately correct the false number. A single agent might accept the student's stated limit as fact if it doesn't retrieve the actual policy.",
+  "key_facts": [
+    "Student cites an incorrect unit limit",
+    "The actual limit is different from what the student believes",
+    "Planning based on wrong limits can lead to registration problems"
+  ],
+  "known_traps": [
+    "Accepting the student's stated policy number without verification",
+    "Building a response that validates incorrect information",
+    "Not citing the actual policy with the correct number"
+  ],
+  "advisor_validation_needed": "Verify: (1) actual maximum unit limit per semester at CMU-Q, (2) whether 5 courses fits under the real limit"
+}

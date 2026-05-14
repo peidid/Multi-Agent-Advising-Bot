@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-015",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": "P-031",
+  "question": "I'm in Biological Sciences and want to know \u2014 how many units is 03-151?",
+  "answer": "10 units",
+  "source_file": "data/courses/03-151.json",
+  "source_field": "units",
+  "domain": "courses",
+  "verification_note": "units field is 10.0 in course JSON"
+}

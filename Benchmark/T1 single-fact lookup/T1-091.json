@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-091",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "How many quality points does an undergraduate A grade earn?",
+  "answer": "4.0 quality points",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "University Grading Standards (undergraduate table)",
+  "domain": "policies",
+  "verification_note": "Undergraduate grading table: A = 4.0 quality points"
+}

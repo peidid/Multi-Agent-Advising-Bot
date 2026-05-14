@@ -1,0 +1,184 @@
+{
+  "persona_id": "P-006",
+  "source_student_id": "student483",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Tech Entrepreneurship"
+    ],
+    "level": "junior",
+    "entry_year": "Fall 2023",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Tech Entrepreneurship (No concentrations)",
+    "narrative": {
+      "background_notes": "Entrepreneurial mindset, wants to launch a tech startup. Taking Tech Entrepreneurship minor.",
+      "goals": "Build a startup while completing degree, graduate on time",
+      "concerns": "Worried about fitting capstone project with startup commitments"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 34,
+    "semesters_completed": [
+      "Summer 2022",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2022": [
+        {
+          "course_code": "00-005",
+          "course_name": "QSP Mathematics 2 Pre-Calculus"
+        },
+        {
+          "course_code": "00-007",
+          "course_name": "QSP Business Project"
+        },
+        {
+          "course_code": "00-015",
+          "course_name": "QSP ACT"
+        },
+        {
+          "course_code": "00-003",
+          "course_name": "QSP English 3"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "82-313",
+          "course_name": "Topics in Modern Arabic Language, Literature & Culture"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "85-258",
+          "course_name": "Intro to Health Psychology: Stigma and Its Consequences"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "98-193",
+          "course_name": "Student Taught Courses (StuCo): Intro to Quantum Computing"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "98-147",
+          "course_name": "Student Taught Courses (StuCo):Decoding Conspiracies: From Moon Landings to Prin"
+        },
+        {
+          "course_code": "85-251",
+          "course_name": "Personality"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "09-212",
+          "course_name": "Special Topics: Nanotechnology in Context"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "03-129",
+          "course_name": "Human Health and Disease"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "09-111",
+          "course_name": "Nanolegos: Chemical Building Blocks"
+        },
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        },
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        },
+        {
+          "course_code": "70-443",
+          "course_name": "Digital Marketing and Social Media Strategy"
+        },
+        {
+          "course_code": "15-440",
+          "course_name": "Distributed Systems"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

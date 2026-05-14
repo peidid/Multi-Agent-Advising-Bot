@@ -1,0 +1,30 @@
+{
+  "query_id": "T3-037",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-015",
+  "question": "I'm an IS junior (P-015) in the Data Science concentration with a Tech Entrepreneurship minor. Can a DS concentration course like 67-352 also count toward my Tech Entrepreneurship minor requirements?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "IS DS concentration: 67-352 may satisfy a DS concentration elective slot. TE minor: has specific course requirements that may or may not include 67-352",
+    "courses": "67-352 is an IS department course \u2014 its content and department may or may not align with TE minor course list"
+  },
+  "key_facts": [
+    "67-352 is an IS course offered Spring 2026",
+    "Tech Entrepreneurship minor typically requires business/entrepreneurship courses (70-xxx, 95-xxx, 15-390)",
+    "67-352 is an IS technical course \u2014 unlikely to appear in the TE minor course list",
+    "Double-counting between DS concentration and TE minor would require the course to appear in both program requirement lists",
+    "Most likely 67-352 counts only toward DS concentration; TE minor requires separate dedicated courses"
+  ],
+  "wrong_if_single_domain": "Checking only the DS concentration confirms 67-352 satisfies a slot. Checking only the TE minor reveals it likely does not appear in the TE minor list. Only by checking both programs does the answer become clear.",
+  "common_mistake": "Assuming any IS course counts toward the TE minor because both are in P-015's program plan; not verifying that TE minor has specific course requirements",
+  "reasoning_chain": [
+    "Step 1 (programs, DS conc): 67-352 counts toward DS concentration \u2713",
+    "Step 2 (programs, TE minor): Does 67-352 appear in TE minor requirements? \u2192 likely no",
+    "Conclusion: 67-352 counts only for DS concentration; P-015 needs separate courses for TE minor"
+  ]
+}

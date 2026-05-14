@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-067",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What is the required capstone course for the Tech Entrepreneurship minor?",
+  "answer": "67-474",
+  "source_file": "data/programs/Minors/cmu_minor_tech_entrepreneurship.json",
+  "source_field": "program_requirements.requirements.capstone_project.course_required",
+  "domain": "programs",
+  "verification_note": "capstone_project.course_required: 67-474 in Tech Entrepreneurship minor JSON"
+}

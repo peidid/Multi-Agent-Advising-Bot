@@ -1,0 +1,32 @@
+{
+  "query_id": "T3-001",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-003",
+  "question": "I'm a CS sophomore (P-003). I've completed 15-112, 15-122, 15-150, and 21-127. I want to take both 15-251 and 15-210 together in Spring 2026. Is that possible?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "courses": "Verify prerequisites for both 15-251 (needs 15-122 C and 21-127 C) and 15-210 (needs 15-150 C and 15-122 C) against P-003's history",
+    "schedules": "Confirm both are offered Spring 2026 and check for time conflicts: 15-251 SecW (Sun/Tue/Thu 11:30\u201312:20) vs 15-210 SecW (Sun/Tue/Thu 10:00\u201311:15)"
+  },
+  "key_facts": [
+    "15-251 prereq: (15-122 C or 15-150 C) AND (21-127 C) \u2014 P-003 has 15-122 and 21-127 \u2713",
+    "15-210 prereq: 15-150 C AND 15-122 C \u2014 P-003 has both \u2713",
+    "15-251 SecW Spring 2026: Sun/Tue/Thu 11:30\u201312:20",
+    "15-210 SecW Spring 2026: Sun/Tue/Thu 10:00\u201311:15",
+    "Times are sequential (10:00\u201311:15 then 11:30\u201312:20) \u2014 no overlap"
+  ],
+  "wrong_if_single_domain": "Checking only prerequisites confirms P-003 is eligible for both but misses whether there is a time conflict. Checking only the schedule confirms both are offered at compatible times but misses whether P-003 has the required prerequisites.",
+  "common_mistake": "Flagging a conflict because both courses share Sun/Tue/Thu without checking that the actual time windows (10:00\u201311:15 and 11:30\u201312:20) are sequential and do not overlap",
+  "reasoning_chain": [
+    "Step 1: Check 15-251 prereqs \u2192 15-122 C \u2713, 21-127 C \u2713 \u2014 eligible",
+    "Step 2: Check 15-210 prereqs \u2192 15-150 C \u2713, 15-122 C \u2713 \u2014 eligible",
+    "Step 3: Confirm both offered Spring 2026 \u2192 Yes",
+    "Step 4: Check schedule conflict \u2192 15-210 ends 11:15; 15-251 starts 11:30 \u2192 No conflict",
+    "Conclusion: Both courses can be taken together in Spring 2026"
+  ]
+}

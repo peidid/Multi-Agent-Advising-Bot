@@ -1,0 +1,32 @@
+{
+  "query_id": "T3-012",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-010",
+  "question": "I'm a CS 5th-year student (P-010) with a Tech Entrepreneurship minor. Which of my remaining CS core requirements can I actually complete in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-010 has completed all major CS core milestones (15-112, 15-122, 15-150, 15-213, 15-210, 15-251, 15-440, 15-451, 17-313). Remaining: 15-441 and CS electives",
+    "schedules": "Spring 2026 offers 15-441 \u2713 and 15-316 \u2713; does NOT offer 15-440 (already done), 15-451 (already done), or 15-213 (already done)"
+  },
+  "key_facts": [
+    "P-010 completed: 15-112, 15-122, 15-150, 15-213, 15-210, 15-251, 15-440, 15-451, 17-313",
+    "P-010 still needs: 15-441 (Networking) and possibly CS electives",
+    "15-441 offered Spring 2026 \u2713",
+    "15-316 offered Spring 2026 \u2713 (as potential elective)",
+    "15-440 NOT offered Spring 2026",
+    "P-010 can realistically complete remaining CS requirements in Spring 2026"
+  ],
+  "wrong_if_single_domain": "Knowing only program requirements lists what P-010 needs but cannot identify which can be done Spring 2026. Knowing only the schedule shows what is offered but cannot determine which courses P-010 still needs.",
+  "common_mistake": "Suggesting courses P-010 has already completed as 'still available this semester'; not filtering the schedule against completed course history",
+  "reasoning_chain": [
+    "Step 1 (programs): Map P-010's course history against CS requirements \u2014 identify gaps: 15-441, electives",
+    "Step 2 (schedules): Check Spring 2026 for those gaps \u2192 15-441 \u2713, 15-316 \u2713",
+    "Step 3: Verify prereqs met for each \u2192 15-213 \u2713 for 15-441",
+    "Conclusion: P-010 can take 15-441 (and potentially 15-316 as elective) to finish CS requirements"
+  ]
+}

@@ -1,0 +1,893 @@
+{
+  "metadata": {
+    "tier": "T4",
+    "tier_name": "Personalized Multi-Step Planning",
+    "description": "Questions requiring the system to produce a semester-by-semester plan. Every question is grounded in a specific persona. Draft answers require advisor validation.",
+    "total_questions": 50,
+    "categories": {
+      "A": {
+        "name": "Graduation Planning",
+        "count": 10
+      },
+      "B": {
+        "name": "Adding Minor/Concentration",
+        "count": 10
+      },
+      "C": {
+        "name": "Recovery Planning",
+        "count": 10
+      },
+      "D": {
+        "name": "Elective Optimization",
+        "count": 10
+      },
+      "E": {
+        "name": "Comparative Planning",
+        "count": 10
+      }
+    },
+    "persona_coverage": {
+      "total_unique_personas": 47,
+      "academic_warning_appearances": 3
+    },
+    "major_distribution": {
+      "Computer Science": 12,
+      "Information Systems": 13,
+      "Business Administration": 11,
+      "Biological Sciences": 14
+    }
+  },
+  "questions": [
+    {
+      "query_id": "T4-A01",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-007",
+      "persona_summary": "CS Senior, BA minor, 49 courses, Good standing",
+      "variation": "1 semester left, 4-5 courses remaining",
+      "question": "I'm planning to graduate in Spring 2026. I have my BA minor and most of my CS courses done. Can you lay out exactly what I need to take in my final semester to finish everything?",
+      "what_makes_this_hard": "Tight single-semester plan with no flexibility. System must verify both CS and BA minor completion, identify any gaps, and confirm all remaining courses are offered Spring 2026.",
+      "needs_verification": [
+        "Exact remaining CS requirements for P-007",
+        "Exact remaining BA minor requirements for P-007",
+        "All remaining courses offered in Spring 2026",
+        "Total units fit within semester limit"
+      ]
+    },
+    {
+      "query_id": "T4-A02",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-020",
+      "persona_summary": "IS Senior, ISP concentration, History minor, 46 courses, Good standing",
+      "variation": "2 semesters left, prereq chain",
+      "question": "I have Fall 2025 and Spring 2026 left. I still need a couple of ISP electives and a History minor course. Can you plan both semesters so I graduate on time, making sure I take things in the right order?",
+      "what_makes_this_hard": "Must sequence ISP courses with prerequisites correctly across 2 semesters while fitting History minor courses into remaining slots.",
+      "needs_verification": [
+        "Remaining ISP elective requirements for P-020",
+        "Remaining History minor requirements for P-020",
+        "Prerequisite ordering among remaining ISP courses",
+        "Course availability in Fall 2025 and Spring 2026"
+      ]
+    },
+    {
+      "query_id": "T4-A03",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-025",
+      "persona_summary": "BA Junior, dual concentration Finance + BAT, Econ minor, 37 courses, Good standing",
+      "variation": "3 semesters left, multiple options",
+      "question": "I have 3 semesters left and I'm doing Finance, BAT, and an Econ minor. There's a lot to fit in. Can you give me a semester-by-semester plan that gets everything done without overloading me?",
+      "what_makes_this_hard": "Dual concentration + minor = complex requirement set. Multiple valid plans exist. System should balance workload across semesters rather than front-loading.",
+      "needs_verification": [
+        "Remaining Finance concentration requirements",
+        "Remaining BAT concentration requirements",
+        "Remaining Econ minor requirements",
+        "Double-counting rules between concentrations and minor",
+        "Course availability across 3 semesters"
+      ]
+    },
+    {
+      "query_id": "T4-A04",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-009",
+      "persona_summary": "CS 5th-year, no minor, 52 courses, Academic warning",
+      "variation": "Academic warning constrains the plan",
+      "question": "I'm on academic warning and I need to graduate this year. Can you plan my remaining semesters given that I have a limited number of units I can take?",
+      "what_makes_this_hard": "Academic warning unit cap directly constrains the plan. System must know the cap, calculate unit totals, and possibly acknowledge that an extra semester is needed.",
+      "needs_verification": [
+        "Academic warning unit cap from policy data",
+        "Exact remaining CS requirements for P-009",
+        "Whether remaining requirements fit within unit cap across available semesters",
+        "Course availability"
+      ]
+    },
+    {
+      "query_id": "T4-A05",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-037",
+      "persona_summary": "BIO Senior, no concentration, no minor, 53 courses, Good standing",
+      "variation": "Summer option available",
+      "question": "I want to graduate by Spring 2026 but I'm worried I have too many courses left. Would it help to take summer courses? Can you plan it out with and without summer?",
+      "what_makes_this_hard": "System should present two plans \u2014 one with summer, one without \u2014 and explain the tradeoff. Tests whether system considers summer as a planning option.",
+      "needs_verification": [
+        "Remaining BIO degree requirements for P-037",
+        "Summer course offerings and any summer unit limits",
+        "Whether graduation is feasible without summer",
+        "Pre-med requirement coverage if applicable"
+      ]
+    },
+    {
+      "query_id": "T4-A06",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-030",
+      "persona_summary": "BA Senior, Entrepreneurship concentration, Media & Politics minor, 47 courses, Good standing",
+      "variation": "One course only offered in specific semester",
+      "question": "I need to finish my Entrepreneurship concentration and Media & Politics minor by Spring 2026. Some of these courses are only offered once a year. Can you make sure my plan accounts for that?",
+      "what_makes_this_hard": "Forces the system to check course offering frequency and assign courses to the only semester they're available, building the rest of the plan around those anchors.",
+      "needs_verification": [
+        "Remaining Entrepreneurship concentration courses",
+        "Remaining Media & Politics minor courses",
+        "Which courses are offered only in Fall or only in Spring",
+        "Whether all remaining courses are available before Spring 2026"
+      ]
+    },
+    {
+      "query_id": "T4-A07",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-036",
+      "persona_summary": "BIO Junior, CS minor, 36 courses, Good standing",
+      "variation": "Must take prereqs before target course",
+      "question": "I'm a Bio major with a CS minor. I still need to finish the CS minor prerequisite chain. Can you plan my remaining semesters so I complete both my Bio requirements and CS minor?",
+      "what_makes_this_hard": "CS minor has a strict prereq chain (15-112 \u2192 15-122 \u2192 ...) that must be sequenced correctly. Bio requirements must be interleaved around it.",
+      "needs_verification": [
+        "Which CS minor prereqs P-036 has completed",
+        "Full CS minor prerequisite chain",
+        "Remaining BIO requirements",
+        "Course availability for CS minor courses at CMU-Q"
+      ]
+    },
+    {
+      "query_id": "T4-A08",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-028",
+      "persona_summary": "BA Senior, dual concentration Finance + Strategic Mgmt, Media & Politics minor, 54 courses, Good standing",
+      "variation": "Dual concentration, many remaining",
+      "question": "I'm doing Finance, Strategic Management, and a Media & Politics minor. It's been extremely tight. Can you plan my final semesters to make sure I haven't missed anything?",
+      "what_makes_this_hard": "Most complex requirement set in the BA cohort. System must track requirements across two concentrations plus a minor and verify completeness.",
+      "needs_verification": [
+        "Remaining Finance concentration requirements",
+        "Remaining Strategic Management requirements",
+        "Remaining Media & Politics minor requirements",
+        "Whether all remaining courses can fit in final semesters"
+      ]
+    },
+    {
+      "query_id": "T4-A09",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-040",
+      "persona_summary": "BIO 5th-year, no concentration, no minor, entered Fall 2020, 66 courses, Good standing",
+      "variation": "5th-year, minimal remaining",
+      "question": "I've been here since Fall 2020 and I've taken 66 courses. I just want to finally graduate. What do I actually still need, and when should I take it?",
+      "what_makes_this_hard": "System must audit a very long course history against current requirements. Some courses from earlier years might not count under current catalog. Edge case of long enrollment.",
+      "needs_verification": [
+        "Which of 66 courses satisfy current BIO degree requirements",
+        "Whether any old courses no longer count",
+        "Exact remaining requirements",
+        "Course availability for remaining courses"
+      ]
+    },
+    {
+      "query_id": "T4-A10",
+      "tier": "T4",
+      "category": "A",
+      "category_name": "Graduation Planning",
+      "persona_id": "P-017",
+      "persona_summary": "IS Senior, ISP concentration, Dean's List, 49 courses",
+      "variation": "Student with elective flexibility",
+      "question": "I'm close to finishing my ISP concentration and I have a couple of free elective slots. I want to graduate with the strongest possible transcript for cybersecurity employers. What should I take and when?",
+      "what_makes_this_hard": "Plan should optimize elective choices for career relevance, not just satisfy minimum requirements. Tests whether system goes beyond bare requirement satisfaction.",
+      "needs_verification": [
+        "Remaining ISP requirements for P-017",
+        "Number of free elective slots",
+        "Available cybersecurity-relevant electives",
+        "Course availability in remaining semesters"
+      ]
+    },
+    {
+      "query_id": "T4-B01",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-012",
+      "persona_summary": "IS First-year, Data Science concentration, 14 courses, Good standing",
+      "variation": "First-year adding a minor \u2014 plenty of time",
+      "question": "I'm in my first year doing IS with Data Science. I'm thinking about adding a Business Administration minor. Can you plan out all four years including the minor?",
+      "what_makes_this_hard": "Long-horizon planning with many valid approaches. Tests whether system can produce a reasonable 4-year plan.",
+      "needs_verification": [
+        "IS + Data Science full requirement list",
+        "BA minor full requirement list",
+        "Overlap between IS courses and BA minor",
+        "Prerequisite sequences for both"
+      ]
+    },
+    {
+      "query_id": "T4-B02",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-048",
+      "persona_summary": "IS Sophomore, ISP concentration, 24 courses, Good standing",
+      "variation": "Sophomore adding a second concentration",
+      "question": "I'm currently in ISP but I'm also interested in Data Science. Is it possible to add DS as a second concentration? If so, what would my plan look like?",
+      "what_makes_this_hard": "Dual concentration feasibility assessment + plan. Must check overlap between ISP and DS requirements.",
+      "needs_verification": [
+        "ISP concentration requirements",
+        "DS concentration requirements",
+        "Overlap between ISP and DS",
+        "Whether dual IS concentration is permitted by policy",
+        "Total remaining courses needed"
+      ]
+    },
+    {
+      "query_id": "T4-B03",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-055",
+      "persona_summary": "BA Junior, Strategic Management, no minor, 40 courses, Good standing",
+      "variation": "Junior adding a minor \u2014 tight fit",
+      "question": "I'm a junior in Strategic Management with no minor. I want to add an Economics minor. Is it too late? If not, plan it out for me.",
+      "what_makes_this_hard": "System must first determine feasibility (can remaining requirements + new minor fit in remaining semesters?), then produce a plan only if feasible.",
+      "needs_verification": [
+        "Economics minor full requirement list",
+        "Which Econ minor courses P-055 may have already taken",
+        "Remaining BA + Strategic Management requirements",
+        "Whether everything fits in remaining semesters"
+      ]
+    },
+    {
+      "query_id": "T4-B04",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-062",
+      "persona_summary": "BIO Senior, Genetics concentration, no minor, 51 courses, Good standing",
+      "variation": "Senior wanting to add minor \u2014 likely too late",
+      "question": "I'm a senior in Genetics and I want to add a Neuroscience minor before I graduate. Is this possible in my remaining time?",
+      "what_makes_this_hard": "System should honestly assess that adding a minor as a senior is likely infeasible, explain why, and suggest alternatives.",
+      "needs_verification": [
+        "Neuroscience minor full requirement list",
+        "Which Neuro minor courses P-062 may have already taken via Genetics",
+        "Remaining semesters available",
+        "Whether any overlap makes it feasible"
+      ]
+    },
+    {
+      "query_id": "T4-B05",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-003",
+      "persona_summary": "CS Sophomore, BA minor, 23 courses, Good standing",
+      "variation": "Minor overlaps with major \u2014 exploit double-counting",
+      "question": "I already have a BA minor. I've noticed some BA courses also count toward general education. Can you plan my remaining semesters to maximize this overlap and lighten my load?",
+      "what_makes_this_hard": "Tests whether system identifies double-counting opportunities and exploits them to create an efficient plan.",
+      "needs_verification": [
+        "Double-counting policy between BA minor and CS gen-ed requirements",
+        "Which specific courses overlap",
+        "Remaining CS + BA minor requirements for P-003"
+      ]
+    },
+    {
+      "query_id": "T4-B06",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-063",
+      "persona_summary": "BIO Junior, BA minor, 33 courses, Good standing",
+      "variation": "Minor requires prereqs student hasn't started",
+      "question": "I want to finish my BA minor but I haven't taken some of the prerequisite business courses yet. Can you plan how to fit the remaining prereqs and minor courses into my schedule?",
+      "what_makes_this_hard": "BA minor prereqs create an internal chain within the minor. System must sequence prereqs before upper-level minor courses, all while maintaining Bio major progress.",
+      "needs_verification": [
+        "BA minor prerequisite chain",
+        "Which BA minor prereqs P-063 has completed",
+        "Remaining BIO requirements",
+        "Whether prereq chain fits in remaining semesters"
+      ]
+    },
+    {
+      "query_id": "T4-B07",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-034",
+      "persona_summary": "BIO Sophomore, no concentration, Neuroscience minor, 23 courses, Good standing",
+      "variation": "Adding a second minor on top of existing one",
+      "question": "I already have a Neuroscience minor. I'm also interested in adding a Psychology minor. Is it feasible to do both plus my Bio major? What would the plan look like?",
+      "what_makes_this_hard": "Double-minor feasibility. System must check total remaining requirements for Bio + Neuro minor + Psych minor and determine if they fit.",
+      "needs_verification": [
+        "Psychology minor full requirement list",
+        "Overlap between Neuroscience and Psychology minors",
+        "Total remaining course count for all three",
+        "Whether double-minor is permitted by policy"
+      ]
+    },
+    {
+      "query_id": "T4-B08",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-022",
+      "persona_summary": "BA First-year, BAT concentration, 13 courses, Good standing",
+      "variation": "Switching major mid-program",
+      "question": "I'm currently in Business Analytics & Technologies but I'm thinking about switching to Information Systems entirely. What courses would transfer and what would I need to start from scratch? Can you show me both paths \u2014 staying in BA vs switching to IS?",
+      "what_makes_this_hard": "Cross-major comparison. Must identify transferable courses, new requirements, and produce two complete plans.",
+      "needs_verification": [
+        "Which BA courses transfer to IS program",
+        "Full IS requirement list",
+        "Remaining BA + BAT requirements",
+        "Credit transfer policy between majors"
+      ]
+    },
+    {
+      "query_id": "T4-B09",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-032",
+      "persona_summary": "BIO First-year, no concentration, no minor, 11 courses, Good standing",
+      "variation": "Non-CS student adding CS minor",
+      "question": "I'm a Bio first-year and I want to add a Computer Science minor for bioinformatics. The CS prereq chain seems long. Can you plan all four years with the CS minor included?",
+      "what_makes_this_hard": "CS minor has the longest prereq chain (15-112 \u2192 15-122 \u2192 15-213 \u2192 ...) for non-CS students. Must start immediately and interleave with Bio requirements.",
+      "needs_verification": [
+        "CS minor full requirement list and prereq chain",
+        "Which CS courses P-032 may have taken",
+        "BIO full requirement list",
+        "Whether 4-year completion is feasible with both"
+      ]
+    },
+    {
+      "query_id": "T4-B10",
+      "tier": "T4",
+      "category": "B",
+      "category_name": "Adding Minor/Concentration",
+      "persona_id": "P-051",
+      "persona_summary": "IS Junior, ISP concentration, Multidisciplinary Energy Studies minor, 36 courses, Good standing",
+      "variation": "Minor with limited offerings at CMU-Q",
+      "question": "My Multidisciplinary Energy Studies minor has very few course offerings at CMU-Q. Can you plan my remaining semesters making sure I can actually complete this minor with the courses that are available?",
+      "what_makes_this_hard": "Rare minor with unpredictable availability. System must check which Energy Studies courses are actually offered and plan around availability constraints.",
+      "needs_verification": [
+        "Energy Studies minor requirement list",
+        "Which Energy Studies courses are actually offered 2025-2026",
+        "Remaining ISP requirements",
+        "Whether minor completion is feasible with current offerings"
+      ]
+    },
+    {
+      "query_id": "T4-C01",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-013",
+      "persona_summary": "IS Sophomore, no concentration, Academic warning, 25 courses",
+      "variation": "Academic warning recovery plan",
+      "question": "I'm on academic warning and I haven't even picked a concentration yet. I still want to graduate in 4 years. Can you help me plan a recovery path that stays within my unit limits?",
+      "what_makes_this_hard": "Triple constraint \u2014 unit cap from warning, need to declare concentration, and 4-year graduation target. May not all be simultaneously satisfiable.",
+      "needs_verification": [
+        "Academic warning unit cap",
+        "IS concentration options and their requirements",
+        "Which concentration P-013 is closest to based on courses taken",
+        "Whether 4-year graduation is feasible under unit cap"
+      ]
+    },
+    {
+      "query_id": "T4-C02",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-002",
+      "persona_summary": "CS Sophomore, no minor, 24 courses, Good standing",
+      "variation": "Dropped a prerequisite course \u2014 cascading delay",
+      "question": "I dropped 15-122 this semester because I was struggling. How does this affect my plan for the rest of my CS degree? What's the cascading impact on courses that need 15-122 as a prereq?",
+      "what_makes_this_hard": "Dropping a foundational course delays everything downstream. System must trace the prereq chain and show the cascade.",
+      "needs_verification": [
+        "Full list of courses requiring 15-122 as prereq",
+        "Prereq chain depth from 15-122",
+        "When 15-122 is next offered",
+        "P-002's remaining required courses that depend on 15-122"
+      ]
+    },
+    {
+      "query_id": "T4-C03",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-023",
+      "persona_summary": "BA Sophomore, Finance concentration, 25 courses, Good standing",
+      "variation": "Failed a required course \u2014 retake planning",
+      "question": "I failed 70-122 and need to retake it. How should I adjust my plan? When is it offered again, and what does the repeat policy say about my GPA?",
+      "what_makes_this_hard": "Requires knowing the retake policy, when the course is next offered, and how to rearrange the remaining plan to accommodate the retake.",
+      "needs_verification": [
+        "Course repeat/retake policy",
+        "When 70-122 is next offered",
+        "Whether 70-122 is a prereq for other Finance courses",
+        "GPA impact rules for retaken courses"
+      ]
+    },
+    {
+      "query_id": "T4-C04",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-061",
+      "persona_summary": "BIO Sophomore, no concentration, no minor, 33 courses, Good standing",
+      "variation": "Unfocused student \u2014 which concentration is closest?",
+      "question": "I've taken 33 courses but I still haven't declared a concentration. I've been exploring everything. Looking at what I've taken, which concentration am I closest to completing? Plan the most efficient path to graduation.",
+      "what_makes_this_hard": "System must analyze 33 courses against each possible BIO concentration to find the best fit, then build a plan around it.",
+      "needs_verification": [
+        "All BIO concentration requirement lists",
+        "How many requirements of each concentration P-061 has already satisfied",
+        "Which concentration requires the fewest additional courses",
+        "Remaining general BIO requirements"
+      ]
+    },
+    {
+      "query_id": "T4-C05",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-019",
+      "persona_summary": "IS 5th-year, Applied Informatics concentration, entered Fall 2019, 52 courses, Good standing",
+      "variation": "Extended absence \u2014 requirements may have changed",
+      "question": "I entered in 2019 and I'm in Applied Informatics, which barely anyone else does. Have the IS requirements changed since I started? Do my old courses still count? Plan my final semesters.",
+      "what_makes_this_hard": "Catalog year issues \u2014 requirements may have changed. System needs to handle the 'which catalog year applies?' question and audit old courses against current requirements.",
+      "needs_verification": [
+        "Whether Applied Informatics concentration still exists in current catalog",
+        "Catalog year policy (does student follow entry-year catalog?)",
+        "Differences between 2019 and current IS requirements",
+        "Which of P-019's courses satisfy current requirements"
+      ]
+    },
+    {
+      "query_id": "T4-C06",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-014",
+      "persona_summary": "IS Sophomore, Data Science concentration, BA minor, 27 courses, Good standing",
+      "variation": "Took wrong elective \u2014 doesn't count",
+      "question": "I just realized that one of the courses I took last semester doesn't actually count toward my Data Science concentration like I thought. What should I do now? Can you revise my plan?",
+      "what_makes_this_hard": "System must identify the miscount, determine what still needs to be taken, and fit the replacement into the remaining plan.",
+      "needs_verification": [
+        "DS concentration elective requirements",
+        "Which courses P-014 took that may not count",
+        "Replacement course options",
+        "Impact on remaining plan"
+      ]
+    },
+    {
+      "query_id": "T4-C07",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-054",
+      "persona_summary": "BA First-year, dual concentration Global Economics & Finance, 12 courses, Good standing",
+      "variation": "Wants to accelerate \u2014 3-year graduation",
+      "question": "I want to graduate in 3 years instead of 4. I'm doing both Global Economics and Finance concentrations. Is this possible? Plan the most aggressive schedule that gets me out in 3 years.",
+      "what_makes_this_hard": "Maximum load planning. Dual concentration in 3 years likely requires overload semesters + summers. System must check overload policy and be honest about feasibility.",
+      "needs_verification": [
+        "Full requirement list for BA + Global Economics + Finance",
+        "Overload policy and GPA threshold",
+        "Summer course availability and limits",
+        "Minimum semesters needed given prereq chains"
+      ]
+    },
+    {
+      "query_id": "T4-C08",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-004",
+      "persona_summary": "CS Junior, no minor, 36 courses, Good standing",
+      "variation": "Missed a once-per-year course",
+      "question": "I needed to take a specific systems elective that's only offered in Fall, and I missed it this Fall. What are my options? Can you replan my remaining semesters?",
+      "what_makes_this_hard": "Must wait until next Fall or find an alternative. System must check if an equivalent course exists or if the plan must extend.",
+      "needs_verification": [
+        "Which systems electives are Fall-only",
+        "Whether equivalent/substitute courses exist",
+        "Impact on graduation timeline",
+        "Alternative course options"
+      ]
+    },
+    {
+      "query_id": "T4-C09",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-046",
+      "persona_summary": "CS 5th-year, entered Fall 2016, Academic warning, Math minor, 45 courses",
+      "variation": "Long-enrolled student with maximum complications",
+      "question": "I've been here since 2016. I'm on academic warning and I have a Math minor. The CS curriculum has probably changed a lot since I started. Can you audit my courses against the current requirements and plan my path to graduation?",
+      "what_makes_this_hard": "The hardest recovery case. Entered 9+ years ago, on academic warning, with a minor. Maximum number of complicating factors.",
+      "needs_verification": [
+        "Catalog year policy for long-enrolled students",
+        "Differences between 2016 and current CS requirements",
+        "Which of P-046's courses satisfy current requirements",
+        "Academic warning unit cap",
+        "Remaining Math minor requirements",
+        "Course availability"
+      ]
+    },
+    {
+      "query_id": "T4-C10",
+      "tier": "T4",
+      "category": "C",
+      "category_name": "Recovery Planning",
+      "persona_id": "P-006",
+      "persona_summary": "CS Junior, Tech Entrepreneurship minor, 34 courses, Good standing",
+      "variation": "Taking semester off for internship",
+      "question": "I'm planning to take next semester off for a startup internship. How should I rearrange my remaining semesters to still graduate on time? Do I need summer courses?",
+      "what_makes_this_hard": "Removing one semester from the plan forces compression. System must determine if remaining requirements fit in fewer semesters, possibly with summer.",
+      "needs_verification": [
+        "Remaining CS + Tech Entrepreneurship minor requirements",
+        "Whether requirements fit in reduced number of semesters",
+        "Summer course availability",
+        "Summer unit limits if applicable"
+      ]
+    },
+    {
+      "query_id": "T4-D01",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-015",
+      "persona_summary": "IS Junior, Data Science concentration, Tech Entrepreneurship minor, 35 courses, Good standing",
+      "variation": "Career goal: machine learning",
+      "question": "I want to work in machine learning after graduation. Which electives should I take in my remaining semesters to best prepare for ML roles, given my Data Science concentration?",
+      "what_makes_this_hard": "System must identify ML-relevant electives from the catalog, check prerequisites, and sequence them into the remaining plan alongside DS requirements.",
+      "needs_verification": [
+        "Available ML-related electives at CMU-Q",
+        "Prerequisites for those electives",
+        "Which prereqs P-015 has already completed",
+        "Course availability in remaining semesters"
+      ]
+    },
+    {
+      "query_id": "T4-D02",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-027",
+      "persona_summary": "BA Senior, Strategic Management, Psychology minor, 57 courses, Good standing",
+      "variation": "Lightest possible remaining load",
+      "question": "I'm a senior and I just want to finish with minimal stress. What's the lightest course load I can take each remaining semester while still meeting all my requirements?",
+      "what_makes_this_hard": "Optimization in the opposite direction \u2014 minimize load per semester rather than minimize time. Must still satisfy all requirements.",
+      "needs_verification": [
+        "Exact remaining requirements for P-027",
+        "Minimum unit requirements per semester (if any)",
+        "Optimal distribution of remaining courses"
+      ]
+    },
+    {
+      "query_id": "T4-D03",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-005",
+      "persona_summary": "CS Junior, Math minor, 33 courses, Good standing",
+      "variation": "Wants to enable a specific advanced course",
+      "question": "I really want to take the advanced algorithms course before I graduate. What prerequisites do I need, and can you build them into my plan as electives?",
+      "what_makes_this_hard": "Student has a target course. System must trace backwards through its prereq chain and fit the chain into the plan as electives.",
+      "needs_verification": [
+        "Which 'advanced algorithms' course exists at CMU-Q",
+        "Its full prerequisite chain",
+        "Which prereqs P-005 has completed",
+        "Whether the chain fits in remaining semesters"
+      ]
+    },
+    {
+      "query_id": "T4-D04",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-016",
+      "persona_summary": "IS Junior, ISP concentration, 39 courses, Good standing",
+      "variation": "Choosing between elective pools",
+      "question": "For my ISP concentration, I need to choose electives. Should I focus on network security courses or on cryptography courses? What does each path look like schedule-wise?",
+      "what_makes_this_hard": "System must present two elective tracks with their pros/cons and availability, letting the student make an informed choice.",
+      "needs_verification": [
+        "ISP elective options in network security vs cryptography",
+        "Availability of each track's courses",
+        "Prerequisites for each track",
+        "Whether both tracks satisfy ISP requirements equally"
+      ]
+    },
+    {
+      "query_id": "T4-D05",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-035",
+      "persona_summary": "BIO Junior, Computational Biology + Neuroscience minors, 41 courses, Good standing",
+      "variation": "Finding courses that satisfy multiple requirements",
+      "question": "I'm doing Comp Bio and Neuroscience minors. Are there any electives that count toward both? I need to find efficiencies because my schedule is packed.",
+      "what_makes_this_hard": "Tests whether the system can find overlapping courses between two requirement sets to create a more efficient plan.",
+      "needs_verification": [
+        "Computational Biology minor elective list",
+        "Neuroscience minor elective list",
+        "Courses appearing in both lists",
+        "Double-counting policy for minor electives"
+      ]
+    },
+    {
+      "query_id": "T4-D06",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-031",
+      "persona_summary": "BIO First-year, Neuroscience concentration, 17 courses, Good standing",
+      "variation": "Research preparation \u2014 prioritize readiness",
+      "question": "I want to do undergraduate research starting junior year. What courses should I take in my first two years to be prepared? Build me a plan that prioritizes research readiness.",
+      "what_makes_this_hard": "Not just requirement satisfaction \u2014 the plan should sequence methods/lab courses early to enable research. Tests goal-directed planning.",
+      "needs_verification": [
+        "Which courses provide research methodology training",
+        "Lab course availability in first two years",
+        "Neuroscience concentration prerequisites",
+        "Whether front-loading methods courses delays other requirements"
+      ]
+    },
+    {
+      "query_id": "T4-D07",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-041",
+      "persona_summary": "CS Sophomore, Professional Writing minor, 24 courses, Good standing",
+      "variation": "Electives outside major area",
+      "question": "I have some free elective slots. I'm interested in design and user experience. What courses outside CS and my Writing minor could I take, and when do they fit?",
+      "what_makes_this_hard": "System must search across departments for relevant electives, check prerequisites, and fit them into available slots.",
+      "needs_verification": [
+        "Available HCI/design courses at CMU-Q",
+        "Prerequisites for those courses",
+        "P-041's remaining free elective slots",
+        "Schedule compatibility"
+      ]
+    },
+    {
+      "query_id": "T4-D08",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-048",
+      "persona_summary": "IS Sophomore, ISP concentration, 24 courses, Good standing",
+      "variation": "Elective sequencing for target capstone",
+      "question": "I want to eventually take the advanced cybersecurity capstone. What elective sequence do I need to take in what order to get there?",
+      "what_makes_this_hard": "System must trace a backwards chain from the target capstone through its prerequisites and build a multi-semester elective pathway.",
+      "needs_verification": [
+        "Which capstone course exists for ISP",
+        "Its full prerequisite chain",
+        "Which prereqs P-048 has completed",
+        "Semester-by-semester sequencing"
+      ]
+    },
+    {
+      "query_id": "T4-D09",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-044",
+      "persona_summary": "CS Senior, dual minors BA + History, 60 courses, Good standing",
+      "variation": "Only 1 free elective slot",
+      "question": "I have dual minors so I barely have any free slots. I think I have exactly 1 free elective slot left. What's the single best course I should take for my career in tech consulting?",
+      "what_makes_this_hard": "Extreme constraint \u2014 only one slot. System must make a well-reasoned single-course recommendation given career goals.",
+      "needs_verification": [
+        "Whether P-044 truly has only 1 free slot",
+        "Available courses in that slot's semester",
+        "Which courses are most relevant to tech consulting"
+      ]
+    },
+    {
+      "query_id": "T4-D10",
+      "tier": "T4",
+      "category": "D",
+      "category_name": "Elective Optimization",
+      "persona_id": "P-038",
+      "persona_summary": "BIO Senior, Neuroscience minor, Dean's List, 55 courses",
+      "variation": "Preferred elective not offered \u2014 find alternative",
+      "question": "I really wanted to take the advanced neuroscience seminar this semester but it's not being offered. What's the best alternative that still strengthens my PhD application?",
+      "what_makes_this_hard": "System must find the unavailable course, understand what it covers, and identify the best available substitute.",
+      "needs_verification": [
+        "Which advanced neuroscience seminar exists in catalog",
+        "Whether it's offered in current semester",
+        "Alternative courses with similar content",
+        "Availability of alternatives"
+      ]
+    },
+    {
+      "query_id": "T4-E01",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-011",
+      "persona_summary": "IS First-year, no concentration, 15 courses, Good standing",
+      "variation": "DS vs ISP concentration \u2014 full comparison",
+      "question": "I'm deciding between Data Science and Information Security. Can you show me what my full 4-year plan would look like for each? What are the differences in course load and flexibility?",
+      "what_makes_this_hard": "Two complete 4-year plans side by side. System must produce both and compare workload, elective flexibility, and prerequisite pacing.",
+      "needs_verification": [
+        "DS concentration full requirement list",
+        "ISP concentration full requirement list",
+        "Prerequisite sequences for each",
+        "Elective flexibility comparison"
+      ]
+    },
+    {
+      "query_id": "T4-E02",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-021",
+      "persona_summary": "BA First-year, Finance concentration, 13 courses, Good standing",
+      "variation": "Minor A vs Minor B",
+      "question": "I want to add either an Economics minor or a History minor alongside my Finance concentration. Which one fits better into my plan? Show me both options.",
+      "what_makes_this_hard": "Two different minors with different requirements, prerequisites, and availability. System should compare total additional courses, scheduling ease, and overlap with Finance.",
+      "needs_verification": [
+        "Economics minor requirement list",
+        "History minor requirement list",
+        "Overlap of each with Finance concentration",
+        "Course availability for each minor"
+      ]
+    },
+    {
+      "query_id": "T4-E03",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-033",
+      "persona_summary": "BIO Sophomore, dual concentration Biochem + Computational Biology, 27 courses, Good standing",
+      "variation": "3 semesters vs 4 semesters \u2014 workload tradeoff",
+      "question": "My dual concentration is heavy. Can you show me a plan that finishes in 3 remaining semesters with a heavier load, versus 4 semesters with a lighter load? What's the tradeoff?",
+      "what_makes_this_hard": "Explicit tradeoff analysis. One plan may require overload (triggering policy check), the other is more comfortable but delays graduation.",
+      "needs_verification": [
+        "Remaining dual concentration requirements",
+        "Unit totals for 3-semester vs 4-semester plan",
+        "Whether 3-semester plan requires overload",
+        "Overload policy and eligibility"
+      ]
+    },
+    {
+      "query_id": "T4-E04",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-002",
+      "persona_summary": "CS Sophomore, no minor, 24 courses, Good standing",
+      "variation": "Take hard course now vs later",
+      "question": "Should I take 15-213 this spring or wait until next fall? I've heard it's really tough. Can you show me how each choice affects the rest of my plan?",
+      "what_makes_this_hard": "Sequencing strategy \u2014 taking it now enables more advanced courses sooner but increases current semester load. Taking it later constrains future options.",
+      "needs_verification": [
+        "15-213 prerequisites (does P-002 qualify?)",
+        "Courses that require 15-213 as prereq",
+        "Impact on plan timeline for each choice",
+        "Current semester load if taken now"
+      ]
+    },
+    {
+      "query_id": "T4-E05",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-026",
+      "persona_summary": "BA Junior, Finance, History minor, 35 courses, Good standing",
+      "variation": "Summer courses vs no summer",
+      "question": "I'm feeling behind. Should I take summer courses to catch up, or can I manage without? Show me both plans.",
+      "what_makes_this_hard": "Summer plan has cost/logistics implications. System should produce both and let the student decide.",
+      "needs_verification": [
+        "Remaining Finance + History minor requirements",
+        "Summer course offerings",
+        "Summer unit limits",
+        "Whether graduation is feasible without summer"
+      ]
+    },
+    {
+      "query_id": "T4-E06",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-053",
+      "persona_summary": "BA Sophomore, Finance, dual minors Econ + History, 25 courses, Good standing",
+      "variation": "Overload one semester vs spread over two",
+      "question": "I have a lot of requirements left. Is it better to overload one semester to get ahead, or spread everything evenly? What does each plan look like?",
+      "what_makes_this_hard": "Overload triggers policy check (GPA requirement). System must check if student qualifies and present both options with policy implications.",
+      "needs_verification": [
+        "Overload policy and GPA threshold",
+        "P-053's eligibility for overload",
+        "Total remaining requirements",
+        "Plans for overload vs even distribution"
+      ]
+    },
+    {
+      "query_id": "T4-E07",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-035",
+      "persona_summary": "BIO Junior, Computational Biology + Neuroscience minors, 41 courses, Good standing",
+      "variation": "Keep both minors vs drop one",
+      "question": "I'm worried two minors might delay me. Can you show me a plan with both minors versus dropping Neuroscience and just keeping Computational Biology? What do I lose by dropping it?",
+      "what_makes_this_hard": "Tradeoff between academic breadth and graduation timeline. System should quantify the difference.",
+      "needs_verification": [
+        "Remaining requirements for each minor",
+        "How many semesters each plan requires",
+        "Which courses become unnecessary if Neuro is dropped",
+        "Impact on graduation timeline"
+      ]
+    },
+    {
+      "query_id": "T4-E08",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-047",
+      "persona_summary": "IS Sophomore, Data Science, HCI minor, 24 courses, Good standing",
+      "variation": "Two elective paths toward same career goal",
+      "question": "I want to do UX research. Should I focus my electives on more HCI/design courses, or more data analytics/statistics courses? Show me both paths and their tradeoffs.",
+      "what_makes_this_hard": "Two different elective strategies for the same career goal. System should compare and recommend based on availability and career relevance.",
+      "needs_verification": [
+        "Available HCI/design electives at CMU-Q",
+        "Available data analytics/stats electives",
+        "Prerequisites for each track",
+        "Which path provides more flexibility"
+      ]
+    },
+    {
+      "query_id": "T4-E09",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-059",
+      "persona_summary": "BIO First-year, dual concentration Genetics + Neuroscience, 11 courses, Good standing",
+      "variation": "Keep both concentrations vs drop one",
+      "question": "I declared both Genetics and Neuroscience concentrations but I'm already overwhelmed. Can you show me the plan for keeping both versus dropping Genetics and just doing Neuroscience? How much lighter would it be?",
+      "what_makes_this_hard": "First-year rethinking an ambitious choice. System should show both plans and honestly quantify the workload difference.",
+      "needs_verification": [
+        "Genetics concentration requirement list",
+        "Neuroscience concentration requirement list",
+        "Overlap between the two",
+        "Workload comparison (total courses, units)"
+      ]
+    },
+    {
+      "query_id": "T4-E10",
+      "tier": "T4",
+      "category": "E",
+      "category_name": "Comparative Planning",
+      "persona_id": "P-043",
+      "persona_summary": "CS Junior, History minor, 33 courses, Good standing",
+      "variation": "Double major vs single major + minor",
+      "question": "I love both CS and History. Is it feasible to do a double major, or should I stick with CS major + History minor? Show me what a double major plan would look like versus my current path.",
+      "what_makes_this_hard": "Double major is ambitious and likely infeasible at CMU-Q. System should honestly assess feasibility and present the comparison.",
+      "needs_verification": [
+        "Whether double major is permitted at CMU-Q",
+        "History major full requirement list",
+        "How many additional courses double major requires vs minor",
+        "Whether it fits in remaining semesters"
+      ]
+    }
+  ]
+}

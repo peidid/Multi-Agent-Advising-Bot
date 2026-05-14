@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-B07",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-034",
+  "persona_summary": "BIO Sophomore, no concentration, Neuroscience minor, 23 courses, Good standing",
+  "variation": "Adding a second minor on top of existing one",
+  "question": "I already have a Neuroscience minor. I'm also interested in adding a Psychology minor. Is it feasible to do both plus my Bio major? What would the plan look like?",
+  "what_makes_this_hard": "Double-minor feasibility. System must check total remaining requirements for Bio + Neuro minor + Psych minor and determine if they fit.",
+  "needs_verification": [
+    "Psychology minor full requirement list",
+    "Overlap between Neuroscience and Psychology minors",
+    "Total remaining course count for all three",
+    "Whether double-minor is permitted by policy"
+  ]
+}

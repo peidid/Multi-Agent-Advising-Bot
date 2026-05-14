@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-003",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": "P-011",
+  "question": "I'm an IS first-year and I keep hearing about 67-250 \u2014 how many units does that course carry?",
+  "answer": "9 units",
+  "source_file": "data/courses/67-250.json",
+  "source_field": "units",
+  "domain": "courses",
+  "verification_note": "units field is 9.0 in course JSON"
+}

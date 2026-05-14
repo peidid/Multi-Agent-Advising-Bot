@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-014",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-015",
+  "question": "I'm an IS junior with a Data Science concentration and a Tech Entrepreneurship minor. I've completed 35 courses. How many more concentration courses do I need to complete the DS concentration?",
+  "expected_answer": "Without the full course list, it's not possible to give a precise number. However, based on IS Data Science concentration requirements, students typically need a set of required analytics and data-related courses (e.g., statistics, machine learning, data management) plus a certain number of electives within the DS area. P-015 should consult Stellic for an official count. The answer likely ranges from 2\u20135 courses remaining, depending on which DS electives have been completed.",
+  "reasoning_type": "Concentration progress estimation from course history",
+  "domain": "programs",
+  "common_mistake": "Assuming all upper-level IS courses count toward the DS concentration; double-counting courses that satisfy both IS core and DS concentration",
+  "needs_verification": [
+    "Retrieve P-015's full course list and map against IS Data Science concentration requirements",
+    "Confirm the exact required and elective course list for the IS DS concentration",
+    "Confirm which of P-015's 35 completed courses fall within the DS concentration curriculum",
+    "Confirm whether any courses P-015 took count as DS electives"
+  ]
+}

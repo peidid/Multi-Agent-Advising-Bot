@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-075",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "How many courses may double-count between the IS major and other (non-minor) programs?",
+  "answer": "Up to 2 courses",
+  "source_file": "data/programs/Information Systems/cmu_information_systems_degree_requirements.json",
+  "source_field": "program_requirements.double_counting_rules.general",
+  "domain": "programs",
+  "verification_note": "general rule: 'Up to 2 courses may double count with other programs'"
+}

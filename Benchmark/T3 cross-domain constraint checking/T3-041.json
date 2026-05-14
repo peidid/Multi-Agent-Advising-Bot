@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-041",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-007",
+  "question": "I'm a CS senior (P-007) targeting graduation in Spring 2026. I've completed most CS core courses and several BA minor courses. Is it feasible to finish both my CS degree and BA minor by Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "Identify remaining CS requirements and BA minor requirements for P-007 based on course history",
+    "schedules": "Verify remaining courses are offered Spring 2026: 15-441 \u2713; relevant BA minor courses \u2713",
+    "policies": "P-007 is in good standing \u2014 no AW restrictions; normal load or advisor-approved overload permitted"
+  },
+  "key_facts": [
+    "P-007 CS completed: 15-112, 15-122, 15-150, 15-213, 15-210, 15-251, 15-440, 15-451",
+    "P-007 likely still needs: 15-441 (Networking) and possibly CS electives",
+    "P-007 BA minor completed: 73-102, 70-311, 70-122, 70-332, 70-341, 70-391",
+    "15-441 is offered Spring 2026 \u2713",
+    "Several BA courses offered Spring 2026 that P-007 hasn't taken",
+    "P-007 in good standing \u2014 feasibility depends on specific remaining requirements vs available Spring 2026 courses"
+  ],
+  "wrong_if_single_domain": "Checking only program requirements lists what's needed but cannot confirm availability. Checking only the schedule shows what's offered but not what P-007 specifically still needs. Policy domain confirms P-007 has no restrictions that would block graduation.",
+  "common_mistake": "Assuming that having completed most courses means graduation is assured without verifying all remaining specific requirements are offered in the final semester",
+  "reasoning_chain": [
+    "Step 1 (programs): Audit remaining CS and BA minor requirements for P-007",
+    "Step 2 (schedules): Verify remaining courses are offered Spring 2026",
+    "Step 3 (policies): No AW restrictions \u2014 P-007 can take full load",
+    "Conclusion: Feasibility is likely YES if 15-441 and remaining BA course(s) are in Spring 2026 \u2014 full audit needed"
+  ]
+}

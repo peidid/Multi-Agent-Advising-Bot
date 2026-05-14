@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-038",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-020",
+  "question": "I'm an IS senior (P-020) with an ISP concentration and a History minor. Can courses like 79-104 (Global Histories) satisfy both IS general education requirements and History minor requirements?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "IS degree: 79-104 may satisfy a humanities/gen-ed slot in the IS curriculum. History minor: 79-104 (Global Histories) is a standard History course and likely satisfies History minor requirements",
+    "courses": "79-104 (Global Histories) \u2014 humanities course in the History department; broadly applicable to gen-ed requirements"
+  },
+  "key_facts": [
+    "79-104 is a History department course (79-xxx prefix) with humanities content",
+    "IS degree requires humanities/social science general education courses \u2014 79-104 is a typical IS gen-ed course",
+    "History minor requires 79-xxx History courses \u2014 79-104 is directly relevant",
+    "Double-counting policy: applying 79-104 to both IS gen-ed and History minor may not be permitted",
+    "P-020 should verify with Stellic/advisor which requirement 79-104 is mapped to"
+  ],
+  "wrong_if_single_domain": "Checking only IS requirements confirms 79-104 satisfies gen-ed. Checking only History minor confirms it satisfies the minor. The double-counting policy conflict only emerges when both are checked together.",
+  "common_mistake": "Counting 79-104 toward both IS gen-ed and History minor, effectively reducing the course burden \u2014 likely violates double-counting rules",
+  "reasoning_chain": [
+    "Step 1 (programs, IS): 79-104 satisfies IS humanities gen-ed slot",
+    "Step 2 (programs, History minor): 79-104 is a core History minor course",
+    "Step 3 (policies): Double-counting \u2192 one requirement only",
+    "Conclusion: P-020 must choose: apply 79-104 to IS gen-ed OR History minor, not both"
+  ]
+}

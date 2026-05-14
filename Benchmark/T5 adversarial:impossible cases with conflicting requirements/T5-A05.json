@@ -1,0 +1,30 @@
+{
+  "query_id": "T5-A05",
+  "tier": "T5",
+  "pattern": "A",
+  "pattern_name": "Impossible Timeline",
+  "persona_id": "P-029",
+  "persona_summary": "BA 5th-year, Strategic Management, Psychology minor, 60 courses, Good standing",
+  "question": "I have a job starting in June 2026 and I absolutely cannot extend past Spring 2026. I think I have everything done but I want you to double-check and plan my final semester to be safe.",
+  "false_assumption_or_hidden_conflict": "The student assumes they're essentially done with 60 courses. However, with a Psychology minor that has specific course requirements offered only in certain semesters, there may be a single remaining Psychology minor course that is NOT offered in Spring 2026 \u2014 meaning the student can't finish on time despite being 'almost done.'",
+  "naive_system_response": "A naive system would confirm 'you're almost done!' and list 1-2 remaining courses, possibly without checking whether those specific courses are actually offered in Spring 2026.",
+  "correct_response": "After auditing your 60 courses against BA + Strategic Management + Psychology minor requirements, you are missing [specific course(s)]. Unfortunately, [course X] for your Psychology minor is only offered in [Fall/specific semester], not Spring 2026. Your options: (1) find a substitute course that satisfies the same requirement and IS offered in Spring 2026, (2) petition for a course substitution, (3) take it during Summer 2026 before your job starts if timing permits.",
+  "domains_required": [
+    "programs",
+    "courses",
+    "schedules"
+  ],
+  "why_multi_agent_helps": "The Programs Agent audits 60 courses and finds the gap. The Courses Agent verifies offering schedules and detects the availability problem. A single agent might confirm near-completion without cross-referencing the final requirement against the Spring 2026 schedule \u2014 missing the one course that's unavailable.",
+  "key_facts": [
+    "P-029 has 60 courses \u2014 close to completion but not verified complete",
+    "Psychology minor has specific requirements that may not all be offered every semester",
+    "Job start date creates a hard deadline",
+    "One missing course in the wrong semester can derail graduation"
+  ],
+  "known_traps": [
+    "Assuming 60 courses means requirements are met without actually auditing",
+    "Confirming completion without checking Spring 2026 offering schedule",
+    "Not suggesting alternatives when the missing course isn't offered"
+  ],
+  "advisor_validation_needed": "Verify: (1) exact remaining requirements after auditing 60 courses, (2) whether any remaining Psychology minor course is not offered Spring 2026, (3) whether a substitute exists, (4) summer course option timing relative to June job start"
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E01",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-011",
+  "persona_summary": "IS First-year, no concentration, 15 courses, Good standing",
+  "variation": "DS vs ISP concentration \u2014 full comparison",
+  "question": "I'm deciding between Data Science and Information Security. Can you show me what my full 4-year plan would look like for each? What are the differences in course load and flexibility?",
+  "what_makes_this_hard": "Two complete 4-year plans side by side. System must produce both and compare workload, elective flexibility, and prerequisite pacing.",
+  "needs_verification": [
+    "DS concentration full requirement list",
+    "ISP concentration full requirement list",
+    "Prerequisite sequences for each",
+    "Elective flexibility comparison"
+  ]
+}

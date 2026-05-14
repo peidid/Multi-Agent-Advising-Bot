@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-032",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": "P-050",
+  "question": "I'm an IS senior and need to plan around 67-373 \u2014 who teaches it in Spring 2026?",
+  "answer": "Huang, Liginlal, and Aazam",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings[67-373].sections[0].instructor",
+  "domain": "schedules",
+  "verification_note": "instructor field for 67-373 in Spring 2026 schedule"
+}

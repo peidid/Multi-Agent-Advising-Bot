@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-019",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student currently on academic warning. Looking at my Fall 2025 enrollment (11-411, 11-345, 17-437, 10-423), does my current course load satisfy CS satisfactory progress requirements for that semester?",
+  "expected_answer": "The CS satisfactory progress milestones are defined for the first four years (First-Year Spring through Junior Spring). By 5th year, the milestone benchmarks have already passed. Satisfactory progress for continued academic warning or to resolve academic warning requires earning a semester QPA above 2.0 and making progress toward degree completion. The courses listed (NLP, Undergrad Independent Study, Web App Dev, Generative AI) are upper-level or graduate courses appropriate for a 5th-year student. The key question is whether P-009 earns above a 2.0 this semester.",
+  "reasoning_type": "Policy application to non-standard academic trajectory",
+  "domain": "programs",
+  "common_mistake": "Applying junior-year milestones to a 5th-year student; not recognizing that for 5th-year students, the key satisfactory progress measure shifts to QPA and degree completion rate",
+  "needs_verification": [
+    "Confirm that 11-345 (Undergrad Independent Study) is permitted while on academic warning \u2014 this may be blocked by the academic action policy",
+    "Confirm Fall 2025 grades for P-009 to determine if QPA requirement was met",
+    "Confirm the 5th-year satisfactory progress standard as applied by the CS department at CMU-Q"
+  ]
+}

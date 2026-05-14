@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-050",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-005",
+  "question": "I'm a CS junior (P-005) with a Mathematical Sciences minor. Can I complete both the CS degree and Math minor by Spring 2027 (2 more semesters) without overloading each semester?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-005 CS progress: 15-112 through 15-451 and 15-440 done. Remaining: 15-441, CS electives, and Math minor courses (21-355, possibly 21-484 or 21-441). Math minor gap identified",
+    "schedules": "15-441 \u2713 Spring 2026; 21-355 \u2713 Spring 2026; 21-484 \u2713 Spring 2026. Fall 2026 would offer 15-440 (already done) \u2014 key question: are remaining courses available in Spring 2027?",
+    "policies": "P-005 in good standing; 2 semesters = Spring 2026 + Fall 2026 (or + Spring 2027). Can take normal load (~45 units). Without overloading, ~3-4 courses per semester"
+  },
+  "key_facts": [
+    "P-005 after Fall 2025: has completed 15-451, 15-440, 15-210, 15-251, and all CS core",
+    "Remaining CS: 15-441 + electives (~2-3 more courses)",
+    "Math minor: needs 21-355 and potentially 1-2 more upper-level math courses (21-484 or 21-441)",
+    "Spring 2026: 15-441 \u2713, 21-355 \u2713, 21-484 \u2713 \u2014 3 key remaining courses all available together",
+    "If P-005 takes 15-441, 21-355, and 21-484 in Spring 2026 + remaining electives Fall 2026, Spring 2027 graduation is feasible",
+    "Without overloading (3-4 courses/semester), this is achievable"
+  ],
+  "wrong_if_single_domain": "Knowing only program requirements counts remaining courses but cannot project semester availability. Knowing only Spring 2026 schedule shows what's available but not what P-005 needs. Policy context defines the capacity per semester without overloading.",
+  "common_mistake": "Underestimating Math minor requirements and assuming CS electives alone are all that remain; or assuming Math minor courses conflict with CS courses without checking schedules",
+  "reasoning_chain": [
+    "Step 1 (programs): Remaining CS (~3 courses) + Math minor (~2-3 courses) = ~5-6 courses",
+    "Step 2 (schedules): Key courses 15-441, 21-355, 21-484 all Spring 2026 \u2713 \u2014 can take 3 in one semester",
+    "Step 3 (policies): Normal load ~3-4 courses; 3 Spring 2026 + remaining Fall 2026 fits within 2 semesters",
+    "Conclusion: Spring 2027 graduation is feasible \u2014 P-005 can take 3 key remaining courses in Spring 2026 and finish electives in Fall 2026"
+  ]
+}

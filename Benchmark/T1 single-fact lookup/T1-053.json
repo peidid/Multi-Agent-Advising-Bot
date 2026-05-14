@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-053",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "Is 67-250 a required course in the IS major?",
+  "answer": "Yes \u2014 67-250 (The Information Systems Milieux) is a required course in the IS core",
+  "source_file": "data/programs/Information Systems/cmu_information_systems_degree_requirements.json",
+  "source_field": "requirements.information_systems_core.information_systems_milieux",
+  "domain": "programs",
+  "verification_note": "67-250 listed as required in the IS information_systems_milieux section"
+}

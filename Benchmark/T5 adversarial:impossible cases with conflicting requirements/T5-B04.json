@@ -1,0 +1,27 @@
+{
+  "query_id": "T5-B04",
+  "tier": "T5",
+  "pattern": "B",
+  "pattern_name": "Hidden Prerequisite Violation",
+  "persona_id": "P-060",
+  "persona_summary": "BIO Sophomore, Molecular Biology concentration, Neuroscience minor, 21 courses, Good standing",
+  "question": "I want to take an advanced neuroscience lab course for my minor. I've taken General Biology and the intro neuro course. Can I register?",
+  "false_assumption_or_hidden_conflict": "Advanced lab courses often have hidden prerequisites beyond introductory courses \u2014 such as organic chemistry, biochemistry, or a specific methods course. The student assumes the intro sequence is sufficient, but the lab course likely requires additional preparation the student hasn't completed.",
+  "naive_system_response": "A naive system checks that the student has 'intro neuro' and 'General Biology' and approves, not realizing the lab course requires an intermediate course (e.g., biochemistry or a methods course) that the student hasn't taken.",
+  "correct_response": "The advanced neuroscience lab [XX-XXX] requires: (1) intro neuroscience [\u2713], (2) General Biology [\u2713], and (3) [specific intermediate course like biochemistry or research methods] which you have not yet completed. You need to take [intermediate course] first, which is offered in [semester].",
+  "domains_required": [
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Courses Agent retrieves all prerequisites including non-obvious ones like intermediate chemistry requirements for biology lab courses. A single agent might pattern-match on 'neuro' prerequisites and miss the chemistry/methods requirement.",
+  "key_facts": [
+    "Advanced lab courses often have prerequisites beyond the introductory sequence",
+    "Biology lab courses may require chemistry or methods courses",
+    "Sophomore students often haven't completed all intermediate prerequisites"
+  ],
+  "known_traps": [
+    "Only checking the 'obvious' neuro prerequisites and missing chemistry/methods requirements",
+    "Approving based on the student's description rather than the full prereq list",
+    "Not distinguishing between lecture courses and lab courses which often have different prereqs"
+  ],
+  "advisor_validation_needed": "Verify: (1) which advanced neuro lab courses exist, (2) their full prerequisite lists including non-obvious ones, (3) what P-060 has and hasn't completed"
+}

@@ -1,0 +1,77 @@
+{
+  "tier": "T3",
+  "tier_description": "Cross-Domain Constraint Checking \u2014 questions that cannot be answered correctly using only one domain; require synthesizing information from 2+ domains simultaneously",
+  "version": "1.0",
+  "total_queries": 50,
+  "query_id_range": "T3-001 to T3-050",
+  "category_distribution": {
+    "A": 10,
+    "B": 10,
+    "C": 10,
+    "D": 10,
+    "E": 10
+  },
+  "category_descriptions": {
+    "A": "Prerequisites + Schedule (10 questions) \u2014 cross-check prereq eligibility AND Spring 2026 course availability/conflicts",
+    "B": "Program Requirements + Course Availability (10 questions) \u2014 determine if required courses exist in the relevant semester",
+    "C": "Policy + Student Situation (10 questions) \u2014 apply policy rules while accounting for the student's academic standing and course load",
+    "D": "Multi-Requirement Interaction (10 questions) \u2014 courses satisfying multiple requirements; double-counting rules; dual minor/concentration constraints",
+    "E": "Graduation Feasibility (10 questions) \u2014 senior/5th-year students checking if remaining requirements can be completed given scheduling and policy constraints"
+  },
+  "domain_pair_distribution": {
+    "courses+schedules": 7,
+    "courses+policies+schedules": 3,
+    "programs+schedules": 10,
+    "courses+policies": 6,
+    "courses+policies+programs": 1,
+    "policies+programs": 3,
+    "courses+programs": 10,
+    "policies+programs+schedules": 10
+  },
+  "persona_grounding": {
+    "persona_grounded_count": 50,
+    "generic_count": 0,
+    "personas_used": [
+      "P-003",
+      "P-004",
+      "P-005",
+      "P-007",
+      "P-009",
+      "P-010",
+      "P-011",
+      "P-013",
+      "P-014",
+      "P-015",
+      "P-016",
+      "P-017",
+      "P-019",
+      "P-020",
+      "P-025",
+      "P-046"
+    ]
+  },
+  "schema": {
+    "query_id": "Unique identifier (T3-001 through T3-050)",
+    "tier": "Always 'T3' for this set",
+    "category": "A/B/C/D/E per taxonomy",
+    "persona_id": "Persona identifier (always present for T3 questions)",
+    "question": "Natural-language question requiring cross-domain constraint checking",
+    "answer": "Correct answer (left blank for manual completion)",
+    "domains_required": "List of 2+ domains needed to answer correctly",
+    "domain_contributions": "Map of domain \u2192 what specific information that domain provides",
+    "key_facts": "List of critical facts from each domain that must be retrieved",
+    "wrong_if_single_domain": "What incorrect conclusion is reached using only one domain",
+    "common_mistake": "Typical error an advising system might make on this question",
+    "reasoning_chain": "Ordered list of reasoning steps required to reach the correct answer"
+  },
+  "quality_notes": [
+    "All 50 questions require information from 2 or more domains",
+    "All 5 categories have exactly 10 questions each",
+    "All 50 questions are persona-grounded (exceeds the \u226545 requirement)",
+    "Answers left blank for manual verification and completion",
+    "wrong_if_single_domain field documents the failure mode when only one domain is consulted",
+    "reasoning_chain provides an ordered sequence of cross-domain inference steps",
+    "Key personas on academic warning (P-009, P-013, P-046) appear in multiple Category C questions",
+    "Spring 2026 schedule data used for all schedule-related constraints"
+  ]
+}

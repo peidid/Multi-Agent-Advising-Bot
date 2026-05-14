@@ -1,0 +1,71 @@
+{
+  "tier": "T2",
+  "tier_description": "Single-Domain Reasoning \u2014 questions requiring multi-step inference within one domain (prerequisites, requirement progress, schedule feasibility, policy application, course equivalence)",
+  "version": "1.0",
+  "total_queries": 50,
+  "query_id_range": "T2-001 to T2-050",
+  "category_distribution": {
+    "A": 10,
+    "B": 10,
+    "C": 10,
+    "D": 10,
+    "E": 10
+  },
+  "category_descriptions": {
+    "A": "Prerequisite Satisfaction (10 questions) \u2014 determine if a student meets prereqs/coreqs for a course",
+    "B": "Requirement Progress (10 questions) \u2014 assess how many/which degree requirements a student has completed",
+    "C": "Schedule Feasibility (10 questions) \u2014 check for time conflicts or availability in a given semester",
+    "D": "Policy Application (10 questions) \u2014 apply a policy rule to a student's specific situation",
+    "E": "Course Equivalence (10 questions) \u2014 determine if a course substitution or equivalency is valid"
+  },
+  "domain_distribution": {
+    "courses": 20,
+    "programs": 10,
+    "schedules": 10,
+    "policies": 10
+  },
+  "persona_grounding": {
+    "persona_grounded_count": 36,
+    "generic_count": 14,
+    "personas_used": [
+      "P-001",
+      "P-002",
+      "P-003",
+      "P-004",
+      "P-005",
+      "P-007",
+      "P-008",
+      "P-009",
+      "P-011",
+      "P-013",
+      "P-014",
+      "P-015",
+      "P-016",
+      "P-017",
+      "P-019",
+      "P-020",
+      "P-025",
+      "P-046"
+    ]
+  },
+  "schema": {
+    "query_id": "Unique identifier (T2-001 through T2-050)",
+    "tier": "Always 'T2' for this set",
+    "category": "A/B/C/D/E per taxonomy",
+    "persona_id": "Persona identifier (e.g. P-004) or null for generic questions",
+    "question": "Natural-language question requiring reasoning within one domain",
+    "expected_answer": "Correct answer derived from single-domain inference",
+    "reasoning_type": "Brief label for the reasoning pattern required",
+    "domain": "courses | schedules | programs | policies",
+    "common_mistake": "Typical error an advising system might make on this question",
+    "needs_verification": "List of data sources needed to verify the answer"
+  },
+  "quality_notes": [
+    "Each question requires multi-step inference but within exactly one domain",
+    "All 5 categories have exactly 10 questions each",
+    "36 of 50 questions are persona-grounded; 14 are generic",
+    "All course codes and persona IDs reference real data in the repository",
+    "needs_verification lists the specific data sources required for each question",
+    "common_mistake field documents a plausible but incorrect reasoning pattern"
+  ]
+}

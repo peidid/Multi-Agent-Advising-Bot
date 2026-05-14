@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-021",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": null,
+  "question": "What is the prerequisite for 15-213?",
+  "answer": "15-122 (Principles of Imperative Computation) with at least a C grade",
+  "source_file": "data/courses/15-213.json",
+  "source_field": "prereqs.text",
+  "domain": "courses",
+  "verification_note": "prereqs.text: '15-122 [] at least C'"
+}

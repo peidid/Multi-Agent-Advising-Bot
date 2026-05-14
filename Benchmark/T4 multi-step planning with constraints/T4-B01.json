@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-B01",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-012",
+  "persona_summary": "IS First-year, Data Science concentration, 14 courses, Good standing",
+  "variation": "First-year adding a minor \u2014 plenty of time",
+  "question": "I'm in my first year doing IS with Data Science. I'm thinking about adding a Business Administration minor. Can you plan out all four years including the minor?",
+  "what_makes_this_hard": "Long-horizon planning with many valid approaches. Tests whether system can produce a reasonable 4-year plan.",
+  "needs_verification": [
+    "IS + Data Science full requirement list",
+    "BA minor full requirement list",
+    "Overlap between IS courses and BA minor",
+    "Prerequisite sequences for both"
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "persona_id": "P-043",
+  "source_student_id": "student414",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "History"
+    ],
+    "level": "junior",
+    "entry_year": "Fall 2023",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in History (No concentrations)",
+    "narrative": {
+      "background_notes": "CS major with History minor. Interested in the history of computing and digital humanities.",
+      "goals": "Work in tech policy or digital preservation",
+      "concerns": "History minor requires courses that are only offered once per year; needs careful planning"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 33,
+    "semesters_completed": [
+      "Summer 2022",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2022": [
+        {
+          "course_code": "73-012",
+          "course_name": "AP ECONOMICS:MICRO"
+        },
+        {
+          "course_code": "73-011",
+          "course_name": "AP ECONOMICS"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "21-108",
+          "course_name": "Introduction to Mathematical Concepts"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "14-315",
+          "course_name": "Innovation in Building AI-Products"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "70-104",
+          "course_name": "Business Leadership Endeavor I"
+        },
+        {
+          "course_code": "70-245",
+          "course_name": "Innovation & Entrepreneurial Mindset"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "79-279",
+          "course_name": "Science and Technology in World History"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "98-000",
+          "course_name": "Student Taught Courses (StuCo): Teaching Practicum"
+        },
+        {
+          "course_code": "70-415",
+          "course_name": "Introduction to Entrepreneurship"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "76-345",
+          "course_name": "Introduction to Document Design"
+        },
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "03-129",
+          "course_name": "Human Health and Disease"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "03-132",
+          "course_name": "Basic Science to Modern Medicine"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "11-485",
+          "course_name": "Introduction to Deep Learning"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "79-104",
+          "course_name": "Global Histories"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        },
+        {
+          "course_code": "15-440",
+          "course_name": "Distributed Systems"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

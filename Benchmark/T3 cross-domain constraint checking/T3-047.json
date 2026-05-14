@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-047",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore (P-013) on academic warning. Given my AW unit restrictions, can I realistically still graduate in 4 years (Spring 2028)?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-013 has completed limited IS requirements (67-100, 67-250, 67-262, 15-121, 21-127, etc.) \u2014 still needs 67-272, 67-373, concentration courses, electives",
+    "schedules": "67-272 offered Spring 2026 \u2713; 67-373 offered Spring 2026 \u2713 (but not yet eligible); future semesters need planning",
+    "policies": "AW: no overload, so each semester limited to ~45 units. If AW persists multiple semesters, fewer courses per semester, potentially delaying graduation"
+  },
+  "key_facts": [
+    "P-013 has ~2.5 years remaining to Spring 2028 target (sophomore now)",
+    "AW limits each semester to ~3-4 standard courses",
+    "P-013 needs: 67-272 (Spring 2026), then 67-373 (earliest: semester after 67-272), plus IS concentration and electives",
+    "If AW is resolved this semester, P-013 can resume normal or overloaded semesters",
+    "4-year graduation is feasible if AW is resolved promptly and course sequence is optimized",
+    "If AW persists through multiple semesters, graduation may slip by 1 semester"
+  ],
+  "wrong_if_single_domain": "Knowing program requirements lists many remaining courses but cannot account for the per-semester unit cap imposed by AW. Knowing only the policy gives the unit cap but cannot project how many semesters the remaining program requires.",
+  "common_mistake": "Assuming AW permanently derails graduation; or conversely, assuming 4-year graduation is straightforward without accounting for the per-semester load cap",
+  "reasoning_chain": [
+    "Step 1 (programs): Count remaining IS requirements \u2014 likely 15+ courses remaining",
+    "Step 2 (policies): AW cap = ~3-4 courses/semester; ~5 semesters remaining to Spring 2028",
+    "Step 3 (schedules): Verify key IS courses (67-272, 67-373) are offered in the right semesters",
+    "Conclusion: 4-year graduation is feasible if AW is resolved within 1-2 semesters; risky if AW continues through junior year"
+  ]
+}

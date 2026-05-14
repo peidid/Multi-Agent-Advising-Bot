@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-019",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "What is the full name of course 15-112?",
+  "answer": "Fundamentals of Programming and Computer Science",
+  "source_file": "data/courses/15-112.json",
+  "source_field": "name",
+  "domain": "courses",
+  "verification_note": "name field in course JSON"
+}

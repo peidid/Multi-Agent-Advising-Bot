@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-B06",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-063",
+  "persona_summary": "BIO Junior, BA minor, 33 courses, Good standing",
+  "variation": "Minor requires prereqs student hasn't started",
+  "question": "I want to finish my BA minor but I haven't taken some of the prerequisite business courses yet. Can you plan how to fit the remaining prereqs and minor courses into my schedule?",
+  "what_makes_this_hard": "BA minor prereqs create an internal chain within the minor. System must sequence prereqs before upper-level minor courses, all while maintaining Bio major progress.",
+  "needs_verification": [
+    "BA minor prerequisite chain",
+    "Which BA minor prereqs P-063 has completed",
+    "Remaining BIO requirements",
+    "Whether prereq chain fits in remaining semesters"
+  ]
+}

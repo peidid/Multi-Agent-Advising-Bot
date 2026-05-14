@@ -1,0 +1,91 @@
+{
+  "persona_id": "P-011",
+  "source_student_id": "student405",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [],
+    "minors": [],
+    "level": "first-year",
+    "entry_year": "Fall 2025",
+    "program_full": "BS in Information Systems (No concentrations)",
+    "narrative": {
+      "background_notes": "Just started, exploring whether to choose Data Science or Information Security concentration.",
+      "goals": "Declare concentration by end of first year; considering a CS minor",
+      "concerns": "Uncertain which concentration aligns with career goals in tech"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 15,
+    "semesters_completed": [
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2025": [
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        },
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "73-012",
+          "course_name": "AP ECONOMICS:MICRO"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        },
+        {
+          "course_code": "73-011",
+          "course_name": "AP ECONOMICS"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "19-422",
+          "course_name": "Energy Systems in Transformation: Markets, Policy, and Change"
+        },
+        {
+          "course_code": "17-493",
+          "course_name": "Hands-on Negotiations for Technology Leaders"
+        },
+        {
+          "course_code": "80-210",
+          "course_name": "Logic and Proofs"
+        },
+        {
+          "course_code": "67-100",
+          "course_name": "Information Systems First Year Colloquium"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

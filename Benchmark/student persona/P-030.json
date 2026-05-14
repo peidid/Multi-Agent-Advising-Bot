@@ -1,0 +1,244 @@
+{
+  "persona_id": "P-030",
+  "source_student_id": "student113",
+  "demographic": {
+    "major": "Business Administration",
+    "concentrations": [
+      "Entrepreneurship"
+    ],
+    "minors": [
+      "Media and Politics"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2023",
+    "program_full": "BS in Business Administration (Entrepreneurship)|Minor in Media and Politics (No concentrations)",
+    "narrative": {
+      "background_notes": "Entrepreneurship concentration with Media & Politics minor. Active in campus media organizations.",
+      "goals": "Launch a media startup; complete all requirements for graduation",
+      "concerns": "Entrepreneurship concentration has fewer course options; worried about availability"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 47,
+    "semesters_completed": [
+      "Fall 2022",
+      "Spring 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Fall 2022": [
+        {
+          "course_code": "54-001",
+          "course_name": "54-001"
+        },
+        {
+          "course_code": "76-472",
+          "course_name": "Topics in Journalism: Storytelling in a Digital Age"
+        },
+        {
+          "course_code": "76-239",
+          "course_name": "Introduction to Film Studies"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "QN-202",
+          "course_name": "Media and Society"
+        },
+        {
+          "course_code": "76-241",
+          "course_name": "Introduction to Gender Studies"
+        },
+        {
+          "course_code": "54-401",
+          "course_name": "Through the Lens : Storytelling with the Camera"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "82-141",
+          "course_name": "Elementary Spanish I"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "70-106",
+          "course_name": "Business Science"
+        },
+        {
+          "course_code": "70-110",
+          "course_name": "Business Computing"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "21-111",
+          "course_name": "Differential Calculus"
+        },
+        {
+          "course_code": "70-104",
+          "course_name": "Business Leadership Endeavor I"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "70-207",
+          "course_name": "Probability and Statistics for Business Applications"
+        },
+        {
+          "course_code": "70-245",
+          "course_name": "Innovation & Entrepreneurial Mindset"
+        },
+        {
+          "course_code": "82-277",
+          "course_name": "Tutoring for Community Outreach"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "99-520",
+          "course_name": "Collaborative Research through Projects"
+        },
+        {
+          "course_code": "21-112",
+          "course_name": "Integral Calculus"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "70-332",
+          "course_name": "Business, Society and Ethics"
+        },
+        {
+          "course_code": "21-256",
+          "course_name": "Multivariate Analysis"
+        },
+        {
+          "course_code": "70-443",
+          "course_name": "Digital Marketing and Social Media Strategy"
+        },
+        {
+          "course_code": "70-208",
+          "course_name": "Regression Analysis"
+        },
+        {
+          "course_code": "70-433",
+          "course_name": "Leading Innovation"
+        },
+        {
+          "course_code": "51-207",
+          "course_name": "Creative Thinking with AI"
+        },
+        {
+          "course_code": "70-340",
+          "course_name": "Business Communications"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "QN-390",
+          "course_name": "Special Topics: Conflict Reporting Literacy"
+        },
+        {
+          "course_code": "51-150",
+          "course_name": "Personal Design Futures"
+        },
+        {
+          "course_code": "70-311",
+          "course_name": "Organizational Behavior"
+        },
+        {
+          "course_code": "69-134",
+          "course_name": "Beginning Golf"
+        },
+        {
+          "course_code": "76-373",
+          "course_name": "Argument"
+        },
+        {
+          "course_code": "70-257",
+          "course_name": "Optimization for Business"
+        },
+        {
+          "course_code": "70-371",
+          "course_name": "Operations Management"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "85-251",
+          "course_name": "Personality"
+        },
+        {
+          "course_code": "99-270",
+          "course_name": "Summer Undergraduate Research Apprenticeship"
+        },
+        {
+          "course_code": "82-144",
+          "course_name": "Elementary Spanish II Online"
+        },
+        {
+          "course_code": "76-260",
+          "course_name": "Introduction to Writing Fiction"
+        },
+        {
+          "course_code": "51-368",
+          "course_name": "Moving Pictures"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "73-103",
+          "course_name": "Principles of Macroeconomics"
+        },
+        {
+          "course_code": "70-437",
+          "course_name": "Strategic Management and Innovation"
+        },
+        {
+          "course_code": "84-215",
+          "course_name": "Tomorrow's Professionals"
+        },
+        {
+          "course_code": "70-391",
+          "course_name": "Finance"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        },
+        {
+          "course_code": "70-409",
+          "course_name": "Innovation and Entrepreneurship in Emerging Markets"
+        },
+        {
+          "course_code": "70-415",
+          "course_name": "Introduction to Entrepreneurship"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

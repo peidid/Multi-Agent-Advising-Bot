@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A05",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-037",
+  "persona_summary": "BIO Senior, no concentration, no minor, 53 courses, Good standing",
+  "variation": "Summer option available",
+  "question": "I want to graduate by Spring 2026 but I'm worried I have too many courses left. Would it help to take summer courses? Can you plan it out with and without summer?",
+  "what_makes_this_hard": "System should present two plans \u2014 one with summer, one without \u2014 and explain the tradeoff. Tests whether system considers summer as a planning option.",
+  "needs_verification": [
+    "Remaining BIO degree requirements for P-037",
+    "Summer course offerings and any summer unit limits",
+    "Whether graduation is feasible without summer",
+    "Pre-med requirement coverage if applicable"
+  ]
+}

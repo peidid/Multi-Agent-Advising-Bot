@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-061",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "Does the CS degree require taking Introduction to Computer Systems?",
+  "answer": "Yes \u2014 students must take either 15-213 or 18-213 (Introduction to Computer Systems)",
+  "source_file": "data/programs/Computer Science & AI/cmu_computer_science_degree_requirements.json",
+  "source_field": "requirements.computer_science.introduction_to_computer_systems.choose_one_from",
+  "domain": "programs",
+  "verification_note": "choose_one_from [15-213, 18-213] in CS introduction_to_computer_systems section"
+}

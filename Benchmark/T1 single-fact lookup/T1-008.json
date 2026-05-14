@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-008",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": "P-004",
+  "question": "I'm a CS junior planning my systems electives \u2014 what is 15-451 called?",
+  "answer": "Algorithm Design and Analysis",
+  "source_file": "data/courses/15-451.json",
+  "source_field": "name",
+  "domain": "courses",
+  "verification_note": "name field in course JSON"
+}

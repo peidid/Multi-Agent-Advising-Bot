@@ -1,0 +1,237 @@
+{
+  "persona_id": "P-046",
+  "source_student_id": "student282",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Mathematical Sciences"
+    ],
+    "level": "5th year student",
+    "entry_year": "Fall 2016",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Mathematical Sciences (No concentrations)",
+    "narrative": {
+      "background_notes": "Fifth-year student who entered Fall 2016. Has been at CMU-Q for an extended period. Mathematical Sciences minor.",
+      "goals": "Complete remaining requirements and finally graduate",
+      "concerns": "Degree requirements may have changed significantly since entry year; needs audit of which old courses still count"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 45,
+    "semesters_completed": [
+      "Summer 2016",
+      "Fall 2016",
+      "Spring 2017",
+      "Summer 2017",
+      "Fall 2017",
+      "Spring 2018",
+      "Fall 2018",
+      "Spring 2019",
+      "Fall 2019",
+      "Spring 2020"
+    ],
+    "courses_by_semester": {
+      "Summer 2016": [
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        }
+      ],
+      "Fall 2016": [
+        {
+          "course_code": "15-129",
+          "course_name": "Freshman Immigration II"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "99-104",
+          "course_name": "Carnegie Skills Workshop"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        },
+        {
+          "course_code": "99-410",
+          "course_name": "Internship"
+        }
+      ],
+      "Spring 2017": [
+        {
+          "course_code": "36-217",
+          "course_name": "Probability Theory and Random Processes"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "09-106",
+          "course_name": "Modern Chemistry II"
+        },
+        {
+          "course_code": "09-101",
+          "course_name": "Introduction to Experimental Chemistry"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        }
+      ],
+      "Summer 2017": [
+        {
+          "course_code": "36-226",
+          "course_name": "Introduction to Statistical Inference"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "21-260",
+          "course_name": "Differential Equations"
+        }
+      ],
+      "Fall 2017": [
+        {
+          "course_code": "11-411",
+          "course_name": "Natural Language Processing"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "16-311",
+          "course_name": "Introduction to Robotics"
+        }
+      ],
+      "Spring 2018": [
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "21-355",
+          "course_name": "Principles of Real Analysis I"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        }
+      ],
+      "Fall 2018": [
+        {
+          "course_code": "11-642",
+          "course_name": "Search Engines"
+        },
+        {
+          "course_code": "36-401",
+          "course_name": "Modern Regression"
+        },
+        {
+          "course_code": "21-356",
+          "course_name": "Principles of Real Analysis II"
+        },
+        {
+          "course_code": "10-701",
+          "course_name": "Introduction to Machine Learning"
+        },
+        {
+          "course_code": "15-300",
+          "course_name": "SEE 07-300   Research and Innovation in Computer Science"
+        }
+      ],
+      "Spring 2019": [
+        {
+          "course_code": "15-317",
+          "course_name": "Constructive Logic"
+        },
+        {
+          "course_code": "21-484",
+          "course_name": "Graph Theory"
+        },
+        {
+          "course_code": "11-785",
+          "course_name": "Introduction to Deep Learning"
+        },
+        {
+          "course_code": "15-453",
+          "course_name": "Formal Languages, Automata, and Computability"
+        }
+      ],
+      "Fall 2019": [
+        {
+          "course_code": "07-599",
+          "course_name": "SCS Honors Undergraduate Research Thesis"
+        },
+        {
+          "course_code": "79-104",
+          "course_name": "Global Histories"
+        },
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        }
+      ],
+      "Spring 2020": [
+        {
+          "course_code": "80-249",
+          "course_name": "AI, Society, and Humanity"
+        },
+        {
+          "course_code": "70-332",
+          "course_name": "Business, Society and Ethics"
+        },
+        {
+          "course_code": "15-441",
+          "course_name": "Networking and the Internet"
+        },
+        {
+          "course_code": "62-238",
+          "course_name": "Looking at Shapes"
+        },
+        {
+          "course_code": "85-241",
+          "course_name": "Social Psychology"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Academic warning"
+}

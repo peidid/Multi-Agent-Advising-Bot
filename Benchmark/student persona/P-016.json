@@ -1,0 +1,207 @@
+{
+  "persona_id": "P-016",
+  "source_student_id": "student197",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [
+      "Information Security and Privacy"
+    ],
+    "minors": [],
+    "level": "junior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Information Systems (Information Security and Privacy)",
+    "narrative": {
+      "background_notes": "Information Security and Privacy concentration. Interested in cybersecurity research.",
+      "goals": "Pursue Masters in cybersecurity; wants strong research background",
+      "concerns": "Limited ISP elective offerings at CMU-Q; considering Pittsburgh summer courses"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 39,
+    "semesters_completed": [
+      "Summer 2020",
+      "Fall 2022",
+      "Spring 2023",
+      "Fall 2023",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2020": [
+        {
+          "course_code": "00-011",
+          "course_name": "QSP SAT Preparation 1"
+        },
+        {
+          "course_code": "00-008",
+          "course_name": "QSP Computer Science Project"
+        },
+        {
+          "course_code": "00-006",
+          "course_name": "QSP Mathematics 3 - Algebra II"
+        },
+        {
+          "course_code": "00-002",
+          "course_name": "QSP English 2"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "21-108",
+          "course_name": "Introduction to Mathematical Concepts"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "79-391",
+          "course_name": "Nations and Nationalisms in South Asia"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "15-390",
+          "course_name": "Entrepreneurship for Computer Science"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "85-370",
+          "course_name": "Cognitive Neuropsychology Research Methods"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "98-060",
+          "course_name": "Student Taught Courses (StuCo): A Beginners\u00bf Guide to Chinese"
+        },
+        {
+          "course_code": "51-207",
+          "course_name": "Creative Thinking with AI"
+        },
+        {
+          "course_code": "17-313",
+          "course_name": "Foundations of Software Engineering"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "67-223",
+          "course_name": "Digital Trace and Identity"
+        },
+        {
+          "course_code": "70-381",
+          "course_name": "Marketing I"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "85-211",
+          "course_name": "Cognitive Psychology"
+        },
+        {
+          "course_code": "76-373",
+          "course_name": "Argument"
+        },
+        {
+          "course_code": "98-027",
+          "course_name": "Student Taught Courses (StuCo): Navigating the Gen Z Mindset"
+        },
+        {
+          "course_code": "80-130",
+          "course_name": "Introduction to Ethics"
+        },
+        {
+          "course_code": "67-250",
+          "course_name": "The Information Systems Milieux"
+        },
+        {
+          "course_code": "17-334",
+          "course_name": "Usable Privacy and Security"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "99-520",
+          "course_name": "Collaborative Research through Projects"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "67-382",
+          "course_name": "Digital Transformation, Strategy and Management"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        },
+        {
+          "course_code": "79-392",
+          "course_name": "Europe and the Islamic World"
+        },
+        {
+          "course_code": "67-262",
+          "course_name": "Database Design and Development"
+        },
+        {
+          "course_code": "67-380",
+          "course_name": "Information Systems Security"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

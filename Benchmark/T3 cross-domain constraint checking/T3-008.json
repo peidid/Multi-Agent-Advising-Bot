@@ -1,0 +1,32 @@
+{
+  "query_id": "T3-008",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-007",
+  "question": "I'm a CS senior (P-007) in my final semester (Spring 2026). I want to take 15-441 (Networking) to complete a CS elective requirement. I also need a BA minor course. Does 15-441 conflict with 70-311 (Organizational Behavior) in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "courses": "P-007 has 15-213 (Fall 2023) \u2014 satisfies 15-441 prereq \u2713; P-007 already completed 70-311 in Fall 2024 \u2014 taking it again would be redundant",
+    "schedules": "15-441 Sec1: Mon/Wed 08:30-09:45; 70-311 Spring 2026 schedule needs verification for conflict check"
+  },
+  "key_facts": [
+    "P-007 completed 15-213 in Fall 2023 \u2713 \u2014 eligible for 15-441",
+    "P-007 already completed 70-311 in Fall 2024 \u2014 this specific course is already done",
+    "15-441 is offered Spring 2026 (Sec1 Mon/Wed 08:30-09:45, SecW Thu 10:00-10:50)",
+    "70-311 appears in Spring 2026 schedule \u2713",
+    "P-007 should identify a remaining BA minor course not yet completed rather than 70-311"
+  ],
+  "wrong_if_single_domain": "Checking only the schedule for conflict between 15-441 and 70-311 misses that P-007 has already completed 70-311 and does not need to retake it. Checking only course history misses whether 15-441 is offered Spring 2026.",
+  "common_mistake": "Recommending 70-311 without checking whether P-007 already completed it; not cross-checking the BA minor course history against the Spring 2026 schedule",
+  "reasoning_chain": [
+    "Step 1: 15-441 prereq \u2192 15-213 \u2713 (Fall 2023)",
+    "Step 2: Check Spring 2026 schedule \u2192 15-441 offered \u2713",
+    "Step 3: Check P-007's history \u2192 70-311 already completed Fall 2024 \u2192 not useful to retake",
+    "Step 4: Identify an uncompleted BA minor course in Spring 2026 schedule",
+    "Conclusion: P-007 can take 15-441; needs to select a different, uncompleted BA minor course for Spring 2026"
+  ]
+}

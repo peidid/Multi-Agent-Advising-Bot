@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-030",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": null,
+  "question": "What is the prerequisite for 17-313?",
+  "answer": "15-122 or 15-121, with at least a D grade",
+  "source_file": "data/courses/17-313.json",
+  "source_field": "prereqs.text",
+  "domain": "courses",
+  "verification_note": "prereqs.text in course JSON"
+}

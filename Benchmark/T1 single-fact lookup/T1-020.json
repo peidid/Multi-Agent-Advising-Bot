@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-020",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "How many units does 67-100 carry?",
+  "answer": "1 unit",
+  "source_file": "data/courses/67-100.json",
+  "source_field": "units",
+  "domain": "courses",
+  "verification_note": "units field is 1.0 in course JSON"
+}

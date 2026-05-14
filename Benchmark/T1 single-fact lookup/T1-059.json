@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-059",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "How many total units does the BS in Computer Science require?",
+  "answer": "360 units",
+  "source_file": "data/programs/Computer Science & AI/cmu_computer_science_degree_requirements.json",
+  "source_field": "program_requirements.total_units_required",
+  "domain": "programs",
+  "verification_note": "total_units_required: 360 in CS degree requirements JSON"
+}

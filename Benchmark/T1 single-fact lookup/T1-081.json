@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-081",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "What is the maximum number of additional units a student can overload with only their academic advisor's approval?",
+  "answer": "Up to 12 additional units above the normal course load",
+  "source_file": "data/policies/registration/Course_Overload_-_The_HUB_-_Division_of_Enrollment_Management_-_Carnegie_Mellon_University.md",
+  "source_field": "Course Overload section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'Students may register for an overload of up to 12 units with the approval of their academic advisor'"
+}

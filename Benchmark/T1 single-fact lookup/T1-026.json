@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-026",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": null,
+  "question": "What do I need before taking 15-150?",
+  "answer": "(21-127, 21-128, or 15-151, at least C) and 15-112 (at least C)",
+  "source_file": "data/courses/15-150.json",
+  "source_field": "prereqs.text",
+  "domain": "courses",
+  "verification_note": "prereqs.text in course JSON"
+}

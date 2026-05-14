@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-087",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "Do pass/fail (P or N) grades factor into a student's QPA?",
+  "answer": "No \u2014 P and N units are not factored into the student's QPA",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Pass/Fail Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'No quality points will be assigned to P or N units; P or N units will not be factored into the student's QPA'"
+}

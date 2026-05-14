@@ -1,0 +1,246 @@
+{
+  "persona_id": "P-020",
+  "source_student_id": "student276",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [
+      "Information Security and Privacy"
+    ],
+    "minors": [
+      "History"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Information Systems (Information Security and Privacy)|Minor in History (No concentrations)",
+    "narrative": {
+      "background_notes": "ISP concentration with History minor. Interested in policy aspects of cybersecurity.",
+      "goals": "Work in tech policy or government cybersecurity",
+      "concerns": "History minor courses competing for schedule slots with ISP electives"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 46,
+    "semesters_completed": [
+      "Summer 2021",
+      "Fall 2022",
+      "Spring 2023",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2021": [
+        {
+          "course_code": "00-006",
+          "course_name": "QSP Mathematics 3 - Algebra II"
+        },
+        {
+          "course_code": "00-013",
+          "course_name": "QSP SAT Preparation 3"
+        },
+        {
+          "course_code": "00-002",
+          "course_name": "QSP English 2"
+        },
+        {
+          "course_code": "00-007",
+          "course_name": "QSP Business Project"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "21-108",
+          "course_name": "Introduction to Mathematical Concepts"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "66-181",
+          "course_name": "Grand Challenge Seminar"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "82-103",
+          "course_name": "Elementary French I Online"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "67-357",
+          "course_name": "Healthcare Analytics and Big Data"
+        },
+        {
+          "course_code": "85-102",
+          "course_name": "Introduction to Psychology"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "15-121",
+          "course_name": "Introduction to Data Structures"
+        },
+        {
+          "course_code": "67-262",
+          "course_name": "Database Design and Development"
+        },
+        {
+          "course_code": "80-210",
+          "course_name": "Logic and Proofs"
+        },
+        {
+          "course_code": "33-115",
+          "course_name": "Physics for Future Presidents"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "82-104",
+          "course_name": "Elementary French II Online"
+        },
+        {
+          "course_code": "79-393",
+          "course_name": "Institutions of the Roman Church"
+        },
+        {
+          "course_code": "67-380",
+          "course_name": "Information Systems Security"
+        },
+        {
+          "course_code": "67-250",
+          "course_name": "The Information Systems Milieux"
+        },
+        {
+          "course_code": "05-897",
+          "course_name": "Special Topics in HCI"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "79-366",
+          "course_name": "Power & Politics: A Global History of Food"
+        },
+        {
+          "course_code": "85-241",
+          "course_name": "Social Psychology"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "99-265",
+          "course_name": "CMUQ ADDvocate: Anti-Discrimination Dialogue"
+        },
+        {
+          "course_code": "67-382",
+          "course_name": "Digital Transformation, Strategy and Management"
+        },
+        {
+          "course_code": "79-284",
+          "course_name": "Muslim Representation in the Media and Popular Culture"
+        },
+        {
+          "course_code": "67-223",
+          "course_name": "Digital Trace and Identity"
+        },
+        {
+          "course_code": "17-313",
+          "course_name": "Foundations of Software Engineering"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "21-150",
+          "course_name": "Mathematics and the Arts"
+        },
+        {
+          "course_code": "67-272",
+          "course_name": "Application Design and Development"
+        },
+        {
+          "course_code": "79-378",
+          "course_name": "Gender in South Asia"
+        },
+        {
+          "course_code": "79-104",
+          "course_name": "Global Histories"
+        },
+        {
+          "course_code": "17-334",
+          "course_name": "Usable Privacy and Security"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "79-297",
+          "course_name": "Technology and Work"
+        },
+        {
+          "course_code": "79-234",
+          "course_name": "Technology and Society"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "67-443",
+          "course_name": "Mobile Application Design and Development"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        },
+        {
+          "course_code": "79-491",
+          "course_name": "Independent Study"
+        },
+        {
+          "course_code": "76-459",
+          "course_name": "Transnational Feminisms"
+        },
+        {
+          "course_code": "82-110",
+          "course_name": "Arabic Calligraphy: Crafting Letters, Bridging People Then and Now"
+        },
+        {
+          "course_code": "51-215",
+          "course_name": "Making Short Films"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

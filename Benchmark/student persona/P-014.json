@@ -1,0 +1,149 @@
+{
+  "persona_id": "P-014",
+  "source_student_id": "student478",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [
+      "Data Science"
+    ],
+    "minors": [
+      "Business Administration"
+    ],
+    "level": "sophomore",
+    "entry_year": "Fall 2024",
+    "program_full": "BS in Information Systems (Data Science)|Minor in Business Administration (No concentrations)",
+    "narrative": {
+      "background_notes": "Data Science concentration with BA minor. Interested in data-driven business strategy.",
+      "goals": "Pursue a career in management consulting or data analytics",
+      "concerns": "BA minor requirements overlapping with free elective slots; tight schedule"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 27,
+    "semesters_completed": [
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Fall 2024": [
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "80-210",
+          "course_name": "Logic and Proofs"
+        },
+        {
+          "course_code": "67-100",
+          "course_name": "Information Systems First Year Colloquium"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "79-104",
+          "course_name": "Global Histories"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "85-211",
+          "course_name": "Cognitive Psychology"
+        },
+        {
+          "course_code": "67-250",
+          "course_name": "The Information Systems Milieux"
+        },
+        {
+          "course_code": "98-029",
+          "course_name": "Student Taught Courses (StuCo): Sports Analytics in a Nutshell"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "66-182",
+          "course_name": "Grand Challenges Seminar: Preserving History with Blockchain Technology"
+        },
+        {
+          "course_code": "99-408",
+          "course_name": "Get Career Ready: Unlocking Pathways to Success"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "05-897",
+          "course_name": "Special Topics in HCI"
+        },
+        {
+          "course_code": "36-202",
+          "course_name": "Methods for Statistics & Data Science"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "70-381",
+          "course_name": "Marketing I"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "82-283",
+          "course_name": "Language Diversity & Cultural Identity"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "QG-275",
+          "course_name": "Topics: Palestinian Migration & Diaspora Formation Before 1948"
+        },
+        {
+          "course_code": "33-124",
+          "course_name": "Introduction to Astronomy"
+        },
+        {
+          "course_code": "66-236",
+          "course_name": "Introduction to Environmental Ideas"
+        },
+        {
+          "course_code": "67-262",
+          "course_name": "Database Design and Development"
+        },
+        {
+          "course_code": "15-121",
+          "course_name": "Introduction to Data Structures"
+        },
+        {
+          "course_code": "67-341",
+          "course_name": "Generative AI & Governance: Building Responsible Systems"
+        },
+        {
+          "course_code": "73-265",
+          "course_name": "Economics and Data Science"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

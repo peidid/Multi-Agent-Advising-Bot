@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-064",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What are the three required core courses in the CS minor (aside from the 15-213 or 15-251 option)?",
+  "answer": "15-122 (Principles of Imperative Computation), 15-150 (Principles of Functional Programming), and 15-210 (Parallel and Sequential Data Structures and Algorithms)",
+  "source_file": "data/programs/Minors/cmu_minor_computer_science.json",
+  "source_field": "program_requirements.requirements.computer_science_core.required_courses",
+  "domain": "programs",
+  "verification_note": "required_courses in CS minor computer_science_core section"
+}

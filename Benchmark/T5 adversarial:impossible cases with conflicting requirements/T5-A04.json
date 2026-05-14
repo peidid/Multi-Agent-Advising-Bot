@@ -1,0 +1,32 @@
+{
+  "query_id": "T5-A04",
+  "tier": "T5",
+  "pattern": "A",
+  "pattern_name": "Impossible Timeline",
+  "persona_id": "P-052",
+  "persona_summary": "IS 5th-year, no concentration, no minor, entered Summer 2016, 47 courses, Good standing",
+  "question": "I've been enrolled since 2016 and I still don't have a concentration. I want to declare Data Science and graduate by Spring 2026. What's my plan?",
+  "false_assumption_or_hidden_conflict": "Declaring Data Science concentration this late means the student likely hasn't completed DS-specific prerequisites. The DS prereq chain plus remaining core IS requirements may not fit in the remaining time. Additionally, IS program requirements have likely changed since 2016 \u2014 some completed courses may no longer count.",
+  "naive_system_response": "A naive system would accept the DS declaration and build a plan from the current DS requirements without checking whether courses taken years ago still count, or whether the DS prereq chain fits in the remaining timeline.",
+  "correct_response": "Declaring Data Science at this point is risky. You need [X] DS-specific courses with a prerequisite chain requiring at least [N] semesters. Given your remaining time, this may not be feasible. Also, since you entered in 2016, we need to audit which of your 47 courses still satisfy current IS requirements \u2014 some may have changed. I recommend: (1) meet with an advisor for an official degree audit, (2) consider whether completing IS without a concentration (if permitted) is faster, (3) if you must have a concentration, check which one you're closest to based on courses already taken.",
+  "domains_required": [
+    "programs",
+    "courses",
+    "schedules",
+    "policies"
+  ],
+  "why_multi_agent_helps": "The Programs Agent would flag that the DS concentration requires specific courses the student hasn't taken. The Courses Agent would trace the prereq chain and calculate minimum semesters. The Policy Agent would raise catalog year concerns for a student enrolled since 2016. A single agent might simply build a plan from current DS requirements without raising these structural issues.",
+  "key_facts": [
+    "P-052 entered Summer 2016 \u2014 10 years of enrollment",
+    "No concentration declared despite 47 courses",
+    "DS concentration has specific prerequisites with chain dependencies",
+    "IS requirements have likely changed since 2016"
+  ],
+  "known_traps": [
+    "Building a plan without auditing old courses against current requirements",
+    "Ignoring catalog year issues for a student enrolled since 2016",
+    "Not calculating whether DS prereq chain fits in remaining time",
+    "Not suggesting the student check which concentration requires fewest new courses"
+  ],
+  "advisor_validation_needed": "Verify: (1) current DS concentration requirements, (2) which of P-052's courses satisfy current IS requirements, (3) catalog year policy for long-enrolled students, (4) whether DS is genuinely infeasible or merely tight, (5) which concentration P-052 is closest to"
+}

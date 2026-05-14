@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C01",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-013",
+  "persona_summary": "IS Sophomore, no concentration, Academic warning, 25 courses",
+  "variation": "Academic warning recovery plan",
+  "question": "I'm on academic warning and I haven't even picked a concentration yet. I still want to graduate in 4 years. Can you help me plan a recovery path that stays within my unit limits?",
+  "what_makes_this_hard": "Triple constraint \u2014 unit cap from warning, need to declare concentration, and 4-year graduation target. May not all be simultaneously satisfiable.",
+  "needs_verification": [
+    "Academic warning unit cap",
+    "IS concentration options and their requirements",
+    "Which concentration P-013 is closest to based on courses taken",
+    "Whether 4-year graduation is feasible under unit cap"
+  ]
+}

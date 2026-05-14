@@ -1,0 +1,268 @@
+{
+  "persona_id": "P-019",
+  "source_student_id": "student132",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [
+      "Applied Informatics"
+    ],
+    "minors": [],
+    "level": "5th year student",
+    "entry_year": "Fall 2019",
+    "program_full": "BS in Information Systems (Applied Informatics)",
+    "narrative": {
+      "background_notes": "Fifth-year student in Applied Informatics (rare concentration). Entered Fall 2019, had interruptions.",
+      "goals": "Finally complete degree this year",
+      "concerns": "Some courses taken years ago may have changed; need to verify old courses still count toward current requirements"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 52,
+    "semesters_completed": [
+      "Fall 2019",
+      "Spring 2020",
+      "Fall 2020",
+      "Spring 2021",
+      "Summer 2021",
+      "Fall 2021",
+      "Spring 2022",
+      "Fall 2022",
+      "Spring 2023",
+      "Fall 2023",
+      "Spring 2024"
+    ],
+    "courses_by_semester": {
+      "Fall 2019": [
+        {
+          "course_code": "70-246",
+          "course_name": "Innovation & Entrepreneurial Mindset"
+        },
+        {
+          "course_code": "57-338",
+          "course_name": "Sound Editing and Mastering"
+        },
+        {
+          "course_code": "57-570",
+          "course_name": "Music and Technology Seminar"
+        },
+        {
+          "course_code": "57-337",
+          "course_name": "Sound Recording"
+        },
+        {
+          "course_code": "57-149",
+          "course_name": "Basic Harmony I"
+        },
+        {
+          "course_code": "57-189",
+          "course_name": "Introduction to Repertoire and Listening for Musicians"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "57-171",
+          "course_name": "Introduction to Music Technology (Self-Paced)"
+        }
+      ],
+      "Spring 2020": [
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "05-392",
+          "course_name": "Interaction Design Overview"
+        },
+        {
+          "course_code": "57-098",
+          "course_name": "Inside the Music & Video Technology Industry"
+        },
+        {
+          "course_code": "82-115",
+          "course_name": "Beginning Arabic for Oral Communication"
+        },
+        {
+          "course_code": "57-570",
+          "course_name": "Music and Technology Seminar"
+        },
+        {
+          "course_code": "57-438",
+          "course_name": "Multitrack Recording"
+        }
+      ],
+      "Fall 2020": [
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "67-102",
+          "course_name": "Concepts of Information Systems"
+        }
+      ],
+      "Spring 2021": [
+        {
+          "course_code": "67-250",
+          "course_name": "The Information Systems Milieux"
+        },
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "21-111",
+          "course_name": "Differential Calculus"
+        }
+      ],
+      "Summer 2021": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        }
+      ],
+      "Fall 2021": [
+        {
+          "course_code": "67-262",
+          "course_name": "Database Design and Development"
+        },
+        {
+          "course_code": "70-306",
+          "course_name": "Introduction to Product Management"
+        },
+        {
+          "course_code": "85-221",
+          "course_name": "Principles of Child Development"
+        },
+        {
+          "course_code": "15-121",
+          "course_name": "Introduction to Data Structures"
+        },
+        {
+          "course_code": "67-352",
+          "course_name": "Electronic Business and Design Thinking"
+        },
+        {
+          "course_code": "67-212",
+          "course_name": "Natural Language Processing with Python"
+        }
+      ],
+      "Spring 2022": [
+        {
+          "course_code": "33-124",
+          "course_name": "Introduction to Astronomy"
+        },
+        {
+          "course_code": "79-104",
+          "course_name": "Global Histories"
+        },
+        {
+          "course_code": "67-382",
+          "course_name": "Digital Transformation, Strategy and Management"
+        },
+        {
+          "course_code": "70-311",
+          "course_name": "Organizational Behavior"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "67-262",
+          "course_name": "Database Design and Development"
+        },
+        {
+          "course_code": "67-354",
+          "course_name": "Sustainability in the Digital Age"
+        },
+        {
+          "course_code": "36-202",
+          "course_name": "Methods for Statistics & Data Science"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "67-329",
+          "course_name": "Contemporary Themes in Global Systems"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "51-215",
+          "course_name": "Making Short Films"
+        },
+        {
+          "course_code": "67-313",
+          "course_name": "Digital Risk Management and Auditing"
+        },
+        {
+          "course_code": "70-344",
+          "course_name": "Internet Ethics"
+        },
+        {
+          "course_code": "21-112",
+          "course_name": "Integral Calculus"
+        },
+        {
+          "course_code": "67-272",
+          "course_name": "Application Design and Development"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "70-440",
+          "course_name": "Corporate Strategy"
+        },
+        {
+          "course_code": "79-392",
+          "course_name": "Europe and the Islamic World"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        },
+        {
+          "course_code": "70-395",
+          "course_name": "Funding Entrepreneurial Ventures"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "67-235",
+          "course_name": "Puzzles, Games, and Problem Solving"
+        },
+        {
+          "course_code": "70-387",
+          "course_name": "Strategy for High-Tech Products and Services"
+        },
+        {
+          "course_code": "70-374",
+          "course_name": "Data Mining & Business Analytics"
+        },
+        {
+          "course_code": "67-272",
+          "course_name": "Application Design and Development"
+        },
+        {
+          "course_code": "14-315",
+          "course_name": "Innovation in Building AI-Products"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-089",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "Does a course withdrawal appear on the official academic transcript?",
+  "answer": "Yes \u2014 a W (withdrawal) grade is assigned and appears on the student's academic record",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Drop/Withdrawal Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'a W (withdrawal) grade is assigned and appears on the student's academic record'"
+}

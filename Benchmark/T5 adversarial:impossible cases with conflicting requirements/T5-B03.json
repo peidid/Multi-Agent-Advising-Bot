@@ -1,0 +1,28 @@
+{
+  "query_id": "T5-B03",
+  "tier": "T5",
+  "pattern": "B",
+  "pattern_name": "Hidden Prerequisite Violation",
+  "persona_id": "P-024",
+  "persona_summary": "BA Sophomore, Strategic Management, Tech Entrepreneurship minor, 31 courses, Good standing",
+  "question": "I'm interested in taking a data analytics course from the IS department to strengthen my Tech Entrepreneurship minor. Can I just sign up?",
+  "false_assumption_or_hidden_conflict": "IS department courses often have IS-specific prerequisites (e.g., an intro IS course or specific programming course) that BA students haven't taken. The student assumes cross-department enrollment is straightforward, but prerequisite barriers may exist. Additionally, some courses may be restricted to IS majors.",
+  "naive_system_response": "A naive system might check if the course is offered and confirm availability without checking whether BA students can take IS courses or whether IS-specific prerequisites are satisfied.",
+  "correct_response": "The data analytics course [XX-XXX] has prerequisites: [specific IS courses]. As a BA student, you likely haven't taken [prerequisite course]. Additionally, check whether this course has a major restriction \u2014 some IS courses are reserved for IS students or require department permission. You would need to: (1) complete the prerequisite first, and (2) confirm enrollment eligibility for non-IS students.",
+  "domains_required": [
+    "courses",
+    "policies"
+  ],
+  "why_multi_agent_helps": "The Courses Agent checks prerequisites. The Policy Agent checks enrollment restrictions by major. Together they catch both the prereq gap and the potential major restriction \u2014 a single agent might check one but not the other.",
+  "key_facts": [
+    "IS courses may have IS-specific prerequisites BA students lack",
+    "Some courses have major/department enrollment restrictions",
+    "Cross-department enrollment often has hidden barriers"
+  ],
+  "known_traps": [
+    "Confirming a course exists without checking prerequisites for this specific student's background",
+    "Not checking major-restriction policies on the course",
+    "Assuming cross-department enrollment works the same as within-department"
+  ],
+  "advisor_validation_needed": "Verify: (1) which data analytics courses exist in IS department, (2) their prerequisites, (3) whether P-024 has those prereqs, (4) any major restriction policies"
+}

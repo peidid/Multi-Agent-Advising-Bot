@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-D03",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-005",
+  "persona_summary": "CS Junior, Math minor, 33 courses, Good standing",
+  "variation": "Wants to enable a specific advanced course",
+  "question": "I really want to take the advanced algorithms course before I graduate. What prerequisites do I need, and can you build them into my plan as electives?",
+  "what_makes_this_hard": "Student has a target course. System must trace backwards through its prereq chain and fit the chain into the plan as electives.",
+  "needs_verification": [
+    "Which 'advanced algorithms' course exists at CMU-Q",
+    "Its full prerequisite chain",
+    "Which prereqs P-005 has completed",
+    "Whether the chain fits in remaining semesters"
+  ]
+}

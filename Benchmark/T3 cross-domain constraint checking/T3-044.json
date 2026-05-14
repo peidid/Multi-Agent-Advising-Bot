@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-044",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-010",
+  "question": "I'm a CS 5th-year student (P-010) with a Tech Entrepreneurship minor. My Fall 2025 enrollment was just 15-348 and Table Tennis. Can I realistically complete all remaining requirements and graduate in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-010 has completed most CS milestones; TE minor courses largely completed (95-401, 15-390, 70-381, 70-311, 67-474). Remaining: 15-441, 15-316, and any missing TE minor courses",
+    "schedules": "15-441 \u2713 Spring 2026; 15-316 \u2713 Spring 2026; TE minor courses 67-474 NOT in Spring 2026",
+    "policies": "P-010 in good standing \u2014 can take normal or approved overload load"
+  },
+  "key_facts": [
+    "P-010 Fall 2025: only 15-348 (Embedded Systems) and Table Tennis \u2014 very light load",
+    "P-010 CS missing: 15-441 (Networking); other electives may also be pending",
+    "P-010 TE minor: 67-474 (Tech Startup Launchpad) taken Spring 2025 \u2014 TE minor may be complete",
+    "15-441 and 15-316 both offered Spring 2026 \u2713",
+    "P-010 in good standing \u2014 can take 3-4 courses without issue",
+    "Graduation in Spring 2026 is feasible if remaining requirements fit within 3-4 Spring 2026 courses"
+  ],
+  "wrong_if_single_domain": "Knowing program requirements identifies remaining courses. Knowing only the schedule shows what Spring 2026 offers. Only combining reveals which remaining requirements can be satisfied in Spring 2026.",
+  "common_mistake": "Overlooking the light Fall 2025 load and its implications for how many requirements still remain; or assuming all remaining courses are offered Spring 2026",
+  "reasoning_chain": [
+    "Step 1 (programs): Remaining CS requirements \u2014 15-441 and electives; TE minor likely complete",
+    "Step 2 (schedules): 15-441 \u2713, 15-316 \u2713 in Spring 2026",
+    "Step 3 (policies): Good standing \u2192 can take normal load",
+    "Conclusion: Graduation in Spring 2026 is likely feasible \u2014 P-010 needs to take 15-441 and any remaining electives; full audit of remaining CS requirements needed"
+  ]
+}

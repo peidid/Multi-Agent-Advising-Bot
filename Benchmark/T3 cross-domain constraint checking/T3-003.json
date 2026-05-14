@@ -1,0 +1,32 @@
+{
+  "query_id": "T3-003",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-004",
+  "question": "I'm a CS junior (P-004). I've completed 15-213 and want to take 15-441 (Networking) and 15-316 (Software Foundations of Security and Privacy) together in Spring 2026. Is this possible?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "courses": "Check prerequisites for 15-441 (likely 15-213 \u2014 P-004 has it \u2713) and 15-316 (likely 15-122/15-150 \u2014 P-004 has both \u2713)",
+    "schedules": "15-441 Sec1: Mon/Wed 08:30\u201309:45; 15-316 SecW: Sun/Tue 14:30\u201315:45 \u2014 check for conflict"
+  },
+  "key_facts": [
+    "P-004 completed 15-213 in Fall 2024 \u2713",
+    "P-004 completed 15-122 and 15-150 \u2713",
+    "15-441 Section 1 Spring 2026: Mon/Wed 08:30\u201309:45",
+    "15-316 SecW Spring 2026: Sun/Tue 14:30\u201315:45",
+    "No shared days between Mon/Wed and Sun/Tue \u2014 no conflict"
+  ],
+  "wrong_if_single_domain": "Checking only prerequisites confirms eligibility but misses whether both are offered and whether their times clash. Checking only the schedule shows compatible times but cannot determine if P-004 has met the prerequisites.",
+  "common_mistake": "Assuming that taking two upper-level CS courses in the same semester always causes a conflict without verifying the actual schedules",
+  "reasoning_chain": [
+    "Step 1: Check 15-441 prereqs \u2192 15-213 \u2713 (P-004 Fall 2024)",
+    "Step 2: Check 15-316 prereqs \u2192 15-122/15-150 \u2713",
+    "Step 3: Check Spring 2026 offerings \u2192 both offered \u2713",
+    "Step 4: 15-441 Sec1 Mon/Wed 08:30-09:45 vs 15-316 Sun/Tue 14:30-15:45 \u2192 no shared days \u2192 no conflict",
+    "Conclusion: Both can be taken together in Spring 2026"
+  ]
+}

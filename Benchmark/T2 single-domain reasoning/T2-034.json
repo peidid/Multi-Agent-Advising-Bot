@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-034",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": null,
+  "question": "A first-year student wants to add extra courses in their very first semester at CMU-Q to get ahead on requirements. Are they permitted to overload in their first semester?",
+  "expected_answer": "No \u2014 first-year and transfer students are explicitly limited to a normal course load for their first semester of attendance. This restriction applies regardless of academic ability or advisor approval. The overload policy makes this a firm first-semester restriction.",
+  "reasoning_type": "Overload policy \u2014 first-semester restriction",
+  "domain": "policies",
+  "common_mistake": "Assuming the general overload policy (advisor approval sufficient) applies to first-year students in their first semester; not knowing the special first-semester restriction",
+  "needs_verification": [
+    "Confirm the exact policy language: 'First-years and transfer students are limited to a normal course load for their first semester of attendance'",
+    "Confirm what 'normal course load' means in units for first-year students at CMU-Q",
+    "Confirm whether any exception exists (e.g., dean's approval) for first-semester overloads"
+  ]
+}

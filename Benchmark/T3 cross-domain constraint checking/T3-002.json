@@ -1,0 +1,32 @@
+{
+  "query_id": "T3-002",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-003",
+  "question": "I'm a CS sophomore (P-003). I want to take 15-251 (Section W) and 15-288 together in Spring 2026. I have the prerequisites for both. Do they conflict?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "courses": "Verify prerequisites for 15-251 (15-122 C, 21-127 C \u2014 both met by P-003) and 15-288 (special topics, minimal prereqs)",
+    "schedules": "15-251 SecW: Sun/Tue/Thu 11:30\u201312:20; 15-288 SecW: Sun/Tue/Thu 11:30\u201312:45 \u2014 direct time overlap"
+  },
+  "key_facts": [
+    "15-251 SecW Spring 2026: Sun/Tue/Thu 11:30\u201312:20",
+    "15-288 SecW Spring 2026: Sun/Tue/Thu 11:30\u201312:45",
+    "Both start at 11:30 on the same three days \u2014 direct conflict",
+    "P-003 meets prerequisites for both courses",
+    "15-251 Section 2 (Mon/Wed 14:30\u201315:45) would not conflict with 15-288 \u2014 an alternative section exists"
+  ],
+  "wrong_if_single_domain": "Checking only prerequisites confirms P-003 is eligible for both and would incorrectly approve the combination. Only the schedule domain reveals the conflict.",
+  "common_mistake": "Approving both courses after verifying prerequisites without checking that they share the exact same time block on three days per week",
+  "reasoning_chain": [
+    "Step 1: Check 15-251 prereqs \u2192 P-003 eligible \u2713",
+    "Step 2: Check 15-288 prereqs \u2192 P-003 eligible \u2713",
+    "Step 3: Check Spring 2026 schedule \u2192 both offered \u2713",
+    "Step 4: Compare meeting times \u2192 both Sun/Tue/Thu 11:30 \u2192 direct conflict",
+    "Conclusion: Cannot take both in this section combination; P-003 would need 15-251 Section 2 (Mon/Wed 14:30) to avoid the conflict"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-011",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore (P-013) on academic warning. Which of my remaining IS professional core courses can I actually register for in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-013's remaining IS professional core: 67-272 (not yet taken), 67-373 (requires 67-272 first) \u2014 both are required",
+    "schedules": "67-272 is offered Spring 2026 \u2713; 67-373 is offered Spring 2026 \u2713 \u2014 but the programs domain reveals 67-373 is blocked by the 67-272 prerequisite"
+  },
+  "key_facts": [
+    "P-013 has completed: 67-100, 67-250, 67-262 \u2014 three IS core courses done",
+    "P-013 still needs: 67-272 and 67-373 at minimum for IS professional core",
+    "67-272 offered Spring 2026 \u2713 (and P-013 meets its prereqs: 15-121 \u2713, 67-262 \u2713)",
+    "67-373 offered Spring 2026 \u2713 \u2014 but requires 67-272 which P-013 hasn't completed",
+    "Result: P-013 can register for 67-272; 67-373 must wait"
+  ],
+  "wrong_if_single_domain": "Checking only the schedule shows both 67-272 and 67-373 are offered and would suggest both are available. Checking only program requirements lists both as needed but cannot determine which can actually be taken now without the prerequisite chain from the courses domain.",
+  "common_mistake": "Listing all remaining IS core courses as 'available this semester' without checking which ones have unmet prerequisites blocking immediate registration",
+  "reasoning_chain": [
+    "Step 1 (programs): Identify remaining IS core \u2014 67-272 and 67-373",
+    "Step 2 (schedules): Both offered Spring 2026",
+    "Step 3 (courses): 67-272 prereqs met \u2713; 67-373 prereq (67-272) NOT met \u2717",
+    "Conclusion: Only 67-272 is registerable in Spring 2026"
+  ]
+}

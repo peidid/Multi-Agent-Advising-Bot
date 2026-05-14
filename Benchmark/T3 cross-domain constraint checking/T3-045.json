@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-045",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-019",
+  "question": "I'm an IS 5th-year student (P-019) in the Applied Informatics concentration. My last semester was Spring 2024. Is it feasible to complete my remaining requirements and graduate in Spring 2026 (returning after a gap)?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-019 has 52 courses completed; remaining Applied Informatics requirements need auditing; old courses may have changed equivalences",
+    "schedules": "Spring 2026 IS course offerings: 67-272, 67-301, 67-352, 67-357, 67-364, 67-373, 67-425, 67-426, 67-427",
+    "policies": "P-019 in good standing; returning students must verify their catalog year requirements; advisor must audit old courses against current requirements"
+  },
+  "key_facts": [
+    "P-019 last active: Spring 2024; returning after ~2 semesters gap",
+    "P-019 has 52 completed courses \u2014 likely close to graduation unit count",
+    "Applied Informatics concentration: rare/unusual \u2014 specific requirements need verification",
+    "Old courses from 2019-2024 may need advisor mapping to current Stellic requirements",
+    "Spring 2026 IS offerings include 67-373 (Consulting Project) which may be a remaining core requirement",
+    "Feasibility depends on advisor audit of remaining requirements and their Spring 2026 availability"
+  ],
+  "wrong_if_single_domain": "Checking only program requirements cannot account for Spring 2026 availability. Checking only the schedule cannot determine which remaining requirements P-019 needs. Policy context (catalog year, returning student rules) is also essential.",
+  "common_mistake": "Assuming 52 completed courses means all requirements are nearly done without auditing which specific Applied Informatics courses are still outstanding",
+  "reasoning_chain": [
+    "Step 1 (programs): Audit P-019's Applied Informatics remaining requirements vs 52 completed courses",
+    "Step 2 (schedules): Identify which remaining courses are offered Spring 2026",
+    "Step 3 (policies): Verify catalog year requirements still apply; advisor may need to add exceptions in Stellic",
+    "Conclusion: Feasibility depends on advisor audit \u2014 likely feasible if \u22643-4 courses remain, but verification is critical"
+  ]
+}

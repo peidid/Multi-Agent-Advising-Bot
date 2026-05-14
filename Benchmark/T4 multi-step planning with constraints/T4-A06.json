@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A06",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-030",
+  "persona_summary": "BA Senior, Entrepreneurship concentration, Media & Politics minor, 47 courses, Good standing",
+  "variation": "One course only offered in specific semester",
+  "question": "I need to finish my Entrepreneurship concentration and Media & Politics minor by Spring 2026. Some of these courses are only offered once a year. Can you make sure my plan accounts for that?",
+  "what_makes_this_hard": "Forces the system to check course offering frequency and assign courses to the only semester they're available, building the rest of the plan around those anchors.",
+  "needs_verification": [
+    "Remaining Entrepreneurship concentration courses",
+    "Remaining Media & Politics minor courses",
+    "Which courses are offered only in Fall or only in Spring",
+    "Whether all remaining courses are available before Spring 2026"
+  ]
+}

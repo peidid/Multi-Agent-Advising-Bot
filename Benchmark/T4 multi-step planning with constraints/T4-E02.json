@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E02",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-021",
+  "persona_summary": "BA First-year, Finance concentration, 13 courses, Good standing",
+  "variation": "Minor A vs Minor B",
+  "question": "I want to add either an Economics minor or a History minor alongside my Finance concentration. Which one fits better into my plan? Show me both options.",
+  "what_makes_this_hard": "Two different minors with different requirements, prerequisites, and availability. System should compare total additional courses, scheduling ease, and overlap with Finance.",
+  "needs_verification": [
+    "Economics minor requirement list",
+    "History minor requirement list",
+    "Overlap of each with Finance concentration",
+    "Course availability for each minor"
+  ]
+}

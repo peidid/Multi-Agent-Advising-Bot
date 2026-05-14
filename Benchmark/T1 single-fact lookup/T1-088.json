@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-088",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": "P-009",
+  "question": "I'm a 5th-year student \u2014 by what point in the semester can I still withdraw from a course?",
+  "answer": "By the end of the 10th week of class (as noted in the academic calendar)",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Drop/Withdrawal Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'students may withdraw from a course... by the end of the 10th week of class'"
+}

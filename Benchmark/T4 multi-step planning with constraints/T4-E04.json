@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E04",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-002",
+  "persona_summary": "CS Sophomore, no minor, 24 courses, Good standing",
+  "variation": "Take hard course now vs later",
+  "question": "Should I take 15-213 this spring or wait until next fall? I've heard it's really tough. Can you show me how each choice affects the rest of my plan?",
+  "what_makes_this_hard": "Sequencing strategy \u2014 taking it now enables more advanced courses sooner but increases current semester load. Taking it later constrains future options.",
+  "needs_verification": [
+    "15-213 prerequisites (does P-002 qualify?)",
+    "Courses that require 15-213 as prereq",
+    "Impact on plan timeline for each choice",
+    "Current semester load if taken now"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-031",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student currently on academic warning. I have several remaining graduation requirements and want to register for an overloaded course load next semester to finish faster. Is this permitted?",
+  "expected_answer": "No \u2014 the academic actions policy explicitly states that a student on an academic action (including academic warning) cannot overload. P-009 is restricted to a normal course load while on academic warning, regardless of the desire to accelerate degree completion.",
+  "reasoning_type": "Academic action policy restriction identification",
+  "domain": "policies",
+  "common_mistake": "Assuming that a compelling reason (urgency to graduate) creates an exception to the overload prohibition; not knowing that academic warning explicitly blocks overloads",
+  "needs_verification": [
+    "Confirm P-009 is currently on academic warning (appears so from the record)",
+    "Confirm the policy language: 'A student on an academic action cannot overload, study abroad, or take independent studies'",
+    "Confirm what constitutes 'normal course load' for a 5th-year CS student (typically 360 units / 8 semesters = ~45 units)"
+  ]
+}

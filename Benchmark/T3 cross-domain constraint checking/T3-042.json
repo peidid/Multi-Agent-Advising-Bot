@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-042",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student (P-009) on academic warning. I have a few remaining CS requirements. Is it feasible to complete everything and graduate by end of Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-009 has completed most CS milestones (15-112 through 15-451) \u2014 remaining requirements are likely CS electives and possibly 15-441",
+    "schedules": "15-441 offered Spring 2026 \u2713; 15-440, 15-451, 15-213 NOT offered Spring 2026 (already done anyway)",
+    "policies": "AW = no overload, no independent study; P-009 limited to normal load (~45 units)"
+  },
+  "key_facts": [
+    "P-009 completed: 15-112, 15-122, 15-150, 15-213, 15-251, 15-210, 15-440, 15-451",
+    "P-009 likely needs: 15-441, additional electives, possibly HCI or software engineering courses",
+    "15-441 offered Spring 2026 \u2713",
+    "AW limits P-009 to ~45 units/semester \u2014 approximately 3-4 standard courses",
+    "Graduation feasibility depends on whether all remaining requirements can be satisfied in 1-2 more semesters within normal load",
+    "P-009 took 11-411, 17-437, 10-423 in Fall 2025 \u2014 these may satisfy CS elective requirements"
+  ],
+  "wrong_if_single_domain": "Knowing only the program requirements lists what's needed but not what Spring 2026 offers. Knowing only the schedule shows what's available but not what P-009 specifically needs. The AW policy (normal load restriction) constrains how many requirements can be addressed per semester.",
+  "common_mistake": "Assuming P-009 can take 5+ courses to finish quickly, ignoring the AW overload prohibition; or not checking whether all remaining requirements are actually offered Spring 2026",
+  "reasoning_chain": [
+    "Step 1 (programs): Identify remaining CS requirements for P-009",
+    "Step 2 (schedules): Which of those are offered Spring 2026? \u2192 15-441 \u2713",
+    "Step 3 (policies): AW = max ~45 units/semester \u2192 3-4 courses",
+    "Conclusion: Graduation by Spring 2026 is possible if remaining requirements \u2264 3-4 courses, all offered Spring 2026 \u2014 full audit needed"
+  ]
+}

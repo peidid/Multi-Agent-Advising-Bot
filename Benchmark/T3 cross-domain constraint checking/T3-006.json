@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-006",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore (P-013) on academic warning. I want to register for both 67-272 and 67-373 in Spring 2026. I see both are listed in the schedule. Can I take them together?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "courses": "67-373 requires 67-272 at least D \u2014 P-013 has NOT yet completed 67-272, making 67-373 ineligible regardless of the schedule",
+    "schedules": "Both 67-272 and 67-373 are offered Spring 2026; however, 67-272 Sec4 (Mon/Wed 08:30-09:45) and 67-373 SecW (Mon 08:30-09:45) also share a time slot, creating an additional conflict"
+  },
+  "key_facts": [
+    "67-373 prerequisite: 67-272 at least D \u2014 P-013 has NOT completed 67-272 yet",
+    "67-272 offered Spring 2026: Sec4 Mon/Wed 08:30-09:45, SecW Thu 08:30-10:20, SecX Thu 10:30-12:20",
+    "67-373 offered Spring 2026: Mon 08:30-09:45 (multiple sections)",
+    "67-272 Sec4 (Mon 08:30-09:45) and 67-373 (Mon 08:30-09:45) are at the exact same time \u2014 additional conflict even if prereq were met",
+    "P-013 should take only 67-272 in Spring 2026 and can take 67-373 in a future semester after completing 67-272"
+  ],
+  "wrong_if_single_domain": "Checking only the schedule might confirm both are offered and even warn about a time conflict in certain sections \u2014 but misses that the course prerequisite alone blocks 67-373. Checking only prerequisites correctly identifies the blocker but misses the schedule conflict information useful for future planning.",
+  "common_mistake": "Seeing both courses listed in the Spring 2026 schedule and assuming they can both be registered for; not checking that 67-373 has 67-272 as a hard prerequisite",
+  "reasoning_chain": [
+    "Step 1: Check 67-272 prereqs \u2192 15-121 D \u2713, 67-262 D \u2713 \u2014 P-013 eligible for 67-272",
+    "Step 2: Check 67-373 prereqs \u2192 requires 67-272 D \u2014 P-013 does NOT have 67-272 \u2192 BLOCKED",
+    "Step 3: Schedule check \u2192 67-272 Sec4 and 67-373 SecW both Mon 08:30-09:45 \u2192 also a conflict",
+    "Conclusion: P-013 can only take 67-272 in Spring 2026; 67-373 must wait until after 67-272 is completed"
+  ]
+}

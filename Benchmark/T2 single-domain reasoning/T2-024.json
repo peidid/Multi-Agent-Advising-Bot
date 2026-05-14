@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-024",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": null,
+  "question": "In Spring 2025, do 67-272 (Mon/Wed 08:30\u201309:45) and 67-373 (Monday 14:30\u201315:45) have a schedule conflict?",
+  "expected_answer": "No \u2014 both courses meet on Monday, but at different times: 67-272 is 08:30\u201309:45 and 67-373 is 14:30\u201315:45. There is a 4+ hour gap between them on Mondays, and 67-272 also meets Wednesday while 67-373 does not. A student could enroll in both without a scheduling conflict.",
+  "reasoning_type": "Same-day but different-time no-conflict check",
+  "domain": "schedules",
+  "common_mistake": "Seeing that both courses meet on Monday and assuming a conflict without checking actual times; not recognizing that Monday meetings at 08:30 and 14:30 do not overlap",
+  "needs_verification": [
+    "Confirm 67-272 Spring 2025 schedule: Mon/Wed 08:30\u201309:45",
+    "Confirm 67-373 Spring 2025 schedule: Monday 14:30\u201315:45",
+    "Confirm 67-373 has no additional meeting times (e.g., labs or recitations) that might conflict"
+  ]
+}

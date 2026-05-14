@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-021",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student (P-009) on academic warning. I want to take 4 courses totaling 48 units in Spring 2026 to graduate on time. Is this allowed under my academic warning restrictions?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "courses"
+  ],
+  "domain_contributions": {
+    "policies": "Academic warning prohibits overloads. A normal course load is approximately 360 units \u00f7 8 semesters = 45 units/semester. 48 units may constitute an overload requiring advisor approval \u2014 blocked under AW.",
+    "courses": "The 4 planned courses and their unit counts must be summed: if all are 12-unit courses, total = 48 units, which exceeds the 45-unit normal load benchmark"
+  },
+  "key_facts": [
+    "P-009 is on academic warning \u2014 cannot overload",
+    "Normal course load for CS: approximately 360 units \u00f7 8 semesters = ~45 units/semester",
+    "4 \u00d7 12-unit courses = 48 units, potentially 3 units above normal load",
+    "Academic warning policy: 'A student on an academic action cannot overload'",
+    "P-009 should plan for a 3-course (36-unit) or careful 4-course load that does not exceed the normal threshold"
+  ],
+  "wrong_if_single_domain": "Knowing the academic warning policy (no overload) without knowing the unit counts of the specific courses cannot determine whether the planned load constitutes an overload. Knowing the course units without the policy cannot assess whether the total is permissible under AW restrictions.",
+  "common_mistake": "Assuming 4 courses is automatically an overload, or conversely assuming any load is fine as long as it is 'just 4 courses' without calculating the unit total",
+  "reasoning_chain": [
+    "Step 1 (policies): AW = no overload; identify normal load definition (~45 units)",
+    "Step 2 (courses): Sum 4 planned courses \u2192 4 \u00d7 12 = 48 units",
+    "Step 3: 48 > 45 \u2192 constitutes overload \u2192 blocked under AW",
+    "Conclusion: P-009 cannot take 48 units under AW; must reduce to \u226445 units (e.g., 3 \u00d7 12 = 36 or a mix of 12- and 9-unit courses)"
+  ]
+}

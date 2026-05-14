@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-066",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "How many courses does a student need to complete for the Business Administration minor?",
+  "answer": "6 courses",
+  "source_file": "data/programs/Minors/cmu_minor_business_administration.json",
+  "source_field": "minor.Description",
+  "domain": "programs",
+  "verification_note": "Description states 'six required courses (54 units total)'"
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-010",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "What does 73-102 stand for?",
+  "answer": "Principles of Microeconomics",
+  "source_file": "data/courses/73-102.json",
+  "source_field": "name",
+  "domain": "courses",
+  "verification_note": "name field in course JSON"
+}

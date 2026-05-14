@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-025",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": "P-042",
+  "question": "As a CS junior with a Math minor, I want to take 15-451 \u2014 what are all the prerequisites?",
+  "answer": "15-210 (at least C), 21-241 (at least C), and either 15-251 or 21-228 (at least C)",
+  "source_file": "data/courses/15-451.json",
+  "source_field": "prereqs.text",
+  "domain": "courses",
+  "verification_note": "prereqs.text in course JSON"
+}

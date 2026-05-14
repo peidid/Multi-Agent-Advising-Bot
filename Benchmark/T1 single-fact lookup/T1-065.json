@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-065",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "How many units does the Business Administration minor require?",
+  "answer": "54 units",
+  "source_file": "data/programs/Minors/cmu_minor_business_administration.json",
+  "source_field": "program_requirements.total_min_units",
+  "domain": "programs",
+  "verification_note": "total_min_units: 54 in BA minor JSON"
+}

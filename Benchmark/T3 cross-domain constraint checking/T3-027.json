@@ -1,0 +1,30 @@
+{
+  "query_id": "T3-027",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-046",
+  "question": "I'm a CS 5th-year student (P-046) on academic warning. I've been offered a semester exchange at CMU Pittsburgh. Am I eligible to participate?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "programs"
+  ],
+  "domain_contributions": {
+    "policies": "Academic warning explicitly prohibits study abroad and campus exchange programs: 'A student on an academic action cannot overload, study abroad, or take independent studies'",
+    "programs": "P-046's academic standing = academic warning (confirmed from record)"
+  },
+  "key_facts": [
+    "P-046 is on academic warning",
+    "CMU-Q policy: academic warning prohibits study abroad and by extension campus exchange programs",
+    "The prohibition applies until P-046 returns to good academic standing",
+    "Even an exchange within CMU (Pittsburgh campus) is likely subject to this restriction",
+    "P-046 must first resolve the academic warning before any exchange/study abroad option"
+  ],
+  "wrong_if_single_domain": "Knowing only the programs domain (P-046's courses, standing) identifies the AW status but doesn't detail the specific prohibition on campus exchange. Only the policies domain provides the explicit rule that AW blocks this type of program.",
+  "common_mistake": "Distinguishing between 'study abroad' and 'campus exchange within CMU' and assuming the exchange is permitted; not knowing the AW prohibition extends to all study-away programs",
+  "reasoning_chain": [
+    "Step 1 (programs): P-046 is on academic warning",
+    "Step 2 (policies): AW = cannot study abroad / participate in campus exchange",
+    "Conclusion: P-046 is not eligible for the CMU Pittsburgh exchange while on academic warning"
+  ]
+}

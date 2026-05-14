@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-043",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": null,
+  "question": "Is 10-315 (Introduction to Machine Learning) offered in Spring 2026?",
+  "answer": "No \u2014 10-315 is not offered in Spring 2026",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings",
+  "domain": "schedules",
+  "verification_note": "10-315 does not appear in the Spring 2026 offerings list"
+}

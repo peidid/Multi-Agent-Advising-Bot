@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-025",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": null,
+  "question": "In Spring 2025, do 15-251 (Section 1: Mon/Wed 10:00\u201311:15) and 15-122 (Mon/Wed 10:00\u201311:15) have a time conflict?",
+  "expected_answer": "Yes \u2014 both 15-251 Section 1 and one section of 15-122 in Spring 2025 are scheduled Monday/Wednesday 10:00\u201311:15. They share the exact same meeting time on both days, making it impossible to enroll in both sections simultaneously.",
+  "reasoning_type": "Exact time overlap detection",
+  "domain": "schedules",
+  "common_mistake": "Assuming that different course numbers never conflict; not checking the actual meeting times and finding the exact overlap",
+  "needs_verification": [
+    "Confirm 15-251 Section 1 Spring 2025: Mon/Wed 10:00\u201311:15",
+    "Confirm the Mon/Wed 10:00\u201311:15 section of 15-122 is offered in Spring 2025",
+    "Note: 15-122 has a second section (Thu/Tue 16:00\u201316:50) which would NOT conflict with 15-251 Section 1"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-060",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": "P-003",
+  "question": "I'm a CS sophomore \u2014 what are the four required CS core courses?",
+  "answer": "15-122 (Principles of Imperative Computation), 15-150 (Principles of Functional Programming), 15-210 (Parallel and Sequential Data Structures and Algorithms), and 15-251 (Great Ideas in Theoretical Computer Science)",
+  "source_file": "data/programs/Computer Science & AI/cmu_computer_science_degree_requirements.json",
+  "source_field": "requirements.computer_science.core_courses",
+  "domain": "programs",
+  "verification_note": "core_courses list in CS requirements JSON"
+}

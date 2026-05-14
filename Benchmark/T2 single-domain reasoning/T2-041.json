@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-041",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": null,
+  "question": "I'm a graduate student who completed 15-513 (Introduction to Computer Systems) in a previous program. Does 15-513 count as equivalent to 15-213 for CS undergraduate prerequisite purposes?",
+  "expected_answer": "Yes \u2014 15-513 is listed as an equivalent of 15-213 in the course catalog. They are considered the same course for prerequisite and curriculum purposes. A student who completed 15-513 satisfies any requirement or prerequisite that lists 15-213.",
+  "reasoning_type": "Course equivalence identification from anti-req/equiv listings",
+  "domain": "courses",
+  "common_mistake": "Treating different course numbers as entirely distinct when the university lists them as equivalents; not checking the equivalence listing in the course catalog",
+  "needs_verification": [
+    "Confirm 15-513 is listed as equivalent to 15-213 in the CMU course catalog",
+    "Confirm whether 15-513 is open to undergraduates (noted in the catalog: 15-213 is not open to graduate students; 15-513 is the grad version)",
+    "Confirm the specific contexts in which the equivalence applies (prereqs vs. graduation requirements)"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-034",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": null,
+  "question": "Is 15-451 offered in Spring 2026?",
+  "answer": "No \u2014 15-451 is not offered in Spring 2026",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings",
+  "domain": "schedules",
+  "verification_note": "15-451 does not appear in the Spring 2026 offerings list"
+}

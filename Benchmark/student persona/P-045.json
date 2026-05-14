@@ -1,0 +1,250 @@
+{
+  "persona_id": "P-045",
+  "source_student_id": "student383",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Business Administration",
+      "Neural Computation"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Business Administration (No concentrations)|Minor in Neural Computation (No concentrations)",
+    "narrative": {
+      "background_notes": "Senior with dual minors in Business Administration and Neural Computation. Interested in AI product development.",
+      "goals": "Work at the intersection of AI and business; considering MBA after industry experience",
+      "concerns": "Neural Computation minor has very specific course requirements that may not all be available at CMU-Q"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 48,
+    "semesters_completed": [
+      "Summer 2021",
+      "Fall 2021",
+      "Spring 2022",
+      "Fall 2022",
+      "Spring 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2021": [
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        }
+      ],
+      "Fall 2021": [
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        },
+        {
+          "course_code": "79-001",
+          "course_name": "HISTORY ELECTIVE"
+        },
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "76-001",
+          "course_name": "ENGLISH ELECTIVE"
+        },
+        {
+          "course_code": "09-101",
+          "course_name": "Introduction to Experimental Chemistry"
+        }
+      ],
+      "Spring 2022": [
+        {
+          "course_code": "33-001",
+          "course_name": "PHYSICS ELECTIVE"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        },
+        {
+          "course_code": "79-002",
+          "course_name": "HISTORY ELECTIVE"
+        },
+        {
+          "course_code": "79-003",
+          "course_name": "HISTORY ELECTIVE"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "79-293",
+          "course_name": "Inward Odyssey"
+        },
+        {
+          "course_code": "15-288",
+          "course_name": "Special Topic: Machine Learning in a Nutshell"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "85-211",
+          "course_name": "Cognitive Psychology"
+        },
+        {
+          "course_code": "70-332",
+          "course_name": "Business, Society and Ethics"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "03-363",
+          "course_name": "Systems Neuroscience"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        },
+        {
+          "course_code": "67-404",
+          "course_name": "Blockchain Applications"
+        },
+        {
+          "course_code": "17-313",
+          "course_name": "Foundations of Software Engineering"
+        },
+        {
+          "course_code": "98-059",
+          "course_name": "Student Taught Courses (StuCo): Chinese Charms-Unlocking the Secrets of Mandarin"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "42-632",
+          "course_name": "Neural Signal Processing"
+        },
+        {
+          "course_code": "69-110",
+          "course_name": "Personal Fitness"
+        },
+        {
+          "course_code": "16-299",
+          "course_name": "Introduction to Feedback Control Systems"
+        },
+        {
+          "course_code": "15-386",
+          "course_name": "Neural Computation"
+        },
+        {
+          "course_code": "69-131",
+          "course_name": "Volleyball"
+        },
+        {
+          "course_code": "16-235",
+          "course_name": "Fantastic Robots and How to Fold Them"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "21-295",
+          "course_name": "Putnam Seminar"
+        },
+        {
+          "course_code": "15-440",
+          "course_name": "Distributed Systems"
+        },
+        {
+          "course_code": "17-493",
+          "course_name": "Hands-on Negotiations for Technology Leaders"
+        },
+        {
+          "course_code": "69-005",
+          "course_name": "Archery + Laser Pistol"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        },
+        {
+          "course_code": "69-113",
+          "course_name": "Martial Arts"
+        },
+        {
+          "course_code": "69-121",
+          "course_name": "Table Tennis"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

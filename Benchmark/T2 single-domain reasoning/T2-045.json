@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-045",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": null,
+  "question": "If I take 67-311 (Database Design and Implementation), does it satisfy the same requirement as 67-262 (Database Design and Development) for IS major requirements?",
+  "expected_answer": "They are listed as anti-requisites of each other (you cannot take both), which suggests they cover overlapping content. However, whether 67-311 specifically substitutes for 67-262 in IS degree requirements depends on the program's official list of accepted courses. If the IS program requirement specifically lists 67-262, then 67-311 may or may not be an accepted substitute \u2014 the advisor or department must confirm. The anti-requisite relationship does not automatically create an equivalence for program requirement purposes.",
+  "reasoning_type": "Anti-requisite vs. equivalence distinction for program requirements",
+  "domain": "courses",
+  "common_mistake": "Equating anti-requisites with equivalents; assuming that if two courses cannot both be taken, either one satisfies the same program requirement",
+  "needs_verification": [
+    "Confirm 67-311 is listed as an anti-requisite (not an equivalent) of 67-262",
+    "Confirm the IS degree requirement specifically calls for 67-262 or accepts 67-311 as a substitute",
+    "Confirm whether the IS department has a formal equivalence approval process for this substitution"
+  ]
+}

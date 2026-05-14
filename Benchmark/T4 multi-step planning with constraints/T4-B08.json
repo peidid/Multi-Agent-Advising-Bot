@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-B08",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-022",
+  "persona_summary": "BA First-year, BAT concentration, 13 courses, Good standing",
+  "variation": "Switching major mid-program",
+  "question": "I'm currently in Business Analytics & Technologies but I'm thinking about switching to Information Systems entirely. What courses would transfer and what would I need to start from scratch? Can you show me both paths \u2014 staying in BA vs switching to IS?",
+  "what_makes_this_hard": "Cross-major comparison. Must identify transferable courses, new requirements, and produce two complete plans.",
+  "needs_verification": [
+    "Which BA courses transfer to IS program",
+    "Full IS requirement list",
+    "Remaining BA + BAT requirements",
+    "Credit transfer policy between majors"
+  ]
+}

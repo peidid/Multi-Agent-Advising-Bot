@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-001",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "How many units is 15-213?",
+  "answer": "12 units",
+  "source_file": "data/courses/15-213.json",
+  "source_field": "units",
+  "domain": "courses",
+  "verification_note": "units field is 12.0 in course JSON"
+}

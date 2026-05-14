@@ -1,0 +1,30 @@
+{
+  "query_id": "T3-030",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-011",
+  "question": "I'm a first-year IS student (P-011) entering Fall 2025. I want to take an extra course in my very first semester to accelerate my IS requirements. Is this allowed?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "programs"
+  ],
+  "domain_contributions": {
+    "policies": "First-year students are limited to a normal course load in their first semester \u2014 overloading is explicitly prohibited for first-year students in semester 1",
+    "programs": "P-011's program (IS) defines what the normal first-semester course load is; typically 3-4 courses covering foundational IS and general education requirements"
+  },
+  "key_facts": [
+    "Policy: 'First-years and transfer students are limited to a normal course load for their first semester of attendance'",
+    "This restriction applies regardless of student ability, advisor recommendation, or compelling academic rationale",
+    "P-011 must complete their first semester at normal load before any overload is considered",
+    "Normal IS first-semester load: typically 15-112, 67-100, English requirement, one elective (~36-45 units)",
+    "P-011 can discuss overloading from their second semester onward with their advisor"
+  ],
+  "wrong_if_single_domain": "Knowing only the overload policy (advisor approval sufficient for good-standing students) might suggest P-011 can overload with approval. Only by combining with the first-year-specific restriction does the correct answer emerge that NO overload is permitted in semester 1.",
+  "common_mistake": "Applying the general overload policy (advisor approval = allowed) to first-year students without knowing the specific first-semester restriction",
+  "reasoning_chain": [
+    "Step 1 (programs): P-011 is a first-year IS student in their first semester",
+    "Step 2 (policies): First-year first-semester restriction \u2192 normal load only, no exceptions",
+    "Conclusion: P-011 cannot take extra courses in their first semester regardless of advisor willingness"
+  ]
+}

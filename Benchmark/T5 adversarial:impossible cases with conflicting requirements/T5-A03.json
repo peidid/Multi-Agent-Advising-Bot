@@ -1,0 +1,31 @@
+{
+  "query_id": "T5-A03",
+  "tier": "T5",
+  "pattern": "A",
+  "pattern_name": "Impossible Timeline",
+  "persona_id": "P-056",
+  "persona_summary": "BA Senior, Entrepreneurship concentration, dual minors CS + International Relations, 47 courses, Good standing",
+  "question": "I'm a senior and I need to finish my Entrepreneurship concentration, my CS minor, and my International Relations minor by Spring 2026. Plan everything out for me.",
+  "false_assumption_or_hidden_conflict": "Three areas of study with independent requirement sets. The CS minor alone has a long prerequisite chain. Combined with Entrepreneurship courses and IR minor courses, the total remaining load almost certainly exceeds what fits in 1-2 remaining semesters, especially if CS minor prereqs haven't been completed yet.",
+  "naive_system_response": "A naive system would generate a plan listing all remaining courses across three programs without recognizing that the CS minor prerequisite chain alone may require 2-3 more semesters, making Spring 2026 impossible.",
+  "correct_response": "Completing all three programs by Spring 2026 is extremely tight and likely not feasible. Your CS minor has a prerequisite chain that requires [N] sequential semesters, and you still need [X] IR minor courses and [Y] Entrepreneurship courses. Realistically, you need to either: (1) drop one of the two minors and complete the other on time, (2) extend by 1-2 semesters, or (3) petition for course substitutions if any overlap exists. Here's what each option looks like: [comparison].",
+  "domains_required": [
+    "programs",
+    "courses",
+    "schedules",
+    "policies"
+  ],
+  "why_multi_agent_helps": "The Programs Agent checks three separate requirement sets. The Courses Agent traces the CS minor prerequisite chain and determines minimum semesters needed. The Policy Agent checks unit limits. When the Planning Agent's proposal inevitably violates one of these, the parallel critique catches it \u2014 whereas a single agent might miss the prereq chain length while focusing on fitting courses into slots.",
+  "key_facts": [
+    "P-056 has three separate program requirement sets to complete",
+    "CS minor for non-CS students has a strict, multi-semester prereq chain",
+    "Entrepreneurship concentration has limited course offerings",
+    "Total remaining courses likely exceed what's possible by Spring 2026"
+  ],
+  "known_traps": [
+    "Generating a plan without checking CS minor prereq chain length",
+    "Assuming all remaining courses can be taken in parallel when prereqs prevent it",
+    "Not recognizing that three programs competing for the same schedule slots creates infeasibility"
+  ],
+  "advisor_validation_needed": "Verify: (1) remaining CS minor requirements and prereq chain depth for P-056, (2) remaining IR minor requirements, (3) remaining Entrepreneurship requirements, (4) whether any overlap exists between the three, (5) confirm impossibility or tight feasibility"
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-B10",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-051",
+  "persona_summary": "IS Junior, ISP concentration, Multidisciplinary Energy Studies minor, 36 courses, Good standing",
+  "variation": "Minor with limited offerings at CMU-Q",
+  "question": "My Multidisciplinary Energy Studies minor has very few course offerings at CMU-Q. Can you plan my remaining semesters making sure I can actually complete this minor with the courses that are available?",
+  "what_makes_this_hard": "Rare minor with unpredictable availability. System must check which Energy Studies courses are actually offered and plan around availability constraints.",
+  "needs_verification": [
+    "Energy Studies minor requirement list",
+    "Which Energy Studies courses are actually offered 2025-2026",
+    "Remaining ISP requirements",
+    "Whether minor completion is feasible with current offerings"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "query_id": "T3-048",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-017",
+  "question": "I'm an IS senior (P-017) on the Dean's List with an ISP concentration. I want to add an independent study in my final semester (Spring 2026) without exceeding a manageable unit load. Is this feasible?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-017 has 49 courses; remaining requirements likely minimal (final semester senior); independent study could contribute to IS elective or capstone requirement",
+    "schedules": "Final semester courses need to be planned around what Spring 2026 offers; remaining IS requirement courses must be confirmed available",
+    "policies": "P-017 is in Dean's List standing \u2014 independent study is permitted (AW restriction does not apply). Unit count with IS added must remain within normal or approved overload range"
+  },
+  "key_facts": [
+    "P-017 is on Dean's List \u2014 independent study is NOT blocked (no academic action)",
+    "P-017 has 49 completed courses \u2014 likely very few remaining requirements",
+    "Adding an independent study (typically 9-12 units) to final semester requires faculty sponsor",
+    "If total semester units with IS added exceed ~45, advisor approval needed for overload",
+    "P-017's ISP concentration may allow independent study to satisfy a research/capstone requirement",
+    "This is feasible as long as total load stays within acceptable range and a faculty sponsor agrees"
+  ],
+  "wrong_if_single_domain": "Knowing only the program requirements might list an independent study as an option without confirming policy eligibility. Knowing only the policy confirms it's permitted but cannot determine how many other courses P-017 needs this semester (schedule context).",
+  "common_mistake": "Assuming Dean's List students can take unlimited overloads without advisor approval; or assuming independent studies are prohibited for all seniors",
+  "reasoning_chain": [
+    "Step 1 (programs): Identify P-017's remaining final-semester requirements",
+    "Step 2 (policies): Dean's List = good standing \u2192 independent study permitted",
+    "Step 3 (schedules): Confirm remaining required courses are offered Spring 2026",
+    "Step 4 (policies): Calculate total units including IS \u2014 if >45, need overload approval",
+    "Conclusion: Feasible \u2014 P-017 can add independent study with faculty sponsor and advisor approval if needed for unit count"
+  ]
+}

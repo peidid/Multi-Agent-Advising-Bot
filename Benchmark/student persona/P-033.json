@@ -1,0 +1,151 @@
+{
+  "persona_id": "P-033",
+  "source_student_id": "student266",
+  "demographic": {
+    "major": "Biological Sciences",
+    "concentrations": [
+      "Biochemistry",
+      "Computational Biology"
+    ],
+    "minors": [],
+    "level": "sophomore",
+    "entry_year": "Fall 2024",
+    "program_full": "BS in Biological Sciences (Biochemistry, Computational Biology)",
+    "narrative": {
+      "background_notes": "Dual concentration Biochemistry + Computational Biology. Strong in both wet lab and programming.",
+      "goals": "Work in biotech or pharmaceutical data science",
+      "concerns": "Dual concentration requires heavy science course load; limited room for electives"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 27,
+    "semesters_completed": [
+      "Summer 2023",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2023": [
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        },
+        {
+          "course_code": "03-110",
+          "course_name": "General Biology"
+        },
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "03-151",
+          "course_name": "Honors Modern Biology"
+        },
+        {
+          "course_code": "03-120",
+          "course_name": "Biology for Life Special Topics Mini"
+        },
+        {
+          "course_code": "09-212",
+          "course_name": "Special Topics: Nanotechnology in Context"
+        },
+        {
+          "course_code": "38-101",
+          "course_name": "EUREKA!: Discovery and Its Impact"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "03-113",
+          "course_name": "Biologies in Text and Film"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "03-119",
+          "course_name": "Biology for Life Special Topics Micro"
+        },
+        {
+          "course_code": "03-240",
+          "course_name": "Cell Biology"
+        },
+        {
+          "course_code": "85-219",
+          "course_name": "Foundations of Brain and Behavior"
+        },
+        {
+          "course_code": "03-117",
+          "course_name": "Frontiers, Analysis, and Discovery in Biological Sciences"
+        },
+        {
+          "course_code": "09-106",
+          "course_name": "Modern Chemistry II"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "99-270",
+          "course_name": "Summer Undergraduate Research Apprenticeship"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        },
+        {
+          "course_code": "09-217",
+          "course_name": "Organic Chemistry I"
+        },
+        {
+          "course_code": "03-231",
+          "course_name": "Honors Biochemistry"
+        },
+        {
+          "course_code": "03-380",
+          "course_name": "Virology"
+        },
+        {
+          "course_code": "09-207",
+          "course_name": "Techniques in Quantitative Analysis"
+        },
+        {
+          "course_code": "03-201",
+          "course_name": "Undergraduate Colloquium for Sophomores"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

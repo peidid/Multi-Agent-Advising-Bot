@@ -1,0 +1,16 @@
+{
+  "query_id": "T4-D09",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-044",
+  "persona_summary": "CS Senior, dual minors BA + History, 60 courses, Good standing",
+  "variation": "Only 1 free elective slot",
+  "question": "I have dual minors so I barely have any free slots. I think I have exactly 1 free elective slot left. What's the single best course I should take for my career in tech consulting?",
+  "what_makes_this_hard": "Extreme constraint \u2014 only one slot. System must make a well-reasoned single-course recommendation given career goals.",
+  "needs_verification": [
+    "Whether P-044 truly has only 1 free slot",
+    "Available courses in that slot's semester",
+    "Which courses are most relevant to tech consulting"
+  ]
+}

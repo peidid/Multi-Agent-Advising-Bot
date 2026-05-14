@@ -1,0 +1,29 @@
+{
+  "query_id": "T5-D01",
+  "tier": "T5",
+  "pattern": "D",
+  "pattern_name": "Course Availability Trap",
+  "persona_id": "P-020",
+  "persona_summary": "IS Senior, ISP concentration, History minor, 46 courses, Good standing",
+  "question": "I need to take one more History elective to complete my minor. I'm planning to take it in Spring 2026. Which History courses are available?",
+  "false_assumption_or_hidden_conflict": "History courses at CMU-Q have limited and inconsistent offerings. The student assumes History electives will be available in Spring 2026, but the specific courses needed for the minor may only be offered in Fall, or may not be offered at all in 2025-2026.",
+  "naive_system_response": "A naive system pulls History courses from the catalog and lists them as options without checking the Spring 2026 schedule. The student gets a list of courses that don't actually exist next semester.",
+  "correct_response": "Looking at the Spring 2026 schedule, the following History courses are actually offered: [list from schedule data]. Of these, [X] satisfy your History minor requirement. Note that [popular History course Y] is NOT offered in Spring 2026 \u2014 it was last offered in [semester]. If none of the Spring 2026 offerings satisfy your remaining requirement, you may need to: (1) take it in Summer 2026 if available, (2) petition for a course substitution, or (3) delay graduation by one semester.",
+  "domains_required": [
+    "schedules",
+    "programs"
+  ],
+  "why_multi_agent_helps": "The Courses Agent checks actual Spring 2026 schedule, not just the catalog. The Programs Agent verifies which offerings satisfy the minor requirement. A single agent might retrieve catalog information and present it as current availability.",
+  "key_facts": [
+    "History course offerings at CMU-Q are limited and vary by semester",
+    "Catalog listings \u2260 current semester offerings",
+    "Minor requirements may only be satisfiable by specific courses",
+    "Course not being offered can block graduation"
+  ],
+  "known_traps": [
+    "Listing catalog courses as if they're all available next semester",
+    "Not cross-referencing course offerings against the Spring 2026 schedule",
+    "Not checking which available courses actually satisfy the minor requirement"
+  ],
+  "advisor_validation_needed": "Verify: (1) Spring 2026 History course offerings, (2) which satisfy the History minor, (3) P-020's remaining History minor requirements"
+}

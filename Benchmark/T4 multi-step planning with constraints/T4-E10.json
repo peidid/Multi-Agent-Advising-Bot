@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E10",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-043",
+  "persona_summary": "CS Junior, History minor, 33 courses, Good standing",
+  "variation": "Double major vs single major + minor",
+  "question": "I love both CS and History. Is it feasible to do a double major, or should I stick with CS major + History minor? Show me what a double major plan would look like versus my current path.",
+  "what_makes_this_hard": "Double major is ambitious and likely infeasible at CMU-Q. System should honestly assess feasibility and present the comparison.",
+  "needs_verification": [
+    "Whether double major is permitted at CMU-Q",
+    "History major full requirement list",
+    "How many additional courses double major requires vs minor",
+    "Whether it fits in remaining semesters"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-013",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-007",
+  "question": "I'm a CS senior with a Business Administration minor. I've taken over 49 courses. How do I know if my BA minor requirements are fully satisfied before my final semester?",
+  "expected_answer": "P-007 should verify through Stellic (unofficial) or S3 (official) whether all BA minor required courses have been completed with passing grades. The typical BA minor requires a set of core BA courses. Since P-007 is a CS student with BA minor and has taken 49 courses, they should check the official BA minor requirements checklist. The advisor should confirm no courses were taken P/N that might not count toward the minor.",
+  "reasoning_type": "Minor completion verification \u2014 identification of what remains",
+  "domain": "programs",
+  "common_mistake": "Assuming course count (49 courses) implies minor completion; not checking if any relevant courses were elected P/N (which would not satisfy minor requirements)",
+  "needs_verification": [
+    "Retrieve the full list of P-007's completed courses to map against BA minor requirements",
+    "Confirm exact BA minor requirements (specific required courses and unit minimums)",
+    "Confirm whether any P-007 courses were taken P/N that might affect minor requirement satisfaction",
+    "Confirm P-007's Stellic audit reflects the current BA minor catalog year"
+  ]
+}

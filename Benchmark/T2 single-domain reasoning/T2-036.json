@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-036",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": null,
+  "question": "I withdrew from a course this semester. Will the W grade on my transcript lower my QPA?",
+  "expected_answer": "No \u2014 withdrawn courses receive a W grade, which is not factorable (does not enter the QPA calculation). However, the W-graded course does still count toward your total units enrolled for the semester, meaning it affects your full-time/part-time status but not your GPA.",
+  "reasoning_type": "Grade type policy \u2014 QPA impact assessment",
+  "domain": "policies",
+  "common_mistake": "Assuming any grade on the transcript, including W, impacts QPA; confusing total enrolled units (affected by W) with factorable units (not affected by W)",
+  "needs_verification": [
+    "Confirm CMU-Q policy that W grades are non-factorable and do not impact QPA",
+    "Confirm that W grades do count toward the semester's total enrolled units for full-time status purposes",
+    "Confirm the withdrawal deadline (typically 10th week of classes) after which withdrawal is not allowed"
+  ]
+}

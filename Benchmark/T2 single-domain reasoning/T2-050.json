@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-050",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": "P-003",
+  "question": "I'm a CS sophomore with a Business Administration minor. Can 15-122 (Principles of Imperative Computation) count toward both my CS major requirements AND a BA minor requirement at the same time?",
+  "expected_answer": "Generally, no \u2014 CMU's double-counting policy typically does not allow the same course to satisfy requirements in both a major and a minor simultaneously. 15-122 is a CS major requirement and would not be double-counted toward BA minor requirements. P-003 would need to take separate BA courses to satisfy minor requirements. However, CMU's policy on double-counting between a major and a minor should be confirmed, as specific rules may vary.",
+  "reasoning_type": "Double-counting policy between major and minor requirements",
+  "domain": "courses",
+  "common_mistake": "Assuming courses can freely satisfy both major and minor requirements simultaneously; not knowing CMU's anti-double-counting policy",
+  "needs_verification": [
+    "Confirm CMU-Q's official policy on double-counting courses between a major and a minor",
+    "Confirm whether 15-122 appears in any BA minor course list (it likely does not, being a CS-specific course)",
+    "Confirm whether the BA minor at CMU-Q has any overlap with CS courses that could legally double-count"
+  ]
+}

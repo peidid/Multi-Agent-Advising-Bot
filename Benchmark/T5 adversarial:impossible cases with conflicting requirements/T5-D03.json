@@ -1,0 +1,29 @@
+{
+  "query_id": "T5-D03",
+  "tier": "T5",
+  "pattern": "D",
+  "pattern_name": "Course Availability Trap",
+  "persona_id": "P-045",
+  "persona_summary": "CS Senior, dual minors BA + Neural Computation, 48 courses, Good standing",
+  "question": "I need to complete one more Neural Computation minor course. I'll take it next semester. What's available?",
+  "false_assumption_or_hidden_conflict": "Neural Computation is a highly specialized minor with very limited course offerings at CMU-Q. The persona specifically notes concern about availability. The required course may simply not be offered at CMU-Q at all, or only offered in Pittsburgh.",
+  "naive_system_response": "A naive system finds Neural Computation courses in the catalog and lists them, not checking whether they're actually offered at CMU-Q (vs Pittsburgh campus) or in the specific semester.",
+  "correct_response": "Neural Computation minor courses have very limited availability at CMU-Q. Checking the Spring 2026 CMU-Q schedule: [actual offerings, which may be zero or one]. The following catalog courses are NOT offered at CMU-Q this semester: [list]. Your options: (1) check if the course is offered in Summer at CMU-Q, (2) inquire about taking it as a Pittsburgh summer course, (3) petition for a course substitution from available CMU-Q courses, (4) consider whether completing this minor is feasible at CMU-Q.",
+  "domains_required": [
+    "schedules",
+    "programs"
+  ],
+  "why_multi_agent_helps": "The Courses Agent specifically checks CMU-Q offerings (not Pittsburgh). The Programs Agent verifies minor requirements. A single agent might pull from the broader CMU catalog without distinguishing campus availability.",
+  "key_facts": [
+    "Neural Computation is a specialized minor with few CMU-Q offerings",
+    "CMU-Q catalog may list courses only available in Pittsburgh",
+    "P-045 specifically worried about availability",
+    "Campus distinction (CMU-Q vs Pittsburgh) is critical"
+  ],
+  "known_traps": [
+    "Listing Pittsburgh campus courses as if they're available at CMU-Q",
+    "Not distinguishing between CMU-Q and Pittsburgh offerings",
+    "Not recognizing that specialized minors may have availability problems at satellite campuses"
+  ],
+  "advisor_validation_needed": "Verify: (1) which Neural Computation courses are offered at CMU-Q, (2) Spring 2026 CMU-Q schedule for these courses, (3) whether Pittsburgh summer option exists, (4) course substitution policy"
+}

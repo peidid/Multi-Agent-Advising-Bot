@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-049",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": null,
+  "question": "I elected to take 67-272 (Application Design and Development) as Pass/Fail this semester. I received a P grade. Does this satisfy the prerequisite for 67-373 (Information Systems Consulting Project)?",
+  "expected_answer": "This is uncertain and requires verification. The prerequisite for 67-373 requires 67-272 at least D. A P (Pass) grade typically corresponds to at least a D performance. However, CMU's policy states that P/N courses do not count toward major/minor requirements. Whether a P grade satisfies a prerequisite (as opposed to a graduation requirement) may be handled differently \u2014 the system may or may not recognize a P grade as satisfying a letter-grade threshold prerequisite. The student should consult their advisor and the registrar to confirm.",
+  "reasoning_type": "P/N grade interaction with prerequisite thresholds",
+  "domain": "courses",
+  "common_mistake": "Assuming P grade always satisfies a 'D or better' threshold prerequisite; not distinguishing between P/N counting for graduation requirements vs. prerequisite enforcement",
+  "needs_verification": [
+    "Confirm whether CMU-Q's system treats a P grade as satisfying a 'D or better' prerequisite threshold",
+    "Confirm the exact prerequisite enforcement rules for P/N-graded courses in S3",
+    "Confirm whether 67-272 taken P/N would still count toward the IS professional core requirement"
+  ]
+}

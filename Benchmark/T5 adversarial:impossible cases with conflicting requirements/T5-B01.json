@@ -1,0 +1,27 @@
+{
+  "query_id": "T5-B01",
+  "tier": "T5",
+  "pattern": "B",
+  "pattern_name": "Hidden Prerequisite Violation",
+  "persona_id": "P-036",
+  "persona_summary": "BIO Junior, CS minor, 36 courses, Good standing",
+  "question": "I've taken 15-112 and I want to register for 15-213 next semester to make progress on my CS minor. Am I eligible?",
+  "false_assumption_or_hidden_conflict": "15-213 likely requires 15-122 (not just 15-112) as a prerequisite. The student has taken 15-112 but may have skipped 15-122. A shallow system might see '15-112 completed' and approve, not realizing 15-213 requires the intermediate course.",
+  "naive_system_response": "A naive system checks if the student has any CS course and approves: 'You've taken 15-112, you can register for 15-213.' It doesn't check that 15-213 requires 15-122 specifically, not just 15-112.",
+  "correct_response": "You cannot register for 15-213 yet. While you have completed 15-112, 15-213 requires 15-122 (Principles of Imperative Computation) as a prerequisite, which you have not taken. You need to take 15-122 first, then 15-213 the following semester. This means your CS minor will take at least 2 more semesters for this chain alone.",
+  "domains_required": [
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Courses Agent specifically checks the full prerequisite list, not just whether any CS course is done. In the multi-agent system, the Courses Agent has a dedicated prompt to check ALL prerequisites, while a single-agent system processing a broad context may do a quick pattern match and miss the intermediate step.",
+  "key_facts": [
+    "15-213 requires 15-122 as prerequisite (not just 15-112)",
+    "P-036 has taken 15-112 but likely not 15-122",
+    "CS minor prerequisite chain: 15-112 \u2192 15-122 \u2192 15-213 \u2192 ..."
+  ],
+  "known_traps": [
+    "Checking only if the student has taken ANY CS course rather than the specific prerequisite",
+    "Confusing 15-112 with 15-122 \u2014 they sound similar but are different courses",
+    "Approving registration based on the student's stated intent rather than actual eligibility"
+  ],
+  "advisor_validation_needed": "Verify: (1) exact prerequisites for 15-213, (2) whether P-036 has taken 15-122 from their course history, (3) the full CS minor prereq chain"
+}

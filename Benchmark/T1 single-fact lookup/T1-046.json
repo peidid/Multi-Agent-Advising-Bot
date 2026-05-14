@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-046",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": null,
+  "question": "Is 15-122 offered in Spring 2026?",
+  "answer": "Yes \u2014 15-122 is offered in Spring 2026",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings[15-122]",
+  "domain": "schedules",
+  "verification_note": "15-122 appears in the Spring 2026 offerings list"
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-048",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": "P-016",
+  "question": "I'm an IS junior in the ISP concentration \u2014 what time does 67-373 meet in Spring 2026?",
+  "answer": "08:30\u201309:45 on Sundays",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings[67-373].sections[0].start_time, end_time, days",
+  "domain": "schedules",
+  "verification_note": "days=['Sun'], start='08:30', end='09:45' in Spring 2026"
+}

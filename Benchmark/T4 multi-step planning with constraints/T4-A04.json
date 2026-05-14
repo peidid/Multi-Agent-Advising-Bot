@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A04",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-009",
+  "persona_summary": "CS 5th-year, no minor, 52 courses, Academic warning",
+  "variation": "Academic warning constrains the plan",
+  "question": "I'm on academic warning and I need to graduate this year. Can you plan my remaining semesters given that I have a limited number of units I can take?",
+  "what_makes_this_hard": "Academic warning unit cap directly constrains the plan. System must know the cap, calculate unit totals, and possibly acknowledge that an extra semester is needed.",
+  "needs_verification": [
+    "Academic warning unit cap from policy data",
+    "Exact remaining CS requirements for P-009",
+    "Whether remaining requirements fit within unit cap across available semesters",
+    "Course availability"
+  ]
+}

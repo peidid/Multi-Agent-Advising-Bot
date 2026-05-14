@@ -1,0 +1,301 @@
+{
+  "persona_id": "P-044",
+  "source_student_id": "student410",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Business Administration",
+      "History"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Business Administration (No concentrations)|Minor in History (No concentrations)",
+    "narrative": {
+      "background_notes": "Senior with dual minors in Business Administration and History. Very broad academic profile with 60 courses.",
+      "goals": "Graduate with both minors complete; targeting management consulting in tech",
+      "concerns": "Dual minors leave almost no room for electives; must verify every requirement is met"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 60,
+    "semesters_completed": [
+      "Summer 2022",
+      "Fall 2022",
+      "Spring 2023",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2022": [
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "21-108",
+          "course_name": "Introduction to Mathematical Concepts"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "80-130",
+          "course_name": "Introduction to Ethics"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "85-102",
+          "course_name": "Introduction to Psychology"
+        },
+        {
+          "course_code": "99-519",
+          "course_name": "Collaborative Research through Projects- Summer All"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "98-037",
+          "course_name": "Student Taught Courses (StuCo):  Introduction to 3D Modeling and Rendering"
+        },
+        {
+          "course_code": "15-390",
+          "course_name": "Entrepreneurship for Computer Science"
+        },
+        {
+          "course_code": "70-106",
+          "course_name": "Business Science"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "51-150",
+          "course_name": "Personal Design Futures"
+        },
+        {
+          "course_code": "76-386",
+          "course_name": "Language & Culture"
+        },
+        {
+          "course_code": "15-591",
+          "course_name": "Independent Study in Computer Science"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "79-491",
+          "course_name": "Independent Study"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "79-286",
+          "course_name": "Movers and Shakers in the Arab World"
+        },
+        {
+          "course_code": "02-251",
+          "course_name": "Great Ideas in Computational Biology"
+        },
+        {
+          "course_code": "70-409",
+          "course_name": "Innovation and Entrepreneurship in Emerging Markets"
+        },
+        {
+          "course_code": "70-311",
+          "course_name": "Organizational Behavior"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "99-520",
+          "course_name": "Collaborative Research through Projects"
+        },
+        {
+          "course_code": "70-417",
+          "course_name": "Topics in Entrepreneurship"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "67-430",
+          "course_name": "AI and Emerging Economies"
+        },
+        {
+          "course_code": "70-433",
+          "course_name": "Leading Innovation"
+        },
+        {
+          "course_code": "99-381",
+          "course_name": "Technology, Humanity and Social Justice- Governance"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "03-113",
+          "course_name": "Biologies in Text and Film"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "15-386",
+          "course_name": "Neural Computation"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "05-391",
+          "course_name": "Designing Human Centered Software"
+        },
+        {
+          "course_code": "94-403",
+          "course_name": "Consulting Lab"
+        },
+        {
+          "course_code": "33-104",
+          "course_name": "Experimental Physics"
+        },
+        {
+          "course_code": "48-787",
+          "course_name": "LEED, Green Infrastructure and Community Rating in Global Context"
+        },
+        {
+          "course_code": "51-874",
+          "course_name": "Sustainable Design Futures"
+        },
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "79-155",
+          "course_name": "Introduction to African American Studies"
+        },
+        {
+          "course_code": "79-115",
+          "course_name": "Introduction to Jewish Studies"
+        },
+        {
+          "course_code": "76-221",
+          "course_name": "Books You Should Have Read By Now"
+        },
+        {
+          "course_code": "66-221",
+          "course_name": "Topics of Law: Introduction to Intellectual Property Law"
+        },
+        {
+          "course_code": "79-172",
+          "course_name": "Race, Caste, Class, and Difference in the United States and India"
+        },
+        {
+          "course_code": "79-158",
+          "course_name": "Beyond Integration: African American Community Building, Reconstruction to 1960s"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "79-392",
+          "course_name": "Europe and the Islamic World"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        },
+        {
+          "course_code": "70-377",
+          "course_name": "Managing and Assessing Tech Talent and Organizations"
+        },
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        },
+        {
+          "course_code": "70-437",
+          "course_name": "Strategic Management and Innovation"
+        },
+        {
+          "course_code": "79-491",
+          "course_name": "Independent Study"
+        },
+        {
+          "course_code": "15-440",
+          "course_name": "Distributed Systems"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

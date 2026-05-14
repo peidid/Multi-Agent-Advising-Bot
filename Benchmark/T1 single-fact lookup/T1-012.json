@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-012",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "What is 15-150 called?",
+  "answer": "Principles of Functional Programming",
+  "source_file": "data/courses/15-150.json",
+  "source_field": "name",
+  "domain": "courses",
+  "verification_note": "name field in course JSON"
+}

@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-014",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-025",
+  "question": "I'm a BA junior (P-025) with dual Finance and BAT concentrations and an Economics minor. Which of my remaining Finance concentration courses are offered in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-025's Finance courses completed: 70-391 (Finance), 70-492 (Investment Analysis), 70-208 (Regression), 70-257 (Optimization). Identify remaining Finance concentration courses",
+    "schedules": "Spring 2026 Finance-relevant offerings: 70-401, 70-416, 70-441, 70-460, 70-492 (already done), 70-495, 73-354, 73-421"
+  },
+  "key_facts": [
+    "P-025 completed Finance courses: 70-391, 70-492, 70-257, 70-208",
+    "P-025 also has: 73-102, 73-103, 73-265, 73-354 (Econ courses for minor)",
+    "Spring 2026 offers upper-level Finance courses: 70-401, 70-416, 70-441, 70-460, 70-495",
+    "73-421 is also offered Spring 2026 (upper-level Econ, may count for Econ minor)",
+    "Which specific Finance courses are required vs elective depends on the Finance concentration curriculum (needs verification)"
+  ],
+  "wrong_if_single_domain": "Listing Finance concentration requirements (programs) without checking the schedule cannot tell P-025 what is available now. Looking only at the schedule shows many courses but cannot identify which ones fulfill outstanding Finance requirements.",
+  "common_mistake": "Suggesting 70-492 (Investment Analysis) as a Finance option without realizing P-025 already completed it in Spring 2025",
+  "reasoning_chain": [
+    "Step 1 (programs): Identify remaining Finance concentration requirements for P-025",
+    "Step 2 (schedules): Check Spring 2026 schedule for Finance-related courses",
+    "Step 3: Filter out already-completed courses (70-492, 70-391, etc.)",
+    "Conclusion: 70-401, 70-416, 70-441, 70-460, 70-495 are Spring 2026 Finance options not yet taken by P-025"
+  ]
+}

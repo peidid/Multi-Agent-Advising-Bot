@@ -1,0 +1,279 @@
+{
+  "persona_id": "P-028",
+  "source_student_id": "student424",
+  "demographic": {
+    "major": "Business Administration",
+    "concentrations": [
+      "Finance",
+      "Strategic Management"
+    ],
+    "minors": [
+      "Media and Politics"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Business Administration (Finance, Strategic Management)|Minor in Media and Politics (No concentrations)",
+    "narrative": {
+      "background_notes": "Dual concentration Finance + Strategic Management, with Media & Politics minor. Very ambitious course load.",
+      "goals": "Graduate on time with all concentrations and minor complete",
+      "concerns": "Extremely tight schedule; has had to take summer courses to stay on track"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 54,
+    "semesters_completed": [
+      "Summer 2021",
+      "Fall 2022",
+      "Spring 2023",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2021": [
+        {
+          "course_code": "00-011",
+          "course_name": "QSP SAT Preparation 1"
+        },
+        {
+          "course_code": "00-003",
+          "course_name": "QSP English 3"
+        },
+        {
+          "course_code": "00-005",
+          "course_name": "QSP Mathematics 2 Pre-Calculus"
+        },
+        {
+          "course_code": "00-007",
+          "course_name": "QSP Business Project"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "70-106",
+          "course_name": "Business Science"
+        },
+        {
+          "course_code": "70-110",
+          "course_name": "Business Computing"
+        },
+        {
+          "course_code": "21-111",
+          "course_name": "Differential Calculus"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "21-112",
+          "course_name": "Integral Calculus"
+        },
+        {
+          "course_code": "82-412",
+          "course_name": "Topics in Arabic Studies"
+        },
+        {
+          "course_code": "70-207",
+          "course_name": "Probability and Statistics for Business Applications"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "79-366",
+          "course_name": "Power & Politics: A Global History of Food"
+        },
+        {
+          "course_code": "85-107",
+          "course_name": "The Psychology of Video Games"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "21-256",
+          "course_name": "Multivariate Analysis"
+        },
+        {
+          "course_code": "70-340",
+          "course_name": "Business Communications"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "67-382",
+          "course_name": "Digital Transformation, Strategy and Management"
+        },
+        {
+          "course_code": "70-208",
+          "course_name": "Regression Analysis"
+        },
+        {
+          "course_code": "70-311",
+          "course_name": "Organizational Behavior"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "70-391",
+          "course_name": "Finance"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "70-381",
+          "course_name": "Marketing I"
+        },
+        {
+          "course_code": "70-257",
+          "course_name": "Optimization for Business"
+        },
+        {
+          "course_code": "QG-370",
+          "course_name": "Comparative Political Systems"
+        },
+        {
+          "course_code": "70-104",
+          "course_name": "Business Leadership Endeavor I"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "70-391",
+          "course_name": "Finance"
+        },
+        {
+          "course_code": "70-371",
+          "course_name": "Operations Management"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "70-332",
+          "course_name": "Business, Society and Ethics"
+        },
+        {
+          "course_code": "73-103",
+          "course_name": "Principles of Macroeconomics"
+        },
+        {
+          "course_code": "70-493",
+          "course_name": "Valuation and Financial Modeling"
+        },
+        {
+          "course_code": "70-440",
+          "course_name": "Corporate Strategy"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "QN-352",
+          "course_name": "Alternative Media in ME"
+        },
+        {
+          "course_code": "73-336",
+          "course_name": "International Energy Market and Sustainable Development"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "70-492",
+          "course_name": "Investment  Analysis"
+        },
+        {
+          "course_code": "QG-337",
+          "course_name": "Public Knowledge-Digital Deep"
+        },
+        {
+          "course_code": "QG-102",
+          "course_name": "Intermediate Macro Economic Theory"
+        },
+        {
+          "course_code": "70-495",
+          "course_name": "Corporate Finance"
+        },
+        {
+          "course_code": "70-345",
+          "course_name": "Business Presentations"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "79-115",
+          "course_name": "Introduction to Jewish Studies"
+        },
+        {
+          "course_code": "51-237",
+          "course_name": "Digital Photography I"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "70-388",
+          "course_name": "Islamic Finance"
+        },
+        {
+          "course_code": "QG-352",
+          "course_name": "Non-State Actors Contemporary MENA"
+        },
+        {
+          "course_code": "70-104",
+          "course_name": "Business Leadership Endeavor I"
+        },
+        {
+          "course_code": "17-493",
+          "course_name": "Hands-on Negotiations for Technology Leaders"
+        },
+        {
+          "course_code": "70-437",
+          "course_name": "Strategic Management and Innovation"
+        },
+        {
+          "course_code": "19-422",
+          "course_name": "Energy Systems in Transformation: Markets, Policy, and Change"
+        },
+        {
+          "course_code": "QN-230",
+          "course_name": "Understanding Media Contexts"
+        },
+        {
+          "course_code": "70-409",
+          "course_name": "Innovation and Entrepreneurship in Emerging Markets"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

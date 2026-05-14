@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-D07",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-041",
+  "persona_summary": "CS Sophomore, Professional Writing minor, 24 courses, Good standing",
+  "variation": "Electives outside major area",
+  "question": "I have some free elective slots. I'm interested in design and user experience. What courses outside CS and my Writing minor could I take, and when do they fit?",
+  "what_makes_this_hard": "System must search across departments for relevant electives, check prerequisites, and fit them into available slots.",
+  "needs_verification": [
+    "Available HCI/design courses at CMU-Q",
+    "Prerequisites for those courses",
+    "P-041's remaining free elective slots",
+    "Schedule compatibility"
+  ]
+}

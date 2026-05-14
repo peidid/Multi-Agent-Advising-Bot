@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E09",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-059",
+  "persona_summary": "BIO First-year, dual concentration Genetics + Neuroscience, 11 courses, Good standing",
+  "variation": "Keep both concentrations vs drop one",
+  "question": "I declared both Genetics and Neuroscience concentrations but I'm already overwhelmed. Can you show me the plan for keeping both versus dropping Genetics and just doing Neuroscience? How much lighter would it be?",
+  "what_makes_this_hard": "First-year rethinking an ambitious choice. System should show both plans and honestly quantify the workload difference.",
+  "needs_verification": [
+    "Genetics concentration requirement list",
+    "Neuroscience concentration requirement list",
+    "Overlap between the two",
+    "Workload comparison (total courses, units)"
+  ]
+}

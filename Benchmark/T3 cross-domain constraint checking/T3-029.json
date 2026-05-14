@@ -1,0 +1,32 @@
+{
+  "query_id": "T3-029",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-010",
+  "question": "I'm a CS 5th-year student (P-010) in good standing. I need 5 courses in Spring 2026 to accumulate enough units to graduate. My planned courses: 15-441 (12), 15-316 (12), 70-381 (9), 70-311 (9), 21-355 (12) = 54 units. Is special approval required?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "courses"
+  ],
+  "domain_contributions": {
+    "policies": "Overload policy: normal load \u2248 45 units. 54 units exceeds normal by 9 units. Up to 12 units above normal requires advisor approval; P-010 is in good standing so overload is not AW-blocked.",
+    "courses": "5 courses totaling 54 units: 12+12+9+9+12 = 54 units; confirms the overload calculation"
+  },
+  "key_facts": [
+    "54 units = ~9 units above the ~45 normal load",
+    "P-010 is in good standing \u2014 not blocked by AW",
+    "Overload of up to 12 units above normal requires advisor approval",
+    "P-010 also already completed 70-311 (Fall 2024) \u2014 planning to retake would be redundant",
+    "Advisor approval is required; advisor must update S3 max units"
+  ],
+  "wrong_if_single_domain": "Knowing only the policy identifies the approval requirement but cannot calculate whether 54 units is actually an overload without knowing the normal load definition. Knowing only course unit counts cannot determine the approval pathway.",
+  "common_mistake": "Assuming that 5 courses is automatically a prohibited overload without checking the actual unit totals against the policy threshold; also not catching that 70-311 was already completed",
+  "reasoning_chain": [
+    "Step 1 (courses): Sum 5 courses \u2192 54 units",
+    "Step 2 (policies): Normal load ~45; 54 - 45 = 9 units overload \u2192 advisor approval required",
+    "Step 3: P-010 good standing \u2192 eligible for overload with approval",
+    "Step 4: Note 70-311 already done (Fall 2024) \u2014 P-010 should choose a different 9-unit course",
+    "Conclusion: 54-unit load is permitted with advisor approval; P-010 must replace 70-311 with an unfinished course"
+  ]
+}

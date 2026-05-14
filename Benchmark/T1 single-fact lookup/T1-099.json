@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-099",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": "P-046",
+  "question": "I'm a 5th-year CS student on academic warning \u2014 what grade in a pass/fail course earns no credit?",
+  "answer": "Work below a D grade receives no credit and is recorded as N",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Pass/Fail Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'below D work will receive no credit and will be recorded as N'"
+}

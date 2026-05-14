@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-068",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What minimum grade in 15-110 qualifies a student for the Tech Entrepreneurship minor prerequisite?",
+  "answer": "B",
+  "source_file": "data/programs/Minors/cmu_minor_tech_entrepreneurship.json",
+  "source_field": "program_requirements.requirements.prerequisites.options[0].minimum_grade",
+  "domain": "programs",
+  "verification_note": "prerequisites option for 15-110 requires minimum_grade: B"
+}

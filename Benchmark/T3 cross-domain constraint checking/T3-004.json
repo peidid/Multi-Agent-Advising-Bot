@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-004",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student (P-009) on academic warning. I want to take 15-441 (Networking and the Internet) in Spring 2026 to complete a remaining CS requirement. Is this feasible given my academic status?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "courses": "Verify P-009 meets 15-441 prerequisites (likely 15-213 \u2014 P-009 completed it Summer 2023 \u2713)",
+    "schedules": "Confirm 15-441 is offered Spring 2026 (it is: Sec1 Mon/Wed 08:30\u201309:45, SecW Thu 10:00\u201310:50)",
+    "policies": "Academic warning does not block standard course registration but prohibits overloads; taking one course at normal load is permitted"
+  },
+  "key_facts": [
+    "P-009 completed 15-213 in Summer 2023 \u2713",
+    "15-441 offered Spring 2026: Sec1 Mon/Wed 08:30\u201309:45 and SecW Thu 10:00\u201310:50",
+    "P-009 is on academic warning",
+    "Academic warning restricts overloads and independent studies \u2014 but does NOT block registering for standard courses at normal load",
+    "If P-009's total Spring 2026 load exceeds the normal unit threshold, the overload restriction becomes relevant"
+  ],
+  "wrong_if_single_domain": "Checking only prerequisites approves the registration without flagging the academic warning constraint on total load. Checking only the policy without the schedule would not confirm the course is actually offered in Spring 2026.",
+  "common_mistake": "Assuming academic warning completely blocks course registration, or conversely ignoring the overload restriction entirely when calculating total semester units",
+  "reasoning_chain": [
+    "Step 1: Check 15-441 prereqs \u2192 15-213 \u2713",
+    "Step 2: Check Spring 2026 schedule \u2192 15-441 offered \u2713",
+    "Step 3: Check P-009 academic warning policy \u2192 can register for courses at normal load; cannot overload",
+    "Step 4: Verify P-009's total planned units don't exceed normal load threshold",
+    "Conclusion: 15-441 is eligible and offered; permitted under AW if total units remain within normal load"
+  ]
+}

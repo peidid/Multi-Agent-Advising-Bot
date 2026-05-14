@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C10",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-006",
+  "persona_summary": "CS Junior, Tech Entrepreneurship minor, 34 courses, Good standing",
+  "variation": "Taking semester off for internship",
+  "question": "I'm planning to take next semester off for a startup internship. How should I rearrange my remaining semesters to still graduate on time? Do I need summer courses?",
+  "what_makes_this_hard": "Removing one semester from the plan forces compression. System must determine if remaining requirements fit in fewer semesters, possibly with summer.",
+  "needs_verification": [
+    "Remaining CS + Tech Entrepreneurship minor requirements",
+    "Whether requirements fit in reduced number of semesters",
+    "Summer course availability",
+    "Summer unit limits if applicable"
+  ]
+}

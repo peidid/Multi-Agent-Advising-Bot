@@ -1,0 +1,915 @@
+{
+  "metadata": {
+    "tier": "T5",
+    "tier_name": "Adversarial & Edge Cases",
+    "description": "Questions where naive systems fail due to specific, identifiable traps. Every question has a false assumption, hidden conflict, or policy violation that a less careful system would miss. Answers require advisor validation.",
+    "total_questions": 30,
+    "patterns": {
+      "A": {
+        "name": "Impossible Timeline",
+        "count": 5,
+        "description": "Student asks for something that cannot be done given constraints"
+      },
+      "B": {
+        "name": "Hidden Prerequisite Violation",
+        "count": 5,
+        "description": "System does shallow prereq check and misses a deeper requirement"
+      },
+      "C": {
+        "name": "Policy Conflict",
+        "count": 5,
+        "description": "Student's plan violates a policy they don't know about"
+      },
+      "D": {
+        "name": "Course Availability Trap",
+        "count": 5,
+        "description": "Course exists in catalog but isn't offered when needed"
+      },
+      "E": {
+        "name": "Double-Counting / Requirement Ambiguity",
+        "count": 5,
+        "description": "Course counted for two requirements when policy doesn't allow it"
+      },
+      "F": {
+        "name": "False Premise",
+        "count": 5,
+        "description": "Student's question contains a factual error the system should correct"
+      }
+    },
+    "persona_coverage": {
+      "total_unique_personas": 29,
+      "academic_warning_appearances": 3
+    }
+  },
+  "questions": [
+    {
+      "query_id": "T5-A01",
+      "tier": "T5",
+      "pattern": "A",
+      "pattern_name": "Impossible Timeline",
+      "persona_id": "P-046",
+      "persona_summary": "CS 5th-year, entered Fall 2016, Academic warning, Math minor, 45 courses",
+      "question": "I want to complete both my CS degree and my Math minor by Spring 2026. I know I'm on academic warning, but I think I can handle a heavy load. Plan my remaining courses.",
+      "false_assumption_or_hidden_conflict": "The student assumes this is feasible within their remaining time. Academic warning imposes a unit cap per semester. Combined with the number of remaining CS + Math minor courses and prerequisite chains that must be sequenced, completing everything by Spring 2026 is likely mathematically impossible.",
+      "naive_system_response": "A naive system would generate a plan cramming all remaining courses into 1-2 semesters, either silently exceeding the academic warning unit cap or violating prerequisite ordering by scheduling dependent courses in the same semester.",
+      "correct_response": "Completing both your CS degree and Math minor by Spring 2026 is not feasible under your current academic warning status. The unit cap limits you to [X] units per semester, but you have [Y] remaining courses totaling approximately [Z] units, with prerequisite chains requiring at minimum [N] semesters. Your options: (1) drop the Math minor and focus on completing CS by Spring 2026, (2) extend to Fall 2026 to complete everything, (3) petition the dean for an academic warning unit cap exception with a strong rationale.",
+      "domains_required": [
+        "programs",
+        "courses",
+        "schedules",
+        "policies"
+      ],
+      "why_multi_agent_helps": "The Planning Agent would propose a plan. The Policy Agent would immediately flag the academic warning unit cap violation. The Programs Agent would confirm the full list of remaining requirements. The Courses Agent would verify prerequisite chains require more semesters than available. The proposal-critique protocol forces these checks before any plan is finalized \u2014 a single agent is likely to generate a plan without triggering the policy check.",
+      "key_facts": [
+        "P-046 is on academic warning with a per-semester unit cap",
+        "P-046 entered in Fall 2016 \u2014 degree requirements may have changed",
+        "Remaining CS requirements + Math minor requirements exceed what fits in remaining semesters under the cap",
+        "Prerequisite chains impose a minimum number of sequential semesters"
+      ],
+      "known_traps": [
+        "Generating a plan that exceeds the academic warning unit cap",
+        "Scheduling courses that have prerequisite relationships in the same semester",
+        "Ignoring that the student has been enrolled since 2016 \u2014 catalog year issues",
+        "Not offering alternatives when the request is infeasible"
+      ],
+      "advisor_validation_needed": "Verify: (1) exact academic warning unit cap from policy data, (2) exact remaining CS and Math minor requirements by auditing P-046's 45 courses against current requirements, (3) prerequisite chain lengths for remaining courses, (4) whether the impossibility is genuine"
+    },
+    {
+      "query_id": "T5-A02",
+      "tier": "T5",
+      "pattern": "A",
+      "pattern_name": "Impossible Timeline",
+      "persona_id": "P-009",
+      "persona_summary": "CS 5th-year, no minor, 52 courses, Academic warning",
+      "question": "I absolutely must graduate by the end of this semester. What courses can I take right now to finish my CS degree?",
+      "false_assumption_or_hidden_conflict": "The student assumes all remaining requirements can be completed in a single semester. With academic warning unit cap, if they have more remaining units than the cap allows, single-semester graduation is impossible regardless of course availability.",
+      "naive_system_response": "A naive system would list all remaining required courses and schedule them for the current semester without checking if the total units exceed the academic warning cap, or without verifying all courses are offered this semester.",
+      "correct_response": "Based on your course history, you still need [X] courses totaling approximately [Y] units. Your academic warning status limits you to [Z] units this semester. Since [Y] > [Z], completing everything this semester is not possible. You need at minimum [N] more semesters. Here is a plan that gets you to graduation as quickly as possible while respecting your unit limit: [semester-by-semester plan].",
+      "domains_required": [
+        "programs",
+        "courses",
+        "policies"
+      ],
+      "why_multi_agent_helps": "A single agent might list remaining courses without calculating total units against the warning cap. The Policy Agent specifically checks unit limits, the Programs Agent identifies remaining requirements, and the coordinator synthesizes these into a feasibility assessment before the Planning Agent attempts a plan.",
+      "key_facts": [
+        "P-009 is on academic warning",
+        "Academic warning imposes a unit cap per semester",
+        "P-009 has taken 52 courses but may still have gaps",
+        "Single-semester completion requires all remaining units to fit under the cap"
+      ],
+      "known_traps": [
+        "Listing all remaining courses without checking unit total against cap",
+        "Not verifying course availability in the current semester",
+        "Assuming 52 courses means the student is almost done \u2014 they may have taken courses that don't count"
+      ],
+      "advisor_validation_needed": "Verify: (1) exact remaining CS requirements for P-009, (2) academic warning unit cap, (3) whether single-semester completion is genuinely impossible, (4) optimal multi-semester path"
+    },
+    {
+      "query_id": "T5-A03",
+      "tier": "T5",
+      "pattern": "A",
+      "pattern_name": "Impossible Timeline",
+      "persona_id": "P-056",
+      "persona_summary": "BA Senior, Entrepreneurship concentration, dual minors CS + International Relations, 47 courses, Good standing",
+      "question": "I'm a senior and I need to finish my Entrepreneurship concentration, my CS minor, and my International Relations minor by Spring 2026. Plan everything out for me.",
+      "false_assumption_or_hidden_conflict": "Three areas of study with independent requirement sets. The CS minor alone has a long prerequisite chain. Combined with Entrepreneurship courses and IR minor courses, the total remaining load almost certainly exceeds what fits in 1-2 remaining semesters, especially if CS minor prereqs haven't been completed yet.",
+      "naive_system_response": "A naive system would generate a plan listing all remaining courses across three programs without recognizing that the CS minor prerequisite chain alone may require 2-3 more semesters, making Spring 2026 impossible.",
+      "correct_response": "Completing all three programs by Spring 2026 is extremely tight and likely not feasible. Your CS minor has a prerequisite chain that requires [N] sequential semesters, and you still need [X] IR minor courses and [Y] Entrepreneurship courses. Realistically, you need to either: (1) drop one of the two minors and complete the other on time, (2) extend by 1-2 semesters, or (3) petition for course substitutions if any overlap exists. Here's what each option looks like: [comparison].",
+      "domains_required": [
+        "programs",
+        "courses",
+        "schedules",
+        "policies"
+      ],
+      "why_multi_agent_helps": "The Programs Agent checks three separate requirement sets. The Courses Agent traces the CS minor prerequisite chain and determines minimum semesters needed. The Policy Agent checks unit limits. When the Planning Agent's proposal inevitably violates one of these, the parallel critique catches it \u2014 whereas a single agent might miss the prereq chain length while focusing on fitting courses into slots.",
+      "key_facts": [
+        "P-056 has three separate program requirement sets to complete",
+        "CS minor for non-CS students has a strict, multi-semester prereq chain",
+        "Entrepreneurship concentration has limited course offerings",
+        "Total remaining courses likely exceed what's possible by Spring 2026"
+      ],
+      "known_traps": [
+        "Generating a plan without checking CS minor prereq chain length",
+        "Assuming all remaining courses can be taken in parallel when prereqs prevent it",
+        "Not recognizing that three programs competing for the same schedule slots creates infeasibility"
+      ],
+      "advisor_validation_needed": "Verify: (1) remaining CS minor requirements and prereq chain depth for P-056, (2) remaining IR minor requirements, (3) remaining Entrepreneurship requirements, (4) whether any overlap exists between the three, (5) confirm impossibility or tight feasibility"
+    },
+    {
+      "query_id": "T5-A04",
+      "tier": "T5",
+      "pattern": "A",
+      "pattern_name": "Impossible Timeline",
+      "persona_id": "P-052",
+      "persona_summary": "IS 5th-year, no concentration, no minor, entered Summer 2016, 47 courses, Good standing",
+      "question": "I've been enrolled since 2016 and I still don't have a concentration. I want to declare Data Science and graduate by Spring 2026. What's my plan?",
+      "false_assumption_or_hidden_conflict": "Declaring Data Science concentration this late means the student likely hasn't completed DS-specific prerequisites. The DS prereq chain plus remaining core IS requirements may not fit in the remaining time. Additionally, IS program requirements have likely changed since 2016 \u2014 some completed courses may no longer count.",
+      "naive_system_response": "A naive system would accept the DS declaration and build a plan from the current DS requirements without checking whether courses taken years ago still count, or whether the DS prereq chain fits in the remaining timeline.",
+      "correct_response": "Declaring Data Science at this point is risky. You need [X] DS-specific courses with a prerequisite chain requiring at least [N] semesters. Given your remaining time, this may not be feasible. Also, since you entered in 2016, we need to audit which of your 47 courses still satisfy current IS requirements \u2014 some may have changed. I recommend: (1) meet with an advisor for an official degree audit, (2) consider whether completing IS without a concentration (if permitted) is faster, (3) if you must have a concentration, check which one you're closest to based on courses already taken.",
+      "domains_required": [
+        "programs",
+        "courses",
+        "schedules",
+        "policies"
+      ],
+      "why_multi_agent_helps": "The Programs Agent would flag that the DS concentration requires specific courses the student hasn't taken. The Courses Agent would trace the prereq chain and calculate minimum semesters. The Policy Agent would raise catalog year concerns for a student enrolled since 2016. A single agent might simply build a plan from current DS requirements without raising these structural issues.",
+      "key_facts": [
+        "P-052 entered Summer 2016 \u2014 10 years of enrollment",
+        "No concentration declared despite 47 courses",
+        "DS concentration has specific prerequisites with chain dependencies",
+        "IS requirements have likely changed since 2016"
+      ],
+      "known_traps": [
+        "Building a plan without auditing old courses against current requirements",
+        "Ignoring catalog year issues for a student enrolled since 2016",
+        "Not calculating whether DS prereq chain fits in remaining time",
+        "Not suggesting the student check which concentration requires fewest new courses"
+      ],
+      "advisor_validation_needed": "Verify: (1) current DS concentration requirements, (2) which of P-052's courses satisfy current IS requirements, (3) catalog year policy for long-enrolled students, (4) whether DS is genuinely infeasible or merely tight, (5) which concentration P-052 is closest to"
+    },
+    {
+      "query_id": "T5-A05",
+      "tier": "T5",
+      "pattern": "A",
+      "pattern_name": "Impossible Timeline",
+      "persona_id": "P-029",
+      "persona_summary": "BA 5th-year, Strategic Management, Psychology minor, 60 courses, Good standing",
+      "question": "I have a job starting in June 2026 and I absolutely cannot extend past Spring 2026. I think I have everything done but I want you to double-check and plan my final semester to be safe.",
+      "false_assumption_or_hidden_conflict": "The student assumes they're essentially done with 60 courses. However, with a Psychology minor that has specific course requirements offered only in certain semesters, there may be a single remaining Psychology minor course that is NOT offered in Spring 2026 \u2014 meaning the student can't finish on time despite being 'almost done.'",
+      "naive_system_response": "A naive system would confirm 'you're almost done!' and list 1-2 remaining courses, possibly without checking whether those specific courses are actually offered in Spring 2026.",
+      "correct_response": "After auditing your 60 courses against BA + Strategic Management + Psychology minor requirements, you are missing [specific course(s)]. Unfortunately, [course X] for your Psychology minor is only offered in [Fall/specific semester], not Spring 2026. Your options: (1) find a substitute course that satisfies the same requirement and IS offered in Spring 2026, (2) petition for a course substitution, (3) take it during Summer 2026 before your job starts if timing permits.",
+      "domains_required": [
+        "programs",
+        "courses",
+        "schedules"
+      ],
+      "why_multi_agent_helps": "The Programs Agent audits 60 courses and finds the gap. The Courses Agent verifies offering schedules and detects the availability problem. A single agent might confirm near-completion without cross-referencing the final requirement against the Spring 2026 schedule \u2014 missing the one course that's unavailable.",
+      "key_facts": [
+        "P-029 has 60 courses \u2014 close to completion but not verified complete",
+        "Psychology minor has specific requirements that may not all be offered every semester",
+        "Job start date creates a hard deadline",
+        "One missing course in the wrong semester can derail graduation"
+      ],
+      "known_traps": [
+        "Assuming 60 courses means requirements are met without actually auditing",
+        "Confirming completion without checking Spring 2026 offering schedule",
+        "Not suggesting alternatives when the missing course isn't offered"
+      ],
+      "advisor_validation_needed": "Verify: (1) exact remaining requirements after auditing 60 courses, (2) whether any remaining Psychology minor course is not offered Spring 2026, (3) whether a substitute exists, (4) summer course option timing relative to June job start"
+    },
+    {
+      "query_id": "T5-B01",
+      "tier": "T5",
+      "pattern": "B",
+      "pattern_name": "Hidden Prerequisite Violation",
+      "persona_id": "P-036",
+      "persona_summary": "BIO Junior, CS minor, 36 courses, Good standing",
+      "question": "I've taken 15-112 and I want to register for 15-213 next semester to make progress on my CS minor. Am I eligible?",
+      "false_assumption_or_hidden_conflict": "15-213 likely requires 15-122 (not just 15-112) as a prerequisite. The student has taken 15-112 but may have skipped 15-122. A shallow system might see '15-112 completed' and approve, not realizing 15-213 requires the intermediate course.",
+      "naive_system_response": "A naive system checks if the student has any CS course and approves: 'You've taken 15-112, you can register for 15-213.' It doesn't check that 15-213 requires 15-122 specifically, not just 15-112.",
+      "correct_response": "You cannot register for 15-213 yet. While you have completed 15-112, 15-213 requires 15-122 (Principles of Imperative Computation) as a prerequisite, which you have not taken. You need to take 15-122 first, then 15-213 the following semester. This means your CS minor will take at least 2 more semesters for this chain alone.",
+      "domains_required": [
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Courses Agent specifically checks the full prerequisite list, not just whether any CS course is done. In the multi-agent system, the Courses Agent has a dedicated prompt to check ALL prerequisites, while a single-agent system processing a broad context may do a quick pattern match and miss the intermediate step.",
+      "key_facts": [
+        "15-213 requires 15-122 as prerequisite (not just 15-112)",
+        "P-036 has taken 15-112 but likely not 15-122",
+        "CS minor prerequisite chain: 15-112 \u2192 15-122 \u2192 15-213 \u2192 ..."
+      ],
+      "known_traps": [
+        "Checking only if the student has taken ANY CS course rather than the specific prerequisite",
+        "Confusing 15-112 with 15-122 \u2014 they sound similar but are different courses",
+        "Approving registration based on the student's stated intent rather than actual eligibility"
+      ],
+      "advisor_validation_needed": "Verify: (1) exact prerequisites for 15-213, (2) whether P-036 has taken 15-122 from their course history, (3) the full CS minor prereq chain"
+    },
+    {
+      "query_id": "T5-B02",
+      "tier": "T5",
+      "pattern": "B",
+      "pattern_name": "Hidden Prerequisite Violation",
+      "persona_id": "P-015",
+      "persona_summary": "IS Junior, Data Science concentration, Tech Entrepreneurship minor, 35 courses, Good standing",
+      "question": "I want to take an advanced machine learning elective next semester. I've already completed the intro stats course. Am I ready?",
+      "false_assumption_or_hidden_conflict": "Advanced ML courses typically require not just intro stats but also linear algebra and an intermediate programming course. The student mentions only stats. The system should check ALL prerequisites, not just the one the student mentions.",
+      "naive_system_response": "A naive system would check that the student has the stats prerequisite and approve: 'You've completed intro stats, you're eligible for the ML course.' It misses that the ML course also requires linear algebra and/or a programming course the student may not have taken.",
+      "correct_response": "The advanced ML elective requires: (1) intro statistics [\u2713 completed], (2) linear algebra [check if completed], and (3) intermediate programming/data structures [check if completed]. You're missing [specific courses]. You need to complete [X] before you can register for the ML course.",
+      "domains_required": [
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Courses Agent retrieves the complete prerequisite list for the ML course, not just the one the student mentions. A single agent might anchor on the student's mention of stats and confirm that single prerequisite without checking the full list.",
+      "key_facts": [
+        "Advanced ML courses typically have multiple prerequisites (stats + linear algebra + programming)",
+        "Student only mentions completing one prerequisite",
+        "IS students may not have taken math/CS courses that CS students would have"
+      ],
+      "known_traps": [
+        "Only checking the prerequisite the student explicitly mentions",
+        "Not retrieving the full prerequisite list from course data",
+        "Assuming IS students have the same math background as CS students"
+      ],
+      "advisor_validation_needed": "Verify: (1) which advanced ML course exists at CMU-Q, (2) its full prerequisite list, (3) which prereqs P-015 has and hasn't completed"
+    },
+    {
+      "query_id": "T5-B03",
+      "tier": "T5",
+      "pattern": "B",
+      "pattern_name": "Hidden Prerequisite Violation",
+      "persona_id": "P-024",
+      "persona_summary": "BA Sophomore, Strategic Management, Tech Entrepreneurship minor, 31 courses, Good standing",
+      "question": "I'm interested in taking a data analytics course from the IS department to strengthen my Tech Entrepreneurship minor. Can I just sign up?",
+      "false_assumption_or_hidden_conflict": "IS department courses often have IS-specific prerequisites (e.g., an intro IS course or specific programming course) that BA students haven't taken. The student assumes cross-department enrollment is straightforward, but prerequisite barriers may exist. Additionally, some courses may be restricted to IS majors.",
+      "naive_system_response": "A naive system might check if the course is offered and confirm availability without checking whether BA students can take IS courses or whether IS-specific prerequisites are satisfied.",
+      "correct_response": "The data analytics course [XX-XXX] has prerequisites: [specific IS courses]. As a BA student, you likely haven't taken [prerequisite course]. Additionally, check whether this course has a major restriction \u2014 some IS courses are reserved for IS students or require department permission. You would need to: (1) complete the prerequisite first, and (2) confirm enrollment eligibility for non-IS students.",
+      "domains_required": [
+        "courses",
+        "policies"
+      ],
+      "why_multi_agent_helps": "The Courses Agent checks prerequisites. The Policy Agent checks enrollment restrictions by major. Together they catch both the prereq gap and the potential major restriction \u2014 a single agent might check one but not the other.",
+      "key_facts": [
+        "IS courses may have IS-specific prerequisites BA students lack",
+        "Some courses have major/department enrollment restrictions",
+        "Cross-department enrollment often has hidden barriers"
+      ],
+      "known_traps": [
+        "Confirming a course exists without checking prerequisites for this specific student's background",
+        "Not checking major-restriction policies on the course",
+        "Assuming cross-department enrollment works the same as within-department"
+      ],
+      "advisor_validation_needed": "Verify: (1) which data analytics courses exist in IS department, (2) their prerequisites, (3) whether P-024 has those prereqs, (4) any major restriction policies"
+    },
+    {
+      "query_id": "T5-B04",
+      "tier": "T5",
+      "pattern": "B",
+      "pattern_name": "Hidden Prerequisite Violation",
+      "persona_id": "P-060",
+      "persona_summary": "BIO Sophomore, Molecular Biology concentration, Neuroscience minor, 21 courses, Good standing",
+      "question": "I want to take an advanced neuroscience lab course for my minor. I've taken General Biology and the intro neuro course. Can I register?",
+      "false_assumption_or_hidden_conflict": "Advanced lab courses often have hidden prerequisites beyond introductory courses \u2014 such as organic chemistry, biochemistry, or a specific methods course. The student assumes the intro sequence is sufficient, but the lab course likely requires additional preparation the student hasn't completed.",
+      "naive_system_response": "A naive system checks that the student has 'intro neuro' and 'General Biology' and approves, not realizing the lab course requires an intermediate course (e.g., biochemistry or a methods course) that the student hasn't taken.",
+      "correct_response": "The advanced neuroscience lab [XX-XXX] requires: (1) intro neuroscience [\u2713], (2) General Biology [\u2713], and (3) [specific intermediate course like biochemistry or research methods] which you have not yet completed. You need to take [intermediate course] first, which is offered in [semester].",
+      "domains_required": [
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Courses Agent retrieves all prerequisites including non-obvious ones like intermediate chemistry requirements for biology lab courses. A single agent might pattern-match on 'neuro' prerequisites and miss the chemistry/methods requirement.",
+      "key_facts": [
+        "Advanced lab courses often have prerequisites beyond the introductory sequence",
+        "Biology lab courses may require chemistry or methods courses",
+        "Sophomore students often haven't completed all intermediate prerequisites"
+      ],
+      "known_traps": [
+        "Only checking the 'obvious' neuro prerequisites and missing chemistry/methods requirements",
+        "Approving based on the student's description rather than the full prereq list",
+        "Not distinguishing between lecture courses and lab courses which often have different prereqs"
+      ],
+      "advisor_validation_needed": "Verify: (1) which advanced neuro lab courses exist, (2) their full prerequisite lists including non-obvious ones, (3) what P-060 has and hasn't completed"
+    },
+    {
+      "query_id": "T5-B05",
+      "tier": "T5",
+      "pattern": "B",
+      "pattern_name": "Hidden Prerequisite Violation",
+      "persona_id": "P-042",
+      "persona_summary": "CS Junior, dual minors Math + SCS Computer Systems, 32 courses, Good standing",
+      "question": "I've completed 15-213 and I want to take the operating systems course next semester. I should be good on prereqs, right?",
+      "false_assumption_or_hidden_conflict": "Operating systems courses may have prerequisites beyond just 15-213 \u2014 potentially requiring concurrent enrollment in or prior completion of a specific math course, or another systems course. The student assumes 15-213 alone is sufficient.",
+      "naive_system_response": "A naive system confirms: '15-213 completed, you're eligible for operating systems.' It doesn't check for additional prerequisites like concurrent math or a different systems prerequisite.",
+      "correct_response": "The operating systems course requires: (1) 15-213 [\u2713 completed], and (2) [additional prerequisite \u2014 check course data]. You are [eligible/not eligible] because [specific reason]. Note: this course may also have a corequisite requirement for [course] that must be taken simultaneously.",
+      "domains_required": [
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Courses Agent checks ALL prerequisites including corequisites. A single agent processing the question might focus on the main prerequisite (15-213) and miss corequisite or secondary requirements.",
+      "key_facts": [
+        "Systems courses often have multiple prerequisites and sometimes corequisites",
+        "15-213 is necessary but may not be sufficient",
+        "Corequisites (courses taken simultaneously) are easy to miss"
+      ],
+      "known_traps": [
+        "Confirming eligibility based only on the most obvious prerequisite",
+        "Missing corequisite requirements",
+        "Not distinguishing between prerequisites (taken before) and corequisites (taken simultaneously)"
+      ],
+      "advisor_validation_needed": "Verify: (1) exact prerequisites for the OS course at CMU-Q, (2) whether any corequisites exist, (3) whether P-042 satisfies all of them"
+    },
+    {
+      "query_id": "T5-C01",
+      "tier": "T5",
+      "pattern": "C",
+      "pattern_name": "Policy Conflict",
+      "persona_id": "P-013",
+      "persona_summary": "IS Sophomore, no concentration, Academic warning, 25 courses",
+      "question": "I want to take 6 courses next semester to catch up and get back on track. I know it's a lot but I'm motivated. Can you build me an intensive schedule?",
+      "false_assumption_or_hidden_conflict": "Academic warning policy limits the number of units a student can take per semester. Six courses would total approximately 54-72 units, almost certainly exceeding the academic warning cap. The student's motivation doesn't override policy.",
+      "naive_system_response": "A naive system builds an intensive 6-course schedule, optimizing for the student's stated goal of catching up. It doesn't check the academic warning unit restriction and produces a plan the registrar would reject.",
+      "correct_response": "I understand you want to catch up, but your academic warning status limits you to [X] units per semester. Six courses would total approximately [Y] units, exceeding this limit. You can take a maximum of [N] courses. Here's an optimized [N]-course schedule for next semester that prioritizes your most important requirements: [plan]. To fully catch up, here's a multi-semester recovery plan: [extended plan].",
+      "domains_required": [
+        "policies",
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Policy Agent immediately flags the academic warning unit cap before any plan is built. In a single-agent system, the 'catch up' framing biases the agent toward building an intensive schedule, and the policy check may never be triggered.",
+      "key_facts": [
+        "P-013 is on academic warning",
+        "Academic warning imposes a unit cap per semester",
+        "Six courses would exceed the cap",
+        "Student motivation doesn't override academic policy"
+      ],
+      "known_traps": [
+        "Building an intensive schedule without checking unit cap policy",
+        "Optimizing for the student's stated goal without checking constraints",
+        "Not explaining WHY the limitation exists and HOW to work within it"
+      ],
+      "advisor_validation_needed": "Verify: (1) exact academic warning unit cap, (2) typical units for 6 IS courses, (3) maximum number of courses allowed under the cap"
+    },
+    {
+      "query_id": "T5-C02",
+      "tier": "T5",
+      "pattern": "C",
+      "pattern_name": "Policy Conflict",
+      "persona_id": "P-025",
+      "persona_summary": "BA Junior, dual concentration Finance + BAT, Econ minor, 37 courses, Good standing",
+      "question": "My schedule is so tight with dual concentrations and a minor. I want to request an overload for next semester \u2014 can I take 7 courses? What should my schedule look like?",
+      "false_assumption_or_hidden_conflict": "Overload requests typically require meeting a minimum GPA threshold (e.g., 3.5+) and advisor approval. The student assumes overload is just a matter of requesting it. If their GPA is below the threshold, the request would be denied.",
+      "naive_system_response": "A naive system builds a 7-course schedule and says 'you'll need to request an overload approval.' It doesn't check whether the student meets the GPA requirement for overload or what the approval process entails.",
+      "correct_response": "Overload requests at CMU-Q require a minimum GPA of [X] and advisor approval. Your current GPA is [check]. If you meet the threshold, here's a potential 7-course schedule: [plan]. However, I'd recommend considering whether [alternative plan with 5-6 courses + summer] might be less risky. If you don't meet the GPA threshold, overload won't be approved and you'll need to: [alternative plan].",
+      "domains_required": [
+        "policies",
+        "courses",
+        "schedules"
+      ],
+      "why_multi_agent_helps": "The Policy Agent checks the overload GPA threshold before the Planning Agent builds a schedule. A single agent might build the 7-course plan first and mention the overload policy as an afterthought, or not at all.",
+      "key_facts": [
+        "Overload requires minimum GPA threshold",
+        "Overload requires advisor approval",
+        "7 courses is well above normal load",
+        "Alternative approaches (summer courses, adjusted sequencing) may be safer"
+      ],
+      "known_traps": [
+        "Building an overload schedule without checking GPA eligibility",
+        "Treating overload approval as guaranteed",
+        "Not presenting alternatives to overloading"
+      ],
+      "advisor_validation_needed": "Verify: (1) exact overload policy including GPA threshold, (2) P-025's GPA or standing, (3) maximum units allowed in overload, (4) approval process"
+    },
+    {
+      "query_id": "T5-C03",
+      "tier": "T5",
+      "pattern": "C",
+      "pattern_name": "Policy Conflict",
+      "persona_id": "P-010",
+      "persona_summary": "CS 5th-year, Tech Entrepreneurship minor, 41 courses, Good standing",
+      "question": "I need to take 3 courses this summer to graduate on time. My job offer starts in September so I need to be done by August. Plan my summer schedule.",
+      "false_assumption_or_hidden_conflict": "Summer sessions typically have unit/course limits that are lower than regular semesters. Taking 3 courses in summer may exceed the summer unit cap. Additionally, not all courses are offered in summer, and summer sessions may be shorter, meaning course availability is limited.",
+      "naive_system_response": "A naive system schedules 3 courses in summer without checking summer-specific unit limits or course availability, producing a plan that may not be possible.",
+      "correct_response": "Summer sessions at CMU-Q have a unit limit of [X] units. Three courses would total approximately [Y] units. If this exceeds the limit, you can take a maximum of [N] courses in summer. Additionally, check which of your remaining courses are actually offered in summer \u2014 options are typically limited. Here's a feasible plan: [summer courses] + [remaining courses in a different term if needed].",
+      "domains_required": [
+        "policies",
+        "schedules",
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Policy Agent catches the summer unit limit. The Courses Agent checks which courses are offered in summer sessions. A single agent might assume summer works like a regular semester and build an infeasible plan.",
+      "key_facts": [
+        "Summer sessions have different unit limits than regular semesters",
+        "Not all courses are offered in summer",
+        "Summer sessions may have shorter duration affecting scheduling",
+        "Job start date creates a hard deadline"
+      ],
+      "known_traps": [
+        "Treating summer like a regular semester for planning purposes",
+        "Not checking summer-specific unit caps",
+        "Not verifying summer course offerings",
+        "Scheduling courses that aren't offered in summer"
+      ],
+      "advisor_validation_needed": "Verify: (1) summer unit cap from policy data, (2) summer 2026 course offerings, (3) whether 3 summer courses is permitted, (4) P-010's exact remaining requirements"
+    },
+    {
+      "query_id": "T5-C04",
+      "tier": "T5",
+      "pattern": "C",
+      "pattern_name": "Policy Conflict",
+      "persona_id": "P-039",
+      "persona_summary": "BIO Senior, Psychology minor, 56 courses, Good standing",
+      "question": "I got a C- in a required Bio course last year. I want to retake it this semester to improve my GPA for grad school applications. Can I just re-register?",
+      "false_assumption_or_hidden_conflict": "Course retake policies vary \u2014 there may be limits on how many courses can be retaken, how the grade replacement works (does the old grade stay on the transcript?), and whether a C- even qualifies for retake (some policies only allow retakes for D or F grades). The student assumes retaking is straightforward.",
+      "naive_system_response": "A naive system would say 'Yes, you can retake it' and add it to the schedule, without checking the specific retake policy, grade threshold, or GPA replacement rules.",
+      "correct_response": "CMU-Q's course repeat policy states [specific rules]. A C- [does/does not] qualify for retake under this policy. If eligible, the grade replacement works as follows: [explanation]. Note: [X specific implications \u2014 e.g., both grades may appear on transcript, or there's a limit on total retakes]. Before retaking, consider whether [alternative like additional courses to boost GPA] might be more efficient for your grad school application.",
+      "domains_required": [
+        "policies",
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Policy Agent specifically checks retake/repeat policies with their exact conditions. A single agent might provide generic advice about retaking without checking the specific grade threshold or replacement rules.",
+      "key_facts": [
+        "Course retake policies have specific conditions (grade thresholds, limits on number of retakes)",
+        "Grade replacement mechanics vary by policy",
+        "A C- may or may not qualify for retake",
+        "Both grades may appear on transcript depending on policy"
+      ],
+      "known_traps": [
+        "Assuming all grades qualify for retake",
+        "Not checking the specific retake/repeat policy",
+        "Not explaining how grade replacement actually works",
+        "Not considering alternatives to retaking"
+      ],
+      "advisor_validation_needed": "Verify: (1) exact course retake/repeat policy, (2) grade threshold for eligibility, (3) how grade replacement works on transcript, (4) any limit on total retakes allowed"
+    },
+    {
+      "query_id": "T5-C05",
+      "tier": "T5",
+      "pattern": "C",
+      "pattern_name": "Policy Conflict",
+      "persona_id": "P-047",
+      "persona_summary": "IS Sophomore, Data Science, HCI minor, 24 courses, Good standing",
+      "question": "I want to take a graduate-level HCI course that counts for my minor. My advisor in the HCI department said it's fine. Can you add it to my plan?",
+      "false_assumption_or_hidden_conflict": "Undergraduate students taking graduate courses typically need formal permission, may have unit limits on graduate credits counting toward undergraduate degrees, and the course may not actually satisfy the minor requirement even if the HCI department approves enrollment. Multiple policies interact here.",
+      "naive_system_response": "A naive system accepts 'my advisor said it's fine' at face value and adds the course to the plan without checking undergraduate/graduate enrollment policies, unit counting rules, or whether the course actually satisfies the minor requirement.",
+      "correct_response": "Taking graduate courses as an undergraduate involves several policy checks: (1) formal permission process beyond departmental advisor approval \u2014 you may need registrar approval, (2) there may be a limit on graduate units counting toward your undergraduate degree, (3) the graduate course must be approved to satisfy your HCI minor requirement specifically \u2014 department approval for enrollment is not the same as degree requirement satisfaction. I recommend: [specific steps to verify all three].",
+      "domains_required": [
+        "policies",
+        "programs",
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Policy Agent checks undergraduate-graduate enrollment policies. The Programs Agent verifies whether the graduate course satisfies the minor requirement. The Courses Agent checks prerequisites. Three separate checks that a single agent might collapse into 'advisor said it's fine, you're good.'",
+      "key_facts": [
+        "Departmental advisor approval \u2260 university-level permission for grad course enrollment",
+        "Graduate units may not automatically count toward undergraduate degree",
+        "Course satisfying enrollment eligibility \u2260 course satisfying degree requirement",
+        "Multiple levels of approval may be needed"
+      ],
+      "known_traps": [
+        "Accepting 'my advisor said it's fine' without checking formal policies",
+        "Confusing enrollment permission with degree requirement satisfaction",
+        "Not checking graduate-undergraduate unit counting rules",
+        "Not distinguishing between departmental and university-level approvals"
+      ],
+      "advisor_validation_needed": "Verify: (1) policy on undergraduates taking graduate courses, (2) unit counting rules for grad courses in undergrad degrees, (3) whether grad HCI courses satisfy the HCI minor requirement, (4) approval process"
+    },
+    {
+      "query_id": "T5-D01",
+      "tier": "T5",
+      "pattern": "D",
+      "pattern_name": "Course Availability Trap",
+      "persona_id": "P-020",
+      "persona_summary": "IS Senior, ISP concentration, History minor, 46 courses, Good standing",
+      "question": "I need to take one more History elective to complete my minor. I'm planning to take it in Spring 2026. Which History courses are available?",
+      "false_assumption_or_hidden_conflict": "History courses at CMU-Q have limited and inconsistent offerings. The student assumes History electives will be available in Spring 2026, but the specific courses needed for the minor may only be offered in Fall, or may not be offered at all in 2025-2026.",
+      "naive_system_response": "A naive system pulls History courses from the catalog and lists them as options without checking the Spring 2026 schedule. The student gets a list of courses that don't actually exist next semester.",
+      "correct_response": "Looking at the Spring 2026 schedule, the following History courses are actually offered: [list from schedule data]. Of these, [X] satisfy your History minor requirement. Note that [popular History course Y] is NOT offered in Spring 2026 \u2014 it was last offered in [semester]. If none of the Spring 2026 offerings satisfy your remaining requirement, you may need to: (1) take it in Summer 2026 if available, (2) petition for a course substitution, or (3) delay graduation by one semester.",
+      "domains_required": [
+        "schedules",
+        "programs"
+      ],
+      "why_multi_agent_helps": "The Courses Agent checks actual Spring 2026 schedule, not just the catalog. The Programs Agent verifies which offerings satisfy the minor requirement. A single agent might retrieve catalog information and present it as current availability.",
+      "key_facts": [
+        "History course offerings at CMU-Q are limited and vary by semester",
+        "Catalog listings \u2260 current semester offerings",
+        "Minor requirements may only be satisfiable by specific courses",
+        "Course not being offered can block graduation"
+      ],
+      "known_traps": [
+        "Listing catalog courses as if they're all available next semester",
+        "Not cross-referencing course offerings against the Spring 2026 schedule",
+        "Not checking which available courses actually satisfy the minor requirement"
+      ],
+      "advisor_validation_needed": "Verify: (1) Spring 2026 History course offerings, (2) which satisfy the History minor, (3) P-020's remaining History minor requirements"
+    },
+    {
+      "query_id": "T5-D02",
+      "tier": "T5",
+      "pattern": "D",
+      "pattern_name": "Course Availability Trap",
+      "persona_id": "P-062",
+      "persona_summary": "BIO Senior, Genetics concentration, 51 courses, Good standing",
+      "question": "I need an advanced Genetics elective to complete my concentration. I'm going to take it in Spring 2026. What are my options?",
+      "false_assumption_or_hidden_conflict": "Advanced Genetics electives are often offered on an alternating-year schedule (every other year) or only in Fall. The student's persona notes this concern explicitly. The specific elective they need may not be offered in Spring 2026.",
+      "naive_system_response": "A naive system lists all Genetics electives from the course catalog without checking which are offered in Spring 2026, giving the student false options.",
+      "correct_response": "Advanced Genetics electives have irregular offerings at CMU-Q. Checking the Spring 2026 schedule: [list only actually offered courses]. The following Genetics electives are NOT offered Spring 2026: [list]. If the elective you need is not available, alternatives include: (1) [substitute course] that also satisfies the concentration requirement, (2) independent study with a genetics faculty member, (3) taking the course in Summer 2026 if offered.",
+      "domains_required": [
+        "schedules",
+        "programs",
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Courses Agent checks actual schedule data. The Programs Agent verifies which available courses satisfy the concentration requirement. A single agent might list all catalog genetics courses as options.",
+      "key_facts": [
+        "Advanced Genetics electives are offered on alternating schedules",
+        "P-062's persona specifically mentions concern about alternating-year offerings",
+        "Catalog listing does not mean current availability",
+        "Concentration completion depends on specific course availability"
+      ],
+      "known_traps": [
+        "Listing catalog courses without checking Spring 2026 schedule",
+        "Not recognizing alternating-year offering patterns",
+        "Not suggesting alternatives when the needed course isn't available"
+      ],
+      "advisor_validation_needed": "Verify: (1) which Genetics electives are in Spring 2026 schedule, (2) which satisfy the concentration requirement, (3) alternating-year patterns for Genetics courses"
+    },
+    {
+      "query_id": "T5-D03",
+      "tier": "T5",
+      "pattern": "D",
+      "pattern_name": "Course Availability Trap",
+      "persona_id": "P-045",
+      "persona_summary": "CS Senior, dual minors BA + Neural Computation, 48 courses, Good standing",
+      "question": "I need to complete one more Neural Computation minor course. I'll take it next semester. What's available?",
+      "false_assumption_or_hidden_conflict": "Neural Computation is a highly specialized minor with very limited course offerings at CMU-Q. The persona specifically notes concern about availability. The required course may simply not be offered at CMU-Q at all, or only offered in Pittsburgh.",
+      "naive_system_response": "A naive system finds Neural Computation courses in the catalog and lists them, not checking whether they're actually offered at CMU-Q (vs Pittsburgh campus) or in the specific semester.",
+      "correct_response": "Neural Computation minor courses have very limited availability at CMU-Q. Checking the Spring 2026 CMU-Q schedule: [actual offerings, which may be zero or one]. The following catalog courses are NOT offered at CMU-Q this semester: [list]. Your options: (1) check if the course is offered in Summer at CMU-Q, (2) inquire about taking it as a Pittsburgh summer course, (3) petition for a course substitution from available CMU-Q courses, (4) consider whether completing this minor is feasible at CMU-Q.",
+      "domains_required": [
+        "schedules",
+        "programs"
+      ],
+      "why_multi_agent_helps": "The Courses Agent specifically checks CMU-Q offerings (not Pittsburgh). The Programs Agent verifies minor requirements. A single agent might pull from the broader CMU catalog without distinguishing campus availability.",
+      "key_facts": [
+        "Neural Computation is a specialized minor with few CMU-Q offerings",
+        "CMU-Q catalog may list courses only available in Pittsburgh",
+        "P-045 specifically worried about availability",
+        "Campus distinction (CMU-Q vs Pittsburgh) is critical"
+      ],
+      "known_traps": [
+        "Listing Pittsburgh campus courses as if they're available at CMU-Q",
+        "Not distinguishing between CMU-Q and Pittsburgh offerings",
+        "Not recognizing that specialized minors may have availability problems at satellite campuses"
+      ],
+      "advisor_validation_needed": "Verify: (1) which Neural Computation courses are offered at CMU-Q, (2) Spring 2026 CMU-Q schedule for these courses, (3) whether Pittsburgh summer option exists, (4) course substitution policy"
+    },
+    {
+      "query_id": "T5-D04",
+      "tier": "T5",
+      "pattern": "D",
+      "pattern_name": "Course Availability Trap",
+      "persona_id": "P-058",
+      "persona_summary": "BA 5th-year, Marketing Management concentration, Tech Entrepreneurship minor, 49 courses, Good standing",
+      "question": "I need two more Marketing Management courses to finish my concentration. I'll take them both in Spring 2026 and graduate. Which ones should I pick?",
+      "false_assumption_or_hidden_conflict": "Marketing Management courses are noted as being offered infrequently in P-058's persona. The student assumes two courses will be available in Spring 2026, but one or both may not be offered that semester. This is the bottleneck the student's persona specifically warns about.",
+      "naive_system_response": "A naive system lists Marketing Management courses from the catalog and recommends two, without verifying Spring 2026 offerings.",
+      "correct_response": "Marketing Management courses are offered infrequently at CMU-Q. Checking Spring 2026: [actual offerings]. Only [0/1/2] of the courses you need are offered. If fewer than 2 are available, you cannot complete the concentration in Spring 2026. Options: (1) take the available one in Spring 2026 and the other in Summer/Fall 2026, (2) check if any course substitutions are approved, (3) petition the department.",
+      "domains_required": [
+        "schedules",
+        "programs"
+      ],
+      "why_multi_agent_helps": "The Courses Agent checks actual availability. The Programs Agent verifies which courses satisfy the concentration. A single agent might present catalog options as available.",
+      "key_facts": [
+        "Marketing Management courses offered infrequently at CMU-Q",
+        "P-058's persona explicitly mentions this concern",
+        "5th-year student \u2014 wants to finish immediately",
+        "Infrequent offerings may force another semester"
+      ],
+      "known_traps": [
+        "Listing catalog courses as if all are currently available",
+        "Not checking the specific Spring 2026 schedule",
+        "Building a graduation plan on courses that aren't actually offered"
+      ],
+      "advisor_validation_needed": "Verify: (1) Marketing Management course offerings in Spring 2026, (2) which satisfy concentration requirements, (3) P-058's specific remaining requirements"
+    },
+    {
+      "query_id": "T5-D05",
+      "tier": "T5",
+      "pattern": "D",
+      "pattern_name": "Course Availability Trap",
+      "persona_id": "P-057",
+      "persona_summary": "BA Senior, Strategic Management, Politics and Public Policy minor, 52 courses, Good standing",
+      "question": "I have one Politics and Public Policy minor course left. I'm planning to take it in my final semester. When does it meet?",
+      "false_assumption_or_hidden_conflict": "Politics and Public Policy is noted as having limited course options at CMU-Q. The one remaining course the student needs may not be offered in their final semester. The question asks 'when does it meet' \u2014 presupposing it's offered.",
+      "naive_system_response": "A naive system looks up the course in the catalog and provides generic schedule information, or fabricates a time slot, without confirming it's actually offered in the specific semester.",
+      "correct_response": "Checking the [semester] schedule for your remaining Politics and Public Policy course [XX-XXX]: [it is/is not offered]. If not offered: this is a problem for your graduation timeline. The course was last offered in [semester]. Options: (1) check if it's offered in Summer, (2) petition for a substitute course, (3) if no alternative exists, you may need to extend by one semester. I recommend contacting the department immediately.",
+      "domains_required": [
+        "schedules",
+        "programs"
+      ],
+      "why_multi_agent_helps": "The Courses Agent checks actual semester schedule rather than just catalog data. A single agent might provide catalog-based information without verifying current availability.",
+      "key_facts": [
+        "Politics and Public Policy minor has limited CMU-Q offerings",
+        "Student presupposes the course is offered \u2014 question contains a false assumption about availability",
+        "One unavailable course can block graduation for an otherwise-complete student"
+      ],
+      "known_traps": [
+        "Accepting the presupposition that the course is offered and providing meeting times",
+        "Using catalog data instead of current semester schedule",
+        "Not flagging the graduation risk when the course isn't available"
+      ],
+      "advisor_validation_needed": "Verify: (1) P-057's remaining PPP minor course, (2) whether it's offered in their final semester, (3) substitute options if not"
+    },
+    {
+      "query_id": "T5-E01",
+      "tier": "T5",
+      "pattern": "E",
+      "pattern_name": "Double-Counting / Requirement Ambiguity",
+      "persona_id": "P-025",
+      "persona_summary": "BA Junior, dual concentration Finance + BAT, Econ minor, 37 courses, Good standing",
+      "question": "I'm counting 73-102 for both my Finance concentration and my Economics minor. That way I need one fewer course total. Is my plan correct?",
+      "false_assumption_or_hidden_conflict": "The student assumes double-counting is allowed between a concentration and a minor. If policy prohibits counting the same course toward both, the student is one course short of completing their plan and doesn't know it.",
+      "naive_system_response": "A naive system accepts the student's claim and confirms the plan is correct, not checking double-counting policy.",
+      "correct_response": "CMU-Q's policy on double-counting states [specific rule]. If double-counting between concentration and minor is [not permitted], then 73-102 can only count toward one of Finance or Economics \u2014 not both. This means you need one additional course for [whichever program doesn't get the credit]. Here are your options for that additional course: [list].",
+      "domains_required": [
+        "policies",
+        "programs"
+      ],
+      "why_multi_agent_helps": "The Policy Agent checks double-counting rules. The Programs Agent verifies both requirement sets. Together they catch the overcounting. A single agent might accept the student's reasoning without checking policy.",
+      "key_facts": [
+        "Double-counting rules vary by institution and by program combination",
+        "Student's entire plan relies on one course counting for two programs",
+        "If disallowed, student is one course short of graduation"
+      ],
+      "known_traps": [
+        "Accepting the student's assumption about double-counting",
+        "Not checking the specific double-counting policy",
+        "Confirming a plan that is one course short"
+      ],
+      "advisor_validation_needed": "Verify: (1) double-counting policy between concentrations and minors, (2) whether 73-102 appears in both Finance and Econ requirements, (3) impact on P-025's graduation plan"
+    },
+    {
+      "query_id": "T5-E02",
+      "tier": "T5",
+      "pattern": "E",
+      "pattern_name": "Double-Counting / Requirement Ambiguity",
+      "persona_id": "P-035",
+      "persona_summary": "BIO Junior, Computational Biology + Neuroscience minors, 41 courses, Good standing",
+      "question": "A biology elective I took last semester counts for both my Computational Biology minor and my Neuroscience minor. So I'm actually further ahead than I thought, right?",
+      "false_assumption_or_hidden_conflict": "If double-counting between two minors is prohibited (or limited), the student cannot count one course toward both minors. They may actually be exactly where they were, not ahead.",
+      "naive_system_response": "A naive system confirms: 'Great, you're one course ahead!' without checking whether double-counting between two minors is permitted.",
+      "correct_response": "Check CMU-Q's double-counting policy for minors: [specific rule]. If you cannot count one course toward two different minors, then the elective only satisfies one minor's requirement \u2014 you choose which one. You still need an additional course for the other minor. Your actual progress is: [corrected status].",
+      "domains_required": [
+        "policies",
+        "programs"
+      ],
+      "why_multi_agent_helps": "The Policy Agent checks minor double-counting rules. The Programs Agent tracks both minor requirement sets independently. A single agent might accept the student's optimistic assessment.",
+      "key_facts": [
+        "Double-counting between two minors may be restricted",
+        "Student's perception of progress depends entirely on this policy",
+        "Incorrect belief about double-counting leads to surprise shortfall later"
+      ],
+      "known_traps": [
+        "Confirming the student's optimistic count without checking policy",
+        "Not distinguishing between 'course appears in both requirement lists' and 'course can count for both'"
+      ],
+      "advisor_validation_needed": "Verify: (1) double-counting policy between two minors, (2) which specific course is at issue, (3) impact on P-035's remaining requirements for each minor"
+    },
+    {
+      "query_id": "T5-E03",
+      "tier": "T5",
+      "pattern": "E",
+      "pattern_name": "Double-Counting / Requirement Ambiguity",
+      "persona_id": "P-014",
+      "persona_summary": "IS Sophomore, Data Science concentration, BA minor, 27 courses, Good standing",
+      "question": "I took a statistics course that my advisor said counts as a free elective. But I think it should also satisfy my DS concentration statistics requirement. Can it count for both?",
+      "false_assumption_or_hidden_conflict": "A course counted as a 'free elective' occupies a specific slot in the degree. If it's moved to satisfy a concentration requirement, the free elective slot becomes empty and needs to be filled by another course. The student may think they're saving a course, but they're actually just moving where the requirement is satisfied \u2014 the total count doesn't change.",
+      "naive_system_response": "A naive system says 'Yes, it satisfies both!' \u2014 not realizing that 'free elective' and 'concentration requirement' are different degree slots, and filling one still leaves the other empty.",
+      "correct_response": "The statistics course can likely be reclassified from 'free elective' to 'DS concentration requirement' \u2014 but this means your free elective slot is now unfilled and you'll need another course to fill it. The total number of courses doesn't change; it's a matter of which slot each course occupies. Would you like me to reorganize your degree audit to optimally assign courses to requirement slots?",
+      "domains_required": [
+        "programs",
+        "policies"
+      ],
+      "why_multi_agent_helps": "The Programs Agent understands degree slot structure (free elective vs concentration requirement are different slots). A single agent might see 'course satisfies stats requirement' and confirm without understanding that the free elective slot is now empty.",
+      "key_facts": [
+        "Degree requirements have specific 'slots' \u2014 free elective, concentration requirement, etc.",
+        "Moving a course from one slot to another doesn't reduce total courses needed",
+        "Students often confuse 'course qualifies for a requirement' with 'I need fewer courses overall'"
+      ],
+      "known_traps": [
+        "Confirming the course 'counts for both' without explaining slot mechanics",
+        "Letting the student believe they need one fewer course total",
+        "Not understanding that degree audits assign courses to specific requirement slots"
+      ],
+      "advisor_validation_needed": "Verify: (1) how degree audit slot assignment works at CMU-Q, (2) whether the stats course qualifies for the DS requirement, (3) impact on total course count"
+    },
+    {
+      "query_id": "T5-E04",
+      "tier": "T5",
+      "pattern": "E",
+      "pattern_name": "Double-Counting / Requirement Ambiguity",
+      "persona_id": "P-044",
+      "persona_summary": "CS Senior, dual minors BA + History, 60 courses, Good standing",
+      "question": "I've completed 60 courses \u2014 I'm pretty sure I've covered everything for my CS degree and both minors. Can you confirm I'm good to graduate?",
+      "false_assumption_or_hidden_conflict": "With 60 courses, it seems like everything should be covered. But with dual minors, there's a risk that some courses are being double-counted (e.g., a course counting for both BA minor and CS gen-ed, or for both minors). A careful audit might reveal that after properly assigning courses to slots without double-counting violations, one requirement is still unmet.",
+      "naive_system_response": "A naive system does a surface check, sees 60 courses with relevant course codes, and confirms 'You're all set to graduate!' \u2014 not doing a proper slot-by-slot audit.",
+      "correct_response": "Let me do a careful audit of your 60 courses against all requirements: CS major [X/Y satisfied], BA minor [X/Y satisfied], History minor [X/Y satisfied], gen-ed [X/Y satisfied]. After assigning courses to their proper slots \u2014 ensuring no double-counting violations \u2014 I find: [result]. [If gap found]: You're missing [specific requirement] because [course X] was counted toward [program A] and cannot also count toward [program B].",
+      "domains_required": [
+        "programs",
+        "policies"
+      ],
+      "why_multi_agent_helps": "The Programs Agent audits each program independently. The Policy Agent enforces double-counting rules. The coordinator synthesizes the audits to find conflicts. A single agent might do a quick scan and confirm without the careful slot assignment.",
+      "key_facts": [
+        "60 courses seems like more than enough, creating overconfidence",
+        "Dual minors + major creates many overlapping requirement lists",
+        "Double-counting rules may mean some courses can't serve dual purposes",
+        "One hidden gap can block graduation"
+      ],
+      "known_traps": [
+        "Confirming graduation readiness based on course count rather than slot-by-slot audit",
+        "Not checking double-counting across three program requirement sets",
+        "Overconfidence bias \u2014 60 courses 'must be enough'"
+      ],
+      "advisor_validation_needed": "Verify: (1) complete slot-by-slot audit of P-044's courses against CS + BA minor + History minor + gen-ed, (2) double-counting policy, (3) whether any gap exists after proper assignment"
+    },
+    {
+      "query_id": "T5-E05",
+      "tier": "T5",
+      "pattern": "E",
+      "pattern_name": "Double-Counting / Requirement Ambiguity",
+      "persona_id": "P-049",
+      "persona_summary": "IS Junior, Digitalization concentration, dual minors BA + History, 35 courses, Good standing",
+      "question": "I'm counting a business analytics course toward both my Digitalization concentration and my BA minor. My spreadsheet says I'm on track. Is that right?",
+      "false_assumption_or_hidden_conflict": "The student maintains their own tracking spreadsheet and believes a course counts for both concentration and minor. If the double-counting policy doesn't allow this combination, their spreadsheet is wrong and they're behind schedule without knowing it.",
+      "naive_system_response": "A naive system checks that the course appears in both requirement lists and confirms the student's tracking: 'Yes, that course satisfies both.' It doesn't check double-counting policy.",
+      "correct_response": "The business analytics course does appear in both the Digitalization concentration requirements and the BA minor requirements. However, CMU-Q's double-counting policy [states specific rule]. If double-counting is [not allowed/limited], you need to assign this course to one program and find an additional course for the other. Your corrected remaining requirements are: [updated list]. I recommend updating your tracking spreadsheet to reflect this.",
+      "domains_required": [
+        "policies",
+        "programs"
+      ],
+      "why_multi_agent_helps": "The Policy Agent checks double-counting rules. The Programs Agent verifies both requirement sets. A single agent might simply confirm that the course appears in both lists without checking if counting it for both is permitted.",
+      "key_facts": [
+        "Student maintains their own tracking which may contain errors",
+        "Course appearing in two requirement lists \u2260 counting for both",
+        "Policy determines whether double-counting is allowed",
+        "Self-tracking errors compound over time and create surprise gaps"
+      ],
+      "known_traps": [
+        "Confirming the student's self-tracking without independent verification",
+        "Confusing 'course qualifies for requirement' with 'course can be counted for requirement given other assignments'",
+        "Not checking double-counting policy for concentration + minor combination"
+      ],
+      "advisor_validation_needed": "Verify: (1) which course is at issue, (2) double-counting policy for concentration vs minor, (3) P-049's corrected requirement status"
+    },
+    {
+      "query_id": "T5-F01",
+      "tier": "T5",
+      "pattern": "F",
+      "pattern_name": "False Premise",
+      "persona_id": "P-004",
+      "persona_summary": "CS Junior, no minor, 36 courses, Good standing",
+      "question": "I need to take 15-214 for my CS degree. It's a required course, right? When is it offered at CMU-Q?",
+      "false_assumption_or_hidden_conflict": "15-214 (Principles of Software Construction) may not be offered at CMU-Q \u2014 it could be a Pittsburgh campus course. Or the course code may be slightly wrong. The student assumes it's both required and available at their campus.",
+      "naive_system_response": "A naive system either fabricates a schedule for 15-214 or says 'let me look that up' and returns catalog data without noting the campus distinction, leading the student to believe they can take it at CMU-Q.",
+      "correct_response": "15-214 [does not appear in the CMU-Q course catalog / is a Pittsburgh campus course not offered at CMU-Q]. For your CS degree at CMU-Q, the equivalent requirement is satisfied by [correct course code and name]. This course is offered in [semester] at [time]. Would you like me to add it to your plan?",
+      "domains_required": [
+        "courses",
+        "schedules"
+      ],
+      "why_multi_agent_helps": "The Courses Agent checks the CMU-Q specific catalog and would flag that 15-214 doesn't exist at CMU-Q. A single agent might search the broader CMU catalog and return Pittsburgh campus information as if it applies locally.",
+      "key_facts": [
+        "Not all CMU Pittsburgh courses are offered at CMU-Q",
+        "Course codes may be similar but campus availability differs",
+        "The correct response identifies the right CMU-Q equivalent"
+      ],
+      "known_traps": [
+        "Accepting the course code and fabricating availability information",
+        "Not distinguishing CMU-Q catalog from Pittsburgh catalog",
+        "Confirming a course is 'required' without checking CMU-Q specific requirements"
+      ],
+      "advisor_validation_needed": "Verify: (1) whether 15-214 exists at CMU-Q, (2) the correct CMU-Q equivalent, (3) CMU-Q CS degree requirements list"
+    },
+    {
+      "query_id": "T5-F02",
+      "tier": "T5",
+      "pattern": "F",
+      "pattern_name": "False Premise",
+      "persona_id": "P-053",
+      "persona_summary": "BA Sophomore, Finance, dual minors Econ + History, 25 courses, Good standing",
+      "question": "I heard the maximum units you can take per semester is 60. I'm planning a heavy semester with 5 courses. That should be under the limit, right?",
+      "false_assumption_or_hidden_conflict": "The student cites an incorrect unit limit (60). The actual limit may be different (e.g., 54). If the student plans based on the wrong number, they might schedule a load that exceeds the real limit.",
+      "naive_system_response": "A naive system accepts '60 units' as correct and confirms: 'Yes, 5 courses at approximately 10 units each = 50, you're under 60.' It doesn't correct the wrong limit.",
+      "correct_response": "The maximum unit limit per semester at CMU-Q is actually [X] units, not 60. With 5 courses totaling approximately [Y] units, you are [under/over] the actual limit. [If over]: You would need to drop one course or request an overload. [If under]: You're fine, but make sure to check the exact unit count once you have your specific courses selected.",
+      "domains_required": [
+        "policies"
+      ],
+      "why_multi_agent_helps": "The Policy Agent has the actual unit limit and would immediately correct the false number. A single agent might accept the student's stated limit as fact if it doesn't retrieve the actual policy.",
+      "key_facts": [
+        "Student cites an incorrect unit limit",
+        "The actual limit is different from what the student believes",
+        "Planning based on wrong limits can lead to registration problems"
+      ],
+      "known_traps": [
+        "Accepting the student's stated policy number without verification",
+        "Building a response that validates incorrect information",
+        "Not citing the actual policy with the correct number"
+      ],
+      "advisor_validation_needed": "Verify: (1) actual maximum unit limit per semester at CMU-Q, (2) whether 5 courses fits under the real limit"
+    },
+    {
+      "query_id": "T5-F03",
+      "tier": "T5",
+      "pattern": "F",
+      "pattern_name": "False Premise",
+      "persona_id": "P-018",
+      "persona_summary": "IS Senior, no concentration, Tech Entrepreneurship minor, 49 courses, Good standing",
+      "question": "I know the Information Systems major requires 67-364 as a core course. I haven't taken it yet and need to fit it in my final semester. When is it offered?",
+      "false_assumption_or_hidden_conflict": "67-364 may not actually be a required core course for the IS major \u2014 it might be an elective or a course for a specific concentration. The student's belief that it's 'required' is the false premise. If the system accepts this and schedules it, the student wastes a slot on a non-required course while potentially missing an actually required course.",
+      "naive_system_response": "A naive system accepts that 67-364 is required, looks up its schedule, and adds it to the plan \u2014 never verifying whether it's actually a core requirement.",
+      "correct_response": "Let me check the IS core requirements. 67-364 is actually [an elective / a concentration-specific course / not in the current IS requirement list], not a core requirement. The IS core courses you still need are: [correct list based on auditing P-018's history]. Would you like me to plan your final semester based on the correct remaining requirements?",
+      "domains_required": [
+        "programs",
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Programs Agent checks the actual IS requirement list and would flag that 67-364 is not a core requirement. A single agent might accept the student's claim and proceed without verification.",
+      "key_facts": [
+        "Students sometimes misremember which courses are required vs elective",
+        "Acting on a false belief about requirements can waste course slots",
+        "The system should verify claims about requirements against actual data"
+      ],
+      "known_traps": [
+        "Accepting 'I know X is required' without verifying against program data",
+        "Scheduling a non-required course while missing an actually required one",
+        "Not auditing the student's actual remaining requirements"
+      ],
+      "advisor_validation_needed": "Verify: (1) whether 67-364 is a core IS requirement, (2) what it actually is (elective, concentration course, etc.), (3) P-018's actual remaining requirements"
+    },
+    {
+      "query_id": "T5-F04",
+      "tier": "T5",
+      "pattern": "F",
+      "pattern_name": "False Premise",
+      "persona_id": "P-008",
+      "persona_summary": "CS Senior, Biological Sciences minor, 49 courses, Good standing",
+      "question": "I've completed all my CS courses and my Bio minor. I just checked my transcript and I've done everything. Can you confirm I'm ready for graduation?",
+      "false_assumption_or_hidden_conflict": "The student claims to have completed everything, but self-audits often miss requirements \u2014 especially general education requirements, writing requirements, or specific university-wide requirements (like Core@CMU) that aren't part of the major or minor. The system should do an independent audit rather than confirming the student's self-assessment.",
+      "naive_system_response": "A naive system accepts the student's claim: 'Based on your statement that everything is complete, yes you're ready for graduation!' \u2014 without actually auditing.",
+      "correct_response": "Let me independently verify by auditing your 49 courses against ALL graduation requirements \u2014 not just CS major and Bio minor, but also: general education requirements, writing/communication requirements, university-wide requirements (Core@CMU), and any other institutional requirements. After auditing: [result]. [If gap found]: You're missing [specific requirement] \u2014 this is commonly overlooked because it's not part of your major or minor. [If complete]: Confirmed, you appear to have satisfied all requirements.",
+      "domains_required": [
+        "programs",
+        "courses"
+      ],
+      "why_multi_agent_helps": "The Programs Agent audits against ALL requirement categories, not just major and minor. A single agent might focus on the programs the student mentions and miss university-wide requirements.",
+      "key_facts": [
+        "Self-audits commonly miss gen-ed, writing, or university-wide requirements",
+        "CS major + Bio minor doesn't cover all graduation requirements",
+        "System should verify independently rather than confirm student's claim",
+        "Requirements beyond major/minor are easy to overlook"
+      ],
+      "known_traps": [
+        "Confirming the student's self-assessment without independent verification",
+        "Only checking major and minor requirements, missing gen-ed/university requirements",
+        "Rubber-stamping 'I'm done' claims"
+      ],
+      "advisor_validation_needed": "Verify: (1) all graduation requirement categories at CMU-Q (not just major/minor), (2) P-008's actual course audit against every category, (3) any commonly overlooked requirements"
+    },
+    {
+      "query_id": "T5-F05",
+      "tier": "T5",
+      "pattern": "F",
+      "pattern_name": "False Premise",
+      "persona_id": "P-031",
+      "persona_summary": "BIO First-year, Neuroscience concentration, 17 courses, Good standing",
+      "question": "I want to add a Neuroscience minor on top of my Neuroscience concentration. That way I'll have both on my transcript. What additional courses do I need?",
+      "false_assumption_or_hidden_conflict": "Having a Neuroscience concentration within Bio and also declaring a Neuroscience minor may be redundant, prohibited, or meaningless \u2014 the minor and the concentration may share most or all courses, and the university may not allow this combination. The student assumes stacking them adds value.",
+      "naive_system_response": "A naive system lists the Neuroscience minor requirements, checks which overlap with the concentration, and says 'you only need X more courses!' \u2014 without questioning whether this combination is allowed or meaningful.",
+      "correct_response": "Adding a Neuroscience minor on top of your Neuroscience concentration may not be permitted \u2014 many universities prohibit declaring a minor in the same field as your concentration, since the coursework is largely the same. Check with your advisor whether this combination is [allowed at CMU-Q]. If not allowed: the concentration already appears on your transcript and provides the same credential value. If allowed: the additional courses needed would be [X], but consider whether the benefit justifies the extra coursework given the significant overlap.",
+      "domains_required": [
+        "programs",
+        "policies"
+      ],
+      "why_multi_agent_helps": "The Policy Agent checks whether concentration + minor in the same field is permitted. The Programs Agent quantifies the overlap. A single agent might just compute the additional courses needed without questioning whether the combination is valid.",
+      "key_facts": [
+        "Concentration and minor in the same field likely share most courses",
+        "Universities often prohibit or discourage this combination",
+        "The student's persona specifically mentions being 'unsure if redundant'",
+        "Even if allowed, the marginal value may not justify additional coursework"
+      ],
+      "known_traps": [
+        "Computing additional courses needed without questioning if the combination is permitted",
+        "Not advising the student that this may be redundant",
+        "Accepting the premise that 'both on my transcript' is valuable without context"
+      ],
+      "advisor_validation_needed": "Verify: (1) whether CMU-Q allows concentration + minor in the same field, (2) overlap between Neuroscience concentration and Neuroscience minor, (3) if allowed, additional courses needed"
+    }
+  ]
+}

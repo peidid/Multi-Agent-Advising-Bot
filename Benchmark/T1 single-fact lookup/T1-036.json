@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-036",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": "P-001",
+  "question": "I'm a CS first-year and heard 15-251 is intense \u2014 what time does it meet in Spring 2026?",
+  "answer": "14:30\u201315:45 on Mondays and Wednesdays",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings[15-251].sections[0].start_time, end_time, days",
+  "domain": "schedules",
+  "verification_note": "days=['Mon','Wed'], start_time='14:30', end_time='15:45' in Spring 2026"
+}

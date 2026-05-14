@@ -1,0 +1,29 @@
+{
+  "query_id": "T5-F04",
+  "tier": "T5",
+  "pattern": "F",
+  "pattern_name": "False Premise",
+  "persona_id": "P-008",
+  "persona_summary": "CS Senior, Biological Sciences minor, 49 courses, Good standing",
+  "question": "I've completed all my CS courses and my Bio minor. I just checked my transcript and I've done everything. Can you confirm I'm ready for graduation?",
+  "false_assumption_or_hidden_conflict": "The student claims to have completed everything, but self-audits often miss requirements \u2014 especially general education requirements, writing requirements, or specific university-wide requirements (like Core@CMU) that aren't part of the major or minor. The system should do an independent audit rather than confirming the student's self-assessment.",
+  "naive_system_response": "A naive system accepts the student's claim: 'Based on your statement that everything is complete, yes you're ready for graduation!' \u2014 without actually auditing.",
+  "correct_response": "Let me independently verify by auditing your 49 courses against ALL graduation requirements \u2014 not just CS major and Bio minor, but also: general education requirements, writing/communication requirements, university-wide requirements (Core@CMU), and any other institutional requirements. After auditing: [result]. [If gap found]: You're missing [specific requirement] \u2014 this is commonly overlooked because it's not part of your major or minor. [If complete]: Confirmed, you appear to have satisfied all requirements.",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Programs Agent audits against ALL requirement categories, not just major and minor. A single agent might focus on the programs the student mentions and miss university-wide requirements.",
+  "key_facts": [
+    "Self-audits commonly miss gen-ed, writing, or university-wide requirements",
+    "CS major + Bio minor doesn't cover all graduation requirements",
+    "System should verify independently rather than confirm student's claim",
+    "Requirements beyond major/minor are easy to overlook"
+  ],
+  "known_traps": [
+    "Confirming the student's self-assessment without independent verification",
+    "Only checking major and minor requirements, missing gen-ed/university requirements",
+    "Rubber-stamping 'I'm done' claims"
+  ],
+  "advisor_validation_needed": "Verify: (1) all graduation requirement categories at CMU-Q (not just major/minor), (2) P-008's actual course audit against every category, (3) any commonly overlooked requirements"
+}

@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-003",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-002",
+  "question": "I'm a CS sophomore. I've completed 15-122 (grade: C) and 21-127 (Concepts of Mathematics, grade: B). Am I eligible to take 15-251 (Great Ideas in Theoretical Computer Science)?",
+  "expected_answer": "Yes \u2014 15-251 requires (15-122 at least C OR 15-150 at least C) AND (21-128 at least C OR 15-151 at least C OR 21-127 at least C). P-002 satisfies both conditions: 15-122 with a C meets the first condition, and 21-127 with a B meets the second condition.",
+  "reasoning_type": "Compound AND/OR prerequisite check",
+  "domain": "courses",
+  "common_mistake": "Only checking one of the two required prerequisite conditions; missing that 21-127 satisfies the math component",
+  "needs_verification": [
+    "Confirm P-002's actual grades in 15-122 and 21-127",
+    "Confirm 15-251 prerequisite text hasn't changed from: (15-122 C or 15-150 C) AND (21-128 C or 15-151 C or 21-127 C)",
+    "Confirm P-002 has not already taken 15-251"
+  ]
+}

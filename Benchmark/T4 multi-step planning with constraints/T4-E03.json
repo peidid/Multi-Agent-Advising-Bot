@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E03",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-033",
+  "persona_summary": "BIO Sophomore, dual concentration Biochem + Computational Biology, 27 courses, Good standing",
+  "variation": "3 semesters vs 4 semesters \u2014 workload tradeoff",
+  "question": "My dual concentration is heavy. Can you show me a plan that finishes in 3 remaining semesters with a heavier load, versus 4 semesters with a lighter load? What's the tradeoff?",
+  "what_makes_this_hard": "Explicit tradeoff analysis. One plan may require overload (triggering policy check), the other is more comfortable but delays graduation.",
+  "needs_verification": [
+    "Remaining dual concentration requirements",
+    "Unit totals for 3-semester vs 4-semester plan",
+    "Whether 3-semester plan requires overload",
+    "Overload policy and eligibility"
+  ]
+}

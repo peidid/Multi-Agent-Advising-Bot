@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A07",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-036",
+  "persona_summary": "BIO Junior, CS minor, 36 courses, Good standing",
+  "variation": "Must take prereqs before target course",
+  "question": "I'm a Bio major with a CS minor. I still need to finish the CS minor prerequisite chain. Can you plan my remaining semesters so I complete both my Bio requirements and CS minor?",
+  "what_makes_this_hard": "CS minor has a strict prereq chain (15-112 \u2192 15-122 \u2192 ...) that must be sequenced correctly. Bio requirements must be interleaved around it.",
+  "needs_verification": [
+    "Which CS minor prereqs P-036 has completed",
+    "Full CS minor prerequisite chain",
+    "Remaining BIO requirements",
+    "Course availability for CS minor courses at CMU-Q"
+  ]
+}

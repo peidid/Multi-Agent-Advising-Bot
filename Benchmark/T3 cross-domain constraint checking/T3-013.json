@@ -1,0 +1,30 @@
+{
+  "query_id": "T3-013",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-007",
+  "question": "I'm a CS senior (P-007) planning my final semester (Spring 2026). Which BA minor courses do I still need, and which of those are offered in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-007's BA minor completed courses: 73-102, 70-311, 70-122, 70-332, 70-341, 70-391. Identify which BA minor requirements remain",
+    "schedules": "Spring 2026 BA course offerings include: 70-122, 70-208, 70-257, 70-311, 70-332, 70-342, 70-345, 70-371, 70-374, 70-381, 70-385, 70-387, 70-391, 70-401, 70-416, 70-441, 70-492, 70-495"
+  },
+  "key_facts": [
+    "P-007 BA courses completed: 73-102 (Micro), 70-311 (OB), 70-122 (Accounting), 70-332 (Business & Ethics), 70-341 (Team Dynamics), 70-391 (Finance)",
+    "Spring 2026 has extensive BA course offerings including 70-342, 70-345, 70-371, 70-401, 70-441 that P-007 has not taken",
+    "Whether these satisfy remaining BA minor requirements depends on the specific BA minor course requirements (needs verification)",
+    "P-007 should compare their completed courses against the official BA minor checklist"
+  ],
+  "wrong_if_single_domain": "Knowing only the BA minor requirements (programs domain) cannot tell P-007 which required courses are available this semester. Knowing only the Spring 2026 schedule cannot determine which courses P-007 still needs for the minor.",
+  "common_mistake": "Listing all BA minor required courses as 'available' without filtering out those P-007 has already completed; or listing completed courses as still needed",
+  "reasoning_chain": [
+    "Step 1 (programs): Determine BA minor requirements and which P-007 has completed",
+    "Step 2 (programs): Identify remaining BA minor courses for P-007",
+    "Step 3 (schedules): Cross-reference remaining courses against Spring 2026 offerings",
+    "Conclusion: Several BA courses P-007 hasn't taken are offered Spring 2026; specific requirements need verification against official BA minor checklist"
+  ]
+}

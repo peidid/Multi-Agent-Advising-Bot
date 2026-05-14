@@ -1,0 +1,31 @@
+{
+  "query_id": "T5-C03",
+  "tier": "T5",
+  "pattern": "C",
+  "pattern_name": "Policy Conflict",
+  "persona_id": "P-010",
+  "persona_summary": "CS 5th-year, Tech Entrepreneurship minor, 41 courses, Good standing",
+  "question": "I need to take 3 courses this summer to graduate on time. My job offer starts in September so I need to be done by August. Plan my summer schedule.",
+  "false_assumption_or_hidden_conflict": "Summer sessions typically have unit/course limits that are lower than regular semesters. Taking 3 courses in summer may exceed the summer unit cap. Additionally, not all courses are offered in summer, and summer sessions may be shorter, meaning course availability is limited.",
+  "naive_system_response": "A naive system schedules 3 courses in summer without checking summer-specific unit limits or course availability, producing a plan that may not be possible.",
+  "correct_response": "Summer sessions at CMU-Q have a unit limit of [X] units. Three courses would total approximately [Y] units. If this exceeds the limit, you can take a maximum of [N] courses in summer. Additionally, check which of your remaining courses are actually offered in summer \u2014 options are typically limited. Here's a feasible plan: [summer courses] + [remaining courses in a different term if needed].",
+  "domains_required": [
+    "policies",
+    "schedules",
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Policy Agent catches the summer unit limit. The Courses Agent checks which courses are offered in summer sessions. A single agent might assume summer works like a regular semester and build an infeasible plan.",
+  "key_facts": [
+    "Summer sessions have different unit limits than regular semesters",
+    "Not all courses are offered in summer",
+    "Summer sessions may have shorter duration affecting scheduling",
+    "Job start date creates a hard deadline"
+  ],
+  "known_traps": [
+    "Treating summer like a regular semester for planning purposes",
+    "Not checking summer-specific unit caps",
+    "Not verifying summer course offerings",
+    "Scheduling courses that aren't offered in summer"
+  ],
+  "advisor_validation_needed": "Verify: (1) summer unit cap from policy data, (2) summer 2026 course offerings, (3) whether 3 summer courses is permitted, (4) P-010's exact remaining requirements"
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-072",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": "P-032",
+  "question": "I'm a Bio first-year \u2014 what is the first required core biology course (or its alternative) for the BS in Biological Sciences?",
+  "answer": "03-151 (Honors Modern Biology) or 03-121",
+  "source_file": "data/programs/Biological Science/Curriculum/CMUQ_BS_Advising_Document.json",
+  "source_field": "Content (BS in Biological Sciences Requirements, Core Biology)",
+  "domain": "programs",
+  "verification_note": "Core Biology section states '03-151 or 03-121' as first requirement"
+}

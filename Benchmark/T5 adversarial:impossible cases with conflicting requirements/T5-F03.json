@@ -1,0 +1,28 @@
+{
+  "query_id": "T5-F03",
+  "tier": "T5",
+  "pattern": "F",
+  "pattern_name": "False Premise",
+  "persona_id": "P-018",
+  "persona_summary": "IS Senior, no concentration, Tech Entrepreneurship minor, 49 courses, Good standing",
+  "question": "I know the Information Systems major requires 67-364 as a core course. I haven't taken it yet and need to fit it in my final semester. When is it offered?",
+  "false_assumption_or_hidden_conflict": "67-364 may not actually be a required core course for the IS major \u2014 it might be an elective or a course for a specific concentration. The student's belief that it's 'required' is the false premise. If the system accepts this and schedules it, the student wastes a slot on a non-required course while potentially missing an actually required course.",
+  "naive_system_response": "A naive system accepts that 67-364 is required, looks up its schedule, and adds it to the plan \u2014 never verifying whether it's actually a core requirement.",
+  "correct_response": "Let me check the IS core requirements. 67-364 is actually [an elective / a concentration-specific course / not in the current IS requirement list], not a core requirement. The IS core courses you still need are: [correct list based on auditing P-018's history]. Would you like me to plan your final semester based on the correct remaining requirements?",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Programs Agent checks the actual IS requirement list and would flag that 67-364 is not a core requirement. A single agent might accept the student's claim and proceed without verification.",
+  "key_facts": [
+    "Students sometimes misremember which courses are required vs elective",
+    "Acting on a false belief about requirements can waste course slots",
+    "The system should verify claims about requirements against actual data"
+  ],
+  "known_traps": [
+    "Accepting 'I know X is required' without verifying against program data",
+    "Scheduling a non-required course while missing an actually required one",
+    "Not auditing the student's actual remaining requirements"
+  ],
+  "advisor_validation_needed": "Verify: (1) whether 67-364 is a core IS requirement, (2) what it actually is (elective, concentration course, etc.), (3) P-018's actual remaining requirements"
+}

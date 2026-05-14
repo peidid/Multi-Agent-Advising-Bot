@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-023",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": null,
+  "question": "In Spring 2025, do 15-251 (Section 1: Monday, Wednesday 10:00\u201311:15) and 15-210 (Thursday, Sunday, Tuesday 14:30\u201315:45) have a scheduling conflict?",
+  "expected_answer": "No \u2014 15-251 Section 1 meets Monday and Wednesday 10:00\u201311:15, while 15-210 meets Thursday, Sunday, and Tuesday 14:30\u201315:45. These courses share no common meeting days or times, so a student could enroll in both simultaneously.",
+  "reasoning_type": "No-conflict verification across non-overlapping schedules",
+  "domain": "schedules",
+  "common_mistake": "Assuming because both courses are offered in Spring 2025 they must conflict; not carefully mapping out all meeting days",
+  "needs_verification": [
+    "Confirm 15-251 Section 1 Spring 2025 schedule: Mon/Wed 10:00\u201311:15",
+    "Confirm 15-210 Spring 2025 schedule: Thu/Sun/Tue 14:30\u201315:45",
+    "Confirm there are no recitation or lab sections that might conflict"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C04",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-061",
+  "persona_summary": "BIO Sophomore, no concentration, no minor, 33 courses, Good standing",
+  "variation": "Unfocused student \u2014 which concentration is closest?",
+  "question": "I've taken 33 courses but I still haven't declared a concentration. I've been exploring everything. Looking at what I've taken, which concentration am I closest to completing? Plan the most efficient path to graduation.",
+  "what_makes_this_hard": "System must analyze 33 courses against each possible BIO concentration to find the best fit, then build a plan around it.",
+  "needs_verification": [
+    "All BIO concentration requirement lists",
+    "How many requirements of each concentration P-061 has already satisfied",
+    "Which concentration requires the fewest additional courses",
+    "Remaining general BIO requirements"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "query_id": "T5-B05",
+  "tier": "T5",
+  "pattern": "B",
+  "pattern_name": "Hidden Prerequisite Violation",
+  "persona_id": "P-042",
+  "persona_summary": "CS Junior, dual minors Math + SCS Computer Systems, 32 courses, Good standing",
+  "question": "I've completed 15-213 and I want to take the operating systems course next semester. I should be good on prereqs, right?",
+  "false_assumption_or_hidden_conflict": "Operating systems courses may have prerequisites beyond just 15-213 \u2014 potentially requiring concurrent enrollment in or prior completion of a specific math course, or another systems course. The student assumes 15-213 alone is sufficient.",
+  "naive_system_response": "A naive system confirms: '15-213 completed, you're eligible for operating systems.' It doesn't check for additional prerequisites like concurrent math or a different systems prerequisite.",
+  "correct_response": "The operating systems course requires: (1) 15-213 [\u2713 completed], and (2) [additional prerequisite \u2014 check course data]. You are [eligible/not eligible] because [specific reason]. Note: this course may also have a corequisite requirement for [course] that must be taken simultaneously.",
+  "domains_required": [
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Courses Agent checks ALL prerequisites including corequisites. A single agent processing the question might focus on the main prerequisite (15-213) and miss corequisite or secondary requirements.",
+  "key_facts": [
+    "Systems courses often have multiple prerequisites and sometimes corequisites",
+    "15-213 is necessary but may not be sufficient",
+    "Corequisites (courses taken simultaneously) are easy to miss"
+  ],
+  "known_traps": [
+    "Confirming eligibility based only on the most obvious prerequisite",
+    "Missing corequisite requirements",
+    "Not distinguishing between prerequisites (taken before) and corequisites (taken simultaneously)"
+  ],
+  "advisor_validation_needed": "Verify: (1) exact prerequisites for the OS course at CMU-Q, (2) whether any corequisites exist, (3) whether P-042 satisfies all of them"
+}

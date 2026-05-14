@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-005",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student. I completed 15-440 (Distributed Systems) in Fall 2023. Assuming I earned a B in 15-440, can I now register for 15-410 (Operating System Design and Implementation)?",
+  "expected_answer": "Yes \u2014 15-410 requires a grade of B or better in one of: 15-411, 15-418, 18-447, 15-441, 15-445, or 15-440. P-009 completed 15-440 and (assuming a B) meets this threshold. Academic warning does not block standard course registration.",
+  "reasoning_type": "Grade-gated prerequisite with multiple acceptable alternatives",
+  "domain": "courses",
+  "common_mistake": "Not recognizing that 15-410 requires specifically a B (not just a passing grade) in the prerequisite; only checking one alternative prerequisite option",
+  "needs_verification": [
+    "Confirm P-009's actual grade in 15-440 (must be B or better)",
+    "Confirm 15-410 is offered at CMU-Q (may be Pittsburgh-only)",
+    "Confirm 15-410 prerequisite list is current and includes 15-440"
+  ]
+}

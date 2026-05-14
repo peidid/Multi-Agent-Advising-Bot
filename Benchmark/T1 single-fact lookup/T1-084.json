@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-084",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "What is the deadline to drop a mini-semester course?",
+  "answer": "The last day of the second week of the mini-semester course",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Drop/Withdrawal Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'The deadline to drop a mini-semester course is the last day of the second week of the mini-semester course'"
+}

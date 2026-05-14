@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-028",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-007",
+  "question": "I'm a CS senior (P-007) in good standing. I want to add a 15-591 (Independent Study, 9 units) to my Spring 2026 schedule, which already includes 15-441 (12 units) and two BA minor courses (~18 units). Does this create an overload problem?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "courses"
+  ],
+  "domain_contributions": {
+    "policies": "Students in good standing can overload up to 12 units above normal load with advisor approval. Normal load \u2248 45 units. Any overload requires advisor approval; P-007 is not on AW so independent study is permitted.",
+    "courses": "15-441 (12) + 2 BA courses (~18) + 15-591 (9) = ~39 units total \u2014 within normal load; no overload issue"
+  },
+  "key_facts": [
+    "P-007 is in good standing \u2014 independent study is permitted",
+    "Planned load: ~39 units (12 + 18 + 9) = well within normal load threshold of ~45 units",
+    "No overload concern; advisor approval for independent study is still needed as a standard process",
+    "P-007 took 15-591 in Spring 2025 as well \u2014 independent study experience exists",
+    "Independent study requires a faculty sponsor and registration"
+  ],
+  "wrong_if_single_domain": "Knowing only the policy would suggest independent studies are permitted for good-standing students but cannot confirm the total unit load is acceptable. Knowing only the unit counts cannot determine whether independent study is programmatically permitted for P-007.",
+  "common_mistake": "Assuming that any addition to the schedule creates an overload without summing the actual unit counts; or assuming independent study is prohibited without checking the student's academic standing",
+  "reasoning_chain": [
+    "Step 1 (programs): P-007 in good standing \u2192 independent study permitted",
+    "Step 2 (courses): 12 + ~18 + 9 = ~39 units \u2192 below ~45 normal load",
+    "Step 3 (policies): No overload \u2192 no special overload approval needed beyond standard IS process",
+    "Conclusion: P-007 can add 15-591 without overload concerns; faculty sponsor needed"
+  ]
+}

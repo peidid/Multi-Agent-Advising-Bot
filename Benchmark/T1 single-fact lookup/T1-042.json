@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-042",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": null,
+  "question": "Is 67-250 offered in Spring 2026?",
+  "answer": "Yes \u2014 67-250 is offered in Spring 2026",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings[67-250]",
+  "domain": "schedules",
+  "verification_note": "67-250 appears in the Spring 2026 offerings list"
+}

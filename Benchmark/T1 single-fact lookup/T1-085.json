@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-085",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "Can undergraduate students take a free elective course on a pass/fail basis?",
+  "answer": "Yes \u2014 undergraduate students may elect to take a free-elective course pass/fail, unless precluded by the course, the course's department, or the student's home department",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Pass/Fail Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'Undergraduate students may elect to take a free-elective course pass/fail unless precluded...'"
+}

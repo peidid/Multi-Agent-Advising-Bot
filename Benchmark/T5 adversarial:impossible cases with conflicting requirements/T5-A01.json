@@ -1,0 +1,32 @@
+{
+  "query_id": "T5-A01",
+  "tier": "T5",
+  "pattern": "A",
+  "pattern_name": "Impossible Timeline",
+  "persona_id": "P-046",
+  "persona_summary": "CS 5th-year, entered Fall 2016, Academic warning, Math minor, 45 courses",
+  "question": "I want to complete both my CS degree and my Math minor by Spring 2026. I know I'm on academic warning, but I think I can handle a heavy load. Plan my remaining courses.",
+  "false_assumption_or_hidden_conflict": "The student assumes this is feasible within their remaining time. Academic warning imposes a unit cap per semester. Combined with the number of remaining CS + Math minor courses and prerequisite chains that must be sequenced, completing everything by Spring 2026 is likely mathematically impossible.",
+  "naive_system_response": "A naive system would generate a plan cramming all remaining courses into 1-2 semesters, either silently exceeding the academic warning unit cap or violating prerequisite ordering by scheduling dependent courses in the same semester.",
+  "correct_response": "Completing both your CS degree and Math minor by Spring 2026 is not feasible under your current academic warning status. The unit cap limits you to [X] units per semester, but you have [Y] remaining courses totaling approximately [Z] units, with prerequisite chains requiring at minimum [N] semesters. Your options: (1) drop the Math minor and focus on completing CS by Spring 2026, (2) extend to Fall 2026 to complete everything, (3) petition the dean for an academic warning unit cap exception with a strong rationale.",
+  "domains_required": [
+    "programs",
+    "courses",
+    "schedules",
+    "policies"
+  ],
+  "why_multi_agent_helps": "The Planning Agent would propose a plan. The Policy Agent would immediately flag the academic warning unit cap violation. The Programs Agent would confirm the full list of remaining requirements. The Courses Agent would verify prerequisite chains require more semesters than available. The proposal-critique protocol forces these checks before any plan is finalized \u2014 a single agent is likely to generate a plan without triggering the policy check.",
+  "key_facts": [
+    "P-046 is on academic warning with a per-semester unit cap",
+    "P-046 entered in Fall 2016 \u2014 degree requirements may have changed",
+    "Remaining CS requirements + Math minor requirements exceed what fits in remaining semesters under the cap",
+    "Prerequisite chains impose a minimum number of sequential semesters"
+  ],
+  "known_traps": [
+    "Generating a plan that exceeds the academic warning unit cap",
+    "Scheduling courses that have prerequisite relationships in the same semester",
+    "Ignoring that the student has been enrolled since 2016 \u2014 catalog year issues",
+    "Not offering alternatives when the request is infeasible"
+  ],
+  "advisor_validation_needed": "Verify: (1) exact academic warning unit cap from policy data, (2) exact remaining CS and Math minor requirements by auditing P-046's 45 courses against current requirements, (3) prerequisite chain lengths for remaining courses, (4) whether the impossibility is genuine"
+}

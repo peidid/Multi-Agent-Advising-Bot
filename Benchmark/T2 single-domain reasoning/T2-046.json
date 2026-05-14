@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-046",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": "P-005",
+  "question": "I'm a CS junior with a Mathematical Sciences minor. I completed 36-218 (Probability Theory for Computer Scientists). Does this course count toward my Mathematical Sciences minor requirements?",
+  "expected_answer": "Possibly \u2014 36-218 is a statistics/probability course cross-listed under the Statistics department (36-xxx prefix). Whether it counts toward the Mathematical Sciences minor depends on the specific minor requirements. If the Math minor accepts courses from allied departments (like Statistics), 36-218 may qualify. However, if the Math minor requires courses with 21-xxx prefixes specifically, it may not count. P-005 should verify with the Math department or in Stellic.",
+  "reasoning_type": "Cross-departmental course equivalence for minor requirements",
+  "domain": "courses",
+  "common_mistake": "Assuming all quantitative courses count for a math minor; not knowing that department-specific minors may require courses with specific department prefixes",
+  "needs_verification": [
+    "Confirm the Mathematical Sciences minor requirements and whether 36-xxx courses are accepted",
+    "Confirm P-005 completed 36-218 and what grade was earned",
+    "Confirm whether a waiver or substitution approval is needed for 36-218 to count toward the Math minor"
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "persona_id": "P-003",
+  "source_student_id": "student463",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Business Administration"
+    ],
+    "level": "sophomore",
+    "entry_year": "Fall 2024",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Business Administration (No concentrations)",
+    "narrative": {
+      "background_notes": "Pursuing BA minor to prepare for product management roles. Active in entrepreneurship clubs.",
+      "goals": "Wants to work in tech product management after graduation",
+      "concerns": "Balancing CS core with BA minor courses is creating scheduling conflicts"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 23,
+    "semesters_completed": [
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2024": [
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "85-211",
+          "course_name": "Cognitive Psychology"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        },
+        {
+          "course_code": "15-288",
+          "course_name": "Special Topic: Machine Learning in a Nutshell"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "99-270",
+          "course_name": "Summer Undergraduate Research Apprenticeship"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        },
+        {
+          "course_code": "17-493",
+          "course_name": "Hands-on Negotiations for Technology Leaders"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

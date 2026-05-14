@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-D06",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-031",
+  "persona_summary": "BIO First-year, Neuroscience concentration, 17 courses, Good standing",
+  "variation": "Research preparation \u2014 prioritize readiness",
+  "question": "I want to do undergraduate research starting junior year. What courses should I take in my first two years to be prepared? Build me a plan that prioritizes research readiness.",
+  "what_makes_this_hard": "Not just requirement satisfaction \u2014 the plan should sequence methods/lab courses early to enable research. Tests goal-directed planning.",
+  "needs_verification": [
+    "Which courses provide research methodology training",
+    "Lab course availability in first two years",
+    "Neuroscience concentration prerequisites",
+    "Whether front-loading methods courses delays other requirements"
+  ]
+}

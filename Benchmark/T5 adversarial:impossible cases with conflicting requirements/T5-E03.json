@@ -1,0 +1,28 @@
+{
+  "query_id": "T5-E03",
+  "tier": "T5",
+  "pattern": "E",
+  "pattern_name": "Double-Counting / Requirement Ambiguity",
+  "persona_id": "P-014",
+  "persona_summary": "IS Sophomore, Data Science concentration, BA minor, 27 courses, Good standing",
+  "question": "I took a statistics course that my advisor said counts as a free elective. But I think it should also satisfy my DS concentration statistics requirement. Can it count for both?",
+  "false_assumption_or_hidden_conflict": "A course counted as a 'free elective' occupies a specific slot in the degree. If it's moved to satisfy a concentration requirement, the free elective slot becomes empty and needs to be filled by another course. The student may think they're saving a course, but they're actually just moving where the requirement is satisfied \u2014 the total count doesn't change.",
+  "naive_system_response": "A naive system says 'Yes, it satisfies both!' \u2014 not realizing that 'free elective' and 'concentration requirement' are different degree slots, and filling one still leaves the other empty.",
+  "correct_response": "The statistics course can likely be reclassified from 'free elective' to 'DS concentration requirement' \u2014 but this means your free elective slot is now unfilled and you'll need another course to fill it. The total number of courses doesn't change; it's a matter of which slot each course occupies. Would you like me to reorganize your degree audit to optimally assign courses to requirement slots?",
+  "domains_required": [
+    "programs",
+    "policies"
+  ],
+  "why_multi_agent_helps": "The Programs Agent understands degree slot structure (free elective vs concentration requirement are different slots). A single agent might see 'course satisfies stats requirement' and confirm without understanding that the free elective slot is now empty.",
+  "key_facts": [
+    "Degree requirements have specific 'slots' \u2014 free elective, concentration requirement, etc.",
+    "Moving a course from one slot to another doesn't reduce total courses needed",
+    "Students often confuse 'course qualifies for a requirement' with 'I need fewer courses overall'"
+  ],
+  "known_traps": [
+    "Confirming the course 'counts for both' without explaining slot mechanics",
+    "Letting the student believe they need one fewer course total",
+    "Not understanding that degree audits assign courses to specific requirement slots"
+  ],
+  "advisor_validation_needed": "Verify: (1) how degree audit slot assignment works at CMU-Q, (2) whether the stats course qualifies for the DS requirement, (3) impact on total course count"
+}

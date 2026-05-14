@@ -1,0 +1,141 @@
+% ============================================================================
+% SECTION 2: System Architecture
+% ============================================================================
+
+\section{System Architecture}
+
+\begin{figure*}[t]
+\centering
+% TODO: Replace with actual architecture diagram
+\fbox{\parbox{0.95\textwidth}{\centering\vspace{2em}
+\textbf{[Architecture Diagram Placeholder]}\\[0.5em]
+Left: Chat Mode workflow (Coordinator $\to$ Parallel Agents $\to$ Evaluation Loop $\to$ Synthesis)\\
+Right: Planning Mode workflow (Propose $\to$ Parallel Critique $\to$ Consensus/Revise)\\
+Bottom: Shared components (Blackboard State, RAG Layer with 5 ChromaDB collections, Streaming Events)
+\vspace{2em}}}
+\caption{TartanMaroon architecture. \textbf{Chat mode} (left): the coordinator plans a workflow, agents execute in parallel, and an iterative evaluation loop re-runs agents with semantic feedback until sufficiency. \textbf{Planning mode} (right): a proposal--critique protocol where the planning agent proposes and three domain agents critique in parallel, iterating to consensus. Both modes stream structured events to the transparency panel in real time.}
+\label{fig:architecture}
+\end{figure*}
+
+TartanMaroon comprises four layers: an LLM-driven coordinator, four domain-specialized agents with independent RAG indices, a proposal--critique negotiation protocol for planning queries, and a real-time transparency layer. All inter-agent communication occurs through a structured shared state (the \emph{blackboard}); agents never communicate directly with each other.
+
+\subsection{LLM-Driven Coordinator}
+
+The coordinator replaces traditional hard-coded intent routing with full LLM reasoning. Given a query, conversation history, and student profile, it produces a structured \texttt{WorkflowPlan} containing: (1)~the student's underlying goal, (2)~which agents to activate and why, (3)~an execution order with parallelizable stages, (4)~decision points for adaptive re-routing, and (5)~a specific task assignment per agent.
+
+This design has three key properties. First, the coordinator reasons about agent \emph{capabilities and limitations}, not keyword patterns; each agent's role, knowledge domains, and explicit limitations are declared in an \texttt{AgentCapability} schema visible to the coordinator. Second, the coordinator assigns each agent a focused sub-task (e.g., ``Check if 15-213 is offered in Fall~2025 and list its prerequisites'') rather than forwarding the raw query, reducing irrelevant retrieval. Third, the coordinator can adapt the workflow mid-execution: after each agent completes, decision points trigger an LLM call that may add, remove, or reorder remaining agents based on intermediate results.
+
+For latency-sensitive deployments, an optional fine-tuned intent classifier provides a fast routing path ($\sim$100\,ms vs.\ $\sim$5\,s for full LLM reasoning), falling back to the full reasoning path for ambiguous queries.
+
+\subsection{Domain-Specialized Agents}
+
+All four agents inherit from a common \texttt{BaseAgent} that provides domain-specific RAG retrieval, streaming event emission, and coordinator feedback integration. Each agent maintains a dedicated ChromaDB vector index over its knowledge domain:
+
+\begin{itemize}
+    \item \textbf{Programs Agent}: 8 degree programs with curricula, milestones, and requirement structures. Validates degree progress, identifies missing requirements, and explains program-specific rules.
+    \item \textbf{Courses Agent}: 2,478 course records (code, name, units, prerequisites, corequisites, anti-requisites). Retrieves course details, checks prerequisite chains, and detects time conflicts using schedule data.
+    \item \textbf{Policy Agent}: 45 policy documents covering registration rules, unit limits, academic standing, and financial policies. Checks compliance and flags violations with policy citations.
+    \item \textbf{Planning Agent}: Combined program and schedule data. Generates multi-semester plans that respect prerequisite ordering, workload balance, and course availability patterns.
+\end{itemize}
+
+Each agent returns a structured \texttt{AgentOutput}: a natural-language answer, a confidence score, a list of risks (typed and severity-graded), constraints (hard or soft, with policy citations), and the policies referenced. This structured output enables the coordinator to evaluate and compare outputs systematically.
+
+\subsection{Iterative Semantic Evaluation}
+\label{sec:eval-loop}
+
+After parallel agent execution, a \emph{sufficiency evaluation} loop decides whether the combined outputs adequately answer the query before synthesis. A separate, more capable LLM (the evaluation model) assesses all agent outputs holistically and returns:
+
+\begin{enumerate}
+    \item A \textbf{quality score} (0--100) based on completeness, accuracy, and relevance.
+    \item \textbf{Per-agent feedback}: a score, identified strengths, specific gaps, and retrieval guidance (e.g., ``Search for 15-213 prerequisites and Fall~2025 schedule'').
+    \item A \textbf{sufficiency decision}: if the score is below 75 and actionable gaps exist, the coordinator specifies which agents to re-run.
+\end{enumerate}
+
+Re-run agents receive the coordinator's semantic feedback as additional context and execute with an enhanced retrieval depth ($k{=}10$ vs.\ default $k{=}5$), broadening the context window to address identified gaps. The loop runs for at most 3~rounds to bound latency; if the maximum is reached, synthesis proceeds with the best available outputs.
+
+This design differs from agent self-reported confidence (which lacks cross-agent context) and from simple retry mechanisms (which lack targeted guidance). The coordinator's holistic view enables it to identify gaps that no single agent can detect---for example, recognizing that the courses agent provided prerequisites but the programs agent failed to confirm whether the course satisfies degree requirements.
+
+When the planning agent is involved, the evaluator additionally runs \emph{deterministic plan validation}: parsing course codes from the proposed plan, checking prerequisite ordering against the course database, and detecting schedule conflicts programmatically. Violations discovered this way are injected into the evaluation prompt as hard constraints that must be resolved.
+
+
+\subsection{Proposal--Critique Protocol}
+\label{sec:proposal-critique}
+
+Complex planning queries (e.g., ``Plan my remaining 4~semesters to graduate with a CS minor'') require structured negotiation rather than single-pass generation. We implement a \textbf{proposal--critique protocol}:
+
+\paragraph{Phase 1: Proposal.} The planning agent generates a complete semester-by-semester plan as structured JSON (\texttt{CoursePlanJSON}), including course codes per semester, unit totals, requirements met, and requirements pending.
+
+\paragraph{Phase 2: Parallel Critique.} Three agents evaluate the proposal simultaneously via \texttt{ThreadPoolExecutor}:
+\begin{itemize}
+    \item The \textbf{programs agent} retrieves degree requirements via RAG and checks whether the plan satisfies all major/minor requirements.
+    \item The \textbf{courses agent} verifies course existence in the catalog, checks prerequisite satisfaction, and validates schedule availability using deterministic tools (\texttt{get\_course\_schedule}, \texttt{look\_up\_course\_info}).
+    \item The \textbf{policy agent} checks unit limits per semester (max 51 without overload approval), minimum full-time units, and academic standing constraints.
+\end{itemize}
+
+Each agent returns a structured \texttt{AgentCritique}: an approval decision, a list of specific issues, actionable suggestions, and a confidence score.
+
+\paragraph{Phase 3: Consensus or Revision.} If all three agents approve, the plan is finalized. Otherwise, the planning agent receives all critiques and must address every identified issue in a revised proposal. The cycle repeats for at most 3~rounds.
+
+This protocol is the primary mechanism by which cross-domain constraint violations are caught. A planning agent operating alone may generate a plausible-looking plan that violates a prerequisite chain (caught by courses agent), exceeds the unit cap for a student on academic warning (caught by policy agent), or omits a required elective (caught by programs agent). In our evaluation (\S\ref{sec:results}), these violations are the primary source of the multi-agent advantage on T4--T5 queries.
+
+
+\subsection{Blackboard State}
+
+All inter-agent communication flows through a typed shared state (\texttt{BlackboardState}), implemented as a LangGraph \texttt{TypedDict}. Key fields include: \texttt{student\_profile} (major, GPA, completed courses), \texttt{agent\_outputs} (mapping agent names to structured outputs), \texttt{risks} and \texttt{constraints} (aggregated from all agents), \texttt{conflicts} (typed as hard violation, high risk, or trade-off), \texttt{workflow\_step} (finite-state workflow position), and \texttt{execution\_metadata} (timing, evaluation history, parallel speedup).
+
+The blackboard pattern ensures that agents remain stateless and independently testable: each agent reads from and writes to the blackboard without knowledge of other agents' existence, while the coordinator maintains global awareness.
+
+
+\subsection{Implementation}
+
+The system is built with LangGraph for state-machine orchestration, ChromaDB for vector storage (5 domain-specific collections with OpenAI \texttt{text-embedding-3-large} embeddings), FastAPI with SSE streaming for the backend, and Next.js~14 with TypeScript for the frontend. Agents execute in parallel via Python's \texttt{ThreadPoolExecutor}. The codebase is open-source and requires only an LLM API key; adapting to a new institution requires replacing the RAG corpora and updating agent capability descriptions, without modifying orchestration logic.
+
+
+% ============================================================================
+% SECTION 3: Transparency and User Interface
+% ============================================================================
+
+\section{Transparency and User Interface}
+
+A distinguishing design goal of TartanMaroon is making the multi-agent collaboration process \emph{fully transparent} to users. Rather than presenting only a final answer, the interface exposes coordinator reasoning, agent activities, evaluation decisions, and negotiation rounds as they occur. This serves two purposes: building user trust through interpretability, and enabling developers to diagnose system behavior without inspecting logs.
+
+\subsection{Streaming Event Architecture}
+
+The backend defines 27~structured event types organized into five categories:
+
+\begin{itemize}
+    \item \textbf{Workflow events}: session start and completion with total timing.
+    \item \textbf{Coordinator events}: thinking (routing analysis), routing decisions (which agents and why), evaluation results (quality score, per-agent feedback, re-run decisions), and conflict detection.
+    \item \textbf{Agent lifecycle events}: start, retrieving (with document count), thinking, output (full response with confidence and risks), completion, and error.
+    \item \textbf{Re-retrieval events}: which agents are re-running, with what enhanced retrieval parameters, and their updated results.
+    \item \textbf{Planning events}: session start, round start, proposal generation, parallel critiquing, individual critique results, round completion (with per-agent approval status), and session completion.
+\end{itemize}
+
+Each event is a \texttt{StreamEvent} dataclass containing an event type, optional agent name, execution phase, a human-readable message, a structured data payload, and a timestamp. Events are serialized as Server-Sent Events (\texttt{data: \{JSON\}\textbackslash n\textbackslash n}) and delivered to the frontend in real time.
+
+A thread-safe callback system ensures correct event ordering despite parallel agent execution: all agents write to a shared \texttt{Queue} protected by a \texttt{Lock}, and an async generator pulls events from the queue for FastAPI's \texttt{StreamingResponse}.
+
+\subsection{Transparency Panel}
+
+The frontend renders a collapsible transparency panel alongside the chat interface (Figure~\ref{fig:architecture}). The panel has four sections:
+
+\paragraph{Coordinator Status.} Shows the current workflow phase (``Analyzing your question\ldots'', ``Routing to 3~agents'') with an animated indicator, and the coordinator's routing reasoning.
+
+\paragraph{Evaluation Display.} After each evaluation round, the panel shows: (1)~the round number, (2)~a color-coded quality score bar (red below 60, yellow 60--75, green above 75), (3)~per-agent scores with identified gaps, and (4)~the coordinator's reasoning for sufficiency or re-run decisions. Users can observe the system's self-assessment in real time.
+
+\paragraph{Agent Cards.} Each active agent is rendered as a collapsible card with a domain-specific icon and color. While active, the card shows a spinner; on completion, it displays: the agent's confidence as a percentage badge, a risk count indicator, the full agent response (expandable), identified risks color-coded by severity (high/medium/low), and referenced policies as chips. Users can inspect individual agent reasoning before the final synthesis.
+
+\paragraph{Planning Rounds.} During proposal--critique sessions, the panel displays each round sequentially: the proposed plan (compact or full view), critique cards for each agent (with approval checkbox, issues list, and suggestions), and active agent indicators during parallel critique. Users observe the negotiation converge toward consensus or identify which constraints proved hardest to satisfy.
+
+\subsection{Design Rationale}
+
+Three principles guide the transparency design:
+
+\begin{enumerate}
+    \item \textbf{Progressive disclosure}: The default view shows high-level status (which agents are active, the quality score). Details (full agent responses, individual risks, coordinator reasoning) are available on demand via collapsible sections, avoiding information overload.
+    \item \textbf{Real-time streaming}: Events are displayed as they occur, not batched at the end. This reduces perceived latency---users see meaningful progress within 1--2 seconds---and enables early identification of routing errors.
+    \item \textbf{Structured, not raw}: Rather than showing raw LLM outputs or log traces, all information is presented through typed, domain-aware components (quality score bars, risk severity badges, approval checkboxes). This makes the collaboration process legible to non-technical users.
+\end{enumerate}
+
+The transparency layer also supports the ablation study (\S\ref{sec:results}): a system selector dropdown allows switching between configurations at runtime, and each message records which system produced it, enabling controlled within-session comparisons.
+

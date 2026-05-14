@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-044",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": "P-008",
+  "question": "I'm a CS senior with a Biological Sciences minor. I want to take a graduate-level bioinformatics course (03-511 or 03-512). Would a graduate bioinformatics course count toward my Biological Sciences minor requirements, or only as a free elective?",
+  "expected_answer": "This depends on the specific Biological Sciences minor requirements and whether graduate-level courses are permitted. In general, undergraduate minors at CMU are designed around undergraduate courses. A graduate course may count as a free elective toward the overall unit requirement but may not satisfy a specific minor course requirement without explicit faculty/department approval. P-008 should consult the BS department and their advisor before relying on this substitution.",
+  "reasoning_type": "Graduate vs. undergraduate course equivalence for minor requirements",
+  "domain": "courses",
+  "common_mistake": "Assuming graduate courses automatically satisfy undergraduate minor requirements; not knowing that most minors require approval for graduate course substitutions",
+  "needs_verification": [
+    "Confirm the Biological Sciences minor requirements and whether graduate courses are explicitly excluded or included",
+    "Confirm whether 03-511 or 03-512 are listed as acceptable courses for the BS minor",
+    "Confirm that P-008 meets the prerequisites for 03-511 or 03-512 (graduate bioinformatics)",
+    "Confirm the approval process for counting graduate courses toward undergraduate minors at CMU-Q"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-A09",
+  "tier": "T4",
+  "category": "A",
+  "category_name": "Graduation Planning",
+  "persona_id": "P-040",
+  "persona_summary": "BIO 5th-year, no concentration, no minor, entered Fall 2020, 66 courses, Good standing",
+  "variation": "5th-year, minimal remaining",
+  "question": "I've been here since Fall 2020 and I've taken 66 courses. I just want to finally graduate. What do I actually still need, and when should I take it?",
+  "what_makes_this_hard": "System must audit a very long course history against current requirements. Some courses from earlier years might not count under current catalog. Edge case of long enrollment.",
+  "needs_verification": [
+    "Which of 66 courses satisfy current BIO degree requirements",
+    "Whether any old courses no longer count",
+    "Exact remaining requirements",
+    "Course availability for remaining courses"
+  ]
+}

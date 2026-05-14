@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-021",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": null,
+  "question": "In Fall 2025, do 15-213 (Section W: Thursday 11:30\u201312:20) and 15-112 (Section W: Tuesday, Thursday, Sunday 11:30\u201312:45) have a time conflict?",
+  "expected_answer": "Yes \u2014 both courses meet on Thursday from 11:30, with 15-213 running to 12:20 and 15-112 running to 12:45. A student cannot register for both sections simultaneously because they overlap on Thursday during the 11:30\u201312:20 window.",
+  "reasoning_type": "Direct time overlap detection across two courses",
+  "domain": "schedules",
+  "common_mistake": "Only checking one day of the week (missing that Thursday is the conflict day); comparing course names rather than specific section meeting times",
+  "needs_verification": [
+    "Confirm 15-213 Section W meeting time in Fall 2025 is Thursday 11:30\u201312:20",
+    "Confirm 15-112 Section W meeting time in Fall 2025 is Tuesday/Thursday/Sunday 11:30\u201312:45",
+    "Confirm there is no alternative section of 15-213 or 15-112 that avoids the conflict"
+  ]
+}

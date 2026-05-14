@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-015",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-025",
+  "question": "I'm a BA junior with dual concentrations in Finance and Business Analytics & Technologies (BAT), plus an Economics minor. I have 37 courses completed. Am I likely on track to graduate in 4 years given my dual concentration?",
+  "expected_answer": "Possibly, but tight. Dual concentrations in Finance and BAT combined with an Economics minor create a very heavy course load. P-025 needs to verify in Stellic that required courses for both concentrations plus the Economics minor can all be completed in the remaining semesters without requiring excessive overloads. The dual concentration creates scheduling risk, particularly if some required courses conflict or are only offered in specific semesters.",
+  "reasoning_type": "Multi-requirement progress assessment with scheduling risk",
+  "domain": "programs",
+  "common_mistake": "Assuming 37 completed courses is sufficient without checking which specific requirements are unfulfilled; ignoring semester availability constraints for concentration courses",
+  "needs_verification": [
+    "Retrieve P-025's full course list and map against Finance + BAT + Economics minor requirements",
+    "Confirm how many semesters P-025 has remaining",
+    "Confirm the specific required courses for Finance concentration and BAT concentration at CMU-Q",
+    "Confirm whether any required courses are offered only once per year or in specific semesters"
+  ]
+}

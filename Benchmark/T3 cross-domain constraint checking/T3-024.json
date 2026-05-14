@@ -1,0 +1,33 @@
+{
+  "query_id": "T3-024",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-025",
+  "question": "I'm a BA junior (P-025) with dual concentrations (Finance + BAT) and an Economics minor. I want to register for 60 units in Spring 2026 to accelerate graduation. What approvals do I need?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "courses",
+    "programs"
+  ],
+  "domain_contributions": {
+    "policies": "Normal load = ~360 units \u00f7 8 semesters = 45 units. 60 units is an overload of 15 units. Overload up to 12 units above normal requires advisor approval; more than 12 extra units requires advisor to adjust S3 max units.",
+    "courses": "60 units = approximately 5 \u00d7 12-unit courses or equivalent combination",
+    "programs": "P-025's graduation target and dual concentration workload make an overload tempting but risky; AW does not apply (P-025 is in good standing)"
+  },
+  "key_facts": [
+    "60 units = ~15 units above the ~45-unit normal load",
+    "Policy: advisor approval required for any overload; additional S3 adjustment required for overloads exceeding 12 units above normal",
+    "P-025 is in good standing \u2014 not blocked by AW",
+    "P-025 should discuss the overload with their academic advisor and explain the dual concentration rationale",
+    "Advisors cannot update max units in S3 until the Saturday after Registration Week"
+  ],
+  "wrong_if_single_domain": "Knowing only the overload policy cannot determine whether 60 units is a realistic load for P-025 without knowing their current unit accumulation and remaining requirements. Knowing only program requirements cannot determine the approval process.",
+  "common_mistake": "Assuming good academic standing means overloads are automatically approved; not knowing the advisor approval + S3 adjustment process for large overloads",
+  "reasoning_chain": [
+    "Step 1 (programs): P-025 has dual concentration + minor, justifying heavy load",
+    "Step 2 (courses): 60 units = ~5 courses, 15 units above normal load",
+    "Step 3 (policies): Overload >12 units above normal \u2192 advisor approval + S3 max adjustment required",
+    "Conclusion: P-025 needs explicit advisor approval and S3 adjustment; overload is not automatic even in good standing"
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "persona_id": "P-001",
+  "source_student_id": "student244",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [],
+    "level": "first-year",
+    "entry_year": "Summer 2024",
+    "program_full": "BS in Computer Science (No concentrations)",
+    "narrative": {
+      "background_notes": "Considering adding a minor in Robotics or AI. Interested in systems programming. Took summer courses before first year to get ahead on math/physics.",
+      "goals": "Wants to complete BS in 4 years and pursue a Masters in CS afterward",
+      "concerns": "Worried about the workload of 15-213 and 15-251 in the same semester"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 15,
+    "semesters_completed": [
+      "Summer 2024",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2024": [
+        {
+          "course_code": "00-009",
+          "course_name": "QSP Information System Project"
+        },
+        {
+          "course_code": "00-011",
+          "course_name": "QSP SAT Preparation 1"
+        },
+        {
+          "course_code": "00-003",
+          "course_name": "QSP English 3"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "00-016",
+          "course_name": "Mathematics 4 - Alegbra II"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "03-110",
+          "course_name": "General Biology"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

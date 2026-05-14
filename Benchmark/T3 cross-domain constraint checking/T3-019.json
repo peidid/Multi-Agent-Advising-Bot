@@ -1,0 +1,30 @@
+{
+  "query_id": "T3-019",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-016",
+  "question": "I'm an IS junior (P-016) in the Information Security and Privacy (ISP) concentration. Which ISP concentration courses are available in Spring 2026 that I haven't taken yet?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-016 ISP concentration: 39 courses completed; need to identify which ISP-specific electives have been taken and which remain",
+    "schedules": "Spring 2026 IS offerings likely to include ISP-relevant courses: 67-357, 67-364, 67-301, 67-352 \u2014 need to map to ISP concentration requirements"
+  },
+  "key_facts": [
+    "P-016 has completed 39 courses as an IS junior in ISP concentration",
+    "Spring 2026 IS elective courses: 67-301, 67-352, 67-357, 67-364 \u2014 some may be ISP-relevant",
+    "ISP concentration specific course requirements need verification from the IS program document",
+    "P-016's concern: 'Limited ISP elective offerings at CMU-Q' \u2014 Spring 2026 availability is critical"
+  ],
+  "wrong_if_single_domain": "Listing all ISP concentration requirements without checking Spring 2026 offerings cannot tell P-016 what to register for. Looking at only the schedule cannot determine which courses satisfy ISP concentration requirements.",
+  "common_mistake": "Listing IS electives as ISP options without confirming they appear in the official ISP concentration course list",
+  "reasoning_chain": [
+    "Step 1 (programs): Map P-016's history against ISP concentration requirements",
+    "Step 2: Identify remaining ISP courses",
+    "Step 3 (schedules): Check Spring 2026 IS offerings for those courses",
+    "Conclusion: Several IS electives in Spring 2026 may satisfy ISP requirements \u2014 official ISP course list verification required"
+  ]
+}

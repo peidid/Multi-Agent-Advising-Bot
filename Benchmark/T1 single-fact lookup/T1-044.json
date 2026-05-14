@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-044",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": null,
+  "question": "What days of the week does 21-127 meet in Spring 2026?",
+  "answer": "Sunday, Monday, Tuesday, Wednesday, and Thursday",
+  "source_file": "data/schedules/schedule_2026_spring.json",
+  "source_field": "offerings[21-127].sections[0].days",
+  "domain": "schedules",
+  "verification_note": "days=['Sun','Mon','Tue','Wed','Thu'] in Spring 2026"
+}

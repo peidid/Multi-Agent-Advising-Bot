@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-046",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-025",
+  "question": "I'm a BA junior (P-025) with dual Finance and BAT concentrations and an Economics minor. Is graduating in Spring 2027 (my expected graduation) feasible given my current progress and the courses offered?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-025 has 37 courses completed; dual concentration + Econ minor creates significant remaining requirement load; identifying what's left is critical",
+    "schedules": "Finance/BAT/Econ courses offered Spring 2026 (and will need Fall 2026 as well): 70-401, 70-416, 70-441, 70-460, 73-421, etc.",
+    "policies": "P-025 in good standing; may need advisor-approved overloads in some semesters; dual concentration creates scheduling risk"
+  },
+  "key_facts": [
+    "P-025 has 37 courses at junior level \u2014 approximately 2 more years of coursework expected",
+    "Spring 2027 target = 3 more semesters (Spring 2026, Fall 2026, Spring 2027)",
+    "Dual concentration + minor creates heavy requirement overlap and scheduling complexity",
+    "Some Finance/BAT electives may only be offered once per year \u2014 Spring 2026 availability determines Fall 2026 planning",
+    "If overloads are needed to fit everything in 3 semesters, advisor approval required",
+    "Feasibility is plausible but tight \u2014 requires careful semester-by-semester planning"
+  ],
+  "wrong_if_single_domain": "Knowing program requirements reveals the heavy remaining load but not whether courses are available each semester. Knowing only the schedule cannot determine what P-025 still needs. Policy context about overloads determines whether tight semesters are feasible.",
+  "common_mistake": "Treating each concentration and the minor independently without checking for semester availability bottlenecks; not accounting for courses only offered in specific semesters",
+  "reasoning_chain": [
+    "Step 1 (programs): Audit remaining Finance + BAT + Econ minor requirements for P-025",
+    "Step 2 (schedules): Identify which are available Spring 2026 vs Fall 2026 vs Spring 2027",
+    "Step 3 (policies): Some semesters may require overload \u2014 advisor approval needed",
+    "Conclusion: Spring 2027 graduation is feasible but requires careful 3-semester plan with possible overloads"
+  ]
+}

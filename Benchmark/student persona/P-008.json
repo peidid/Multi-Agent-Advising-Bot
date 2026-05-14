@@ -1,0 +1,250 @@
+{
+  "persona_id": "P-008",
+  "source_student_id": "student393",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Biological Sciences"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Biological Sciences (No concentrations)",
+    "narrative": {
+      "background_notes": "Interdisciplinary interest in computational biology. Took Bio minor to complement CS.",
+      "goals": "Work in bioinformatics or computational genomics",
+      "concerns": "Wants to take a graduate-level bioinformatics course but unsure about prerequisites"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 49,
+    "semesters_completed": [
+      "Summer 2022",
+      "Fall 2022",
+      "Spring 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2022": [
+        {
+          "course_code": "03-110",
+          "course_name": "General Biology"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "76-328",
+          "course_name": "Introduction to Corpus Linguistics"
+        },
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "09-106",
+          "course_name": "Modern Chemistry II"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "82-141",
+          "course_name": "Elementary Spanish I"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "09-101",
+          "course_name": "Introduction to Experimental Chemistry"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "98-031",
+          "course_name": "Student Taught Courses (StuCo): NLP Ethics in a Nutshell"
+        },
+        {
+          "course_code": "85-241",
+          "course_name": "Social Psychology"
+        },
+        {
+          "course_code": "80-249",
+          "course_name": "AI, Society, and Humanity"
+        },
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        },
+        {
+          "course_code": "09-217",
+          "course_name": "Organic Chemistry I"
+        },
+        {
+          "course_code": "98-060",
+          "course_name": "Student Taught Courses (StuCo): A Beginners\u00bf Guide to Chinese"
+        },
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        },
+        {
+          "course_code": "17-313",
+          "course_name": "Foundations of Software Engineering"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "54-191",
+          "course_name": "Acting for Non-Majors"
+        },
+        {
+          "course_code": "98-244",
+          "course_name": "Student Taught Courses (StuCo): Sign Language Through Pop Music"
+        },
+        {
+          "course_code": "16-235",
+          "course_name": "Fantastic Robots and How to Fold Them"
+        },
+        {
+          "course_code": "03-232",
+          "course_name": "Biochemistry I"
+        },
+        {
+          "course_code": "76-265",
+          "course_name": "Introduction to Writing Poetry"
+        },
+        {
+          "course_code": "15-386",
+          "course_name": "Neural Computation"
+        },
+        {
+          "course_code": "85-107",
+          "course_name": "The Psychology of Video Games"
+        },
+        {
+          "course_code": "82-131",
+          "course_name": "Elementary Chinese I"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "03-320",
+          "course_name": "Cell Biology"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "69-112",
+          "course_name": "Fencing"
+        },
+        {
+          "course_code": "03-350",
+          "course_name": "Developmental Biology"
+        },
+        {
+          "course_code": "69-113",
+          "course_name": "Martial Arts"
+        },
+        {
+          "course_code": "15-440",
+          "course_name": "Distributed Systems"
+        },
+        {
+          "course_code": "69-128",
+          "course_name": "Personal Safety/Self-Defense"
+        },
+        {
+          "course_code": "51-215",
+          "course_name": "Making Short Films"
+        },
+        {
+          "course_code": "15-348",
+          "course_name": "Embedded Systems"
+        },
+        {
+          "course_code": "69-005",
+          "course_name": "Archery + Laser Pistol"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

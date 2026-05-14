@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-004",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "What is 15-251 called?",
+  "answer": "Great Ideas in Theoretical Computer Science",
+  "source_file": "data/courses/15-251.json",
+  "source_field": "name",
+  "domain": "courses",
+  "verification_note": "name field in course JSON"
+}

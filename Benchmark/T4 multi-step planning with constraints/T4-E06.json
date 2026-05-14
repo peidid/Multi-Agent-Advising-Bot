@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E06",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-053",
+  "persona_summary": "BA Sophomore, Finance, dual minors Econ + History, 25 courses, Good standing",
+  "variation": "Overload one semester vs spread over two",
+  "question": "I have a lot of requirements left. Is it better to overload one semester to get ahead, or spread everything evenly? What does each plan look like?",
+  "what_makes_this_hard": "Overload triggers policy check (GPA requirement). System must check if student qualifies and present both options with policy implications.",
+  "needs_verification": [
+    "Overload policy and GPA threshold",
+    "P-053's eligibility for overload",
+    "Total remaining requirements",
+    "Plans for overload vs even distribution"
+  ]
+}

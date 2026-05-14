@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-018",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "How many units is 70-106?",
+  "answer": "9 units",
+  "source_file": "data/courses/70-106.json",
+  "source_field": "units",
+  "domain": "courses",
+  "verification_note": "units field is 9.0 in course JSON"
+}

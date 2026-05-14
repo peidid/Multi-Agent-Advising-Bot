@@ -1,0 +1,30 @@
+{
+  "query_id": "T5-C04",
+  "tier": "T5",
+  "pattern": "C",
+  "pattern_name": "Policy Conflict",
+  "persona_id": "P-039",
+  "persona_summary": "BIO Senior, Psychology minor, 56 courses, Good standing",
+  "question": "I got a C- in a required Bio course last year. I want to retake it this semester to improve my GPA for grad school applications. Can I just re-register?",
+  "false_assumption_or_hidden_conflict": "Course retake policies vary \u2014 there may be limits on how many courses can be retaken, how the grade replacement works (does the old grade stay on the transcript?), and whether a C- even qualifies for retake (some policies only allow retakes for D or F grades). The student assumes retaking is straightforward.",
+  "naive_system_response": "A naive system would say 'Yes, you can retake it' and add it to the schedule, without checking the specific retake policy, grade threshold, or GPA replacement rules.",
+  "correct_response": "CMU-Q's course repeat policy states [specific rules]. A C- [does/does not] qualify for retake under this policy. If eligible, the grade replacement works as follows: [explanation]. Note: [X specific implications \u2014 e.g., both grades may appear on transcript, or there's a limit on total retakes]. Before retaking, consider whether [alternative like additional courses to boost GPA] might be more efficient for your grad school application.",
+  "domains_required": [
+    "policies",
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Policy Agent specifically checks retake/repeat policies with their exact conditions. A single agent might provide generic advice about retaking without checking the specific grade threshold or replacement rules.",
+  "key_facts": [
+    "Course retake policies have specific conditions (grade thresholds, limits on number of retakes)",
+    "Grade replacement mechanics vary by policy",
+    "A C- may or may not qualify for retake",
+    "Both grades may appear on transcript depending on policy"
+  ],
+  "known_traps": [
+    "Assuming all grades qualify for retake",
+    "Not checking the specific retake/repeat policy",
+    "Not explaining how grade replacement actually works",
+    "Not considering alternatives to retaking"
+  ],
+  "advisor_validation_needed": "Verify: (1) exact course retake/repeat policy, (2) grade threshold for eligibility, (3) how grade replacement works on transcript, (4) any limit on total retakes allowed"
+}

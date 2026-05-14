@@ -1,0 +1,36 @@
+{
+  "query_id": "T3-005",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-046",
+  "question": "I'm a CS 5th-year student (P-046) on academic warning, pursuing a Math minor. I want to take 15-316 and 21-355 together in Spring 2026. Are my prerequisites met and do they conflict?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "courses": "P-046 has 15-122 and 15-150 (prereqs for 15-316 \u2713); has multi-variable calc and proof courses (prereqs for 21-355 \u2713)",
+    "schedules": "15-316 SecW: Sun/Tue 14:30\u201315:45; 21-355 SecW: Sun/Tue 08:30\u201309:45 \u2014 same days but different times",
+    "policies": "Academic warning \u2014 normal load only; 2 \u00d7 12 = 24 units is well within normal load"
+  },
+  "key_facts": [
+    "P-046 has 15-122 (Spring 2017) and 15-150 (Summer 2017) \u2713",
+    "P-046 has 21-127, 21-120, 21-122, 21-241, 21-259 \u2014 satisfies prereqs for 21-355 \u2713",
+    "15-316 SecW Spring 2026: Sun/Tue 14:30\u201315:45",
+    "21-355 SecW Spring 2026: Sun/Tue 08:30\u201309:45",
+    "Both on Sun and Tue but different time windows (08:30\u201309:45 and 14:30\u201315:45) \u2014 no overlap",
+    "P-046 is on academic warning: 2 courses = 24 units, safely within normal load"
+  ],
+  "wrong_if_single_domain": "Checking only prerequisites confirms eligibility but misses the schedule comparison. Checking only the schedule might flag shared days (Sun/Tue) as a conflict without checking times.",
+  "common_mistake": "Seeing both courses meet on Sun and Tue and concluding there is a conflict without comparing the actual time windows",
+  "reasoning_chain": [
+    "Step 1: 15-316 prereqs \u2192 15-122 \u2713, 15-150 \u2713",
+    "Step 2: 21-355 prereqs \u2192 multi-variable calc + proofs \u2713",
+    "Step 3: Spring 2026 offerings \u2192 both offered \u2713",
+    "Step 4: Schedule \u2192 21-355 Sun/Tue 08:30-09:45 vs 15-316 Sun/Tue 14:30-15:45 \u2192 no overlap",
+    "Step 5: AW policy \u2192 24 units = normal load, no restriction triggered",
+    "Conclusion: Both can be taken together"
+  ]
+}

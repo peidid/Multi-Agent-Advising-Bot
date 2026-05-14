@@ -1,0 +1,1436 @@
+[
+  {
+    "query_id": "T3-001",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-003",
+    "question": "I'm a CS sophomore (P-003). I've completed 15-112, 15-122, 15-150, and 21-127. I want to take both 15-251 and 15-210 together in Spring 2026. Is that possible?",
+    "answer": "",
+    "domains_required": ["courses", "schedules"],
+    "domain_contributions": {
+      "courses": "Verify prerequisites for both 15-251 (needs 15-122 C and 21-127 C) and 15-210 (needs 15-150 C and 15-122 C) against P-003's history",
+      "schedules": "Confirm both are offered Spring 2026 and check for time conflicts: 15-251 SecW (Sun/Tue/Thu 11:30–12:20) vs 15-210 SecW (Sun/Tue/Thu 10:00–11:15)"
+    },
+    "key_facts": [
+      "15-251 prereq: (15-122 C or 15-150 C) AND (21-127 C) — P-003 has 15-122 and 21-127 ✓",
+      "15-210 prereq: 15-150 C AND 15-122 C — P-003 has both ✓",
+      "15-251 SecW Spring 2026: Sun/Tue/Thu 11:30–12:20",
+      "15-210 SecW Spring 2026: Sun/Tue/Thu 10:00–11:15",
+      "Times are sequential (10:00–11:15 then 11:30–12:20) — no overlap"
+    ],
+    "wrong_if_single_domain": "Checking only prerequisites confirms P-003 is eligible for both but misses whether there is a time conflict. Checking only the schedule confirms both are offered at compatible times but misses whether P-003 has the required prerequisites.",
+    "common_mistake": "Flagging a conflict because both courses share Sun/Tue/Thu without checking that the actual time windows (10:00–11:15 and 11:30–12:20) are sequential and do not overlap",
+    "reasoning_chain": [
+      "Step 1: Check 15-251 prereqs → 15-122 C ✓, 21-127 C ✓ — eligible",
+      "Step 2: Check 15-210 prereqs → 15-150 C ✓, 15-122 C ✓ — eligible",
+      "Step 3: Confirm both offered Spring 2026 → Yes",
+      "Step 4: Check schedule conflict → 15-210 ends 11:15; 15-251 starts 11:30 → No conflict",
+      "Conclusion: Both courses can be taken together in Spring 2026"
+    ]
+  },
+  {
+    "query_id": "T3-002",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-003",
+    "question": "I'm a CS sophomore (P-003). I want to take 15-251 (Section W) and 15-288 together in Spring 2026. I have the prerequisites for both. Do they conflict?",
+    "answer": "",
+    "domains_required": ["courses", "schedules"],
+    "domain_contributions": {
+      "courses": "Verify prerequisites for 15-251 (15-122 C, 21-127 C — both met by P-003) and 15-288 (special topics, minimal prereqs)",
+      "schedules": "15-251 SecW: Sun/Tue/Thu 11:30–12:20; 15-288 SecW: Sun/Tue/Thu 11:30–12:45 — direct time overlap"
+    },
+    "key_facts": [
+      "15-251 SecW Spring 2026: Sun/Tue/Thu 11:30–12:20",
+      "15-288 SecW Spring 2026: Sun/Tue/Thu 11:30–12:45",
+      "Both start at 11:30 on the same three days — direct conflict",
+      "P-003 meets prerequisites for both courses",
+      "15-251 Section 2 (Mon/Wed 14:30–15:45) would not conflict with 15-288 — an alternative section exists"
+    ],
+    "wrong_if_single_domain": "Checking only prerequisites confirms P-003 is eligible for both and would incorrectly approve the combination. Only the schedule domain reveals the conflict.",
+    "common_mistake": "Approving both courses after verifying prerequisites without checking that they share the exact same time block on three days per week",
+    "reasoning_chain": [
+      "Step 1: Check 15-251 prereqs → P-003 eligible ✓",
+      "Step 2: Check 15-288 prereqs → P-003 eligible ✓",
+      "Step 3: Check Spring 2026 schedule → both offered ✓",
+      "Step 4: Compare meeting times → both Sun/Tue/Thu 11:30 → direct conflict",
+      "Conclusion: Cannot take both in this section combination; P-003 would need 15-251 Section 2 (Mon/Wed 14:30) to avoid the conflict"
+    ]
+  },
+  {
+    "query_id": "T3-003",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-004",
+    "question": "I'm a CS junior (P-004). I've completed 15-213 and want to take 15-441 (Networking) and 15-316 (Software Foundations of Security and Privacy) together in Spring 2026. Is this possible?",
+    "answer": "",
+    "domains_required": ["courses", "schedules"],
+    "domain_contributions": {
+      "courses": "Check prerequisites for 15-441 (likely 15-213 — P-004 has it ✓) and 15-316 (likely 15-122/15-150 — P-004 has both ✓)",
+      "schedules": "15-441 Sec1: Mon/Wed 08:30–09:45; 15-316 SecW: Sun/Tue 14:30–15:45 — check for conflict"
+    },
+    "key_facts": [
+      "P-004 completed 15-213 in Fall 2024 ✓",
+      "P-004 completed 15-122 and 15-150 ✓",
+      "15-441 Section 1 Spring 2026: Mon/Wed 08:30–09:45",
+      "15-316 SecW Spring 2026: Sun/Tue 14:30–15:45",
+      "No shared days between Mon/Wed and Sun/Tue — no conflict"
+    ],
+    "wrong_if_single_domain": "Checking only prerequisites confirms eligibility but misses whether both are offered and whether their times clash. Checking only the schedule shows compatible times but cannot determine if P-004 has met the prerequisites.",
+    "common_mistake": "Assuming that taking two upper-level CS courses in the same semester always causes a conflict without verifying the actual schedules",
+    "reasoning_chain": [
+      "Step 1: Check 15-441 prereqs → 15-213 ✓ (P-004 Fall 2024)",
+      "Step 2: Check 15-316 prereqs → 15-122/15-150 ✓",
+      "Step 3: Check Spring 2026 offerings → both offered ✓",
+      "Step 4: 15-441 Sec1 Mon/Wed 08:30-09:45 vs 15-316 Sun/Tue 14:30-15:45 → no shared days → no conflict",
+      "Conclusion: Both can be taken together in Spring 2026"
+    ]
+  },
+  {
+    "query_id": "T3-004",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student (P-009) on academic warning. I want to take 15-441 (Networking and the Internet) in Spring 2026 to complete a remaining CS requirement. Is this feasible given my academic status?",
+    "answer": "",
+    "domains_required": ["courses", "schedules", "policies"],
+    "domain_contributions": {
+      "courses": "Verify P-009 meets 15-441 prerequisites (likely 15-213 — P-009 completed it Summer 2023 ✓)",
+      "schedules": "Confirm 15-441 is offered Spring 2026 (it is: Sec1 Mon/Wed 08:30–09:45, SecW Thu 10:00–10:50)",
+      "policies": "Academic warning does not block standard course registration but prohibits overloads; taking one course at normal load is permitted"
+    },
+    "key_facts": [
+      "P-009 completed 15-213 in Summer 2023 ✓",
+      "15-441 offered Spring 2026: Sec1 Mon/Wed 08:30–09:45 and SecW Thu 10:00–10:50",
+      "P-009 is on academic warning",
+      "Academic warning restricts overloads and independent studies — but does NOT block registering for standard courses at normal load",
+      "If P-009's total Spring 2026 load exceeds the normal unit threshold, the overload restriction becomes relevant"
+    ],
+    "wrong_if_single_domain": "Checking only prerequisites approves the registration without flagging the academic warning constraint on total load. Checking only the policy without the schedule would not confirm the course is actually offered in Spring 2026.",
+    "common_mistake": "Assuming academic warning completely blocks course registration, or conversely ignoring the overload restriction entirely when calculating total semester units",
+    "reasoning_chain": [
+      "Step 1: Check 15-441 prereqs → 15-213 ✓",
+      "Step 2: Check Spring 2026 schedule → 15-441 offered ✓",
+      "Step 3: Check P-009 academic warning policy → can register for courses at normal load; cannot overload",
+      "Step 4: Verify P-009's total planned units don't exceed normal load threshold",
+      "Conclusion: 15-441 is eligible and offered; permitted under AW if total units remain within normal load"
+    ]
+  },
+  {
+    "query_id": "T3-005",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-046",
+    "question": "I'm a CS 5th-year student (P-046) on academic warning, pursuing a Math minor. I want to take 15-316 and 21-355 together in Spring 2026. Are my prerequisites met and do they conflict?",
+    "answer": "",
+    "domains_required": ["courses", "schedules", "policies"],
+    "domain_contributions": {
+      "courses": "P-046 has 15-122 and 15-150 (prereqs for 15-316 ✓); has multi-variable calc and proof courses (prereqs for 21-355 ✓)",
+      "schedules": "15-316 SecW: Sun/Tue 14:30–15:45; 21-355 SecW: Sun/Tue 08:30–09:45 — same days but different times",
+      "policies": "Academic warning — normal load only; 2 × 12 = 24 units is well within normal load"
+    },
+    "key_facts": [
+      "P-046 has 15-122 (Spring 2017) and 15-150 (Summer 2017) ✓",
+      "P-046 has 21-127, 21-120, 21-122, 21-241, 21-259 — satisfies prereqs for 21-355 ✓",
+      "15-316 SecW Spring 2026: Sun/Tue 14:30–15:45",
+      "21-355 SecW Spring 2026: Sun/Tue 08:30–09:45",
+      "Both on Sun and Tue but different time windows (08:30–09:45 and 14:30–15:45) — no overlap",
+      "P-046 is on academic warning: 2 courses = 24 units, safely within normal load"
+    ],
+    "wrong_if_single_domain": "Checking only prerequisites confirms eligibility but misses the schedule comparison. Checking only the schedule might flag shared days (Sun/Tue) as a conflict without checking times.",
+    "common_mistake": "Seeing both courses meet on Sun and Tue and concluding there is a conflict without comparing the actual time windows",
+    "reasoning_chain": [
+      "Step 1: 15-316 prereqs → 15-122 ✓, 15-150 ✓",
+      "Step 2: 21-355 prereqs → multi-variable calc + proofs ✓",
+      "Step 3: Spring 2026 offerings → both offered ✓",
+      "Step 4: Schedule → 21-355 Sun/Tue 08:30-09:45 vs 15-316 Sun/Tue 14:30-15:45 → no overlap",
+      "Step 5: AW policy → 24 units = normal load, no restriction triggered",
+      "Conclusion: Both can be taken together"
+    ]
+  },
+  {
+    "query_id": "T3-006",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore (P-013) on academic warning. I want to register for both 67-272 and 67-373 in Spring 2026. I see both are listed in the schedule. Can I take them together?",
+    "answer": "",
+    "domains_required": ["courses", "schedules"],
+    "domain_contributions": {
+      "courses": "67-373 requires 67-272 at least D — P-013 has NOT yet completed 67-272, making 67-373 ineligible regardless of the schedule",
+      "schedules": "Both 67-272 and 67-373 are offered Spring 2026; however, 67-272 Sec4 (Mon/Wed 08:30-09:45) and 67-373 SecW (Mon 08:30-09:45) also share a time slot, creating an additional conflict"
+    },
+    "key_facts": [
+      "67-373 prerequisite: 67-272 at least D — P-013 has NOT completed 67-272 yet",
+      "67-272 offered Spring 2026: Sec4 Mon/Wed 08:30-09:45, SecW Thu 08:30-10:20, SecX Thu 10:30-12:20",
+      "67-373 offered Spring 2026: Mon 08:30-09:45 (multiple sections)",
+      "67-272 Sec4 (Mon 08:30-09:45) and 67-373 (Mon 08:30-09:45) are at the exact same time — additional conflict even if prereq were met",
+      "P-013 should take only 67-272 in Spring 2026 and can take 67-373 in a future semester after completing 67-272"
+    ],
+    "wrong_if_single_domain": "Checking only the schedule might confirm both are offered and even warn about a time conflict in certain sections — but misses that the course prerequisite alone blocks 67-373. Checking only prerequisites correctly identifies the blocker but misses the schedule conflict information useful for future planning.",
+    "common_mistake": "Seeing both courses listed in the Spring 2026 schedule and assuming they can both be registered for; not checking that 67-373 has 67-272 as a hard prerequisite",
+    "reasoning_chain": [
+      "Step 1: Check 67-272 prereqs → 15-121 D ✓, 67-262 D ✓ — P-013 eligible for 67-272",
+      "Step 2: Check 67-373 prereqs → requires 67-272 D — P-013 does NOT have 67-272 → BLOCKED",
+      "Step 3: Schedule check → 67-272 Sec4 and 67-373 SecW both Mon 08:30-09:45 → also a conflict",
+      "Conclusion: P-013 can only take 67-272 in Spring 2026; 67-373 must wait until after 67-272 is completed"
+    ]
+  },
+  {
+    "query_id": "T3-007",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-005",
+    "question": "I'm a CS junior (P-005) with a Math minor. I've completed 15-213 and want to take 15-441 (Networking) and 21-355 (Real Analysis I) together in Spring 2026. Is this possible without a schedule conflict?",
+    "answer": "",
+    "domains_required": ["courses", "schedules"],
+    "domain_contributions": {
+      "courses": "15-441 prereqs (15-213 — P-005 has it ✓); 21-355 prereqs (multi-variable calc, proof experience — P-005 has 21-120, 21-122, 21-127, 21-241, 21-259 ✓)",
+      "schedules": "15-441 Sec1: Mon/Wed 08:30–09:45; 21-355 SecW: Sun/Tue 08:30–09:45 — different days, no conflict"
+    },
+    "key_facts": [
+      "P-005 completed 15-213 in Fall 2024 ✓",
+      "P-005 has 21-120, 21-122, 21-127, 21-241, 21-259 — prereqs for 21-355 ✓",
+      "15-441 Section 1 Spring 2026: Mon/Wed 08:30–09:45",
+      "21-355 SecW Spring 2026: Sun/Tue 08:30–09:45",
+      "15-441 meets Mon/Wed; 21-355 meets Sun/Tue — no shared days, no conflict",
+      "21-355 contributes to Math minor requirements"
+    ],
+    "wrong_if_single_domain": "Checking only prerequisites confirms eligibility but misses whether the times align. Checking only schedules confirms no time conflict but cannot determine if P-005 meets the prerequisites for both courses.",
+    "common_mistake": "Assuming that two courses starting at the same time (08:30) on different days must conflict",
+    "reasoning_chain": [
+      "Step 1: 15-441 prereqs → 15-213 ✓",
+      "Step 2: 21-355 prereqs → multi-variable calc and proof background ✓",
+      "Step 3: Spring 2026 offerings → both offered ✓",
+      "Step 4: 15-441 Mon/Wed 08:30-09:45 vs 21-355 Sun/Tue 08:30-09:45 → no shared days → no conflict",
+      "Conclusion: Both courses can be taken together in Spring 2026"
+    ]
+  },
+  {
+    "query_id": "T3-008",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-007",
+    "question": "I'm a CS senior (P-007) in my final semester (Spring 2026). I want to take 15-441 (Networking) to complete a CS elective requirement. I also need a BA minor course. Does 15-441 conflict with 70-311 (Organizational Behavior) in Spring 2026?",
+    "answer": "",
+    "domains_required": ["courses", "schedules"],
+    "domain_contributions": {
+      "courses": "P-007 has 15-213 (Fall 2023) — satisfies 15-441 prereq ✓; P-007 already completed 70-311 in Fall 2024 — taking it again would be redundant",
+      "schedules": "15-441 Sec1: Mon/Wed 08:30-09:45; 70-311 Spring 2026 schedule needs verification for conflict check"
+    },
+    "key_facts": [
+      "P-007 completed 15-213 in Fall 2023 ✓ — eligible for 15-441",
+      "P-007 already completed 70-311 in Fall 2024 — this specific course is already done",
+      "15-441 is offered Spring 2026 (Sec1 Mon/Wed 08:30-09:45, SecW Thu 10:00-10:50)",
+      "70-311 appears in Spring 2026 schedule ✓",
+      "P-007 should identify a remaining BA minor course not yet completed rather than 70-311"
+    ],
+    "wrong_if_single_domain": "Checking only the schedule for conflict between 15-441 and 70-311 misses that P-007 has already completed 70-311 and does not need to retake it. Checking only course history misses whether 15-441 is offered Spring 2026.",
+    "common_mistake": "Recommending 70-311 without checking whether P-007 already completed it; not cross-checking the BA minor course history against the Spring 2026 schedule",
+    "reasoning_chain": [
+      "Step 1: 15-441 prereq → 15-213 ✓ (Fall 2023)",
+      "Step 2: Check Spring 2026 schedule → 15-441 offered ✓",
+      "Step 3: Check P-007's history → 70-311 already completed Fall 2024 → not useful to retake",
+      "Step 4: Identify an uncompleted BA minor course in Spring 2026 schedule",
+      "Conclusion: P-007 can take 15-441; needs to select a different, uncompleted BA minor course for Spring 2026"
+    ]
+  },
+  {
+    "query_id": "T3-009",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-010",
+    "question": "I'm a CS 5th-year student (P-010) with a Tech Entrepreneurship minor. I want to take 15-441 (Networking) and 15-316 (Software Foundations) in Spring 2026 to finish my CS requirements. Do I have the prerequisites and is there a schedule conflict?",
+    "answer": "",
+    "domains_required": ["courses", "schedules"],
+    "domain_contributions": {
+      "courses": "15-441 prereq: 15-213 — P-010 completed it Fall 2023 ✓; 15-316 prereq: 15-122/15-150 — P-010 has both ✓",
+      "schedules": "15-441 Sec1: Mon/Wed 08:30–09:45; 15-316 SecW: Sun/Tue 14:30–15:45 — different days/times, no conflict"
+    },
+    "key_facts": [
+      "P-010 completed 15-213 in Fall 2023 ✓",
+      "P-010 completed 15-122 (Spring 2023) and 15-150 (Fall 2022) ✓",
+      "15-441 Section 1 Spring 2026: Mon/Wed 08:30–09:45",
+      "15-316 SecW Spring 2026: Sun/Tue 14:30–15:45",
+      "No shared days (Mon/Wed vs Sun/Tue) — no conflict",
+      "P-010 does NOT have 15-440 in Fall 2025 (only 15-348 and Table Tennis) — 15-440 not offered Spring 2026"
+    ],
+    "wrong_if_single_domain": "Checking only prerequisites confirms eligibility but cannot determine whether both are offered at compatible times. Checking only the schedule would show no conflict but wouldn't confirm P-010's eligibility.",
+    "common_mistake": "Assuming 15-440 (Distributed Systems) is an alternative to 15-441 in Spring 2026 — 15-440 is not offered in Spring 2026",
+    "reasoning_chain": [
+      "Step 1: 15-441 prereq → 15-213 ✓",
+      "Step 2: 15-316 prereq → 15-122 ✓, 15-150 ✓",
+      "Step 3: Spring 2026 → 15-441 ✓, 15-316 ✓; 15-440 NOT offered Spring 2026",
+      "Step 4: 15-441 Mon/Wed 08:30 vs 15-316 Sun/Tue 14:30 → no conflict",
+      "Conclusion: P-010 can take both; 15-440 must wait for Fall 2026"
+    ]
+  },
+  {
+    "query_id": "T3-010",
+    "tier": "T3",
+    "category": "A",
+    "persona_id": "P-046",
+    "question": "I'm a CS 5th-year student (P-046) on academic warning. I need 15-440 (Distributed Systems) to complete a CS requirement. Can I take it in Spring 2026?",
+    "answer": "",
+    "domains_required": ["courses", "schedules", "policies"],
+    "domain_contributions": {
+      "courses": "P-046 has 15-213 (Fall 2017) which likely satisfies 15-440 prerequisites ✓",
+      "schedules": "15-440 is NOT offered in Spring 2026 — it does not appear in the Spring 2026 course offerings",
+      "policies": "Academic warning restricts overload; however, the primary blocker here is schedule availability, not policy"
+    },
+    "key_facts": [
+      "P-046 has 15-213 (Fall 2017) — likely meets 15-440 prerequisites",
+      "15-440 is NOT in the Spring 2026 schedule (not offered)",
+      "15-440 was offered Fall 2025 — P-046 missed this offering",
+      "P-046 would need to wait until Fall 2026 to take 15-440",
+      "Academic warning (AW) means P-046 cannot overload in any semester"
+    ],
+    "wrong_if_single_domain": "Checking only prerequisites confirms P-046 is eligible for 15-440 and would incorrectly suggest they can take it next semester. Only the schedule domain reveals that 15-440 is not offered in Spring 2026, which is the critical blocking constraint.",
+    "common_mistake": "Assuming that a course is offered every semester; not checking the specific semester's schedule before advising a student to take a course",
+    "reasoning_chain": [
+      "Step 1: Check 15-440 prereqs → 15-213 ✓",
+      "Step 2: Check Spring 2026 schedule → 15-440 NOT offered in Spring 2026",
+      "Step 3: AW status → confirms P-046 cannot overload in Fall 2026 when 15-440 is next available",
+      "Conclusion: P-046 cannot take 15-440 in Spring 2026; must plan for Fall 2026"
+    ]
+  },
+  {
+    "query_id": "T3-011",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore (P-013) on academic warning. Which of my remaining IS professional core courses can I actually register for in Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-013's remaining IS professional core: 67-272 (not yet taken), 67-373 (requires 67-272 first) — both are required",
+      "schedules": "67-272 is offered Spring 2026 ✓; 67-373 is offered Spring 2026 ✓ — but the programs domain reveals 67-373 is blocked by the 67-272 prerequisite"
+    },
+    "key_facts": [
+      "P-013 has completed: 67-100, 67-250, 67-262 — three IS core courses done",
+      "P-013 still needs: 67-272 and 67-373 at minimum for IS professional core",
+      "67-272 offered Spring 2026 ✓ (and P-013 meets its prereqs: 15-121 ✓, 67-262 ✓)",
+      "67-373 offered Spring 2026 ✓ — but requires 67-272 which P-013 hasn't completed",
+      "Result: P-013 can register for 67-272; 67-373 must wait"
+    ],
+    "wrong_if_single_domain": "Checking only the schedule shows both 67-272 and 67-373 are offered and would suggest both are available. Checking only program requirements lists both as needed but cannot determine which can actually be taken now without the prerequisite chain from the courses domain.",
+    "common_mistake": "Listing all remaining IS core courses as 'available this semester' without checking which ones have unmet prerequisites blocking immediate registration",
+    "reasoning_chain": [
+      "Step 1 (programs): Identify remaining IS core — 67-272 and 67-373",
+      "Step 2 (schedules): Both offered Spring 2026",
+      "Step 3 (courses): 67-272 prereqs met ✓; 67-373 prereq (67-272) NOT met ✗",
+      "Conclusion: Only 67-272 is registerable in Spring 2026"
+    ]
+  },
+  {
+    "query_id": "T3-012",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-010",
+    "question": "I'm a CS 5th-year student (P-010) with a Tech Entrepreneurship minor. Which of my remaining CS core requirements can I actually complete in Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-010 has completed all major CS core milestones (15-112, 15-122, 15-150, 15-213, 15-210, 15-251, 15-440, 15-451, 17-313). Remaining: 15-441 and CS electives",
+      "schedules": "Spring 2026 offers 15-441 ✓ and 15-316 ✓; does NOT offer 15-440 (already done), 15-451 (already done), or 15-213 (already done)"
+    },
+    "key_facts": [
+      "P-010 completed: 15-112, 15-122, 15-150, 15-213, 15-210, 15-251, 15-440, 15-451, 17-313",
+      "P-010 still needs: 15-441 (Networking) and possibly CS electives",
+      "15-441 offered Spring 2026 ✓",
+      "15-316 offered Spring 2026 ✓ (as potential elective)",
+      "15-440 NOT offered Spring 2026",
+      "P-010 can realistically complete remaining CS requirements in Spring 2026"
+    ],
+    "wrong_if_single_domain": "Knowing only program requirements lists what P-010 needs but cannot identify which can be done Spring 2026. Knowing only the schedule shows what is offered but cannot determine which courses P-010 still needs.",
+    "common_mistake": "Suggesting courses P-010 has already completed as 'still available this semester'; not filtering the schedule against completed course history",
+    "reasoning_chain": [
+      "Step 1 (programs): Map P-010's course history against CS requirements — identify gaps: 15-441, electives",
+      "Step 2 (schedules): Check Spring 2026 for those gaps → 15-441 ✓, 15-316 ✓",
+      "Step 3: Verify prereqs met for each → 15-213 ✓ for 15-441",
+      "Conclusion: P-010 can take 15-441 (and potentially 15-316 as elective) to finish CS requirements"
+    ]
+  },
+  {
+    "query_id": "T3-013",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-007",
+    "question": "I'm a CS senior (P-007) planning my final semester (Spring 2026). Which BA minor courses do I still need, and which of those are offered in Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-007's BA minor completed courses: 73-102, 70-311, 70-122, 70-332, 70-341, 70-391. Identify which BA minor requirements remain",
+      "schedules": "Spring 2026 BA course offerings include: 70-122, 70-208, 70-257, 70-311, 70-332, 70-342, 70-345, 70-371, 70-374, 70-381, 70-385, 70-387, 70-391, 70-401, 70-416, 70-441, 70-492, 70-495"
+    },
+    "key_facts": [
+      "P-007 BA courses completed: 73-102 (Micro), 70-311 (OB), 70-122 (Accounting), 70-332 (Business & Ethics), 70-341 (Team Dynamics), 70-391 (Finance)",
+      "Spring 2026 has extensive BA course offerings including 70-342, 70-345, 70-371, 70-401, 70-441 that P-007 has not taken",
+      "Whether these satisfy remaining BA minor requirements depends on the specific BA minor course requirements (needs verification)",
+      "P-007 should compare their completed courses against the official BA minor checklist"
+    ],
+    "wrong_if_single_domain": "Knowing only the BA minor requirements (programs domain) cannot tell P-007 which required courses are available this semester. Knowing only the Spring 2026 schedule cannot determine which courses P-007 still needs for the minor.",
+    "common_mistake": "Listing all BA minor required courses as 'available' without filtering out those P-007 has already completed; or listing completed courses as still needed",
+    "reasoning_chain": [
+      "Step 1 (programs): Determine BA minor requirements and which P-007 has completed",
+      "Step 2 (programs): Identify remaining BA minor courses for P-007",
+      "Step 3 (schedules): Cross-reference remaining courses against Spring 2026 offerings",
+      "Conclusion: Several BA courses P-007 hasn't taken are offered Spring 2026; specific requirements need verification against official BA minor checklist"
+    ]
+  },
+  {
+    "query_id": "T3-014",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-025",
+    "question": "I'm a BA junior (P-025) with dual Finance and BAT concentrations and an Economics minor. Which of my remaining Finance concentration courses are offered in Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-025's Finance courses completed: 70-391 (Finance), 70-492 (Investment Analysis), 70-208 (Regression), 70-257 (Optimization). Identify remaining Finance concentration courses",
+      "schedules": "Spring 2026 Finance-relevant offerings: 70-401, 70-416, 70-441, 70-460, 70-492 (already done), 70-495, 73-354, 73-421"
+    },
+    "key_facts": [
+      "P-025 completed Finance courses: 70-391, 70-492, 70-257, 70-208",
+      "P-025 also has: 73-102, 73-103, 73-265, 73-354 (Econ courses for minor)",
+      "Spring 2026 offers upper-level Finance courses: 70-401, 70-416, 70-441, 70-460, 70-495",
+      "73-421 is also offered Spring 2026 (upper-level Econ, may count for Econ minor)",
+      "Which specific Finance courses are required vs elective depends on the Finance concentration curriculum (needs verification)"
+    ],
+    "wrong_if_single_domain": "Listing Finance concentration requirements (programs) without checking the schedule cannot tell P-025 what is available now. Looking only at the schedule shows many courses but cannot identify which ones fulfill outstanding Finance requirements.",
+    "common_mistake": "Suggesting 70-492 (Investment Analysis) as a Finance option without realizing P-025 already completed it in Spring 2025",
+    "reasoning_chain": [
+      "Step 1 (programs): Identify remaining Finance concentration requirements for P-025",
+      "Step 2 (schedules): Check Spring 2026 schedule for Finance-related courses",
+      "Step 3: Filter out already-completed courses (70-492, 70-391, etc.)",
+      "Conclusion: 70-401, 70-416, 70-441, 70-460, 70-495 are Spring 2026 Finance options not yet taken by P-025"
+    ]
+  },
+  {
+    "query_id": "T3-015",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-005",
+    "question": "I'm a CS junior (P-005) with a Mathematical Sciences minor. Which Math minor courses do I still need, and which are available in Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-005 math courses completed: 21-120, 21-122, 21-127, 21-241, 21-259, 21-301. Identify which of these satisfy Math minor requirements and what remains",
+      "schedules": "Spring 2026 math offerings: 21-112, 21-122, 21-127, 21-256, 21-355, 21-441, 21-484"
+    },
+    "key_facts": [
+      "P-005 math completed: 21-120, 21-122, 21-127, 21-241, 21-259, 21-301 (Combinatorics, Fall 2025)",
+      "Spring 2026 math offerings: 21-355 (Real Analysis I) ✓, 21-484 (Graph Theory) ✓, 21-441 (Number Theory or similar)",
+      "P-005 has NOT yet taken 21-355 — this is typically a core upper-level math course for the minor",
+      "21-484 (Graph Theory): P-005 has not taken it; offered Spring 2026 ✓",
+      "The specific Math minor course list needs verification against official requirements"
+    ],
+    "wrong_if_single_domain": "Knowing Math minor requirements without checking the schedule cannot identify which courses P-005 can take now. Looking only at the schedule shows many math courses but cannot determine which ones P-005 still needs for the minor.",
+    "common_mistake": "Listing 21-122 or 21-127 as 'available options' when P-005 has already completed both",
+    "reasoning_chain": [
+      "Step 1 (programs): Map P-005's math courses against Math minor requirements — identify gaps",
+      "Step 2 (schedules): Check Spring 2026 math offerings",
+      "Step 3: Cross-reference remaining requirements against Spring 2026 — 21-355 and 21-484 are offered and not yet taken",
+      "Conclusion: P-005 can take 21-355 and/or 21-484 in Spring 2026 to progress on the Math minor"
+    ]
+  },
+  {
+    "query_id": "T3-016",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-046",
+    "question": "I'm a CS 5th-year student (P-046) with a Math minor on academic warning. Which of my remaining Math minor requirements can I complete in Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-046 math courses completed: 21-120, 21-122, 21-127, 21-241, 21-259, 21-260, 21-355, 21-356, 21-484, 36-217, 36-226. The Math minor requirements need to be cross-checked",
+      "schedules": "Spring 2026 math offerings: 21-355 (P-046 done), 21-484 (P-046 done), 21-441, 21-127 (done), 21-122 (done)"
+    },
+    "key_facts": [
+      "P-046 has extensive math background: 21-355, 21-356, 21-484, 21-259, 21-260, 21-241, 21-127, 36-217, 36-226",
+      "Most standard Math minor courses appear already completed by P-046",
+      "21-441 is offered Spring 2026 and P-046 has NOT taken it",
+      "Whether P-046 still needs additional math courses depends on exact Math minor requirements (verify)",
+      "P-046 may have already satisfied all Math minor requirements with existing courses"
+    ],
+    "wrong_if_single_domain": "Looking only at the Math minor requirements might list several courses, some of which P-046 has already completed under different catalog years. Looking only at the schedule shows available math courses but cannot determine which ones P-046 still needs.",
+    "common_mistake": "Recommending courses already completed; not accounting for the fact that P-046's extensive math background likely satisfies most or all minor requirements",
+    "reasoning_chain": [
+      "Step 1 (programs): Audit Math minor requirements vs P-046's math course history",
+      "Step 2: Identify any gaps (21-441 not yet taken; other upper-level math)",
+      "Step 3 (schedules): 21-441 offered Spring 2026 ✓; 21-355 and 21-484 already done",
+      "Conclusion: P-046 may be close to completing Math minor; 21-441 is one unfinished option in Spring 2026 — full verification against official minor requirements needed"
+    ]
+  },
+  {
+    "query_id": "T3-017",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-003",
+    "question": "I'm a CS sophomore (P-003) with a BA minor. Which BA minor courses should I take in Spring 2026 to make early progress, and are there scheduling conflicts with my CS courses?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-003 BA minor: completed 73-102 (Micro, Fall 2025). Remaining BA minor courses TBD; typical BA minor requires core business courses",
+      "schedules": "Spring 2026 BA offerings: 70-122, 70-208, 70-311, 70-332, 70-342, 70-345, 70-371 etc. Also CS courses P-003 plans: 15-251, 15-210"
+    },
+    "key_facts": [
+      "P-003 completed 73-102 (Microeconomics, Fall 2025) toward BA minor",
+      "15-251 SecW: Sun/Tue/Thu 11:30-12:20; 15-210: Sun/Tue/Thu 10:00-11:15",
+      "70-311 (OB) Spring 2026 schedule: needs verification",
+      "70-122 (Accounting) Spring 2026: ✓ (appears in schedule)",
+      "P-003 must identify which BA minor courses are required and check their times against CS course schedule"
+    ],
+    "wrong_if_single_domain": "Knowing the BA minor requirements lists the courses needed but cannot determine which are available Spring 2026 or whether they conflict with P-003's required CS courses. Knowing only the schedule shows what is offered but cannot identify which ones satisfy BA minor requirements.",
+    "common_mistake": "Recommending a BA course that conflicts with 15-251 or 15-210 without checking the schedule; or recommending non-required electives instead of required minor courses",
+    "reasoning_chain": [
+      "Step 1 (programs): Identify required BA minor courses P-003 hasn't taken",
+      "Step 2 (schedules): List Spring 2026 BA courses",
+      "Step 3: Check for conflicts with P-003's planned CS courses (15-251 SecW 11:30, 15-210 10:00)",
+      "Conclusion: P-003 can take a BA minor course in Spring 2026 provided its schedule doesn't overlap with the CS courses — needs specific course time verification"
+    ]
+  },
+  {
+    "query_id": "T3-018",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-019",
+    "question": "I'm an IS 5th-year student (P-019) in the Applied Informatics concentration. Which concentration courses are offered in Spring 2026 that I still need to complete?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-019 Applied Informatics concentration requirements and P-019's completed IS courses (52 total, needs audit against Applied Informatics curriculum)",
+      "schedules": "Spring 2026 IS offerings: 67-272, 67-301, 67-352, 67-357, 67-364, 67-373, 67-425, 67-426, 67-427"
+    },
+    "key_facts": [
+      "P-019 has 52 completed courses but their IS-specific courses need to be mapped against Applied Informatics requirements",
+      "Applied Informatics is described as a 'rare concentration' — specific requirements need verification",
+      "Spring 2026 IS courses offered: 67-301, 67-352, 67-357, 67-364, 67-373, 67-425, 67-426, 67-427",
+      "P-019's last recorded semester is Spring 2024 — Spring 2026 would be after a 2-year gap",
+      "Old courses taken under 2019-era curriculum may or may not satisfy current Applied Informatics requirements"
+    ],
+    "wrong_if_single_domain": "Listing Applied Informatics requirements without checking the Spring 2026 schedule cannot tell P-019 what can be taken now. Listing Spring 2026 IS offerings without knowing P-019's specific remaining requirements cannot determine which ones P-019 actually needs.",
+    "common_mistake": "Assuming all IS courses offered count toward Applied Informatics; not accounting for P-019's unusual situation of returning after a long gap with potential curriculum changes",
+    "reasoning_chain": [
+      "Step 1 (programs): Audit P-019's course history against Applied Informatics concentration requirements",
+      "Step 2: Identify specific remaining Applied Informatics courses",
+      "Step 3 (schedules): Check which of those are offered Spring 2026",
+      "Conclusion: Requires advisor verification of Applied Informatics requirements and comparison with P-019's 2019-catalog-year requirements"
+    ]
+  },
+  {
+    "query_id": "T3-019",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-016",
+    "question": "I'm an IS junior (P-016) in the Information Security and Privacy (ISP) concentration. Which ISP concentration courses are available in Spring 2026 that I haven't taken yet?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-016 ISP concentration: 39 courses completed; need to identify which ISP-specific electives have been taken and which remain",
+      "schedules": "Spring 2026 IS offerings likely to include ISP-relevant courses: 67-357, 67-364, 67-301, 67-352 — need to map to ISP concentration requirements"
+    },
+    "key_facts": [
+      "P-016 has completed 39 courses as an IS junior in ISP concentration",
+      "Spring 2026 IS elective courses: 67-301, 67-352, 67-357, 67-364 — some may be ISP-relevant",
+      "ISP concentration specific course requirements need verification from the IS program document",
+      "P-016's concern: 'Limited ISP elective offerings at CMU-Q' — Spring 2026 availability is critical"
+    ],
+    "wrong_if_single_domain": "Listing all ISP concentration requirements without checking Spring 2026 offerings cannot tell P-016 what to register for. Looking at only the schedule cannot determine which courses satisfy ISP concentration requirements.",
+    "common_mistake": "Listing IS electives as ISP options without confirming they appear in the official ISP concentration course list",
+    "reasoning_chain": [
+      "Step 1 (programs): Map P-016's history against ISP concentration requirements",
+      "Step 2: Identify remaining ISP courses",
+      "Step 3 (schedules): Check Spring 2026 IS offerings for those courses",
+      "Conclusion: Several IS electives in Spring 2026 may satisfy ISP requirements — official ISP course list verification required"
+    ]
+  },
+  {
+    "query_id": "T3-020",
+    "tier": "T3",
+    "category": "B",
+    "persona_id": "P-015",
+    "question": "I'm an IS junior (P-015) in the Data Science concentration with a Tech Entrepreneurship minor. Which DS concentration courses are available in Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules"],
+    "domain_contributions": {
+      "programs": "P-015 DS concentration requirements: advanced statistics/analytics courses, data management, machine learning — identify which P-015 still needs given 35 completed courses",
+      "schedules": "Spring 2026 IS electives offered: 67-301, 67-352, 67-357, 67-364 plus 36-202 (Methods for Stats & Data Science) and potentially others"
+    },
+    "key_facts": [
+      "P-015 is an IS junior with DS concentration, 35 courses completed",
+      "Spring 2026 DS-relevant offerings: 67-352, 67-357, 67-364, 36-202, 36-218",
+      "36-202 (Methods for Statistics & Data Science) is offered Spring 2026 ✓",
+      "36-218 (Probability Theory for CS) is offered Spring 2026 ✓",
+      "P-015's specific completed courses need to be mapped against DS concentration curriculum"
+    ],
+    "wrong_if_single_domain": "Knowing DS concentration requirements without checking the schedule cannot identify which to take now. The schedule alone cannot identify which courses still fulfill P-015's outstanding DS requirements.",
+    "common_mistake": "Listing all analytics-related courses in Spring 2026 as DS concentration options without verifying they appear in the official DS concentration course list",
+    "reasoning_chain": [
+      "Step 1 (programs): Identify remaining DS concentration courses for P-015",
+      "Step 2 (schedules): Check Spring 2026 offerings relevant to DS",
+      "Step 3: Match remaining requirements to available courses",
+      "Conclusion: 67-352, 67-357, 67-364, 36-202 are potential Spring 2026 options for P-015's DS concentration — specific mapping requires official DS course list"
+    ]
+  },
+  {
+    "query_id": "T3-021",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student (P-009) on academic warning. I want to take 4 courses totaling 48 units in Spring 2026 to graduate on time. Is this allowed under my academic warning restrictions?",
+    "answer": "",
+    "domains_required": ["policies", "courses"],
+    "domain_contributions": {
+      "policies": "Academic warning prohibits overloads. A normal course load is approximately 360 units ÷ 8 semesters = 45 units/semester. 48 units may constitute an overload requiring advisor approval — blocked under AW.",
+      "courses": "The 4 planned courses and their unit counts must be summed: if all are 12-unit courses, total = 48 units, which exceeds the 45-unit normal load benchmark"
+    },
+    "key_facts": [
+      "P-009 is on academic warning — cannot overload",
+      "Normal course load for CS: approximately 360 units ÷ 8 semesters = ~45 units/semester",
+      "4 × 12-unit courses = 48 units, potentially 3 units above normal load",
+      "Academic warning policy: 'A student on an academic action cannot overload'",
+      "P-009 should plan for a 3-course (36-unit) or careful 4-course load that does not exceed the normal threshold"
+    ],
+    "wrong_if_single_domain": "Knowing the academic warning policy (no overload) without knowing the unit counts of the specific courses cannot determine whether the planned load constitutes an overload. Knowing the course units without the policy cannot assess whether the total is permissible under AW restrictions.",
+    "common_mistake": "Assuming 4 courses is automatically an overload, or conversely assuming any load is fine as long as it is 'just 4 courses' without calculating the unit total",
+    "reasoning_chain": [
+      "Step 1 (policies): AW = no overload; identify normal load definition (~45 units)",
+      "Step 2 (courses): Sum 4 planned courses → 4 × 12 = 48 units",
+      "Step 3: 48 > 45 → constitutes overload → blocked under AW",
+      "Conclusion: P-009 cannot take 48 units under AW; must reduce to ≤45 units (e.g., 3 × 12 = 36 or a mix of 12- and 9-unit courses)"
+    ]
+  },
+  {
+    "query_id": "T3-022",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore (P-013) on academic warning. I plan to take 67-272 (12 units), 36-200 (9 units), and one more 9-unit course in Spring 2026, totaling 30 units. Am I considered full-time, and does my AW status restrict this?",
+    "answer": "",
+    "domains_required": ["policies", "courses"],
+    "domain_contributions": {
+      "policies": "Full-time = 36+ units. Part-time requires Dean's exception; going part-time without approval triggers additional academic consequences. AW prohibits overload (not applicable here) but going below 36 units is its own risk.",
+      "courses": "Planned load: 67-272 (12 units) + 36-200 (9 units) + one 9-unit course = 30 units — below the 36-unit full-time threshold"
+    },
+    "key_facts": [
+      "P-013 is on academic warning",
+      "Full-time status requires 36+ units per semester",
+      "30 units = below 36 → part-time status",
+      "Going part-time without Dean of Education exception triggers additional consequences (and can compound AW situation)",
+      "P-013 should take at least 36 units to maintain full-time status; a 4th course (e.g., 6-unit mini or another 9-unit course) would bring total to 36"
+    ],
+    "wrong_if_single_domain": "Knowing only the AW policy would flag overload risk but miss the part-time risk from being below 36 units. Knowing only the course units shows a 30-unit total but cannot identify the policy implications of being below 36 units.",
+    "common_mistake": "Focusing only on the AW overload restriction and missing the separate risk of falling below the 36-unit full-time minimum",
+    "reasoning_chain": [
+      "Step 1 (courses): Sum planned units → 12 + 9 + 9 = 30 units",
+      "Step 2 (policies): Full-time threshold = 36 units; 30 < 36 → part-time",
+      "Step 3 (policies): Part-time without Dean approval → additional academic consequences",
+      "Conclusion: P-013 needs to add at least 6 more units to maintain full-time status and avoid compounding academic problems"
+    ]
+  },
+  {
+    "query_id": "T3-023",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-046",
+    "question": "I'm a CS 5th-year student (P-046) on academic warning with a Math minor. I need 3 more courses to complete my degree: 15-316 (12 units), 21-355 (12 units), and a 12-unit CS elective. Can I take all three in Spring 2026 given my AW status?",
+    "answer": "",
+    "domains_required": ["policies", "courses"],
+    "domain_contributions": {
+      "policies": "AW = no overload. 3 × 12 = 36 units = full-time, not an overload. This load is permitted under AW.",
+      "courses": "15-316 (12 units) + 21-355 (12 units) + 12-unit elective = 36 units total; all three courses have prerequisites P-046 meets"
+    },
+    "key_facts": [
+      "P-046 is on academic warning — no overload permitted",
+      "Normal load ≈ 45 units/semester; 36 units is full-time but not an overload",
+      "3 × 12 = 36 units — full-time, within normal load → AW restriction does NOT block this",
+      "15-316 prereqs: 15-122 ✓, 15-150 ✓",
+      "21-355 prereqs: multi-variable calc + proofs ✓",
+      "All three courses are offered Spring 2026 ✓"
+    ],
+    "wrong_if_single_domain": "Knowing only the AW policy might make someone incorrectly assume any load above minimal is restricted. Knowing only course details cannot determine whether the total unit count triggers the overload restriction.",
+    "common_mistake": "Conflating 'academic warning = can't take many courses' with the actual policy, which only restricts overloads (above normal load), not standard full-time loads",
+    "reasoning_chain": [
+      "Step 1 (courses): 3 × 12 = 36 units",
+      "Step 2 (policies): Normal load ≈ 45 units; 36 < 45 → not an overload → AW does not block this",
+      "Step 3: All three courses offered Spring 2026 and prereqs met",
+      "Conclusion: P-046 can take all three courses in Spring 2026 — the load is full-time but not an overload"
+    ]
+  },
+  {
+    "query_id": "T3-024",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-025",
+    "question": "I'm a BA junior (P-025) with dual concentrations (Finance + BAT) and an Economics minor. I want to register for 60 units in Spring 2026 to accelerate graduation. What approvals do I need?",
+    "answer": "",
+    "domains_required": ["policies", "courses", "programs"],
+    "domain_contributions": {
+      "policies": "Normal load = ~360 units ÷ 8 semesters = 45 units. 60 units is an overload of 15 units. Overload up to 12 units above normal requires advisor approval; more than 12 extra units requires advisor to adjust S3 max units.",
+      "courses": "60 units = approximately 5 × 12-unit courses or equivalent combination",
+      "programs": "P-025's graduation target and dual concentration workload make an overload tempting but risky; AW does not apply (P-025 is in good standing)"
+    },
+    "key_facts": [
+      "60 units = ~15 units above the ~45-unit normal load",
+      "Policy: advisor approval required for any overload; additional S3 adjustment required for overloads exceeding 12 units above normal",
+      "P-025 is in good standing — not blocked by AW",
+      "P-025 should discuss the overload with their academic advisor and explain the dual concentration rationale",
+      "Advisors cannot update max units in S3 until the Saturday after Registration Week"
+    ],
+    "wrong_if_single_domain": "Knowing only the overload policy cannot determine whether 60 units is a realistic load for P-025 without knowing their current unit accumulation and remaining requirements. Knowing only program requirements cannot determine the approval process.",
+    "common_mistake": "Assuming good academic standing means overloads are automatically approved; not knowing the advisor approval + S3 adjustment process for large overloads",
+    "reasoning_chain": [
+      "Step 1 (programs): P-025 has dual concentration + minor, justifying heavy load",
+      "Step 2 (courses): 60 units = ~5 courses, 15 units above normal load",
+      "Step 3 (policies): Overload >12 units above normal → advisor approval + S3 max adjustment required",
+      "Conclusion: P-025 needs explicit advisor approval and S3 adjustment; overload is not automatic even in good standing"
+    ]
+  },
+  {
+    "query_id": "T3-025",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student (P-009) on academic warning. I want to take an independent study course (15-591) in Spring 2026 to work on an NLP project alongside my regular courses. Is this permitted?",
+    "answer": "",
+    "domains_required": ["policies", "programs"],
+    "domain_contributions": {
+      "policies": "Academic warning explicitly prohibits independent studies: 'A student on an academic action cannot overload, study abroad, or take independent studies'",
+      "programs": "P-009's academic standing is confirmed as academic warning — the restriction applies directly"
+    },
+    "key_facts": [
+      "P-009 is on academic warning",
+      "CMU-Q policy: students on academic action cannot take independent studies",
+      "P-009 took 15-591 in Fall 2024 (before the current AW status) — this is a different semester",
+      "The prohibition is absolute while the academic action is in effect",
+      "P-009 must first return to good standing before registering for any independent study"
+    ],
+    "wrong_if_single_domain": "Knowing only the courses domain might show that 15-591 is an available course option. Only the policies domain reveals that P-009's academic warning status makes this option unavailable.",
+    "common_mistake": "Assuming that having taken 15-591 successfully before means it can be taken again under any circumstance; not knowing that AW status specifically blocks independent studies",
+    "reasoning_chain": [
+      "Step 1 (programs): Confirm P-009's academic standing = academic warning",
+      "Step 2 (policies): AW prohibits independent studies explicitly",
+      "Conclusion: P-009 cannot take 15-591 or any independent study while on academic warning"
+    ]
+  },
+  {
+    "query_id": "T3-026",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore (P-013) on academic warning, currently enrolled in 3 courses (36 units) in Spring 2026. If I withdraw from one 9-unit course, what happens to my academic status?",
+    "answer": "",
+    "domains_required": ["policies", "courses"],
+    "domain_contributions": {
+      "policies": "Withdrawn courses receive W grade (non-factorable, does not affect QPA) but still count toward semester units. Going below 36 units (full-time threshold) without Dean approval triggers additional consequences. AW students already face heightened scrutiny.",
+      "courses": "Starting at 36 units; withdrawing 9 units → 27 units remaining = below full-time threshold of 36 units"
+    },
+    "key_facts": [
+      "W grade: stays on transcript, does not affect QPA, but does count toward semester unit total",
+      "27 enrolled units (after withdrawal) = below 36-unit full-time threshold → part-time status",
+      "Going part-time without Dean of Education exception triggers additional academic consequences",
+      "P-013 is already on AW — adding a part-time status complication is highly risky",
+      "P-013 should consult advisor before withdrawing; dropping to part-time may not be advised"
+    ],
+    "wrong_if_single_domain": "Knowing only the withdrawal policy (W grade, no QPA impact) would suggest withdrawal is relatively safe. Only by combining with the unit-count calculation (courses domain) and full-time threshold (policies domain) does the part-time risk become apparent.",
+    "common_mistake": "Assuming a W grade is always a safe choice because it doesn't hurt QPA; missing that the resulting unit count below 36 triggers a separate part-time policy risk",
+    "reasoning_chain": [
+      "Step 1 (courses): 36 units - 9 units withdrawn = 27 units",
+      "Step 2 (policies): 27 < 36 → part-time status",
+      "Step 3 (policies): Part-time without Dean approval → additional consequences; especially risky while on AW",
+      "Conclusion: P-013 should NOT withdraw unless 6+ units are added elsewhere to stay at 36+; consult advisor immediately"
+    ]
+  },
+  {
+    "query_id": "T3-027",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-046",
+    "question": "I'm a CS 5th-year student (P-046) on academic warning. I've been offered a semester exchange at CMU Pittsburgh. Am I eligible to participate?",
+    "answer": "",
+    "domains_required": ["policies", "programs"],
+    "domain_contributions": {
+      "policies": "Academic warning explicitly prohibits study abroad and campus exchange programs: 'A student on an academic action cannot overload, study abroad, or take independent studies'",
+      "programs": "P-046's academic standing = academic warning (confirmed from record)"
+    },
+    "key_facts": [
+      "P-046 is on academic warning",
+      "CMU-Q policy: academic warning prohibits study abroad and by extension campus exchange programs",
+      "The prohibition applies until P-046 returns to good academic standing",
+      "Even an exchange within CMU (Pittsburgh campus) is likely subject to this restriction",
+      "P-046 must first resolve the academic warning before any exchange/study abroad option"
+    ],
+    "wrong_if_single_domain": "Knowing only the programs domain (P-046's courses, standing) identifies the AW status but doesn't detail the specific prohibition on campus exchange. Only the policies domain provides the explicit rule that AW blocks this type of program.",
+    "common_mistake": "Distinguishing between 'study abroad' and 'campus exchange within CMU' and assuming the exchange is permitted; not knowing the AW prohibition extends to all study-away programs",
+    "reasoning_chain": [
+      "Step 1 (programs): P-046 is on academic warning",
+      "Step 2 (policies): AW = cannot study abroad / participate in campus exchange",
+      "Conclusion: P-046 is not eligible for the CMU Pittsburgh exchange while on academic warning"
+    ]
+  },
+  {
+    "query_id": "T3-028",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-007",
+    "question": "I'm a CS senior (P-007) in good standing. I want to add a 15-591 (Independent Study, 9 units) to my Spring 2026 schedule, which already includes 15-441 (12 units) and two BA minor courses (~18 units). Does this create an overload problem?",
+    "answer": "",
+    "domains_required": ["policies", "courses"],
+    "domain_contributions": {
+      "policies": "Students in good standing can overload up to 12 units above normal load with advisor approval. Normal load ≈ 45 units. Any overload requires advisor approval; P-007 is not on AW so independent study is permitted.",
+      "courses": "15-441 (12) + 2 BA courses (~18) + 15-591 (9) = ~39 units total — within normal load; no overload issue"
+    },
+    "key_facts": [
+      "P-007 is in good standing — independent study is permitted",
+      "Planned load: ~39 units (12 + 18 + 9) = well within normal load threshold of ~45 units",
+      "No overload concern; advisor approval for independent study is still needed as a standard process",
+      "P-007 took 15-591 in Spring 2025 as well — independent study experience exists",
+      "Independent study requires a faculty sponsor and registration"
+    ],
+    "wrong_if_single_domain": "Knowing only the policy would suggest independent studies are permitted for good-standing students but cannot confirm the total unit load is acceptable. Knowing only the unit counts cannot determine whether independent study is programmatically permitted for P-007.",
+    "common_mistake": "Assuming that any addition to the schedule creates an overload without summing the actual unit counts; or assuming independent study is prohibited without checking the student's academic standing",
+    "reasoning_chain": [
+      "Step 1 (programs): P-007 in good standing → independent study permitted",
+      "Step 2 (courses): 12 + ~18 + 9 = ~39 units → below ~45 normal load",
+      "Step 3 (policies): No overload → no special overload approval needed beyond standard IS process",
+      "Conclusion: P-007 can add 15-591 without overload concerns; faculty sponsor needed"
+    ]
+  },
+  {
+    "query_id": "T3-029",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-010",
+    "question": "I'm a CS 5th-year student (P-010) in good standing. I need 5 courses in Spring 2026 to accumulate enough units to graduate. My planned courses: 15-441 (12), 15-316 (12), 70-381 (9), 70-311 (9), 21-355 (12) = 54 units. Is special approval required?",
+    "answer": "",
+    "domains_required": ["policies", "courses"],
+    "domain_contributions": {
+      "policies": "Overload policy: normal load ≈ 45 units. 54 units exceeds normal by 9 units. Up to 12 units above normal requires advisor approval; P-010 is in good standing so overload is not AW-blocked.",
+      "courses": "5 courses totaling 54 units: 12+12+9+9+12 = 54 units; confirms the overload calculation"
+    },
+    "key_facts": [
+      "54 units = ~9 units above the ~45 normal load",
+      "P-010 is in good standing — not blocked by AW",
+      "Overload of up to 12 units above normal requires advisor approval",
+      "P-010 also already completed 70-311 (Fall 2024) — planning to retake would be redundant",
+      "Advisor approval is required; advisor must update S3 max units"
+    ],
+    "wrong_if_single_domain": "Knowing only the policy identifies the approval requirement but cannot calculate whether 54 units is actually an overload without knowing the normal load definition. Knowing only course unit counts cannot determine the approval pathway.",
+    "common_mistake": "Assuming that 5 courses is automatically a prohibited overload without checking the actual unit totals against the policy threshold; also not catching that 70-311 was already completed",
+    "reasoning_chain": [
+      "Step 1 (courses): Sum 5 courses → 54 units",
+      "Step 2 (policies): Normal load ~45; 54 - 45 = 9 units overload → advisor approval required",
+      "Step 3: P-010 good standing → eligible for overload with approval",
+      "Step 4: Note 70-311 already done (Fall 2024) — P-010 should choose a different 9-unit course",
+      "Conclusion: 54-unit load is permitted with advisor approval; P-010 must replace 70-311 with an unfinished course"
+    ]
+  },
+  {
+    "query_id": "T3-030",
+    "tier": "T3",
+    "category": "C",
+    "persona_id": "P-011",
+    "question": "I'm a first-year IS student (P-011) entering Fall 2025. I want to take an extra course in my very first semester to accelerate my IS requirements. Is this allowed?",
+    "answer": "",
+    "domains_required": ["policies", "programs"],
+    "domain_contributions": {
+      "policies": "First-year students are limited to a normal course load in their first semester — overloading is explicitly prohibited for first-year students in semester 1",
+      "programs": "P-011's program (IS) defines what the normal first-semester course load is; typically 3-4 courses covering foundational IS and general education requirements"
+    },
+    "key_facts": [
+      "Policy: 'First-years and transfer students are limited to a normal course load for their first semester of attendance'",
+      "This restriction applies regardless of student ability, advisor recommendation, or compelling academic rationale",
+      "P-011 must complete their first semester at normal load before any overload is considered",
+      "Normal IS first-semester load: typically 15-112, 67-100, English requirement, one elective (~36-45 units)",
+      "P-011 can discuss overloading from their second semester onward with their advisor"
+    ],
+    "wrong_if_single_domain": "Knowing only the overload policy (advisor approval sufficient for good-standing students) might suggest P-011 can overload with approval. Only by combining with the first-year-specific restriction does the correct answer emerge that NO overload is permitted in semester 1.",
+    "common_mistake": "Applying the general overload policy (advisor approval = allowed) to first-year students without knowing the specific first-semester restriction",
+    "reasoning_chain": [
+      "Step 1 (programs): P-011 is a first-year IS student in their first semester",
+      "Step 2 (policies): First-year first-semester restriction → normal load only, no exceptions",
+      "Conclusion: P-011 cannot take extra courses in their first semester regardless of advisor willingness"
+    ]
+  },
+  {
+    "query_id": "T3-031",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-003",
+    "question": "I'm a CS sophomore (P-003) with a BA minor. I completed 73-102 (Microeconomics) this semester. Can this course count toward both my CS degree's social science requirement AND my BA minor requirements?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "CS degree: check whether 73-102 satisfies a CS social science or general education requirement. BA minor: check whether 73-102 appears in the BA minor course list",
+      "courses": "73-102 (Microeconomics) is a 9-unit course in the Economics department — its department prefix (73) and content determine which requirements it can satisfy"
+    },
+    "key_facts": [
+      "73-102 (Principles of Microeconomics) is an Economics department course",
+      "CMU's double-counting policy generally does not allow a course to satisfy both a major requirement and a minor requirement simultaneously",
+      "Whether 73-102 satisfies the CS degree's general education component needs verification",
+      "Whether 73-102 appears in the BA minor required course list needs verification",
+      "If 73-102 satisfies a CS gen-ed requirement, it likely cannot also count for the BA minor"
+    ],
+    "wrong_if_single_domain": "Checking only the CS program requirements might confirm 73-102 satisfies a gen-ed slot. Checking only the BA minor requirements might confirm it satisfies a minor requirement. Only by combining both domains and applying the double-counting policy does the correct answer emerge.",
+    "common_mistake": "Assuming a course can freely satisfy requirements in both a major and a minor; not knowing CMU's anti-double-counting policy",
+    "reasoning_chain": [
+      "Step 1 (programs, CS): Does 73-102 satisfy a CS degree requirement? → verify",
+      "Step 2 (programs, BA minor): Does 73-102 appear in BA minor requirements? → verify",
+      "Step 3 (courses + policies): Double-counting rule → if it satisfies CS requirement, likely cannot also count for BA minor",
+      "Conclusion: 73-102 can satisfy ONE requirement (either CS gen-ed OR BA minor) — not both; requires advisor decision on which to apply it to"
+    ]
+  },
+  {
+    "query_id": "T3-032",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-007",
+    "question": "I'm a CS senior (P-007) with a BA minor. I took 70-332 (Business, Society and Ethics). Can this satisfy both a CS humanities requirement and a BA minor requirement at the same time?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "CS degree: 70-332 may satisfy a CS humanities/ethics general education requirement. BA minor: 70-332 is listed as a BA course and may count toward the minor",
+      "courses": "70-332 is a business/ethics course — its interdisciplinary nature makes it a double-counting candidate, but policy limits this"
+    },
+    "key_facts": [
+      "P-007 completed 70-332 (Business, Society and Ethics) in Spring 2025",
+      "70-332 is a business school course with humanities/ethics content",
+      "CMU's double-counting restriction: a course generally cannot satisfy both a major requirement and a minor/additional major requirement",
+      "The specific applicability to CS humanities requirements needs verification from the CS advising document",
+      "P-007's advisor must decide which requirement 70-332 is applied to"
+    ],
+    "wrong_if_single_domain": "Checking only CS program requirements might show 70-332 satisfies a humanities requirement. Checking only BA minor requirements might show it satisfies a minor requirement. The double-counting policy question requires combining both program domains.",
+    "common_mistake": "Counting 70-332 toward both CS humanities and BA minor, reducing total course requirements — a common student error not caught without cross-checking",
+    "reasoning_chain": [
+      "Step 1 (programs, CS): 70-332 and CS humanities requirement — verify if applicable",
+      "Step 2 (programs, BA minor): 70-332 in BA minor course list — verify",
+      "Step 3 (policies): Double-counting restriction → one course, one requirement",
+      "Conclusion: P-007 must choose which requirement 70-332 satisfies; cannot count toward both"
+    ]
+  },
+  {
+    "query_id": "T3-033",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-025",
+    "question": "I'm a BA junior (P-025) with dual Finance and BAT concentrations and an Economics minor. Can 73-102 (Microeconomics) count toward both my Finance concentration and my Economics minor?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "Finance concentration: 73-102 may appear as a required or elective course. Economics minor: 73-102 (Microeconomics) is a standard Economics minor foundation course",
+      "courses": "73-102 (9 units) — its content directly overlaps between Finance and Economics; the double-counting question is whether both programs can claim it"
+    },
+    "key_facts": [
+      "P-025 completed 73-102 in Fall 2023",
+      "73-102 is foundational for both Economics (minor) and Finance (concentration) content",
+      "CMU's double-counting policy generally prohibits a course from satisfying requirements in two separate programs (major concentration AND minor)",
+      "The specific Finance concentration requirements and Economics minor requirements need cross-referencing",
+      "P-025's advisor must decide which program receives credit for 73-102"
+    ],
+    "wrong_if_single_domain": "Looking only at Finance concentration requirements might accept 73-102. Looking only at Econ minor requirements would also accept it. Only by combining both program views does the double-counting conflict emerge.",
+    "common_mistake": "Counting 73-102 toward both Finance and Economics simultaneously, unknowingly reducing the effective course requirements for one of the programs",
+    "reasoning_chain": [
+      "Step 1 (programs, Finance): Is 73-102 required/accepted for Finance concentration? → likely yes",
+      "Step 2 (programs, Econ minor): Is 73-102 required for Econ minor? → yes (foundational)",
+      "Step 3 (policies): Double-counting restriction → one course, one program",
+      "Conclusion: 73-102 can satisfy either Finance concentration or Econ minor, but not both — P-025 needs an additional Econ course if 73-102 goes to Finance"
+    ]
+  },
+  {
+    "query_id": "T3-034",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-005",
+    "question": "I'm a CS junior (P-005) with a Mathematical Sciences minor. I completed 21-259 (Calculus in Three Dimensions). Does this count toward both my CS math requirement and my Mathematical Sciences minor, or only one?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "CS degree: multi-variable calculus is a standard CS math requirement. Mathematical Sciences minor: 21-259 may count as a minor course depending on whether the minor accepts this level",
+      "courses": "21-259 (9 units, Calculus in Three Dimensions) — foundational upper-level calculus; it feeds into CS math requirements"
+    },
+    "key_facts": [
+      "P-005 completed 21-259 (Fall 2025)",
+      "21-259 is typically a required math course for CS students (part of the CS math sequence)",
+      "The Mathematical Sciences minor likely requires upper-level math courses; whether 21-259 counts or is treated as a prerequisite for the minor depends on requirements",
+      "Double-counting policy: if 21-259 satisfies the CS math requirement, it may not also count toward the Math minor",
+      "This is a key question P-005 should verify with advisors from both CS and Math departments"
+    ],
+    "wrong_if_single_domain": "Checking only the CS program confirms 21-259 is a CS math requirement. Checking only the Math minor might confirm 21-259 satisfies a minor course slot. The interaction — whether double-counting is allowed — requires both domains.",
+    "common_mistake": "Assuming 21-259 freely counts toward both CS and the Math minor, thereby reducing the total course burden — a common planning error",
+    "reasoning_chain": [
+      "Step 1 (programs, CS): 21-259 satisfies CS math requirement → yes",
+      "Step 2 (programs, Math minor): Does 21-259 count toward Math minor? → verify",
+      "Step 3 (policies): If counted for CS requirement, double-counting policy may block it from also counting for the minor",
+      "Conclusion: P-005 should clarify with advisors whether 21-259 can double-count; likely cannot, meaning the Math minor requires additional dedicated math courses"
+    ]
+  },
+  {
+    "query_id": "T3-035",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-046",
+    "question": "I'm a CS 5th-year student (P-046) with a Math minor and academic warning. I completed 21-355 and 21-356 (Real Analysis I & II). Do these satisfy CS program requirements, Math minor requirements, or both?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "CS degree: Real Analysis courses are typically free electives or advanced math electives for CS, not core requirements. Math minor: 21-355/356 are core upper-level Math minor courses",
+      "courses": "21-355 (12 units, Real Analysis I) and 21-356 (12 units, Real Analysis II) — upper-level proof-based math"
+    },
+    "key_facts": [
+      "P-046 completed 21-355 (Spring 2018) and 21-356 (Fall 2018)",
+      "Real Analysis is central to the Mathematical Sciences minor but is typically an elective for CS (not a core requirement)",
+      "These likely count toward the Math minor as core courses",
+      "Whether they also satisfy a CS elective requirement depends on CS elective policies (verify)",
+      "Double-counting policy: if they count as CS electives, they may not also count for the Math minor"
+    ],
+    "wrong_if_single_domain": "Checking only CS requirements might categorize 21-355/356 as free electives or advanced CS electives. Checking only Math minor requirements confirms they are core minor courses. The interaction requires both domains to determine whether double-counting applies.",
+    "common_mistake": "Counting 21-355 and 21-356 toward both CS elective requirements and Math minor, reducing the perceived remaining course count",
+    "reasoning_chain": [
+      "Step 1 (programs, CS): 21-355/356 likely satisfy CS advanced elective slots",
+      "Step 2 (programs, Math minor): 21-355/356 are core Math minor courses",
+      "Step 3 (policies): Double-counting restriction — clarify with advisors whether one or both programs can claim these courses",
+      "Conclusion: P-046 needs advisor clarification on double-counting; most likely they satisfy Math minor primarily, and separate electives are needed for CS"
+    ]
+  },
+  {
+    "query_id": "T3-036",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-014",
+    "question": "I'm an IS sophomore (P-014) with a Data Science concentration and BA minor. I plan to take 36-200 (Reasoning with Data). Can this satisfy both an IS foundation requirement and a BA minor requirement simultaneously?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "IS degree: 36-200 may appear as an IS foundation or DS concentration course. BA minor: statistics/data courses may appear in BA minor requirements",
+      "courses": "36-200 (Reasoning with Data, 9 units) — introductory statistics course with broad applicability"
+    },
+    "key_facts": [
+      "36-200 is a statistics/data reasoning course applicable across multiple programs",
+      "IS degree typically requires a statistics/quantitative reasoning course — 36-200 is a common choice",
+      "BA minor may or may not include 36-200 as an accepted course — verify against official BA minor list",
+      "Double-counting policy: if 36-200 satisfies IS requirement, it may not also count toward BA minor",
+      "P-014 should verify Stellic to see how 36-200 is currently mapped"
+    ],
+    "wrong_if_single_domain": "Checking only IS requirements confirms 36-200 fits. Checking only BA minor requirements may also confirm it fits. Without combining both and applying double-counting policy, the conflict is missed.",
+    "common_mistake": "Applying 36-200 to both IS and BA minor requirements, thereby reducing total courses needed — this likely violates the double-counting rule",
+    "reasoning_chain": [
+      "Step 1 (programs, IS): 36-200 satisfies IS quantitative foundation",
+      "Step 2 (programs, BA minor): Does 36-200 appear in BA minor requirements? → verify",
+      "Step 3 (policies): Double-counting rule → one requirement only",
+      "Conclusion: P-014 must choose which program 36-200 is applied to; likely IS (where it is more central)"
+    ]
+  },
+  {
+    "query_id": "T3-037",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-015",
+    "question": "I'm an IS junior (P-015) in the Data Science concentration with a Tech Entrepreneurship minor. Can a DS concentration course like 67-352 also count toward my Tech Entrepreneurship minor requirements?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "IS DS concentration: 67-352 may satisfy a DS concentration elective slot. TE minor: has specific course requirements that may or may not include 67-352",
+      "courses": "67-352 is an IS department course — its content and department may or may not align with TE minor course list"
+    },
+    "key_facts": [
+      "67-352 is an IS course offered Spring 2026",
+      "Tech Entrepreneurship minor typically requires business/entrepreneurship courses (70-xxx, 95-xxx, 15-390)",
+      "67-352 is an IS technical course — unlikely to appear in the TE minor course list",
+      "Double-counting between DS concentration and TE minor would require the course to appear in both program requirement lists",
+      "Most likely 67-352 counts only toward DS concentration; TE minor requires separate dedicated courses"
+    ],
+    "wrong_if_single_domain": "Checking only the DS concentration confirms 67-352 satisfies a slot. Checking only the TE minor reveals it likely does not appear in the TE minor list. Only by checking both programs does the answer become clear.",
+    "common_mistake": "Assuming any IS course counts toward the TE minor because both are in P-015's program plan; not verifying that TE minor has specific course requirements",
+    "reasoning_chain": [
+      "Step 1 (programs, DS conc): 67-352 counts toward DS concentration ✓",
+      "Step 2 (programs, TE minor): Does 67-352 appear in TE minor requirements? → likely no",
+      "Conclusion: 67-352 counts only for DS concentration; P-015 needs separate courses for TE minor"
+    ]
+  },
+  {
+    "query_id": "T3-038",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-020",
+    "question": "I'm an IS senior (P-020) with an ISP concentration and a History minor. Can courses like 79-104 (Global Histories) satisfy both IS general education requirements and History minor requirements?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "IS degree: 79-104 may satisfy a humanities/gen-ed slot in the IS curriculum. History minor: 79-104 (Global Histories) is a standard History course and likely satisfies History minor requirements",
+      "courses": "79-104 (Global Histories) — humanities course in the History department; broadly applicable to gen-ed requirements"
+    },
+    "key_facts": [
+      "79-104 is a History department course (79-xxx prefix) with humanities content",
+      "IS degree requires humanities/social science general education courses — 79-104 is a typical IS gen-ed course",
+      "History minor requires 79-xxx History courses — 79-104 is directly relevant",
+      "Double-counting policy: applying 79-104 to both IS gen-ed and History minor may not be permitted",
+      "P-020 should verify with Stellic/advisor which requirement 79-104 is mapped to"
+    ],
+    "wrong_if_single_domain": "Checking only IS requirements confirms 79-104 satisfies gen-ed. Checking only History minor confirms it satisfies the minor. The double-counting policy conflict only emerges when both are checked together.",
+    "common_mistake": "Counting 79-104 toward both IS gen-ed and History minor, effectively reducing the course burden — likely violates double-counting rules",
+    "reasoning_chain": [
+      "Step 1 (programs, IS): 79-104 satisfies IS humanities gen-ed slot",
+      "Step 2 (programs, History minor): 79-104 is a core History minor course",
+      "Step 3 (policies): Double-counting → one requirement only",
+      "Conclusion: P-020 must choose: apply 79-104 to IS gen-ed OR History minor, not both"
+    ]
+  },
+  {
+    "query_id": "T3-039",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-025",
+    "question": "I'm a BA junior (P-025) with dual Finance and BAT concentrations. I completed 70-208 (Regression Analysis). Can this count toward both the Finance and BAT concentration requirements?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "Finance concentration: quantitative/analytics courses like 70-208 may satisfy a Finance elective. BAT concentration: 70-208 is analytics-focused and may satisfy BAT requirements",
+      "courses": "70-208 (Regression Analysis, 9 units) — quantitative methods course applicable to both Finance and BAT contexts"
+    },
+    "key_facts": [
+      "P-025 completed 70-208 in Fall 2024",
+      "70-208 is a quantitative methods course relevant to both Finance and Business Analytics & Technologies",
+      "CMU double-counting policy: a course generally cannot satisfy requirements in two separate concentrations simultaneously",
+      "Whether dual concentrations follow the same double-counting rules as major/minor needs verification",
+      "P-025 should verify with their advisor whether 70-208 can be shared between the two concentrations or must be exclusively applied to one"
+    ],
+    "wrong_if_single_domain": "Checking Finance requirements alone accepts 70-208. Checking BAT requirements alone also accepts it. The double-counting issue only arises when both concentration requirements are examined together.",
+    "common_mistake": "Assuming that within a single major, courses can freely satisfy two different concentration requirements; not knowing that double-counting restrictions may apply across concentrations",
+    "reasoning_chain": [
+      "Step 1 (programs, Finance): 70-208 qualifies as Finance quantitative elective",
+      "Step 2 (programs, BAT): 70-208 qualifies as BAT analytics course",
+      "Step 3 (policies): Double-counting between concentrations → verify policy",
+      "Conclusion: Most likely 70-208 can satisfy only one concentration — P-025 needs to clarify with BA program advisors"
+    ]
+  },
+  {
+    "query_id": "T3-040",
+    "tier": "T3",
+    "category": "D",
+    "persona_id": "P-014",
+    "question": "I'm an IS sophomore (P-014) with a Data Science concentration and BA minor. If I take 70-122 (Introduction to Accounting), can it satisfy both a BA minor required course AND an IS free elective?",
+    "answer": "",
+    "domains_required": ["programs", "courses"],
+    "domain_contributions": {
+      "programs": "BA minor: 70-122 (Accounting) is a standard required BA minor course. IS degree: 70-122 could count as an IS free elective slot",
+      "courses": "70-122 (Introduction to Accounting, 9 units) — foundational BA course with cross-program applicability"
+    },
+    "key_facts": [
+      "70-122 is listed as a core BA course and standard BA minor requirement",
+      "IS degree includes free elective slots that could accept 70-122",
+      "Double-counting policy: applying 70-122 to both BA minor (as a minor requirement) and IS degree (as a free elective) may be treated differently than satisfying two core requirements",
+      "Some institutions allow minor courses to also fill free elective slots in the major — CMU-Q policy on this needs verification",
+      "P-014's Stellic audit should show how 70-122 is currently categorized"
+    ],
+    "wrong_if_single_domain": "Checking only BA minor requirements confirms 70-122 fits. Checking only IS degree requirements might accept it as a free elective. The critical interaction is whether double-counting between a minor requirement and a major free elective is permitted.",
+    "common_mistake": "Assuming that because a slot is labeled 'free elective' it can freely absorb a course that already satisfies a minor requirement; not verifying the double-counting rule applies even to free elective slots",
+    "reasoning_chain": [
+      "Step 1 (programs, BA minor): 70-122 satisfies BA minor requirement",
+      "Step 2 (programs, IS): 70-122 could fill IS free elective",
+      "Step 3 (policies): Does CMU-Q allow minor courses to also fill major free elective slots? → verify",
+      "Conclusion: This may or may not be permitted — P-014 should check with advisor; Stellic audit will show current mapping"
+    ]
+  },
+  {
+    "query_id": "T3-041",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-007",
+    "question": "I'm a CS senior (P-007) targeting graduation in Spring 2026. I've completed most CS core courses and several BA minor courses. Is it feasible to finish both my CS degree and BA minor by Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "Identify remaining CS requirements and BA minor requirements for P-007 based on course history",
+      "schedules": "Verify remaining courses are offered Spring 2026: 15-441 ✓; relevant BA minor courses ✓",
+      "policies": "P-007 is in good standing — no AW restrictions; normal load or advisor-approved overload permitted"
+    },
+    "key_facts": [
+      "P-007 CS completed: 15-112, 15-122, 15-150, 15-213, 15-210, 15-251, 15-440, 15-451",
+      "P-007 likely still needs: 15-441 (Networking) and possibly CS electives",
+      "P-007 BA minor completed: 73-102, 70-311, 70-122, 70-332, 70-341, 70-391",
+      "15-441 is offered Spring 2026 ✓",
+      "Several BA courses offered Spring 2026 that P-007 hasn't taken",
+      "P-007 in good standing — feasibility depends on specific remaining requirements vs available Spring 2026 courses"
+    ],
+    "wrong_if_single_domain": "Checking only program requirements lists what's needed but cannot confirm availability. Checking only the schedule shows what's offered but not what P-007 specifically still needs. Policy domain confirms P-007 has no restrictions that would block graduation.",
+    "common_mistake": "Assuming that having completed most courses means graduation is assured without verifying all remaining specific requirements are offered in the final semester",
+    "reasoning_chain": [
+      "Step 1 (programs): Audit remaining CS and BA minor requirements for P-007",
+      "Step 2 (schedules): Verify remaining courses are offered Spring 2026",
+      "Step 3 (policies): No AW restrictions — P-007 can take full load",
+      "Conclusion: Feasibility is likely YES if 15-441 and remaining BA course(s) are in Spring 2026 — full audit needed"
+    ]
+  },
+  {
+    "query_id": "T3-042",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student (P-009) on academic warning. I have a few remaining CS requirements. Is it feasible to complete everything and graduate by end of Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-009 has completed most CS milestones (15-112 through 15-451) — remaining requirements are likely CS electives and possibly 15-441",
+      "schedules": "15-441 offered Spring 2026 ✓; 15-440, 15-451, 15-213 NOT offered Spring 2026 (already done anyway)",
+      "policies": "AW = no overload, no independent study; P-009 limited to normal load (~45 units)"
+    },
+    "key_facts": [
+      "P-009 completed: 15-112, 15-122, 15-150, 15-213, 15-251, 15-210, 15-440, 15-451",
+      "P-009 likely needs: 15-441, additional electives, possibly HCI or software engineering courses",
+      "15-441 offered Spring 2026 ✓",
+      "AW limits P-009 to ~45 units/semester — approximately 3-4 standard courses",
+      "Graduation feasibility depends on whether all remaining requirements can be satisfied in 1-2 more semesters within normal load",
+      "P-009 took 11-411, 17-437, 10-423 in Fall 2025 — these may satisfy CS elective requirements"
+    ],
+    "wrong_if_single_domain": "Knowing only the program requirements lists what's needed but not what Spring 2026 offers. Knowing only the schedule shows what's available but not what P-009 specifically needs. The AW policy (normal load restriction) constrains how many requirements can be addressed per semester.",
+    "common_mistake": "Assuming P-009 can take 5+ courses to finish quickly, ignoring the AW overload prohibition; or not checking whether all remaining requirements are actually offered Spring 2026",
+    "reasoning_chain": [
+      "Step 1 (programs): Identify remaining CS requirements for P-009",
+      "Step 2 (schedules): Which of those are offered Spring 2026? → 15-441 ✓",
+      "Step 3 (policies): AW = max ~45 units/semester → 3-4 courses",
+      "Conclusion: Graduation by Spring 2026 is possible if remaining requirements ≤ 3-4 courses, all offered Spring 2026 — full audit needed"
+    ]
+  },
+  {
+    "query_id": "T3-043",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-046",
+    "question": "I'm a CS 5th-year student (P-046) on academic warning with a Math minor. Given my AW restrictions and remaining requirements, can I realistically complete both the CS degree and Math minor by Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-046 has completed core CS milestones and extensive Math minor courses (21-355, 21-356, 21-484, etc.); remaining requirements likely include CS electives (15-316, 15-440) and any Math minor gaps",
+      "schedules": "15-316 ✓ Spring 2026; 15-440 NOT offered Spring 2026; 21-441 ✓ Spring 2026",
+      "policies": "AW = normal load cap (~45 units); Spring 2026 is one semester — capacity is ~3-4 courses"
+    },
+    "key_facts": [
+      "P-046 CS courses done: 15-112, 15-122, 15-150, 15-213, 15-210, 15-251, 15-441, 15-451, 15-317, 15-453",
+      "P-046 Math done: 21-355, 21-356, 21-484, 21-259, 21-260, 21-127, 21-241, 36-217, 36-226",
+      "15-440 (possibly required) NOT offered Spring 2026 — critical bottleneck",
+      "15-316 is offered Spring 2026 ✓",
+      "AW: normal load = ~3-4 courses; cannot overload",
+      "If 15-440 is a remaining requirement, graduation by Spring 2026 is NOT feasible"
+    ],
+    "wrong_if_single_domain": "Knowing only program requirements identifies 15-440 as needed. Knowing only the schedule reveals 15-440 is not offered Spring 2026. Only combining these domains reveals the bottleneck. The AW policy adds a third constraint limiting how much can be completed even if courses were available.",
+    "common_mistake": "Assuming remaining CS courses can be completed in one semester without checking Spring 2026 availability; missing that 15-440 is only offered in Fall semesters",
+    "reasoning_chain": [
+      "Step 1 (programs): Remaining CS requirements — identify specific courses needed (15-440, 15-316, etc.)",
+      "Step 2 (schedules): 15-440 NOT in Spring 2026; 15-316 ✓",
+      "Step 3 (policies): AW = max ~45 units → ~3-4 courses possible",
+      "Conclusion: If 15-440 is required, Spring 2026 graduation is NOT feasible; earliest graduation would be after Fall 2026 when 15-440 is next available"
+    ]
+  },
+  {
+    "query_id": "T3-044",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-010",
+    "question": "I'm a CS 5th-year student (P-010) with a Tech Entrepreneurship minor. My Fall 2025 enrollment was just 15-348 and Table Tennis. Can I realistically complete all remaining requirements and graduate in Spring 2026?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-010 has completed most CS milestones; TE minor courses largely completed (95-401, 15-390, 70-381, 70-311, 67-474). Remaining: 15-441, 15-316, and any missing TE minor courses",
+      "schedules": "15-441 ✓ Spring 2026; 15-316 ✓ Spring 2026; TE minor courses 67-474 NOT in Spring 2026",
+      "policies": "P-010 in good standing — can take normal or approved overload load"
+    },
+    "key_facts": [
+      "P-010 Fall 2025: only 15-348 (Embedded Systems) and Table Tennis — very light load",
+      "P-010 CS missing: 15-441 (Networking); other electives may also be pending",
+      "P-010 TE minor: 67-474 (Tech Startup Launchpad) taken Spring 2025 — TE minor may be complete",
+      "15-441 and 15-316 both offered Spring 2026 ✓",
+      "P-010 in good standing — can take 3-4 courses without issue",
+      "Graduation in Spring 2026 is feasible if remaining requirements fit within 3-4 Spring 2026 courses"
+    ],
+    "wrong_if_single_domain": "Knowing program requirements identifies remaining courses. Knowing only the schedule shows what Spring 2026 offers. Only combining reveals which remaining requirements can be satisfied in Spring 2026.",
+    "common_mistake": "Overlooking the light Fall 2025 load and its implications for how many requirements still remain; or assuming all remaining courses are offered Spring 2026",
+    "reasoning_chain": [
+      "Step 1 (programs): Remaining CS requirements — 15-441 and electives; TE minor likely complete",
+      "Step 2 (schedules): 15-441 ✓, 15-316 ✓ in Spring 2026",
+      "Step 3 (policies): Good standing → can take normal load",
+      "Conclusion: Graduation in Spring 2026 is likely feasible — P-010 needs to take 15-441 and any remaining electives; full audit of remaining CS requirements needed"
+    ]
+  },
+  {
+    "query_id": "T3-045",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-019",
+    "question": "I'm an IS 5th-year student (P-019) in the Applied Informatics concentration. My last semester was Spring 2024. Is it feasible to complete my remaining requirements and graduate in Spring 2026 (returning after a gap)?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-019 has 52 courses completed; remaining Applied Informatics requirements need auditing; old courses may have changed equivalences",
+      "schedules": "Spring 2026 IS course offerings: 67-272, 67-301, 67-352, 67-357, 67-364, 67-373, 67-425, 67-426, 67-427",
+      "policies": "P-019 in good standing; returning students must verify their catalog year requirements; advisor must audit old courses against current requirements"
+    },
+    "key_facts": [
+      "P-019 last active: Spring 2024; returning after ~2 semesters gap",
+      "P-019 has 52 completed courses — likely close to graduation unit count",
+      "Applied Informatics concentration: rare/unusual — specific requirements need verification",
+      "Old courses from 2019-2024 may need advisor mapping to current Stellic requirements",
+      "Spring 2026 IS offerings include 67-373 (Consulting Project) which may be a remaining core requirement",
+      "Feasibility depends on advisor audit of remaining requirements and their Spring 2026 availability"
+    ],
+    "wrong_if_single_domain": "Checking only program requirements cannot account for Spring 2026 availability. Checking only the schedule cannot determine which remaining requirements P-019 needs. Policy context (catalog year, returning student rules) is also essential.",
+    "common_mistake": "Assuming 52 completed courses means all requirements are nearly done without auditing which specific Applied Informatics courses are still outstanding",
+    "reasoning_chain": [
+      "Step 1 (programs): Audit P-019's Applied Informatics remaining requirements vs 52 completed courses",
+      "Step 2 (schedules): Identify which remaining courses are offered Spring 2026",
+      "Step 3 (policies): Verify catalog year requirements still apply; advisor may need to add exceptions in Stellic",
+      "Conclusion: Feasibility depends on advisor audit — likely feasible if ≤3-4 courses remain, but verification is critical"
+    ]
+  },
+  {
+    "query_id": "T3-046",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-025",
+    "question": "I'm a BA junior (P-025) with dual Finance and BAT concentrations and an Economics minor. Is graduating in Spring 2027 (my expected graduation) feasible given my current progress and the courses offered?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-025 has 37 courses completed; dual concentration + Econ minor creates significant remaining requirement load; identifying what's left is critical",
+      "schedules": "Finance/BAT/Econ courses offered Spring 2026 (and will need Fall 2026 as well): 70-401, 70-416, 70-441, 70-460, 73-421, etc.",
+      "policies": "P-025 in good standing; may need advisor-approved overloads in some semesters; dual concentration creates scheduling risk"
+    },
+    "key_facts": [
+      "P-025 has 37 courses at junior level — approximately 2 more years of coursework expected",
+      "Spring 2027 target = 3 more semesters (Spring 2026, Fall 2026, Spring 2027)",
+      "Dual concentration + minor creates heavy requirement overlap and scheduling complexity",
+      "Some Finance/BAT electives may only be offered once per year — Spring 2026 availability determines Fall 2026 planning",
+      "If overloads are needed to fit everything in 3 semesters, advisor approval required",
+      "Feasibility is plausible but tight — requires careful semester-by-semester planning"
+    ],
+    "wrong_if_single_domain": "Knowing program requirements reveals the heavy remaining load but not whether courses are available each semester. Knowing only the schedule cannot determine what P-025 still needs. Policy context about overloads determines whether tight semesters are feasible.",
+    "common_mistake": "Treating each concentration and the minor independently without checking for semester availability bottlenecks; not accounting for courses only offered in specific semesters",
+    "reasoning_chain": [
+      "Step 1 (programs): Audit remaining Finance + BAT + Econ minor requirements for P-025",
+      "Step 2 (schedules): Identify which are available Spring 2026 vs Fall 2026 vs Spring 2027",
+      "Step 3 (policies): Some semesters may require overload — advisor approval needed",
+      "Conclusion: Spring 2027 graduation is feasible but requires careful 3-semester plan with possible overloads"
+    ]
+  },
+  {
+    "query_id": "T3-047",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore (P-013) on academic warning. Given my AW unit restrictions, can I realistically still graduate in 4 years (Spring 2028)?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-013 has completed limited IS requirements (67-100, 67-250, 67-262, 15-121, 21-127, etc.) — still needs 67-272, 67-373, concentration courses, electives",
+      "schedules": "67-272 offered Spring 2026 ✓; 67-373 offered Spring 2026 ✓ (but not yet eligible); future semesters need planning",
+      "policies": "AW: no overload, so each semester limited to ~45 units. If AW persists multiple semesters, fewer courses per semester, potentially delaying graduation"
+    },
+    "key_facts": [
+      "P-013 has ~2.5 years remaining to Spring 2028 target (sophomore now)",
+      "AW limits each semester to ~3-4 standard courses",
+      "P-013 needs: 67-272 (Spring 2026), then 67-373 (earliest: semester after 67-272), plus IS concentration and electives",
+      "If AW is resolved this semester, P-013 can resume normal or overloaded semesters",
+      "4-year graduation is feasible if AW is resolved promptly and course sequence is optimized",
+      "If AW persists through multiple semesters, graduation may slip by 1 semester"
+    ],
+    "wrong_if_single_domain": "Knowing program requirements lists many remaining courses but cannot account for the per-semester unit cap imposed by AW. Knowing only the policy gives the unit cap but cannot project how many semesters the remaining program requires.",
+    "common_mistake": "Assuming AW permanently derails graduation; or conversely, assuming 4-year graduation is straightforward without accounting for the per-semester load cap",
+    "reasoning_chain": [
+      "Step 1 (programs): Count remaining IS requirements — likely 15+ courses remaining",
+      "Step 2 (policies): AW cap = ~3-4 courses/semester; ~5 semesters remaining to Spring 2028",
+      "Step 3 (schedules): Verify key IS courses (67-272, 67-373) are offered in the right semesters",
+      "Conclusion: 4-year graduation is feasible if AW is resolved within 1-2 semesters; risky if AW continues through junior year"
+    ]
+  },
+  {
+    "query_id": "T3-048",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-017",
+    "question": "I'm an IS senior (P-017) on the Dean's List with an ISP concentration. I want to add an independent study in my final semester (Spring 2026) without exceeding a manageable unit load. Is this feasible?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-017 has 49 courses; remaining requirements likely minimal (final semester senior); independent study could contribute to IS elective or capstone requirement",
+      "schedules": "Final semester courses need to be planned around what Spring 2026 offers; remaining IS requirement courses must be confirmed available",
+      "policies": "P-017 is in Dean's List standing — independent study is permitted (AW restriction does not apply). Unit count with IS added must remain within normal or approved overload range"
+    },
+    "key_facts": [
+      "P-017 is on Dean's List — independent study is NOT blocked (no academic action)",
+      "P-017 has 49 completed courses — likely very few remaining requirements",
+      "Adding an independent study (typically 9-12 units) to final semester requires faculty sponsor",
+      "If total semester units with IS added exceed ~45, advisor approval needed for overload",
+      "P-017's ISP concentration may allow independent study to satisfy a research/capstone requirement",
+      "This is feasible as long as total load stays within acceptable range and a faculty sponsor agrees"
+    ],
+    "wrong_if_single_domain": "Knowing only the program requirements might list an independent study as an option without confirming policy eligibility. Knowing only the policy confirms it's permitted but cannot determine how many other courses P-017 needs this semester (schedule context).",
+    "common_mistake": "Assuming Dean's List students can take unlimited overloads without advisor approval; or assuming independent studies are prohibited for all seniors",
+    "reasoning_chain": [
+      "Step 1 (programs): Identify P-017's remaining final-semester requirements",
+      "Step 2 (policies): Dean's List = good standing → independent study permitted",
+      "Step 3 (schedules): Confirm remaining required courses are offered Spring 2026",
+      "Step 4 (policies): Calculate total units including IS — if >45, need overload approval",
+      "Conclusion: Feasible — P-017 can add independent study with faculty sponsor and advisor approval if needed for unit count"
+    ]
+  },
+  {
+    "query_id": "T3-049",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-003",
+    "question": "I'm a CS sophomore (P-003) with a BA minor. I'm on track to take 15-251 and 15-210 in Spring 2026. Is completing both a CS degree and BA minor feasible by Spring 2028 if I stay on this trajectory?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-003 CS progress: 15-112, 15-122, 15-150, 15-213 done; taking 15-251 and 15-210 Spring 2026. BA minor: 73-102 done. Identify remaining requirements for both programs",
+      "schedules": "Key remaining CS courses (15-441, 15-451) and BA minor courses need to be offered in Fall 2026, Spring 2027, Fall 2027, Spring 2028 — availability TBD",
+      "policies": "Good standing; overloads possible with advisor approval if needed"
+    },
+    "key_facts": [
+      "P-003 after Spring 2026: will have 15-112, 15-122, 15-150, 15-213, 15-251, 15-210 done",
+      "Still needs: 15-441, 15-451, CS electives, remaining BA minor courses, gen-ed requirements",
+      "4 more semesters (Fall 2026 through Spring 2028) to complete remaining ~10-15 courses",
+      "This is a manageable pace (~3-4 courses/semester)",
+      "BA minor requires additional dedicated BA courses beyond 73-102",
+      "Feasibility is YES — P-003 is on a normal trajectory"
+    ],
+    "wrong_if_single_domain": "Knowing only the program requirements lists all remaining courses but cannot account for semester availability or scheduling constraints. Knowing only the schedule for one semester cannot project the 4-semester feasibility window.",
+    "common_mistake": "Not accounting for the BA minor course requirements when planning CS-focused semesters; or underestimating remaining requirements after the CS core is complete",
+    "reasoning_chain": [
+      "Step 1 (programs): After Spring 2026, P-003 will have completed CS core; remaining: 15-441, 15-451, electives, BA minor courses",
+      "Step 2 (schedules): Key courses (15-451, 15-441) offered in relevant semesters — confirm Fall 2026 offerings",
+      "Step 3 (policies): No AW concerns; overload possible if needed",
+      "Conclusion: Spring 2028 graduation is feasible on current trajectory — approximately 10-15 courses remain across 4 semesters"
+    ]
+  },
+  {
+    "query_id": "T3-050",
+    "tier": "T3",
+    "category": "E",
+    "persona_id": "P-005",
+    "question": "I'm a CS junior (P-005) with a Mathematical Sciences minor. Can I complete both the CS degree and Math minor by Spring 2027 (2 more semesters) without overloading each semester?",
+    "answer": "",
+    "domains_required": ["programs", "schedules", "policies"],
+    "domain_contributions": {
+      "programs": "P-005 CS progress: 15-112 through 15-451 and 15-440 done. Remaining: 15-441, CS electives, and Math minor courses (21-355, possibly 21-484 or 21-441). Math minor gap identified",
+      "schedules": "15-441 ✓ Spring 2026; 21-355 ✓ Spring 2026; 21-484 ✓ Spring 2026. Fall 2026 would offer 15-440 (already done) — key question: are remaining courses available in Spring 2027?",
+      "policies": "P-005 in good standing; 2 semesters = Spring 2026 + Fall 2026 (or + Spring 2027). Can take normal load (~45 units). Without overloading, ~3-4 courses per semester"
+    },
+    "key_facts": [
+      "P-005 after Fall 2025: has completed 15-451, 15-440, 15-210, 15-251, and all CS core",
+      "Remaining CS: 15-441 + electives (~2-3 more courses)",
+      "Math minor: needs 21-355 and potentially 1-2 more upper-level math courses (21-484 or 21-441)",
+      "Spring 2026: 15-441 ✓, 21-355 ✓, 21-484 ✓ — 3 key remaining courses all available together",
+      "If P-005 takes 15-441, 21-355, and 21-484 in Spring 2026 + remaining electives Fall 2026, Spring 2027 graduation is feasible",
+      "Without overloading (3-4 courses/semester), this is achievable"
+    ],
+    "wrong_if_single_domain": "Knowing only program requirements counts remaining courses but cannot project semester availability. Knowing only Spring 2026 schedule shows what's available but not what P-005 needs. Policy context defines the capacity per semester without overloading.",
+    "common_mistake": "Underestimating Math minor requirements and assuming CS electives alone are all that remain; or assuming Math minor courses conflict with CS courses without checking schedules",
+    "reasoning_chain": [
+      "Step 1 (programs): Remaining CS (~3 courses) + Math minor (~2-3 courses) = ~5-6 courses",
+      "Step 2 (schedules): Key courses 15-441, 21-355, 21-484 all Spring 2026 ✓ — can take 3 in one semester",
+      "Step 3 (policies): Normal load ~3-4 courses; 3 Spring 2026 + remaining Fall 2026 fits within 2 semesters",
+      "Conclusion: Spring 2027 graduation is feasible — P-005 can take 3 key remaining courses in Spring 2026 and finish electives in Fall 2026"
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-006",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-004",
+  "question": "I'm a CS junior who has completed 15-122 (grade: B) but have not yet taken 15-150. Can I register for 15-210 (Parallel and Sequential Data Structures and Algorithms)?",
+  "expected_answer": "No \u2014 15-210 requires BOTH (15-150 at least C) AND (15-122 at least C). P-004 has 15-122 with a B, but the 15-150 requirement is an additional hard prerequisite, not an alternative. Without 15-150, registration is blocked.",
+  "reasoning_type": "AND-conjunction prerequisite \u2014 both conditions required",
+  "domain": "courses",
+  "common_mistake": "Treating the two prerequisites as OR alternatives instead of AND requirements; assuming 15-122 alone is sufficient since it's listed first",
+  "needs_verification": [
+    "Confirm 15-210 prerequisite is strictly (15-150 C) AND (15-122 C), not OR",
+    "Confirm P-004 has not completed 15-150 in a semester not yet recorded",
+    "Confirm P-004's grade in 15-122 meets the C threshold"
+  ]
+}

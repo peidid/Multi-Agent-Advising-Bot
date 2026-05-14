@@ -1,0 +1,256 @@
+{
+  "persona_id": "P-017",
+  "source_student_id": "student364",
+  "demographic": {
+    "major": "Information Systems",
+    "concentrations": [
+      "Information Security and Privacy"
+    ],
+    "minors": [],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Information Systems (Information Security and Privacy)",
+    "narrative": {
+      "background_notes": "ISP concentration, senior year. Has completed most requirements. Strong GPA.",
+      "goals": "Graduate with honors; apply for cybersecurity positions",
+      "concerns": "Wants to take an independent study but unsure about unit limits in final semester"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 49,
+    "semesters_completed": [
+      "Summer 2021",
+      "Fall 2022",
+      "Spring 2023",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2021": [
+        {
+          "course_code": "00-011",
+          "course_name": "QSP SAT Preparation 1"
+        },
+        {
+          "course_code": "00-009",
+          "course_name": "QSP Information System Project"
+        },
+        {
+          "course_code": "00-001",
+          "course_name": "QSP English 1"
+        },
+        {
+          "course_code": "00-006",
+          "course_name": "QSP Mathematics 3 - Algebra II"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "21-111",
+          "course_name": "Differential Calculus"
+        },
+        {
+          "course_code": "79-104",
+          "course_name": "Global Histories"
+        },
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "67-100",
+          "course_name": "Information Systems First Year Colloquium"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "67-250",
+          "course_name": "The Information Systems Milieux"
+        },
+        {
+          "course_code": "66-181",
+          "course_name": "Grand Challenge Seminar"
+        },
+        {
+          "course_code": "21-112",
+          "course_name": "Integral Calculus"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "67-316",
+          "course_name": "Human Computer Interface Design and Testing"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "80-210",
+          "course_name": "Logic and Proofs"
+        },
+        {
+          "course_code": "14-310",
+          "course_name": "Cybersecurity in our Daily Applications"
+        },
+        {
+          "course_code": "67-203",
+          "course_name": "Digital Accessibility Fundamentals"
+        },
+        {
+          "course_code": "82-313",
+          "course_name": "Topics in Modern Arabic Language, Literature & Culture"
+        },
+        {
+          "course_code": "15-121",
+          "course_name": "Introduction to Data Structures"
+        },
+        {
+          "course_code": "67-262",
+          "course_name": "Database Design and Development"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "99-262",
+          "course_name": "ADDvocate: Anti-Discrimination Dialogue for Social Justice"
+        },
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "67-272",
+          "course_name": "Application Design and Development"
+        },
+        {
+          "course_code": "67-380",
+          "course_name": "Information Systems Security"
+        },
+        {
+          "course_code": "67-313",
+          "course_name": "Digital Risk Management and Auditing"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "85-241",
+          "course_name": "Social Psychology"
+        },
+        {
+          "course_code": "67-357",
+          "course_name": "Healthcare Analytics and Big Data"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "14-817",
+          "course_name": "Cyber Risk Modeling"
+        },
+        {
+          "course_code": "17-313",
+          "course_name": "Foundations of Software Engineering"
+        },
+        {
+          "course_code": "14-741",
+          "course_name": "Introduction to Information Security"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "76-345",
+          "course_name": "Introduction to Document Design"
+        },
+        {
+          "course_code": "17-334",
+          "course_name": "Usable Privacy and Security"
+        },
+        {
+          "course_code": "67-373",
+          "course_name": "Information Systems Consulting Project"
+        },
+        {
+          "course_code": "99-408",
+          "course_name": "Get Career Ready: Unlocking Pathways to Success"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "98-027",
+          "course_name": "Student Taught Courses (StuCo): Navigating the Gen Z Mindset"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "82-283",
+          "course_name": "Language Diversity & Cultural Identity"
+        },
+        {
+          "course_code": "17-403",
+          "course_name": "Browser Security"
+        },
+        {
+          "course_code": "82-114",
+          "course_name": "Arabic for Global Exchange Online"
+        },
+        {
+          "course_code": "51-237",
+          "course_name": "Digital Photography I"
+        },
+        {
+          "course_code": "82-143",
+          "course_name": "Elementary Spanish I Online"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "67-382",
+          "course_name": "Digital Transformation, Strategy and Management"
+        },
+        {
+          "course_code": "67-474",
+          "course_name": "Tech Startup Launchpad"
+        },
+        {
+          "course_code": "79-284",
+          "course_name": "Muslim Representation in the Media and Popular Culture"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        },
+        {
+          "course_code": "66-236",
+          "course_name": "Introduction to Environmental Ideas"
+        },
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Deans List"
+}

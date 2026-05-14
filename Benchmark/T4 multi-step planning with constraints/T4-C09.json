@@ -1,0 +1,19 @@
+{
+  "query_id": "T4-C09",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-046",
+  "persona_summary": "CS 5th-year, entered Fall 2016, Academic warning, Math minor, 45 courses",
+  "variation": "Long-enrolled student with maximum complications",
+  "question": "I've been here since 2016. I'm on academic warning and I have a Math minor. The CS curriculum has probably changed a lot since I started. Can you audit my courses against the current requirements and plan my path to graduation?",
+  "what_makes_this_hard": "The hardest recovery case. Entered 9+ years ago, on academic warning, with a minor. Maximum number of complicating factors.",
+  "needs_verification": [
+    "Catalog year policy for long-enrolled students",
+    "Differences between 2016 and current CS requirements",
+    "Which of P-046's courses satisfy current requirements",
+    "Academic warning unit cap",
+    "Remaining Math minor requirements",
+    "Course availability"
+  ]
+}

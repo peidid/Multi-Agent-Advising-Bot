@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-002",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-003",
+  "question": "I'm a CS sophomore who just finished 15-122 with a B. Can I register for 15-213 (Introduction to Computer Systems)?",
+  "expected_answer": "Yes \u2014 15-213 requires 15-122 at least C. A B exceeds that threshold, so P-003 is eligible to register. No co-requisites for 15-213.",
+  "reasoning_type": "Grade threshold prerequisite check",
+  "domain": "courses",
+  "common_mistake": "Overlooking that the minimum grade for 15-122 \u2192 15-213 is C, not B; assuming any pass is sufficient",
+  "needs_verification": [
+    "Confirm P-003 completed 15-122 with exactly a B (not a D or lower)",
+    "Confirm 15-213 has no co-requisites in the current catalog",
+    "Confirm P-003's transcript shows 15-122 completed (not in-progress)"
+  ]
+}

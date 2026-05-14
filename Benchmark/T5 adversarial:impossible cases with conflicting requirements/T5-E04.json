@@ -1,0 +1,29 @@
+{
+  "query_id": "T5-E04",
+  "tier": "T5",
+  "pattern": "E",
+  "pattern_name": "Double-Counting / Requirement Ambiguity",
+  "persona_id": "P-044",
+  "persona_summary": "CS Senior, dual minors BA + History, 60 courses, Good standing",
+  "question": "I've completed 60 courses \u2014 I'm pretty sure I've covered everything for my CS degree and both minors. Can you confirm I'm good to graduate?",
+  "false_assumption_or_hidden_conflict": "With 60 courses, it seems like everything should be covered. But with dual minors, there's a risk that some courses are being double-counted (e.g., a course counting for both BA minor and CS gen-ed, or for both minors). A careful audit might reveal that after properly assigning courses to slots without double-counting violations, one requirement is still unmet.",
+  "naive_system_response": "A naive system does a surface check, sees 60 courses with relevant course codes, and confirms 'You're all set to graduate!' \u2014 not doing a proper slot-by-slot audit.",
+  "correct_response": "Let me do a careful audit of your 60 courses against all requirements: CS major [X/Y satisfied], BA minor [X/Y satisfied], History minor [X/Y satisfied], gen-ed [X/Y satisfied]. After assigning courses to their proper slots \u2014 ensuring no double-counting violations \u2014 I find: [result]. [If gap found]: You're missing [specific requirement] because [course X] was counted toward [program A] and cannot also count toward [program B].",
+  "domains_required": [
+    "programs",
+    "policies"
+  ],
+  "why_multi_agent_helps": "The Programs Agent audits each program independently. The Policy Agent enforces double-counting rules. The coordinator synthesizes the audits to find conflicts. A single agent might do a quick scan and confirm without the careful slot assignment.",
+  "key_facts": [
+    "60 courses seems like more than enough, creating overconfidence",
+    "Dual minors + major creates many overlapping requirement lists",
+    "Double-counting rules may mean some courses can't serve dual purposes",
+    "One hidden gap can block graduation"
+  ],
+  "known_traps": [
+    "Confirming graduation readiness based on course count rather than slot-by-slot audit",
+    "Not checking double-counting across three program requirement sets",
+    "Overconfidence bias \u2014 60 courses 'must be enough'"
+  ],
+  "advisor_validation_needed": "Verify: (1) complete slot-by-slot audit of P-044's courses against CS + BA minor + History minor + gen-ed, (2) double-counting policy, (3) whether any gap exists after proper assignment"
+}

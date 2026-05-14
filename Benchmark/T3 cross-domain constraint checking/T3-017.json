@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-017",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-003",
+  "question": "I'm a CS sophomore (P-003) with a BA minor. Which BA minor courses should I take in Spring 2026 to make early progress, and are there scheduling conflicts with my CS courses?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-003 BA minor: completed 73-102 (Micro, Fall 2025). Remaining BA minor courses TBD; typical BA minor requires core business courses",
+    "schedules": "Spring 2026 BA offerings: 70-122, 70-208, 70-311, 70-332, 70-342, 70-345, 70-371 etc. Also CS courses P-003 plans: 15-251, 15-210"
+  },
+  "key_facts": [
+    "P-003 completed 73-102 (Microeconomics, Fall 2025) toward BA minor",
+    "15-251 SecW: Sun/Tue/Thu 11:30-12:20; 15-210: Sun/Tue/Thu 10:00-11:15",
+    "70-311 (OB) Spring 2026 schedule: needs verification",
+    "70-122 (Accounting) Spring 2026: \u2713 (appears in schedule)",
+    "P-003 must identify which BA minor courses are required and check their times against CS course schedule"
+  ],
+  "wrong_if_single_domain": "Knowing the BA minor requirements lists the courses needed but cannot determine which are available Spring 2026 or whether they conflict with P-003's required CS courses. Knowing only the schedule shows what is offered but cannot identify which ones satisfy BA minor requirements.",
+  "common_mistake": "Recommending a BA course that conflicts with 15-251 or 15-210 without checking the schedule; or recommending non-required electives instead of required minor courses",
+  "reasoning_chain": [
+    "Step 1 (programs): Identify required BA minor courses P-003 hasn't taken",
+    "Step 2 (schedules): List Spring 2026 BA courses",
+    "Step 3: Check for conflicts with P-003's planned CS courses (15-251 SecW 11:30, 15-210 10:00)",
+    "Conclusion: P-003 can take a BA minor course in Spring 2026 provided its schedule doesn't overlap with the CS courses \u2014 needs specific course time verification"
+  ]
+}

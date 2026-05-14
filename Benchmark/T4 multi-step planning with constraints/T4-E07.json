@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E07",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-035",
+  "persona_summary": "BIO Junior, Computational Biology + Neuroscience minors, 41 courses, Good standing",
+  "variation": "Keep both minors vs drop one",
+  "question": "I'm worried two minors might delay me. Can you show me a plan with both minors versus dropping Neuroscience and just keeping Computational Biology? What do I lose by dropping it?",
+  "what_makes_this_hard": "Tradeoff between academic breadth and graduation timeline. System should quantify the difference.",
+  "needs_verification": [
+    "Remaining requirements for each minor",
+    "How many semesters each plan requires",
+    "Which courses become unnecessary if Neuro is dropped",
+    "Impact on graduation timeline"
+  ]
+}

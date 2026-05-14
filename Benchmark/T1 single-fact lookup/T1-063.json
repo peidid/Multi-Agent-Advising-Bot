@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-063",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": "P-063",
+  "question": "I'm a Bio junior thinking about a CS minor \u2014 what are the two prerequisite courses for the CS minor?",
+  "answer": "15-112 (Fundamentals of Programming and Computer Science) and 21-127 (Concepts of Mathematics)",
+  "source_file": "data/programs/Minors/cmu_minor_computer_science.json",
+  "source_field": "program_requirements.requirements.prerequisites.courses",
+  "domain": "programs",
+  "verification_note": "prerequisites.courses lists 15-112 and 21-127 in CS minor JSON"
+}

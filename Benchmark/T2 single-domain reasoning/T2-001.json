@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-001",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore on academic warning. I've completed 15-121 (Introduction to Data Structures) and 67-262 (Database Design and Development). Can I register for 67-272 (Application Design and Development) next semester?",
+  "expected_answer": "Yes \u2014 67-272 requires (15-122 at least D OR 15-121 at least D) AND (67-262 at least D). P-013 has both 15-121 and 67-262, so the prerequisite chain is satisfied. Note that 67-250 is listed as a co-requisite, but P-013 has already completed it in Spring 2025, so no issue there. Academic warning status does not block course registration, only overloads, study abroad, and independent studies.",
+  "reasoning_type": "Multi-condition prerequisite check",
+  "domain": "courses",
+  "common_mistake": "Assuming 67-272 requires 15-122 specifically (it accepts 15-121 as an alternative); failing to check the co-requisite status of 67-250",
+  "needs_verification": [
+    "Confirm P-013 passed 15-121 with at least a D",
+    "Confirm P-013 passed 67-262 with at least a D",
+    "Confirm P-013 completed 67-250 before this registration (co-req satisfied)",
+    "Confirm the exact grade threshold for the alternative prereq (15-121 vs 15-122)"
+  ]
+}

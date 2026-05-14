@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-015",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-005",
+  "question": "I'm a CS junior (P-005) with a Mathematical Sciences minor. Which Math minor courses do I still need, and which are available in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-005 math courses completed: 21-120, 21-122, 21-127, 21-241, 21-259, 21-301. Identify which of these satisfy Math minor requirements and what remains",
+    "schedules": "Spring 2026 math offerings: 21-112, 21-122, 21-127, 21-256, 21-355, 21-441, 21-484"
+  },
+  "key_facts": [
+    "P-005 math completed: 21-120, 21-122, 21-127, 21-241, 21-259, 21-301 (Combinatorics, Fall 2025)",
+    "Spring 2026 math offerings: 21-355 (Real Analysis I) \u2713, 21-484 (Graph Theory) \u2713, 21-441 (Number Theory or similar)",
+    "P-005 has NOT yet taken 21-355 \u2014 this is typically a core upper-level math course for the minor",
+    "21-484 (Graph Theory): P-005 has not taken it; offered Spring 2026 \u2713",
+    "The specific Math minor course list needs verification against official requirements"
+  ],
+  "wrong_if_single_domain": "Knowing Math minor requirements without checking the schedule cannot identify which courses P-005 can take now. Looking only at the schedule shows many math courses but cannot determine which ones P-005 still needs for the minor.",
+  "common_mistake": "Listing 21-122 or 21-127 as 'available options' when P-005 has already completed both",
+  "reasoning_chain": [
+    "Step 1 (programs): Map P-005's math courses against Math minor requirements \u2014 identify gaps",
+    "Step 2 (schedules): Check Spring 2026 math offerings",
+    "Step 3: Cross-reference remaining requirements against Spring 2026 \u2014 21-355 and 21-484 are offered and not yet taken",
+    "Conclusion: P-005 can take 21-355 and/or 21-484 in Spring 2026 to progress on the Math minor"
+  ]
+}

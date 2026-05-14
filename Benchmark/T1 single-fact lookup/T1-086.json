@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-086",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "If a student earns a B in a course they elected pass/fail, what grade appears on their transcript?",
+  "answer": "P (pass)",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Pass/Fail Grades section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'A through D work will receive credit... and be recorded as P'"
+}

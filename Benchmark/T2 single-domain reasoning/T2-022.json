@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-022",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": null,
+  "question": "In Fall 2025, do 15-150 (Section W: Thursday, Tuesday, Sunday 14:30\u201315:45) and 15-451 (Section 2: Thursday, Sunday 14:30\u201315:45) conflict?",
+  "expected_answer": "Yes \u2014 both courses share Thursday 14:30\u201315:45 and Sunday 14:30\u201315:45. A student cannot enroll in both these sections in the same semester.",
+  "reasoning_type": "Multi-day time overlap detection",
+  "domain": "schedules",
+  "common_mistake": "Checking only one day for overlap rather than all shared days; overlooking Sunday as a meeting day",
+  "needs_verification": [
+    "Confirm 15-150 Section W Fall 2025 schedule: Thu/Tue/Sun 14:30\u201315:45",
+    "Confirm 15-451 Section 2 Fall 2025 schedule: Thu/Sun 14:30\u201315:45",
+    "Check if alternative sections of either course are available without conflict"
+  ]
+}

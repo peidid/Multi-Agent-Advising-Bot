@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-045",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": "P-036",
+  "question": "I'm a Bio junior trying to get into 15-150 as part of my CS minor \u2014 who taught it in Fall 2025?",
+  "answer": "Reis",
+  "source_file": "data/schedules/Fall_2025_courses.json",
+  "source_field": "Professor - Last name (for 15150)",
+  "domain": "schedules",
+  "verification_note": "Professor Last name = Reis for course ID 15150 in Fall 2025"
+}

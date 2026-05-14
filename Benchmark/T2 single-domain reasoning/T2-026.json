@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-026",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": "P-001",
+  "question": "As a CS first-year, I want to take both 15-112 (Section W: Tue/Thu/Sun 11:30\u201312:45) and 15-440 (Distributed Systems) in Fall 2025. Section W of 15-440 meets Sunday 11:30\u201312:20. Would these two sections conflict?",
+  "expected_answer": "Yes \u2014 15-112 Section W meets Tuesday, Thursday, and Sunday 11:30\u201312:45, and 15-440 Section W meets Sunday 11:30\u201312:20. Both courses share Sunday 11:30, creating a conflict. Note: 15-440 Section 3 (Tuesday/Sunday 08:30\u201309:45) would not conflict with 15-112. Also, P-001 likely does not meet the prerequisites for 15-440 yet (needs 15-213 or similar), so this is a hypothetical schedule check.",
+  "reasoning_type": "Section-specific conflict detection with alternative section identification",
+  "domain": "schedules",
+  "common_mistake": "Not checking all sections before declaring a conflict; failing to note that a different section of 15-440 avoids the conflict",
+  "needs_verification": [
+    "Confirm 15-440 Section W Fall 2025: Sunday 11:30\u201312:20",
+    "Confirm 15-112 Section W Fall 2025: Tue/Thu/Sun 11:30\u201312:45",
+    "Confirm 15-440 Section 3 Fall 2025: Tue/Sun 08:30\u201309:45 (potential conflict-free option)",
+    "Confirm P-001 does NOT yet meet the prerequisites for 15-440 (this is a schedule-only question)"
+  ]
+}

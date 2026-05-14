@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-022",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore and want to take 67-272 next semester \u2014 what are the prerequisites?",
+  "answer": "(15-122 or 15-121) with at least a D grade, and 67-262 with at least a D grade; 67-250 is a co-requisite",
+  "source_file": "data/courses/67-272.json",
+  "source_field": "prereqs.text, co_reqs",
+  "domain": "courses",
+  "verification_note": "prereqs.text and co_reqs fields in course JSON"
+}

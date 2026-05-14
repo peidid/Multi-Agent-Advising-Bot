@@ -1,0 +1,136 @@
+{
+  "persona_id": "P-002",
+  "source_student_id": "student479",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [],
+    "level": "sophomore",
+    "entry_year": "Fall 2024",
+    "program_full": "BS in Computer Science (No concentrations)",
+    "narrative": {
+      "background_notes": "Undecided on whether to add a minor. Strong interest in algorithms and competitive programming.",
+      "goals": "Wants to secure a software engineering internship for Summer 2026",
+      "concerns": "Needs to plan prerequisite chains carefully to take upper-level electives by junior year"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 24,
+    "semesters_completed": [
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2024": [
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "85-211",
+          "course_name": "Cognitive Psychology"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "17-403",
+          "course_name": "Browser Security"
+        },
+        {
+          "course_code": "85-251",
+          "course_name": "Personality"
+        },
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "21-295",
+          "course_name": "Putnam Seminar"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        },
+        {
+          "course_code": "21-301",
+          "course_name": "Combinatorics"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

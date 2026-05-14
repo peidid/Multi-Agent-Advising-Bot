@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-018",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-011",
+  "question": "I'm a first-year IS student who has completed 15 courses including 67-100 and 15-110. Which required IS courses should I prioritize in my next semester to stay on track for graduation in 4 years?",
+  "expected_answer": "In the next semester, P-011 should prioritize 15-112 (Fundamentals of Programming) if not yet taken \u2014 it's a prerequisite for 67-262 and eventually 67-272. Additionally, 67-250 (IS Milieux) and any required general education courses should be taken early. The IS advising sequence typically recommends completing foundational programming and IS introductory courses in the first two years to unlock the professional core courses.",
+  "reasoning_type": "Prerequisite chain planning for future requirements",
+  "domain": "programs",
+  "common_mistake": "Skipping foundational courses like 15-112 in favor of electives early on, which delays access to IS core courses like 67-262 and 67-272",
+  "needs_verification": [
+    "Confirm P-011's complete first-year course list to identify what has already been completed",
+    "Confirm whether P-011 has already taken 15-112 (it may be in their 15 completed courses)",
+    "Confirm the recommended first/second year IS course sequence at CMU-Q",
+    "Confirm P-011's declared or intended concentration, which may affect course priority"
+  ]
+}

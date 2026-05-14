@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-006",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "What is the official name of 67-262?",
+  "answer": "Database Design and Development",
+  "source_file": "data/courses/67-262.json",
+  "source_field": "name",
+  "domain": "courses",
+  "verification_note": "name field in course JSON"
+}

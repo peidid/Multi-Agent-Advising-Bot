@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-062",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "Is 15-451 (Algorithm Design and Analysis) required for the CS degree?",
+  "answer": "Yes \u2014 15-451 is required as the Algorithm Design and Analysis course in the CS degree",
+  "source_file": "data/programs/Computer Science & AI/cmu_computer_science_degree_requirements.json",
+  "source_field": "requirements.computer_science.algorithm_design",
+  "domain": "programs",
+  "verification_note": "algorithm_design.code = 15-451 in CS requirements JSON"
+}

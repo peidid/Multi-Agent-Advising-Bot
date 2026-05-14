@@ -1,0 +1,34 @@
+{
+  "query_id": "T3-049",
+  "tier": "T3",
+  "category": "E",
+  "persona_id": "P-003",
+  "question": "I'm a CS sophomore (P-003) with a BA minor. I'm on track to take 15-251 and 15-210 in Spring 2026. Is completing both a CS degree and BA minor feasible by Spring 2028 if I stay on this trajectory?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "programs": "P-003 CS progress: 15-112, 15-122, 15-150, 15-213 done; taking 15-251 and 15-210 Spring 2026. BA minor: 73-102 done. Identify remaining requirements for both programs",
+    "schedules": "Key remaining CS courses (15-441, 15-451) and BA minor courses need to be offered in Fall 2026, Spring 2027, Fall 2027, Spring 2028 \u2014 availability TBD",
+    "policies": "Good standing; overloads possible with advisor approval if needed"
+  },
+  "key_facts": [
+    "P-003 after Spring 2026: will have 15-112, 15-122, 15-150, 15-213, 15-251, 15-210 done",
+    "Still needs: 15-441, 15-451, CS electives, remaining BA minor courses, gen-ed requirements",
+    "4 more semesters (Fall 2026 through Spring 2028) to complete remaining ~10-15 courses",
+    "This is a manageable pace (~3-4 courses/semester)",
+    "BA minor requires additional dedicated BA courses beyond 73-102",
+    "Feasibility is YES \u2014 P-003 is on a normal trajectory"
+  ],
+  "wrong_if_single_domain": "Knowing only the program requirements lists all remaining courses but cannot account for semester availability or scheduling constraints. Knowing only the schedule for one semester cannot project the 4-semester feasibility window.",
+  "common_mistake": "Not accounting for the BA minor course requirements when planning CS-focused semesters; or underestimating remaining requirements after the CS core is complete",
+  "reasoning_chain": [
+    "Step 1 (programs): After Spring 2026, P-003 will have completed CS core; remaining: 15-441, 15-451, electives, BA minor courses",
+    "Step 2 (schedules): Key courses (15-451, 15-441) offered in relevant semesters \u2014 confirm Fall 2026 offerings",
+    "Step 3 (policies): No AW concerns; overload possible if needed",
+    "Conclusion: Spring 2028 graduation is feasible on current trajectory \u2014 approximately 10-15 courses remain across 4 semesters"
+  ]
+}

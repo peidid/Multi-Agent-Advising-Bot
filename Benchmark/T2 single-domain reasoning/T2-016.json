@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-016",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-005",
+  "question": "I'm a CS junior with a Mathematical Sciences minor. I've completed 33 courses. Given that I've completed 21-120, 21-122, 21-127, 21-241, and 21-259, how many additional math courses do I need to complete the minor?",
+  "expected_answer": "The answer depends on the specific Mathematical Sciences minor requirements at CMU-Q. Typical math minors require around 5\u20136 math courses at or above a certain level. P-005 appears to have completed several core math courses (Calculus I/II, Concepts of Mathematics, Linear Algebra, Calculus III). If these all count toward the minor, only 0\u20131 additional specialized math courses may be needed. Verification against the official Math minor requirements is essential.",
+  "reasoning_type": "Minor requirement counting and matching",
+  "domain": "programs",
+  "common_mistake": "Assuming all math courses (even general education ones like 21-120) count toward the math minor; not knowing the exact credit or course count minimum for the Math minor",
+  "needs_verification": [
+    "Confirm the specific course list for the Mathematical Sciences minor at CMU-Q",
+    "Confirm whether 21-120 (Calculus I) and 21-122 (Calculus II) count toward the Math minor or are prerequisites only",
+    "Confirm P-005's actual course list and which math courses have been completed",
+    "Confirm minimum unit requirements for the Math minor"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "query_id": "T5-E02",
+  "tier": "T5",
+  "pattern": "E",
+  "pattern_name": "Double-Counting / Requirement Ambiguity",
+  "persona_id": "P-035",
+  "persona_summary": "BIO Junior, Computational Biology + Neuroscience minors, 41 courses, Good standing",
+  "question": "A biology elective I took last semester counts for both my Computational Biology minor and my Neuroscience minor. So I'm actually further ahead than I thought, right?",
+  "false_assumption_or_hidden_conflict": "If double-counting between two minors is prohibited (or limited), the student cannot count one course toward both minors. They may actually be exactly where they were, not ahead.",
+  "naive_system_response": "A naive system confirms: 'Great, you're one course ahead!' without checking whether double-counting between two minors is permitted.",
+  "correct_response": "Check CMU-Q's double-counting policy for minors: [specific rule]. If you cannot count one course toward two different minors, then the elective only satisfies one minor's requirement \u2014 you choose which one. You still need an additional course for the other minor. Your actual progress is: [corrected status].",
+  "domains_required": [
+    "policies",
+    "programs"
+  ],
+  "why_multi_agent_helps": "The Policy Agent checks minor double-counting rules. The Programs Agent tracks both minor requirement sets independently. A single agent might accept the student's optimistic assessment.",
+  "key_facts": [
+    "Double-counting between two minors may be restricted",
+    "Student's perception of progress depends entirely on this policy",
+    "Incorrect belief about double-counting leads to surprise shortfall later"
+  ],
+  "known_traps": [
+    "Confirming the student's optimistic count without checking policy",
+    "Not distinguishing between 'course appears in both requirement lists' and 'course can count for both'"
+  ],
+  "advisor_validation_needed": "Verify: (1) double-counting policy between two minors, (2) which specific course is at issue, (3) impact on P-035's remaining requirements for each minor"
+}

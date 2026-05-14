@@ -1,0 +1,27 @@
+{
+  "query_id": "T5-B02",
+  "tier": "T5",
+  "pattern": "B",
+  "pattern_name": "Hidden Prerequisite Violation",
+  "persona_id": "P-015",
+  "persona_summary": "IS Junior, Data Science concentration, Tech Entrepreneurship minor, 35 courses, Good standing",
+  "question": "I want to take an advanced machine learning elective next semester. I've already completed the intro stats course. Am I ready?",
+  "false_assumption_or_hidden_conflict": "Advanced ML courses typically require not just intro stats but also linear algebra and an intermediate programming course. The student mentions only stats. The system should check ALL prerequisites, not just the one the student mentions.",
+  "naive_system_response": "A naive system would check that the student has the stats prerequisite and approve: 'You've completed intro stats, you're eligible for the ML course.' It misses that the ML course also requires linear algebra and/or a programming course the student may not have taken.",
+  "correct_response": "The advanced ML elective requires: (1) intro statistics [\u2713 completed], (2) linear algebra [check if completed], and (3) intermediate programming/data structures [check if completed]. You're missing [specific courses]. You need to complete [X] before you can register for the ML course.",
+  "domains_required": [
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Courses Agent retrieves the complete prerequisite list for the ML course, not just the one the student mentions. A single agent might anchor on the student's mention of stats and confirm that single prerequisite without checking the full list.",
+  "key_facts": [
+    "Advanced ML courses typically have multiple prerequisites (stats + linear algebra + programming)",
+    "Student only mentions completing one prerequisite",
+    "IS students may not have taken math/CS courses that CS students would have"
+  ],
+  "known_traps": [
+    "Only checking the prerequisite the student explicitly mentions",
+    "Not retrieving the full prerequisite list from course data",
+    "Assuming IS students have the same math background as CS students"
+  ],
+  "advisor_validation_needed": "Verify: (1) which advanced ML course exists at CMU-Q, (2) its full prerequisite list, (3) which prereqs P-015 has and hasn't completed"
+}

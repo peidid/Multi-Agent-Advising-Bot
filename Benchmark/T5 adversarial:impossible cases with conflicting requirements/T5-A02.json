@@ -1,0 +1,30 @@
+{
+  "query_id": "T5-A02",
+  "tier": "T5",
+  "pattern": "A",
+  "pattern_name": "Impossible Timeline",
+  "persona_id": "P-009",
+  "persona_summary": "CS 5th-year, no minor, 52 courses, Academic warning",
+  "question": "I absolutely must graduate by the end of this semester. What courses can I take right now to finish my CS degree?",
+  "false_assumption_or_hidden_conflict": "The student assumes all remaining requirements can be completed in a single semester. With academic warning unit cap, if they have more remaining units than the cap allows, single-semester graduation is impossible regardless of course availability.",
+  "naive_system_response": "A naive system would list all remaining required courses and schedule them for the current semester without checking if the total units exceed the academic warning cap, or without verifying all courses are offered this semester.",
+  "correct_response": "Based on your course history, you still need [X] courses totaling approximately [Y] units. Your academic warning status limits you to [Z] units this semester. Since [Y] > [Z], completing everything this semester is not possible. You need at minimum [N] more semesters. Here is a plan that gets you to graduation as quickly as possible while respecting your unit limit: [semester-by-semester plan].",
+  "domains_required": [
+    "programs",
+    "courses",
+    "policies"
+  ],
+  "why_multi_agent_helps": "A single agent might list remaining courses without calculating total units against the warning cap. The Policy Agent specifically checks unit limits, the Programs Agent identifies remaining requirements, and the coordinator synthesizes these into a feasibility assessment before the Planning Agent attempts a plan.",
+  "key_facts": [
+    "P-009 is on academic warning",
+    "Academic warning imposes a unit cap per semester",
+    "P-009 has taken 52 courses but may still have gaps",
+    "Single-semester completion requires all remaining units to fit under the cap"
+  ],
+  "known_traps": [
+    "Listing all remaining courses without checking unit total against cap",
+    "Not verifying course availability in the current semester",
+    "Assuming 52 courses means the student is almost done \u2014 they may have taken courses that don't count"
+  ],
+  "advisor_validation_needed": "Verify: (1) exact remaining CS requirements for P-009, (2) academic warning unit cap, (3) whether single-semester completion is genuinely impossible, (4) optimal multi-semester path"
+}

@@ -1,0 +1,287 @@
+{
+  "persona_id": "P-027",
+  "source_student_id": "student416",
+  "demographic": {
+    "major": "Business Administration",
+    "concentrations": [
+      "Strategic Management"
+    ],
+    "minors": [
+      "Psychology"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Business Administration (Strategic Management)|Minor in Psychology (No concentrations)",
+    "narrative": {
+      "background_notes": "Strategic Management with Psychology minor. Interested in organizational behavior research.",
+      "goals": "Graduate in Spring 2026; apply to MBA programs",
+      "concerns": "Wants to ensure all Psychology minor courses are completed; some may only be offered in specific semesters"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 57,
+    "semesters_completed": [
+      "Fall 2022",
+      "Spring 2023",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Fall 2022": [
+        {
+          "course_code": "70-110",
+          "course_name": "Business Computing"
+        },
+        {
+          "course_code": "70-106",
+          "course_name": "Business Science"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "21-111",
+          "course_name": "Differential Calculus"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "98-238",
+          "course_name": "Student Taught Courses (StuCo): Owarai: World of Japanese Comedy"
+        },
+        {
+          "course_code": "70-207",
+          "course_name": "Probability and Statistics for Business Applications"
+        },
+        {
+          "course_code": "51-215",
+          "course_name": "Making Short Films"
+        },
+        {
+          "course_code": "79-104",
+          "course_name": "Global Histories"
+        },
+        {
+          "course_code": "85-120",
+          "course_name": "Demystifying Freud and the Discipline of Psychology"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "70-344",
+          "course_name": "Internet Ethics"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "85-102",
+          "course_name": "Introduction to Psychology"
+        },
+        {
+          "course_code": "51-368",
+          "course_name": "Moving Pictures"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "51-113",
+          "course_name": "The Portrait"
+        },
+        {
+          "course_code": "51-150",
+          "course_name": "Personal Design Futures"
+        },
+        {
+          "course_code": "70-340",
+          "course_name": "Business Communications"
+        },
+        {
+          "course_code": "85-242",
+          "course_name": "Intro to Health Psychology: Methods of Inquiry"
+        },
+        {
+          "course_code": "85-258",
+          "course_name": "Intro to Health Psychology: Stigma and Its Consequences"
+        },
+        {
+          "course_code": "80-210",
+          "course_name": "Logic and Proofs"
+        },
+        {
+          "course_code": "85-252",
+          "course_name": "Intro to Health Psychology: SES and Health Inequalities"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "70-387",
+          "course_name": "Strategy for High-Tech Products and Services"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "70-371",
+          "course_name": "Operations Management"
+        },
+        {
+          "course_code": "57-214",
+          "course_name": "Love, Drugs, and War: The Obsessions of History's Great Composers"
+        },
+        {
+          "course_code": "70-104",
+          "course_name": "Business Leadership Endeavor I"
+        },
+        {
+          "course_code": "70-311",
+          "course_name": "Organizational Behavior"
+        },
+        {
+          "course_code": "21-111",
+          "course_name": "Differential Calculus"
+        },
+        {
+          "course_code": "70-245",
+          "course_name": "Innovation & Entrepreneurial Mindset"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "70-391",
+          "course_name": "Finance"
+        },
+        {
+          "course_code": "70-381",
+          "course_name": "Marketing I"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "73-336",
+          "course_name": "International Energy Market and Sustainable Development"
+        },
+        {
+          "course_code": "85-377",
+          "course_name": "Attitudes and Persuasion"
+        },
+        {
+          "course_code": "70-208",
+          "course_name": "Regression Analysis"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "70-341",
+          "course_name": "Team Dynamics and Leadership"
+        },
+        {
+          "course_code": "51-205",
+          "course_name": "Social Media, Curation, and Personal Voice"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "70-332",
+          "course_name": "Business, Society and Ethics"
+        },
+        {
+          "course_code": "70-204",
+          "course_name": "Business Leadership Endeavor II"
+        },
+        {
+          "course_code": "70-342",
+          "course_name": "Managing Across Cultures"
+        },
+        {
+          "course_code": "70-345",
+          "course_name": "Business Presentations"
+        },
+        {
+          "course_code": "73-103",
+          "course_name": "Principles of Macroeconomics"
+        },
+        {
+          "course_code": "85-253",
+          "course_name": "Psychopathology"
+        },
+        {
+          "course_code": "85-310",
+          "course_name": "Research Methods in Cognitive Psychology"
+        },
+        {
+          "course_code": "76-345",
+          "course_name": "Introduction to Document Design"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "85-251",
+          "course_name": "Personality"
+        },
+        {
+          "course_code": "85-350",
+          "course_name": "Psychology of Prejudice"
+        },
+        {
+          "course_code": "99-270",
+          "course_name": "Summer Undergraduate Research Apprenticeship"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "69-112",
+          "course_name": "Fencing"
+        },
+        {
+          "course_code": "70-388",
+          "course_name": "Islamic Finance"
+        },
+        {
+          "course_code": "69-113",
+          "course_name": "Martial Arts"
+        },
+        {
+          "course_code": "85-130",
+          "course_name": "Developmental Psychology"
+        },
+        {
+          "course_code": "82-111",
+          "course_name": "Elementary Arabic I"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

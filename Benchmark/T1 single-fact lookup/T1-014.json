@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-014",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "What course is 70-122?",
+  "answer": "Introduction to Accounting (9 units)",
+  "source_file": "data/courses/70-122.json",
+  "source_field": "name, units",
+  "domain": "courses",
+  "verification_note": "name and units fields in course JSON"
+}

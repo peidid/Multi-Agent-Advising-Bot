@@ -1,0 +1,686 @@
+{
+  "description": "AdvisingBot Benchmark Personas \u2014 40 anonymized student profiles for academic advising benchmark evaluation",
+  "version": "1.0",
+  "source": "Derived from CMU-Q student course data (anonymized)",
+  "total_personas": 64,
+  "distribution": {
+    "by_major": {
+      "Computer Science": 16,
+      "Information Systems": 16,
+      "Business Administration": 16,
+      "Biological Sciences": 16
+    },
+    "by_level": {
+      "first-year": 9,
+      "sophomore": 14,
+      "junior": 15,
+      "senior": 18,
+      "5th year student": 8
+    }
+  },
+  "persona_schema": {
+    "persona_id": "Unique identifier (P-001 through P-040)",
+    "source_student_id": "Original anonymized student ID from course data",
+    "demographic": {
+      "major": "Primary major field",
+      "concentrations": "Declared concentration(s) within major",
+      "minors": "Declared minor(s)",
+      "level": "Current academic level (first-year through 5th year)",
+      "entry_year": "Semester of university entry",
+      "program_full": "Full program string as recorded in system"
+    },
+    "academic_record": {
+      "total_unique_courses": "Number of distinct courses taken",
+      "semesters_completed": "Chronological list of semesters with coursework",
+      "courses_by_semester": "Courses organized by semester, each with course_code and course_name"
+    },
+    "academic_standing": "Current academic standing (Good standing, Deans List, etc.)",
+    "narrative": {
+      "background_notes": "Contextual notes about the student situation, interests, and circumstances",
+      "goals": "Academic and career goals",
+      "concerns": "Current advising concerns and worries"
+    }
+  },
+  "persona_summaries": [
+    {
+      "persona_id": "P-001",
+      "major": "Computer Science",
+      "level": "first-year",
+      "entry_year": "Summer 2024",
+      "specializations": "No concentration or minor",
+      "courses_taken": 15,
+      "standing": "Good standing",
+      "brief_note": "Wants to complete BS in 4 years and pursue a Masters in CS afterward. Worried about the workload of 15-213 and 15-251 in the same semester"
+    },
+    {
+      "persona_id": "P-002",
+      "major": "Computer Science",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "No concentration or minor",
+      "courses_taken": 24,
+      "standing": "Good standing",
+      "brief_note": "Wants to secure a software engineering internship for Summer 2026. Needs to plan prerequisite chains carefully to take upper-level electives by junior year"
+    },
+    {
+      "persona_id": "P-003",
+      "major": "Computer Science",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "minor: Business Administration",
+      "courses_taken": 23,
+      "standing": "Good standing",
+      "brief_note": "Wants to work in tech product management after graduation. Balancing CS core with BA minor courses is creating scheduling conflicts"
+    },
+    {
+      "persona_id": "P-004",
+      "major": "Computer Science",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "No concentration or minor",
+      "courses_taken": 36,
+      "standing": "Good standing",
+      "brief_note": "Complete all systems electives before senior year. Some electives are only offered every other year at CMU-Q"
+    },
+    {
+      "persona_id": "P-005",
+      "major": "Computer Science",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "minor: Mathematical Sciences",
+      "courses_taken": 33,
+      "standing": "Good standing",
+      "brief_note": "Wants to pursue a PhD in machine learning. Math minor courses sometimes conflict with required CS courses"
+    },
+    {
+      "persona_id": "P-006",
+      "major": "Computer Science",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "minor: Tech Entrepreneurship",
+      "courses_taken": 34,
+      "standing": "Good standing",
+      "brief_note": "Build a startup while completing degree, graduate on time. Worried about fitting capstone project with startup commitments"
+    },
+    {
+      "persona_id": "P-007",
+      "major": "Computer Science",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Business Administration",
+      "courses_taken": 49,
+      "standing": "Good standing",
+      "brief_note": "Graduate on time in Spring 2026 with both CS degree and BA minor. Needs to verify all minor requirements are met before final semester"
+    },
+    {
+      "persona_id": "P-008",
+      "major": "Computer Science",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Biological Sciences",
+      "courses_taken": 49,
+      "standing": "Good standing",
+      "brief_note": "Work in bioinformatics or computational genomics. Wants to take a graduate-level bioinformatics course but unsure about prerequisites"
+    },
+    {
+      "persona_id": "P-009",
+      "major": "Computer Science",
+      "level": "5th year student",
+      "entry_year": "Fall 2021",
+      "specializations": "No concentration or minor",
+      "courses_taken": 52,
+      "standing": "Academic warning",
+      "brief_note": "Graduate this year despite academic warning. Academic warning restricts course load, which conflicts with needing to finish quickly."
+    },
+    {
+      "persona_id": "P-010",
+      "major": "Computer Science",
+      "level": "5th year student",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Tech Entrepreneurship",
+      "courses_taken": 41,
+      "standing": "Good standing",
+      "brief_note": "Complete final courses and graduate; already has a job offer contingent on degree completion. Needs exactly the right courses offered this year to graduate; no room for error"
+    },
+    {
+      "persona_id": "P-011",
+      "major": "Information Systems",
+      "level": "first-year",
+      "entry_year": "Fall 2025",
+      "specializations": "No concentration or minor",
+      "courses_taken": 15,
+      "standing": "Good standing",
+      "brief_note": "Declare concentration by end of first year; considering a CS minor. Uncertain which concentration aligns with career goals in tech"
+    },
+    {
+      "persona_id": "P-012",
+      "major": "Information Systems",
+      "level": "first-year",
+      "entry_year": "Summer 2023",
+      "specializations": "conc: Data Science",
+      "courses_taken": 14,
+      "standing": "Good standing",
+      "brief_note": "Complete Data Science concentration and possibly add a minor in Business Administration. Wants to ensure DS concentration prerequisites are completed early enough"
+    },
+    {
+      "persona_id": "P-013",
+      "major": "Information Systems",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "No concentration or minor",
+      "courses_taken": 25,
+      "standing": "Academic warning",
+      "brief_note": "Decide on concentration this semester; wants to graduate in 4 years. Academic warning limits units per semester, making it harder to catch up."
+    },
+    {
+      "persona_id": "P-014",
+      "major": "Information Systems",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "conc: Data Science; minor: Business Administration",
+      "courses_taken": 27,
+      "standing": "Good standing",
+      "brief_note": "Pursue a career in management consulting or data analytics. BA minor requirements overlapping with free elective slots; tight schedule"
+    },
+    {
+      "persona_id": "P-015",
+      "major": "Information Systems",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "conc: Data Science; minor: Tech Entrepreneurship",
+      "courses_taken": 35,
+      "standing": "Good standing",
+      "brief_note": "Graduate on time, complete capstone in DS area. Wants to take advanced ML courses but prerequisites chain is long"
+    },
+    {
+      "persona_id": "P-016",
+      "major": "Information Systems",
+      "level": "junior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Information Security and Privacy",
+      "courses_taken": 39,
+      "standing": "Good standing",
+      "brief_note": "Pursue Masters in cybersecurity; wants strong research background. Limited ISP elective offerings at CMU-Q; considering Pittsburgh summer courses"
+    },
+    {
+      "persona_id": "P-017",
+      "major": "Information Systems",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Information Security and Privacy",
+      "courses_taken": 49,
+      "standing": "Deans List",
+      "brief_note": "Graduate with honors; apply for cybersecurity positions. Wants to take an independent study but unsure about unit limits in final semester"
+    },
+    {
+      "persona_id": "P-018",
+      "major": "Information Systems",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Tech Entrepreneurship",
+      "courses_taken": 49,
+      "standing": "Good standing",
+      "brief_note": "Graduate on time; wants flexibility rather than specialization. May be missing concentration-specific courses that employers look for"
+    },
+    {
+      "persona_id": "P-019",
+      "major": "Information Systems",
+      "level": "5th year student",
+      "entry_year": "Fall 2019",
+      "specializations": "conc: Applied Informatics",
+      "courses_taken": 52,
+      "standing": "Good standing",
+      "brief_note": "Finally complete degree this year. Some courses taken years ago may have changed; need to verify old courses still count toward current requirements"
+    },
+    {
+      "persona_id": "P-020",
+      "major": "Information Systems",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Information Security and Privacy; minor: History",
+      "courses_taken": 46,
+      "standing": "Good standing",
+      "brief_note": "Work in tech policy or government cybersecurity. History minor courses competing for schedule slots with ISP electives"
+    },
+    {
+      "persona_id": "P-021",
+      "major": "Business Administration",
+      "level": "first-year",
+      "entry_year": "Summer 2024",
+      "specializations": "conc: Finance",
+      "courses_taken": 13,
+      "standing": "Good standing",
+      "brief_note": "Work in investment banking; wants to add Econ minor. Worried about whether adding Econ minor will delay graduation"
+    },
+    {
+      "persona_id": "P-022",
+      "major": "Business Administration",
+      "level": "first-year",
+      "entry_year": "Summer 2024",
+      "specializations": "conc: Business Analytics & Technologies",
+      "courses_taken": 13,
+      "standing": "Good standing",
+      "brief_note": "Potentially switch to IS major if BAT concentration is not technical enough. Considering switching majors \u2014 wants to understand what credits would transfer"
+    },
+    {
+      "persona_id": "P-023",
+      "major": "Business Administration",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "conc: Finance",
+      "courses_taken": 25,
+      "standing": "Good standing",
+      "brief_note": "Secure a finance internship for Summer 2026; complete core finance courses early. Needs specific finance courses completed before recruiting season starts"
+    },
+    {
+      "persona_id": "P-024",
+      "major": "Business Administration",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "conc: Strategic Management; minor: Tech Entrepreneurship",
+      "courses_taken": 31,
+      "standing": "Good standing",
+      "brief_note": "Complete minor and gain practical entrepreneurship experience through coursework. Minor requirements may conflict with BA concentration electives"
+    },
+    {
+      "persona_id": "P-025",
+      "major": "Business Administration",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "conc: Finance, Business Analytics & Technologies; minor: Economics",
+      "courses_taken": 37,
+      "standing": "Good standing",
+      "brief_note": "Graduate on time despite dual concentration; target quantitative finance roles. Dual concentration creates very tight schedule; at risk of needing overload semesters"
+    },
+    {
+      "persona_id": "P-026",
+      "major": "Business Administration",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "conc: Finance; minor: History",
+      "courses_taken": 35,
+      "standing": "Good standing",
+      "brief_note": "Complete both finance and history requirements; considering graduate school in economics. Some upper-level history courses have limited enrollment"
+    },
+    {
+      "persona_id": "P-027",
+      "major": "Business Administration",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Strategic Management; minor: Psychology",
+      "courses_taken": 57,
+      "standing": "Good standing",
+      "brief_note": "Graduate in Spring 2026; apply to MBA programs. Wants to ensure all Psychology minor courses are completed; some may only be offered in specific semesters"
+    },
+    {
+      "persona_id": "P-028",
+      "major": "Business Administration",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Finance, Strategic Management; minor: Media and Politics",
+      "courses_taken": 54,
+      "standing": "Good standing",
+      "brief_note": "Graduate on time with all concentrations and minor complete. Extremely tight schedule; has had to take summer courses to stay on track"
+    },
+    {
+      "persona_id": "P-029",
+      "major": "Business Administration",
+      "level": "5th year student",
+      "entry_year": "Fall 2021",
+      "specializations": "conc: Strategic Management; minor: Psychology",
+      "courses_taken": 60,
+      "standing": "Good standing",
+      "brief_note": "Complete degree this year; already accepted a job contingent on graduation. Must verify remaining requirements precisely; cannot afford any surprises"
+    },
+    {
+      "persona_id": "P-030",
+      "major": "Business Administration",
+      "level": "senior",
+      "entry_year": "Fall 2023",
+      "specializations": "conc: Entrepreneurship; minor: Media and Politics",
+      "courses_taken": 47,
+      "standing": "Good standing",
+      "brief_note": "Launch a media startup; complete all requirements for graduation. Entrepreneurship concentration has fewer course options; worried about availability"
+    },
+    {
+      "persona_id": "P-031",
+      "major": "Biological Sciences",
+      "level": "first-year",
+      "entry_year": "Fall 2025",
+      "specializations": "conc: Neuroscience",
+      "courses_taken": 17,
+      "standing": "Good standing",
+      "brief_note": "Pursue MD/PhD program; needs strong research experience. Wants to add a Neuroscience minor on top of concentration but unsure if that is redundant or beneficial"
+    },
+    {
+      "persona_id": "P-032",
+      "major": "Biological Sciences",
+      "level": "first-year",
+      "entry_year": "Summer 2024",
+      "specializations": "No concentration or minor",
+      "courses_taken": 11,
+      "standing": "Good standing",
+      "brief_note": "Declare a concentration by end of sophomore year; considering Genetics or Molecular Biology. Worried about falling behind on concentration-specific prerequisites"
+    },
+    {
+      "persona_id": "P-033",
+      "major": "Biological Sciences",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "conc: Biochemistry, Computational Biology",
+      "courses_taken": 27,
+      "standing": "Good standing",
+      "brief_note": "Work in biotech or pharmaceutical data science. Dual concentration requires heavy science course load; limited room for electives"
+    },
+    {
+      "persona_id": "P-034",
+      "major": "Biological Sciences",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "minor: Neuroscience",
+      "courses_taken": 23,
+      "standing": "Good standing",
+      "brief_note": "Potentially add Psychology minor as well; interested in brain-behavior research. Adding a second minor might be too many requirements to fit in remaining semesters"
+    },
+    {
+      "persona_id": "P-035",
+      "major": "Biological Sciences",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "minor: Computational Biology, Neuroscience",
+      "courses_taken": 41,
+      "standing": "Good standing",
+      "brief_note": "PhD in computational neuroscience. Two minors plus major create very rigid schedule; worried about one required course not being offered"
+    },
+    {
+      "persona_id": "P-036",
+      "major": "Biological Sciences",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "minor: Computer Science",
+      "courses_taken": 36,
+      "standing": "Good standing",
+      "brief_note": "Bioinformatics career; needs to complete CS minor requirements. CS minor prerequisites (15-112, 15-122) must be taken in sequence; timing is tight"
+    },
+    {
+      "persona_id": "P-037",
+      "major": "Biological Sciences",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "No concentration or minor",
+      "courses_taken": 53,
+      "standing": "Good standing",
+      "brief_note": "Graduate on time; apply to medical school. Needs to ensure all pre-med requirements are covered by graduation; some may not count toward degree"
+    },
+    {
+      "persona_id": "P-038",
+      "major": "Biological Sciences",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Neuroscience",
+      "courses_taken": 55,
+      "standing": "Deans List",
+      "brief_note": "Apply to neuroscience PhD programs; needs strong final transcript. Wants to take an advanced seminar course but it conflicts with a required course"
+    },
+    {
+      "persona_id": "P-039",
+      "major": "Biological Sciences",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Psychology",
+      "courses_taken": 56,
+      "standing": "Good standing",
+      "brief_note": "Graduate and pursue clinical psychology masters program. Psychology minor has specific course requirements that may not all be offered in remaining semesters"
+    },
+    {
+      "persona_id": "P-040",
+      "major": "Biological Sciences",
+      "level": "5th year student",
+      "entry_year": "Fall 2020",
+      "specializations": "No concentration or minor",
+      "courses_taken": 66,
+      "standing": "Good standing",
+      "brief_note": "Finally graduate; has been exploring multiple paths within biology. Needs to confirm that all accumulated courses actually satisfy current degree requirements, as requirements may have changed since entry"
+    },
+    {
+      "persona_id": "P-041",
+      "major": "Computer Science",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "minor: Professional Writing",
+      "courses_taken": 24,
+      "standing": "Good standing",
+      "brief_note": "Become a developer advocate or technical writer at a major tech company. Writing minor courses have heavy essay workloads that compete with CS project deadlines"
+    },
+    {
+      "persona_id": "P-042",
+      "major": "Computer Science",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "minor: Mathematical Sciences, SCS Concentration in Computer Systems",
+      "courses_taken": 32,
+      "standing": "Good standing",
+      "brief_note": "PhD in systems research; wants to maximize theoretical and systems coursework. Two additional specializations create an extremely constrained schedule with few free electives"
+    },
+    {
+      "persona_id": "P-043",
+      "major": "Computer Science",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "minor: History",
+      "courses_taken": 33,
+      "standing": "Good standing",
+      "brief_note": "Work in tech policy or digital preservation. History minor requires courses that are only offered once per year; needs careful planning"
+    },
+    {
+      "persona_id": "P-044",
+      "major": "Computer Science",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Business Administration, History",
+      "courses_taken": 60,
+      "standing": "Good standing",
+      "brief_note": "Graduate with both minors complete; targeting management consulting in tech. Dual minors leave almost no room for electives; must verify every requirement is met"
+    },
+    {
+      "persona_id": "P-045",
+      "major": "Computer Science",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Business Administration, Neural Computation",
+      "courses_taken": 48,
+      "standing": "Good standing",
+      "brief_note": "Work at the intersection of AI and business; considering MBA after industry experience. Neural Computation minor has very specific course requirements that may not all be available at CMU-Q"
+    },
+    {
+      "persona_id": "P-046",
+      "major": "Computer Science",
+      "level": "5th year student",
+      "entry_year": "Fall 2016",
+      "specializations": "minor: Mathematical Sciences",
+      "courses_taken": 45,
+      "standing": "Academic warning",
+      "brief_note": "Complete remaining requirements and finally graduate. Degree requirements may have changed significantly since entry year; needs audit of which old courses still count"
+    },
+    {
+      "persona_id": "P-047",
+      "major": "Information Systems",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "conc: Data Science; minor: Human-Computer Interaction",
+      "courses_taken": 24,
+      "standing": "Good standing",
+      "brief_note": "Become a UX researcher specializing in data-driven design. HCI minor courses are limited at CMU-Q; may need to take some during summer in Pittsburgh"
+    },
+    {
+      "persona_id": "P-048",
+      "major": "Information Systems",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "conc: Information Security and Privacy",
+      "courses_taken": 24,
+      "standing": "Good standing",
+      "brief_note": "Complete ISP prerequisites early to access advanced electives by junior year. ISP has strict prerequisite chains; falling behind in one course delays the entire sequence"
+    },
+    {
+      "persona_id": "P-049",
+      "major": "Information Systems",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "conc: Digitalization; minor: Business Administration, History",
+      "courses_taken": 35,
+      "standing": "Good standing",
+      "brief_note": "Work in digital transformation consulting. Digitalization concentration has fewer dedicated courses; dual minors add scheduling complexity"
+    },
+    {
+      "persona_id": "P-050",
+      "major": "Information Systems",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Data Science; minor: Tech Entrepreneurship",
+      "courses_taken": 45,
+      "standing": "Good standing",
+      "brief_note": "Launch a data analytics startup after graduation. Wants to take advanced data science electives but they may conflict with capstone timeline"
+    },
+    {
+      "persona_id": "P-051",
+      "major": "Information Systems",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "conc: Information Security and Privacy; minor: Multidisciplinary Energy Studies",
+      "courses_taken": 36,
+      "standing": "Good standing",
+      "brief_note": "Work in cybersecurity for energy infrastructure or critical systems. Energy Studies minor is rarely chosen; course offerings are unpredictable"
+    },
+    {
+      "persona_id": "P-052",
+      "major": "Information Systems",
+      "level": "5th year student",
+      "entry_year": "Summer 2016",
+      "specializations": "No concentration or minor",
+      "courses_taken": 47,
+      "standing": "Good standing",
+      "brief_note": "Complete degree after extended enrollment. Program requirements have changed multiple times since enrollment; complex degree audit needed"
+    },
+    {
+      "persona_id": "P-053",
+      "major": "Business Administration",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "conc: Finance; minor: Economics, History",
+      "courses_taken": 25,
+      "standing": "Good standing",
+      "brief_note": "Career in economic policy research; considering PhD in Economics. Dual minors plus Finance concentration may require overload semesters"
+    },
+    {
+      "persona_id": "P-054",
+      "major": "Business Administration",
+      "level": "first-year",
+      "entry_year": "Fall 2025",
+      "specializations": "conc: Global Economics & Business, Finance",
+      "courses_taken": 12,
+      "standing": "Good standing",
+      "brief_note": "Work in international finance or global economic development. Dual concentration from first year is ambitious; needs to plan prerequisite sequences carefully"
+    },
+    {
+      "persona_id": "P-055",
+      "major": "Business Administration",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "conc: Strategic Management",
+      "courses_taken": 40,
+      "standing": "Good standing",
+      "brief_note": "Join a leadership development program at a Fortune 500 company. Wants to add a minor but worried it is too late as a junior"
+    },
+    {
+      "persona_id": "P-056",
+      "major": "Business Administration",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Entrepreneurship; minor: Computer Science, International Relations and Political Science",
+      "courses_taken": 47,
+      "standing": "Good standing",
+      "brief_note": "Launch a tech startup with global impact; CS minor provides technical foundation. Three areas of study create extreme scheduling pressure; at risk of not completing everything on time"
+    },
+    {
+      "persona_id": "P-057",
+      "major": "Business Administration",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Strategic Management; minor: Politics and Public Policy",
+      "courses_taken": 52,
+      "standing": "Good standing",
+      "brief_note": "Career in political consulting or public sector management. Politics and Public Policy minor has limited course options at CMU-Q"
+    },
+    {
+      "persona_id": "P-058",
+      "major": "Business Administration",
+      "level": "5th year student",
+      "entry_year": "Fall 2021",
+      "specializations": "conc: Marketing Management; minor: Tech Entrepreneurship",
+      "courses_taken": 49,
+      "standing": "Good standing",
+      "brief_note": "Complete degree; already working part-time at a marketing tech company. Marketing Management courses are offered infrequently; needs specific courses this year"
+    },
+    {
+      "persona_id": "P-059",
+      "major": "Biological Sciences",
+      "level": "first-year",
+      "entry_year": "Summer 2024",
+      "specializations": "conc: Genetics, Neuroscience",
+      "courses_taken": 11,
+      "standing": "Good standing",
+      "brief_note": "PhD in neurogenetics; wants strong foundation in both areas. Dual concentration as first-year may be premature; worried about changing mind later"
+    },
+    {
+      "persona_id": "P-060",
+      "major": "Biological Sciences",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "conc: Molecular Biology; minor: Neuroscience",
+      "courses_taken": 21,
+      "standing": "Good standing",
+      "brief_note": "Research career in molecular neuroscience; considering MD/PhD. Molecular Biology lab courses are time-intensive; balancing with Neuroscience minor courses is challenging"
+    },
+    {
+      "persona_id": "P-061",
+      "major": "Biological Sciences",
+      "level": "sophomore",
+      "entry_year": "Fall 2024",
+      "specializations": "No concentration or minor",
+      "courses_taken": 33,
+      "standing": "Good standing",
+      "brief_note": "Explore broadly before committing to a concentration by end of sophomore year. Has taken many courses but may not have focused enough on any one area to declare a concentration efficiently"
+    },
+    {
+      "persona_id": "P-062",
+      "major": "Biological Sciences",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "conc: Genetics",
+      "courses_taken": 51,
+      "standing": "Good standing",
+      "brief_note": "Graduate and join a genomics research lab or biotech company. Some advanced Genetics electives are only offered in alternating years; needs to verify availability"
+    },
+    {
+      "persona_id": "P-063",
+      "major": "Biological Sciences",
+      "level": "junior",
+      "entry_year": "Fall 2023",
+      "specializations": "minor: Business Administration",
+      "courses_taken": 33,
+      "standing": "Good standing",
+      "brief_note": "MBA after working in biotech; BA minor provides business foundation. BA minor courses require prerequisites she has not yet taken; may delay minor completion"
+    },
+    {
+      "persona_id": "P-064",
+      "major": "Biological Sciences",
+      "level": "senior",
+      "entry_year": "Fall 2022",
+      "specializations": "minor: Arabic Studies",
+      "courses_taken": 53,
+      "standing": "Good standing",
+      "brief_note": "Public health career with focus on MENA region; Arabic Studies enhances regional expertise. Arabic Studies courses are offered inconsistently; needs to confirm remaining minor requirements are available"
+    }
+  ]
+}

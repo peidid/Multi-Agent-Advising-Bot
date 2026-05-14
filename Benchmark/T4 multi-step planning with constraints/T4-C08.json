@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C08",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-004",
+  "persona_summary": "CS Junior, no minor, 36 courses, Good standing",
+  "variation": "Missed a once-per-year course",
+  "question": "I needed to take a specific systems elective that's only offered in Fall, and I missed it this Fall. What are my options? Can you replan my remaining semesters?",
+  "what_makes_this_hard": "Must wait until next Fall or find an alternative. System must check if an equivalent course exists or if the plan must extend.",
+  "needs_verification": [
+    "Which systems electives are Fall-only",
+    "Whether equivalent/substitute courses exist",
+    "Impact on graduation timeline",
+    "Alternative course options"
+  ]
+}

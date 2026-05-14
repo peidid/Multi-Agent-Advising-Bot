@@ -1,0 +1,247 @@
+{
+  "persona_id": "P-007",
+  "source_student_id": "student122",
+  "demographic": {
+    "major": "Computer Science",
+    "concentrations": [],
+    "minors": [
+      "Business Administration"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Computer Science (No concentrations)|Minor in Business Administration (No concentrations)",
+    "narrative": {
+      "background_notes": "Strong student nearing graduation. BA minor almost complete. Has taken several leadership roles on campus.",
+      "goals": "Graduate on time in Spring 2026 with both CS degree and BA minor",
+      "concerns": "Needs to verify all minor requirements are met before final semester"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 49,
+    "semesters_completed": [
+      "Summer 2020",
+      "Fall 2022",
+      "Spring 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2020": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "33-142",
+          "course_name": "Physics II for Engineering and Physics Students"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "33-141",
+          "course_name": "Physics I for Engineering Students"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "07-129",
+          "course_name": "Freshmen Immigration Course"
+        },
+        {
+          "course_code": "21-241",
+          "course_name": "Matrices and Linear Transformations"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "15-288",
+          "course_name": "Special Topic: Machine Learning in a Nutshell"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "36-218",
+          "course_name": "Probability Theory for Computer Scientists"
+        },
+        {
+          "course_code": "33-104",
+          "course_name": "Experimental Physics"
+        },
+        {
+          "course_code": "15-122",
+          "course_name": "Principles of Imperative Computation"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "15-213",
+          "course_name": "Introduction to Computer Systems"
+        },
+        {
+          "course_code": "80-334",
+          "course_name": "Social and Political Philosophy"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "70-311",
+          "course_name": "Organizational Behavior"
+        },
+        {
+          "course_code": "02-251",
+          "course_name": "Great Ideas in Computational Biology"
+        },
+        {
+          "course_code": "15-210",
+          "course_name": "Parallel and Sequential Data Structures and Algorithms"
+        },
+        {
+          "course_code": "15-251",
+          "course_name": "Great Ideas in Theoretical Computer Science"
+        },
+        {
+          "course_code": "85-241",
+          "course_name": "Social Psychology"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "15-440",
+          "course_name": "Distributed Systems"
+        },
+        {
+          "course_code": "98-060",
+          "course_name": "Student Taught Courses (StuCo): A Beginners\u00bf Guide to Chinese"
+        },
+        {
+          "course_code": "21-295",
+          "course_name": "Putnam Seminar"
+        },
+        {
+          "course_code": "70-341",
+          "course_name": "Team Dynamics and Leadership"
+        },
+        {
+          "course_code": "15-451",
+          "course_name": "Algorithm Design and Analysis"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "69-103",
+          "course_name": "Archery"
+        },
+        {
+          "course_code": "05-391",
+          "course_name": "Designing Human Centered Software"
+        },
+        {
+          "course_code": "15-591",
+          "course_name": "Independent Study in Computer Science"
+        },
+        {
+          "course_code": "11-485",
+          "course_name": "Introduction to Deep Learning"
+        },
+        {
+          "course_code": "70-332",
+          "course_name": "Business, Society and Ethics"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "99-355",
+          "course_name": "IDeATe: Introduction to Arduino"
+        },
+        {
+          "course_code": "54-191",
+          "course_name": "Acting for Non-Majors"
+        },
+        {
+          "course_code": "99-357",
+          "course_name": "IDeATe: Pragmatic Photography"
+        },
+        {
+          "course_code": "60-157",
+          "course_name": "Drawing for Non-Majors"
+        },
+        {
+          "course_code": "70-391",
+          "course_name": "Finance"
+        },
+        {
+          "course_code": "15-591",
+          "course_name": "Independent Study in Computer Science"
+        },
+        {
+          "course_code": "24-104",
+          "course_name": "TechSpark: Modern Making"
+        },
+        {
+          "course_code": "99-352",
+          "course_name": "IDeATe: Soft Fabrication Skills"
+        },
+        {
+          "course_code": "69-136",
+          "course_name": "Basketball Skills"
+        },
+        {
+          "course_code": "10-423",
+          "course_name": "Generative AI"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

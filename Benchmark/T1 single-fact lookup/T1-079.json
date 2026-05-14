@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-079",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "Which two courses are in Section A of the BA Business Analytics and Technologies concentration?",
+  "answer": "70-374 (Data Mining & Business Analytics) or 70-467 (Machine Learning for Business Analytics)",
+  "source_file": "data/programs/Business Administration/BA_Major_Concentrations.json",
+  "source_field": "Concentration Course Requirements Section A (Business Analytics and Technology)",
+  "domain": "programs",
+  "verification_note": "Section A for BAT concentration lists 70-374 and 70-467"
+}

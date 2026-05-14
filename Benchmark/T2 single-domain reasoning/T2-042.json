@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-042",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": null,
+  "question": "I completed 15-211 (Fundamental Data Structures and Algorithms). Does this count as equivalent to 15-210 (Parallel and Sequential Data Structures and Algorithms) for downstream CS requirements?",
+  "expected_answer": "Yes \u2014 15-211 is listed as an equivalent of 15-210 in the course catalog. A student who completed 15-211 should satisfy any requirement or prerequisite that calls for 15-210.",
+  "reasoning_type": "Course equivalence \u2014 older and newer course versions",
+  "domain": "courses",
+  "common_mistake": "Assuming older course numbers are no longer equivalent when the university has marked them as equivalents; not knowing to check the 'equiv' field in the course catalog",
+  "needs_verification": [
+    "Confirm 15-211 is still listed as equivalent to 15-210 in current catalog",
+    "Confirm 15-211 is still offered (or was offered when the student took it)",
+    "Confirm the equivalence applies to all downstream courses that require 15-210"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-090",
+  "tier": "T1",
+  "category": "E",
+  "persona_id": null,
+  "question": "What approval does an undergraduate need to repeat a course they have already passed?",
+  "answer": "Approval from the student's Dean or Department Head",
+  "source_file": "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md",
+  "source_field": "Course Repeats section",
+  "domain": "policies",
+  "verification_note": "Policy states: 'Undergraduate students who wish to repeat a course already passed must obtain approval from the student's Dean or Department Head'"
+}

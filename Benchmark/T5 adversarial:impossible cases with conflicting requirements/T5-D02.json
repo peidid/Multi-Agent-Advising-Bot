@@ -1,0 +1,30 @@
+{
+  "query_id": "T5-D02",
+  "tier": "T5",
+  "pattern": "D",
+  "pattern_name": "Course Availability Trap",
+  "persona_id": "P-062",
+  "persona_summary": "BIO Senior, Genetics concentration, 51 courses, Good standing",
+  "question": "I need an advanced Genetics elective to complete my concentration. I'm going to take it in Spring 2026. What are my options?",
+  "false_assumption_or_hidden_conflict": "Advanced Genetics electives are often offered on an alternating-year schedule (every other year) or only in Fall. The student's persona notes this concern explicitly. The specific elective they need may not be offered in Spring 2026.",
+  "naive_system_response": "A naive system lists all Genetics electives from the course catalog without checking which are offered in Spring 2026, giving the student false options.",
+  "correct_response": "Advanced Genetics electives have irregular offerings at CMU-Q. Checking the Spring 2026 schedule: [list only actually offered courses]. The following Genetics electives are NOT offered Spring 2026: [list]. If the elective you need is not available, alternatives include: (1) [substitute course] that also satisfies the concentration requirement, (2) independent study with a genetics faculty member, (3) taking the course in Summer 2026 if offered.",
+  "domains_required": [
+    "schedules",
+    "programs",
+    "courses"
+  ],
+  "why_multi_agent_helps": "The Courses Agent checks actual schedule data. The Programs Agent verifies which available courses satisfy the concentration requirement. A single agent might list all catalog genetics courses as options.",
+  "key_facts": [
+    "Advanced Genetics electives are offered on alternating schedules",
+    "P-062's persona specifically mentions concern about alternating-year offerings",
+    "Catalog listing does not mean current availability",
+    "Concentration completion depends on specific course availability"
+  ],
+  "known_traps": [
+    "Listing catalog courses without checking Spring 2026 schedule",
+    "Not recognizing alternating-year offering patterns",
+    "Not suggesting alternatives when the needed course isn't available"
+  ],
+  "advisor_validation_needed": "Verify: (1) which Genetics electives are in Spring 2026 schedule, (2) which satisfy the concentration requirement, (3) alternating-year patterns for Genetics courses"
+}

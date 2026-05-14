@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-039",
+  "tier": "T3",
+  "category": "D",
+  "persona_id": "P-025",
+  "question": "I'm a BA junior (P-025) with dual Finance and BAT concentrations. I completed 70-208 (Regression Analysis). Can this count toward both the Finance and BAT concentration requirements?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "courses"
+  ],
+  "domain_contributions": {
+    "programs": "Finance concentration: quantitative/analytics courses like 70-208 may satisfy a Finance elective. BAT concentration: 70-208 is analytics-focused and may satisfy BAT requirements",
+    "courses": "70-208 (Regression Analysis, 9 units) \u2014 quantitative methods course applicable to both Finance and BAT contexts"
+  },
+  "key_facts": [
+    "P-025 completed 70-208 in Fall 2024",
+    "70-208 is a quantitative methods course relevant to both Finance and Business Analytics & Technologies",
+    "CMU double-counting policy: a course generally cannot satisfy requirements in two separate concentrations simultaneously",
+    "Whether dual concentrations follow the same double-counting rules as major/minor needs verification",
+    "P-025 should verify with their advisor whether 70-208 can be shared between the two concentrations or must be exclusively applied to one"
+  ],
+  "wrong_if_single_domain": "Checking Finance requirements alone accepts 70-208. Checking BAT requirements alone also accepts it. The double-counting issue only arises when both concentration requirements are examined together.",
+  "common_mistake": "Assuming that within a single major, courses can freely satisfy two different concentration requirements; not knowing that double-counting restrictions may apply across concentrations",
+  "reasoning_chain": [
+    "Step 1 (programs, Finance): 70-208 qualifies as Finance quantitative elective",
+    "Step 2 (programs, BAT): 70-208 qualifies as BAT analytics course",
+    "Step 3 (policies): Double-counting between concentrations \u2192 verify policy",
+    "Conclusion: Most likely 70-208 can satisfy only one concentration \u2014 P-025 needs to clarify with BA program advisors"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T2-048",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": "P-019",
+  "question": "I'm an IS 5th-year student who entered in Fall 2019 and am completing my Applied Informatics concentration. Some of my courses were taken under an older curriculum. Do they still count toward current IS graduation requirements?",
+  "expected_answer": "Generally, students follow the curriculum requirements of their entry year (their catalog year), not the current year's curriculum. Courses taken years ago under the older curriculum should still count if they satisfied the requirements at that time. However, if the IS program updated its requirements and specific courses changed, P-019 may need advisor verification that older courses still map correctly to current Stellic entries. The advisor can add exceptions in Stellic for courses that have been reorganized.",
+  "reasoning_type": "Catalog year policy and historical course equivalence",
+  "domain": "courses",
+  "common_mistake": "Assuming students must follow the current curriculum rather than their entry-year catalog; not knowing that advisors can enter Stellic exceptions for historical course substitutions",
+  "needs_verification": [
+    "Confirm P-019's catalog year and the IS requirements that applied in Fall 2019",
+    "Identify any IS curriculum changes between 2019 and 2025 that might affect course equivalence",
+    "Confirm whether Stellic reflects P-019's catalog year or the current year",
+    "Confirm that Applied Informatics concentration requirements haven't significantly changed"
+  ]
+}

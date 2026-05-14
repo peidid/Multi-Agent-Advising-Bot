@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-033",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": "P-025",
+  "question": "I'm a BA junior with dual Finance and BAT concentrations plus an Economics minor. I need to take 54 units next semester to stay on track. Do I need special approval, and from whom?",
+  "expected_answer": "Yes \u2014 an overload requires advisor approval. A normal course load is approximately 360 units / 8 semesters = ~45 units per semester for a 4-year program. Taking 54 units would be an overload of 9 extra units. The policy states students may overload up to 12 units with advisor approval. For more than 12 units beyond normal, the advisor must adjust the maximum units in S3. P-025 needs to consult their academic advisor first.",
+  "reasoning_type": "Overload policy threshold and approval process",
+  "domain": "policies",
+  "common_mistake": "Assuming any course load is acceptable without approval; not knowing the difference between advisor approval for standard overload vs. the additional step required for overloads exceeding 12 units beyond normal",
+  "needs_verification": [
+    "Confirm the exact 'normal course load' unit definition for BA students at CMU-Q",
+    "Confirm whether 54 units constitutes an overload under CMU-Q policy for P-025's program",
+    "Confirm the advisor approval process for overloads in S3"
+  ]
+}

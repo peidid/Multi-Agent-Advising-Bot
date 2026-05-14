@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-024",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": null,
+  "question": "What is the only prerequisite for 67-373?",
+  "answer": "67-272 (Application Design and Development) with at least a D grade",
+  "source_file": "data/courses/67-373.json",
+  "source_field": "prereqs.text",
+  "domain": "courses",
+  "verification_note": "prereqs.text: '67-272 [] at least D'"
+}

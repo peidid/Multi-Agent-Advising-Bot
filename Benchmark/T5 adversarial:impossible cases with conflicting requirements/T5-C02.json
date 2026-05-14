@@ -1,0 +1,30 @@
+{
+  "query_id": "T5-C02",
+  "tier": "T5",
+  "pattern": "C",
+  "pattern_name": "Policy Conflict",
+  "persona_id": "P-025",
+  "persona_summary": "BA Junior, dual concentration Finance + BAT, Econ minor, 37 courses, Good standing",
+  "question": "My schedule is so tight with dual concentrations and a minor. I want to request an overload for next semester \u2014 can I take 7 courses? What should my schedule look like?",
+  "false_assumption_or_hidden_conflict": "Overload requests typically require meeting a minimum GPA threshold (e.g., 3.5+) and advisor approval. The student assumes overload is just a matter of requesting it. If their GPA is below the threshold, the request would be denied.",
+  "naive_system_response": "A naive system builds a 7-course schedule and says 'you'll need to request an overload approval.' It doesn't check whether the student meets the GPA requirement for overload or what the approval process entails.",
+  "correct_response": "Overload requests at CMU-Q require a minimum GPA of [X] and advisor approval. Your current GPA is [check]. If you meet the threshold, here's a potential 7-course schedule: [plan]. However, I'd recommend considering whether [alternative plan with 5-6 courses + summer] might be less risky. If you don't meet the GPA threshold, overload won't be approved and you'll need to: [alternative plan].",
+  "domains_required": [
+    "policies",
+    "courses",
+    "schedules"
+  ],
+  "why_multi_agent_helps": "The Policy Agent checks the overload GPA threshold before the Planning Agent builds a schedule. A single agent might build the 7-course plan first and mention the overload policy as an afterthought, or not at all.",
+  "key_facts": [
+    "Overload requires minimum GPA threshold",
+    "Overload requires advisor approval",
+    "7 courses is well above normal load",
+    "Alternative approaches (summer courses, adjusted sequencing) may be safer"
+  ],
+  "known_traps": [
+    "Building an overload schedule without checking GPA eligibility",
+    "Treating overload approval as guaranteed",
+    "Not presenting alternatives to overloading"
+  ],
+  "advisor_validation_needed": "Verify: (1) exact overload policy including GPA threshold, (2) P-025's GPA or standing, (3) maximum units allowed in overload, (4) approval process"
+}

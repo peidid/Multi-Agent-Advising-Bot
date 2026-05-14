@@ -1,0 +1,33 @@
+{
+  "query_id": "T3-009",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-010",
+  "question": "I'm a CS 5th-year student (P-010) with a Tech Entrepreneurship minor. I want to take 15-441 (Networking) and 15-316 (Software Foundations) in Spring 2026 to finish my CS requirements. Do I have the prerequisites and is there a schedule conflict?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "courses": "15-441 prereq: 15-213 \u2014 P-010 completed it Fall 2023 \u2713; 15-316 prereq: 15-122/15-150 \u2014 P-010 has both \u2713",
+    "schedules": "15-441 Sec1: Mon/Wed 08:30\u201309:45; 15-316 SecW: Sun/Tue 14:30\u201315:45 \u2014 different days/times, no conflict"
+  },
+  "key_facts": [
+    "P-010 completed 15-213 in Fall 2023 \u2713",
+    "P-010 completed 15-122 (Spring 2023) and 15-150 (Fall 2022) \u2713",
+    "15-441 Section 1 Spring 2026: Mon/Wed 08:30\u201309:45",
+    "15-316 SecW Spring 2026: Sun/Tue 14:30\u201315:45",
+    "No shared days (Mon/Wed vs Sun/Tue) \u2014 no conflict",
+    "P-010 does NOT have 15-440 in Fall 2025 (only 15-348 and Table Tennis) \u2014 15-440 not offered Spring 2026"
+  ],
+  "wrong_if_single_domain": "Checking only prerequisites confirms eligibility but cannot determine whether both are offered at compatible times. Checking only the schedule would show no conflict but wouldn't confirm P-010's eligibility.",
+  "common_mistake": "Assuming 15-440 (Distributed Systems) is an alternative to 15-441 in Spring 2026 \u2014 15-440 is not offered in Spring 2026",
+  "reasoning_chain": [
+    "Step 1: 15-441 prereq \u2192 15-213 \u2713",
+    "Step 2: 15-316 prereq \u2192 15-122 \u2713, 15-150 \u2713",
+    "Step 3: Spring 2026 \u2192 15-441 \u2713, 15-316 \u2713; 15-440 NOT offered Spring 2026",
+    "Step 4: 15-441 Mon/Wed 08:30 vs 15-316 Sun/Tue 14:30 \u2192 no conflict",
+    "Conclusion: P-010 can take both; 15-440 must wait for Fall 2026"
+  ]
+}

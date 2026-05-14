@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-028",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": "P-013",
+  "question": "I'm an IS sophomore. In Fall 2025, I'd like to take 67-262 (Section 4: Sun/Tue 10:00\u201311:15) and 15-150 (Section W: Thu/Tue/Sun 14:30\u201315:45). Do these two courses conflict?",
+  "expected_answer": "No \u2014 67-262 Section 4 meets Sunday and Tuesday 10:00\u201311:15, and 15-150 Section W meets Thursday, Tuesday, and Sunday 14:30\u201315:45. While they share Tuesday and Sunday as meeting days, the time slots do not overlap: 10:00\u201311:15 and 14:30\u201315:45 are separated by over 3 hours. No conflict.",
+  "reasoning_type": "Shared-day but non-overlapping times \u2014 no conflict",
+  "domain": "schedules",
+  "common_mistake": "Flagging a conflict because both courses share Tuesday and Sunday without checking whether the time windows overlap",
+  "needs_verification": [
+    "Confirm 67-262 Section 4 Fall 2025: Sun/Tue 10:00\u201311:15",
+    "Confirm 15-150 Section W Fall 2025: Thu/Tue/Sun 14:30\u201315:45",
+    "Note: P-013 may not meet the prerequisite for 15-150 (needs 15-112 C and a math prereq), so this is primarily a schedule question"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "tier": "T1",
+  "tier_description": "Factual Lookup \u2014 questions with a single, unambiguous answer retrievable directly from one data source",
+  "version": "1.0",
+  "total_queries": 100,
+  "query_id_range": "T1-001 to T1-100",
+  "data_sources_used": [
+    "data/courses/ (course catalog JSONs)",
+    "data/schedules/schedule_2026_spring.json",
+    "data/schedules/Fall_2025_courses.json",
+    "data/programs/Information Systems/cmu_information_systems_degree_requirements.json",
+    "data/programs/Computer Science & AI/cmu_computer_science_degree_requirements.json",
+    "data/programs/Business Administration/BA_Major_Concentrations.json",
+    "data/programs/Biological Science/Curriculum/CMUQ_BS_Advising_Document.json",
+    "data/programs/Minors/cmu_minor_computer_science.json",
+    "data/programs/Minors/cmu_minor_business_administration.json",
+    "data/programs/Minors/cmu_minor_tech_entrepreneurship.json",
+    "data/policies/registration/Course_Overload_-_The_HUB_-_Division_of_Enrollment_Management_-_Carnegie_Mellon_University.md",
+    "data/policies/exams_grading/Grading_-_University_Policies_-_Carnegie_Mellon_University.md"
+  ],
+  "category_distribution": {
+    "A_course_info": 20,
+    "B_prerequisites": 10,
+    "C_schedule_offering": 20,
+    "D_program_requirements": 30,
+    "E_policy": 20
+  },
+  "category_descriptions": {
+    "A": "Course Info (20 questions) \u2014 course names, units, descriptions",
+    "B": "Prerequisites (10 questions) \u2014 prerequisite and co-requisite chains",
+    "C": "Schedule/Offering (20 questions) \u2014 when/where/who teaches a course in a specific semester",
+    "D": "Program Requirements (30 questions) \u2014 required courses, concentrations, minors, degree rules",
+    "E": "Policy (20 questions) \u2014 registration rules, grading standards, overload limits, deadlines"
+  },
+  "domain_distribution": {
+    "courses": 30,
+    "schedules": 20,
+    "programs": 30,
+    "policies": 20
+  },
+  "persona_grounding": {
+    "persona_grounded_count": 20,
+    "generic_count": 80,
+    "personas_used": [
+      "P-001",
+      "P-002",
+      "P-003",
+      "P-004",
+      "P-007",
+      "P-009",
+      "P-011",
+      "P-013",
+      "P-014",
+      "P-015",
+      "P-016",
+      "P-031",
+      "P-032",
+      "P-036",
+      "P-042",
+      "P-046",
+      "P-047",
+      "P-050",
+      "P-054",
+      "P-063"
+    ]
+  },
+  "schema": {
+    "query_id": "Unique identifier (T1-001 through T1-100)",
+    "tier": "Always 'T1' for this set",
+    "category": "A/B/C/D/E per taxonomy",
+    "persona_id": "Persona identifier (e.g. P-003) or null for generic questions",
+    "question": "Natural-language question as a student would ask it",
+    "answer": "Single correct factual answer directly from source data",
+    "source_file": "Relative path to the data file containing the answer",
+    "source_field": "JSON field or document section where the answer is found",
+    "domain": "courses | schedules | programs | policies",
+    "verification_note": "Brief explanation of where and how the answer is verified"
+  },
+  "quality_notes": [
+    "All answers are directly verifiable in the cited source file and field \u2014 no inference required",
+    "Each question spans exactly one domain (courses, schedules, programs, or policies)",
+    "Schedule questions reference specific semesters present in the data (Spring 2026, Fall 2025)",
+    "All course codes referenced exist in data/courses/",
+    "Persona IDs reference profiles in Benchmark/student persona/",
+    "20 distinct personas are used \u2014 one per persona-grounded question",
+    "No two questions are trivially similar or duplicate"
+  ]
+}

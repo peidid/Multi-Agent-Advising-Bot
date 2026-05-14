@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-049",
+  "tier": "T1",
+  "category": "C",
+  "persona_id": null,
+  "question": "Was 15-440 (Distributed Systems) offered in Fall 2025?",
+  "answer": "Yes \u2014 15-440 was offered in Fall 2025",
+  "source_file": "data/schedules/Fall_2025_courses.json",
+  "source_field": "Course - ID (15440)",
+  "domain": "schedules",
+  "verification_note": "Course ID 15440 appears in Fall 2025 schedule data"
+}

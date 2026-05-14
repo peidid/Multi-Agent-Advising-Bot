@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-020",
+  "tier": "T2",
+  "category": "B",
+  "persona_id": "P-020",
+  "question": "I'm an IS senior with an ISP concentration and a History minor. I've completed 46 courses. Given that I need 360 units to graduate, am I likely to have enough units from my 46 completed courses?",
+  "expected_answer": "At 46 completed courses, P-020 is likely close to the 360-unit threshold. The average course at CMU-Q is 9\u201312 units. If the average is approximately 9\u201310 units per course, 46 courses would yield approximately 414\u2013460 units \u2014 potentially well above 360. However, some courses may be mini-courses (3\u20136 units) or the count may include P/N courses that count toward units but need verification. P-020 should verify total passed units in S3 or Stellic.",
+  "reasoning_type": "Unit accumulation estimation and threshold reasoning",
+  "domain": "programs",
+  "common_mistake": "Assuming course count directly maps to unit count without considering variable unit courses; not distinguishing 'passed units' (counting toward graduation) from total enrolled units",
+  "needs_verification": [
+    "Retrieve P-020's actual total passed units from S3/Stellic",
+    "Confirm the 360-unit graduation requirement for IS at CMU-Q",
+    "Confirm that all 46 of P-020's courses are counted as 'passed units' (not failed or W)"
+  ]
+}

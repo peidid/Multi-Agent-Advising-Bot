@@ -1,0 +1,29 @@
+{
+  "query_id": "T5-F05",
+  "tier": "T5",
+  "pattern": "F",
+  "pattern_name": "False Premise",
+  "persona_id": "P-031",
+  "persona_summary": "BIO First-year, Neuroscience concentration, 17 courses, Good standing",
+  "question": "I want to add a Neuroscience minor on top of my Neuroscience concentration. That way I'll have both on my transcript. What additional courses do I need?",
+  "false_assumption_or_hidden_conflict": "Having a Neuroscience concentration within Bio and also declaring a Neuroscience minor may be redundant, prohibited, or meaningless \u2014 the minor and the concentration may share most or all courses, and the university may not allow this combination. The student assumes stacking them adds value.",
+  "naive_system_response": "A naive system lists the Neuroscience minor requirements, checks which overlap with the concentration, and says 'you only need X more courses!' \u2014 without questioning whether this combination is allowed or meaningful.",
+  "correct_response": "Adding a Neuroscience minor on top of your Neuroscience concentration may not be permitted \u2014 many universities prohibit declaring a minor in the same field as your concentration, since the coursework is largely the same. Check with your advisor whether this combination is [allowed at CMU-Q]. If not allowed: the concentration already appears on your transcript and provides the same credential value. If allowed: the additional courses needed would be [X], but consider whether the benefit justifies the extra coursework given the significant overlap.",
+  "domains_required": [
+    "programs",
+    "policies"
+  ],
+  "why_multi_agent_helps": "The Policy Agent checks whether concentration + minor in the same field is permitted. The Programs Agent quantifies the overlap. A single agent might just compute the additional courses needed without questioning whether the combination is valid.",
+  "key_facts": [
+    "Concentration and minor in the same field likely share most courses",
+    "Universities often prohibit or discourage this combination",
+    "The student's persona specifically mentions being 'unsure if redundant'",
+    "Even if allowed, the marginal value may not justify additional coursework"
+  ],
+  "known_traps": [
+    "Computing additional courses needed without questioning if the combination is permitted",
+    "Not advising the student that this may be redundant",
+    "Accepting the premise that 'both on my transcript' is valuable without context"
+  ],
+  "advisor_validation_needed": "Verify: (1) whether CMU-Q allows concentration + minor in the same field, (2) overlap between Neuroscience concentration and Neuroscience minor, (3) if allowed, additional courses needed"
+}

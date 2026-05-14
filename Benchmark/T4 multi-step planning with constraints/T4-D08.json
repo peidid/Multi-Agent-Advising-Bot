@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-D08",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-048",
+  "persona_summary": "IS Sophomore, ISP concentration, 24 courses, Good standing",
+  "variation": "Elective sequencing for target capstone",
+  "question": "I want to eventually take the advanced cybersecurity capstone. What elective sequence do I need to take in what order to get there?",
+  "what_makes_this_hard": "System must trace a backwards chain from the target capstone through its prerequisites and build a multi-semester elective pathway.",
+  "needs_verification": [
+    "Which capstone course exists for ISP",
+    "Its full prerequisite chain",
+    "Which prereqs P-048 has completed",
+    "Semester-by-semester sequencing"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-043",
+  "tier": "T2",
+  "category": "E",
+  "persona_id": null,
+  "question": "I completed 15-150 (Principles of Functional Programming) but not 15-122. Does my 15-150 credit satisfy the programming prerequisite for 15-251 (Great Ideas in Theoretical Computer Science)?",
+  "expected_answer": "Yes \u2014 15-251's prerequisite accepts either 15-122 at least C OR 15-150 at least C for the programming component. A student who completed 15-150 (with at least C) and also satisfies the math component (21-127, 21-128, or 15-151) is eligible to take 15-251 even without 15-122.",
+  "reasoning_type": "Alternative prerequisite pathway identification",
+  "domain": "courses",
+  "common_mistake": "Assuming 15-122 is the only programming prerequisite for 15-251; not recognizing that 15-150 is a valid alternative path to 15-251",
+  "needs_verification": [
+    "Confirm 15-251 prereq text: (15-122 C or 15-150 C) AND (math prereq)",
+    "Confirm student has a grade of C or better in 15-150",
+    "Confirm student also satisfies the math component of 15-251 (21-127, 21-128, or 15-151)"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C05",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-019",
+  "persona_summary": "IS 5th-year, Applied Informatics concentration, entered Fall 2019, 52 courses, Good standing",
+  "variation": "Extended absence \u2014 requirements may have changed",
+  "question": "I entered in 2019 and I'm in Applied Informatics, which barely anyone else does. Have the IS requirements changed since I started? Do my old courses still count? Plan my final semesters.",
+  "what_makes_this_hard": "Catalog year issues \u2014 requirements may have changed. System needs to handle the 'which catalog year applies?' question and audit old courses against current requirements.",
+  "needs_verification": [
+    "Whether Applied Informatics concentration still exists in current catalog",
+    "Catalog year policy (does student follow entry-year catalog?)",
+    "Differences between 2019 and current IS requirements",
+    "Which of P-019's courses satisfy current requirements"
+  ]
+}

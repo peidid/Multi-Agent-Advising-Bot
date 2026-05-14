@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-040",
+  "tier": "T2",
+  "category": "D",
+  "persona_id": null,
+  "question": "I elected to take a course as Pass/Fail this semester. Will the P grade count toward satisfying my major requirements?",
+  "expected_answer": "No \u2014 under CMU-Q policy, P/N (Pass/No-Pass) courses do not count toward any major or minor requirements. The course will count toward your total unit accumulation for graduation purposes, but it will not satisfy specific major, minor, or concentration requirements. If this course was intended to fulfill a major requirement, you should change it back to a letter grade before the Pass/Fail deadline.",
+  "reasoning_type": "P/N election policy consequence",
+  "domain": "policies",
+  "common_mistake": "Assuming a Pass grade is equivalent to a letter grade for requirement satisfaction; not knowing that P/N elections are specifically excluded from major/minor requirement counting",
+  "needs_verification": [
+    "Confirm CMU-Q policy: P/N courses count toward total units but NOT toward major/minor/concentration requirements",
+    "Confirm the Pass/Fail election deadline for the current semester",
+    "Confirm whether any specific course has an exception where P/N is acceptable for a requirement"
+  ]
+}

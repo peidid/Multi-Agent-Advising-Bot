@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-E05",
+  "tier": "T4",
+  "category": "E",
+  "category_name": "Comparative Planning",
+  "persona_id": "P-026",
+  "persona_summary": "BA Junior, Finance, History minor, 35 courses, Good standing",
+  "variation": "Summer courses vs no summer",
+  "question": "I'm feeling behind. Should I take summer courses to catch up, or can I manage without? Show me both plans.",
+  "what_makes_this_hard": "Summer plan has cost/logistics implications. System should produce both and let the student decide.",
+  "needs_verification": [
+    "Remaining Finance + History minor requirements",
+    "Summer course offerings",
+    "Summer unit limits",
+    "Whether graduation is feasible without summer"
+  ]
+}

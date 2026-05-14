@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-073",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "What chemistry courses are required for the BS in Biological Sciences?",
+  "answer": "09-105 or 09-107, 09-106, 09-217, 09-218, 09-207, and 09-208",
+  "source_file": "data/programs/Biological Science/Curriculum/CMUQ_BS_Advising_Document.json",
+  "source_field": "Content (BS in Biological Sciences Requirements, Chemistry Sequence)",
+  "domain": "programs",
+  "verification_note": "Chemistry Sequence section lists all six chemistry courses"
+}

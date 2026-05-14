@@ -1,0 +1,142 @@
+{
+  "persona_id": "P-023",
+  "source_student_id": "student39",
+  "demographic": {
+    "major": "Business Administration",
+    "concentrations": [
+      "Finance"
+    ],
+    "minors": [],
+    "level": "sophomore",
+    "entry_year": "Fall 2024",
+    "program_full": "BS in Business Administration (Finance)",
+    "narrative": {
+      "background_notes": "Finance concentration, sophomore. Actively preparing for finance internship recruiting.",
+      "goals": "Secure a finance internship for Summer 2026; complete core finance courses early",
+      "concerns": "Needs specific finance courses completed before recruiting season starts"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 25,
+    "semesters_completed": [
+      "Fall 2023",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Fall 2023": [
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        },
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "73-011",
+          "course_name": "AP ECONOMICS"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "70-110",
+          "course_name": "Business Computing"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        },
+        {
+          "course_code": "70-104",
+          "course_name": "Business Leadership Endeavor I"
+        },
+        {
+          "course_code": "70-207",
+          "course_name": "Probability and Statistics for Business Applications"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "15-112",
+          "course_name": "Fundamentals of Programming and Computer Science"
+        },
+        {
+          "course_code": "21-127",
+          "course_name": "Concepts of Mathematics"
+        },
+        {
+          "course_code": "85-253",
+          "course_name": "Psychopathology"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "70-208",
+          "course_name": "Regression Analysis"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "76-270",
+          "course_name": "Writing for the Professions"
+        },
+        {
+          "course_code": "99-520",
+          "course_name": "Collaborative Research through Projects"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "70-340",
+          "course_name": "Business Communications"
+        },
+        {
+          "course_code": "70-371",
+          "course_name": "Operations Management"
+        },
+        {
+          "course_code": "21-259",
+          "course_name": "Calculus in Three Dimensions"
+        },
+        {
+          "course_code": "69-112",
+          "course_name": "Fencing"
+        },
+        {
+          "course_code": "15-150",
+          "course_name": "Principles of Functional Programming"
+        },
+        {
+          "course_code": "70-381",
+          "course_name": "Marketing I"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

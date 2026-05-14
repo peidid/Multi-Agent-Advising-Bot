@@ -1,0 +1,16 @@
+{
+  "query_id": "T4-D02",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-027",
+  "persona_summary": "BA Senior, Strategic Management, Psychology minor, 57 courses, Good standing",
+  "variation": "Lightest possible remaining load",
+  "question": "I'm a senior and I just want to finish with minimal stress. What's the lightest course load I can take each remaining semester while still meeting all my requirements?",
+  "what_makes_this_hard": "Optimization in the opposite direction \u2014 minimize load per semester rather than minimize time. Must still satisfy all requirements.",
+  "needs_verification": [
+    "Exact remaining requirements for P-027",
+    "Minimum unit requirements per semester (if any)",
+    "Optimal distribution of remaining courses"
+  ]
+}

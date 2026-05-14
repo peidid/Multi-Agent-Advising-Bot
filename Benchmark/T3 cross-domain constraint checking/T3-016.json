@@ -1,0 +1,31 @@
+{
+  "query_id": "T3-016",
+  "tier": "T3",
+  "category": "B",
+  "persona_id": "P-046",
+  "question": "I'm a CS 5th-year student (P-046) with a Math minor on academic warning. Which of my remaining Math minor requirements can I complete in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "programs",
+    "schedules"
+  ],
+  "domain_contributions": {
+    "programs": "P-046 math courses completed: 21-120, 21-122, 21-127, 21-241, 21-259, 21-260, 21-355, 21-356, 21-484, 36-217, 36-226. The Math minor requirements need to be cross-checked",
+    "schedules": "Spring 2026 math offerings: 21-355 (P-046 done), 21-484 (P-046 done), 21-441, 21-127 (done), 21-122 (done)"
+  },
+  "key_facts": [
+    "P-046 has extensive math background: 21-355, 21-356, 21-484, 21-259, 21-260, 21-241, 21-127, 36-217, 36-226",
+    "Most standard Math minor courses appear already completed by P-046",
+    "21-441 is offered Spring 2026 and P-046 has NOT taken it",
+    "Whether P-046 still needs additional math courses depends on exact Math minor requirements (verify)",
+    "P-046 may have already satisfied all Math minor requirements with existing courses"
+  ],
+  "wrong_if_single_domain": "Looking only at the Math minor requirements might list several courses, some of which P-046 has already completed under different catalog years. Looking only at the schedule shows available math courses but cannot determine which ones P-046 still needs.",
+  "common_mistake": "Recommending courses already completed; not accounting for the fact that P-046's extensive math background likely satisfies most or all minor requirements",
+  "reasoning_chain": [
+    "Step 1 (programs): Audit Math minor requirements vs P-046's math course history",
+    "Step 2: Identify any gaps (21-441 not yet taken; other upper-level math)",
+    "Step 3 (schedules): 21-441 offered Spring 2026 \u2713; 21-355 and 21-484 already done",
+    "Conclusion: P-046 may be close to completing Math minor; 21-441 is one unfinished option in Spring 2026 \u2014 full verification against official minor requirements needed"
+  ]
+}

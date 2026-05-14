@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-080",
+  "tier": "T1",
+  "category": "D",
+  "persona_id": null,
+  "question": "How many biology elective courses must a student in the BS Biological Sciences program take?",
+  "answer": "Six 03-xxx courses",
+  "source_file": "data/programs/Biological Science/Curriculum/CMUQ_BS_Advising_Document.json",
+  "source_field": "Content (BS in Biological Sciences Requirements, Biology Electives)",
+  "domain": "programs",
+  "verification_note": "Biology Electives section states 'Six 03-xxx courses'"
+}

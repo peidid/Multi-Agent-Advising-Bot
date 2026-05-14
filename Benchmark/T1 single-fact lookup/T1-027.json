@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-027",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": null,
+  "question": "What course do I need to have passed before I can register for 15-122?",
+  "answer": "15-112 (Fundamentals of Programming and Computer Science) with at least a C grade",
+  "source_file": "data/courses/15-122.json",
+  "source_field": "prereqs.text",
+  "domain": "courses",
+  "verification_note": "prereqs.text: '15-112 [] at least C'"
+}

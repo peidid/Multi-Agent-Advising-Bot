@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-D10",
+  "tier": "T4",
+  "category": "D",
+  "category_name": "Elective Optimization",
+  "persona_id": "P-038",
+  "persona_summary": "BIO Senior, Neuroscience minor, Dean's List, 55 courses",
+  "variation": "Preferred elective not offered \u2014 find alternative",
+  "question": "I really wanted to take the advanced neuroscience seminar this semester but it's not being offered. What's the best alternative that still strengthens my PhD application?",
+  "what_makes_this_hard": "System must find the unavailable course, understand what it covers, and identify the best available substitute.",
+  "needs_verification": [
+    "Which advanced neuroscience seminar exists in catalog",
+    "Whether it's offered in current semester",
+    "Alternative courses with similar content",
+    "Availability of alternatives"
+  ]
+}

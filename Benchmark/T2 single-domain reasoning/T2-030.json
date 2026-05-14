@@ -1,0 +1,15 @@
+{
+  "query_id": "T2-030",
+  "tier": "T2",
+  "category": "C",
+  "persona_id": "P-009",
+  "question": "In Spring 2024, could I have taken 15-210 (Thu/Sun/Tue 14:30\u201315:45) and 15-251 (Section 2: Tue/Thu/Sun 11:30\u201312:20) in the same semester without any schedule conflict?",
+  "expected_answer": "No conflict \u2014 15-210 meets Tuesday, Thursday, and Sunday at 14:30\u201315:45, while 15-251 Section 2 meets the same three days (Tuesday, Thursday, Sunday) at 11:30\u201312:20. Although they share all three meeting days, the time windows (11:30\u201312:20 and 14:30\u201315:45) do not overlap. P-009 did in fact take both courses in Spring 2024, confirming there was no conflict.",
+  "reasoning_type": "Shared days, non-overlapping times \u2014 no conflict verification",
+  "domain": "schedules",
+  "common_mistake": "Seeing that both courses share all three days (Tue/Thu/Sun) and concluding they must conflict without comparing actual start/end times",
+  "needs_verification": [
+    "Confirm Spring 2024 schedule times for 15-210 and 15-251 Section 2 (using Spring 2025 data as proxy \u2014 confirm Spring 2024 was identical or similar)",
+    "Confirm P-009 actually did take both in Spring 2024 (appears so from the course record)"
+  ]
+}

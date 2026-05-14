@@ -1,0 +1,18 @@
+{
+  "query_id": "T4-B02",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-048",
+  "persona_summary": "IS Sophomore, ISP concentration, 24 courses, Good standing",
+  "variation": "Sophomore adding a second concentration",
+  "question": "I'm currently in ISP but I'm also interested in Data Science. Is it possible to add DS as a second concentration? If so, what would my plan look like?",
+  "what_makes_this_hard": "Dual concentration feasibility assessment + plan. Must check overlap between ISP and DS requirements.",
+  "needs_verification": [
+    "ISP concentration requirements",
+    "DS concentration requirements",
+    "Overlap between ISP and DS",
+    "Whether dual IS concentration is permitted by policy",
+    "Total remaining courses needed"
+  ]
+}

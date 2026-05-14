@@ -1,0 +1,812 @@
+[
+  {
+    "query_id": "T2-001",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore on academic warning. I've completed 15-121 (Introduction to Data Structures) and 67-262 (Database Design and Development). Can I register for 67-272 (Application Design and Development) next semester?",
+    "expected_answer": "Yes — 67-272 requires (15-122 at least D OR 15-121 at least D) AND (67-262 at least D). P-013 has both 15-121 and 67-262, so the prerequisite chain is satisfied. Note that 67-250 is listed as a co-requisite, but P-013 has already completed it in Spring 2025, so no issue there. Academic warning status does not block course registration, only overloads, study abroad, and independent studies.",
+    "reasoning_type": "Multi-condition prerequisite check",
+    "domain": "courses",
+    "common_mistake": "Assuming 67-272 requires 15-122 specifically (it accepts 15-121 as an alternative); failing to check the co-requisite status of 67-250",
+    "needs_verification": [
+      "Confirm P-013 passed 15-121 with at least a D",
+      "Confirm P-013 passed 67-262 with at least a D",
+      "Confirm P-013 completed 67-250 before this registration (co-req satisfied)",
+      "Confirm the exact grade threshold for the alternative prereq (15-121 vs 15-122)"
+    ]
+  },
+  {
+    "query_id": "T2-002",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-003",
+    "question": "I'm a CS sophomore who just finished 15-122 with a B. Can I register for 15-213 (Introduction to Computer Systems)?",
+    "expected_answer": "Yes — 15-213 requires 15-122 at least C. A B exceeds that threshold, so P-003 is eligible to register. No co-requisites for 15-213.",
+    "reasoning_type": "Grade threshold prerequisite check",
+    "domain": "courses",
+    "common_mistake": "Overlooking that the minimum grade for 15-122 → 15-213 is C, not B; assuming any pass is sufficient",
+    "needs_verification": [
+      "Confirm P-003 completed 15-122 with exactly a B (not a D or lower)",
+      "Confirm 15-213 has no co-requisites in the current catalog",
+      "Confirm P-003's transcript shows 15-122 completed (not in-progress)"
+    ]
+  },
+  {
+    "query_id": "T2-003",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-002",
+    "question": "I'm a CS sophomore. I've completed 15-122 (grade: C) and 21-127 (Concepts of Mathematics, grade: B). Am I eligible to take 15-251 (Great Ideas in Theoretical Computer Science)?",
+    "expected_answer": "Yes — 15-251 requires (15-122 at least C OR 15-150 at least C) AND (21-128 at least C OR 15-151 at least C OR 21-127 at least C). P-002 satisfies both conditions: 15-122 with a C meets the first condition, and 21-127 with a B meets the second condition.",
+    "reasoning_type": "Compound AND/OR prerequisite check",
+    "domain": "courses",
+    "common_mistake": "Only checking one of the two required prerequisite conditions; missing that 21-127 satisfies the math component",
+    "needs_verification": [
+      "Confirm P-002's actual grades in 15-122 and 21-127",
+      "Confirm 15-251 prerequisite text hasn't changed from: (15-122 C or 15-150 C) AND (21-128 C or 15-151 C or 21-127 C)",
+      "Confirm P-002 has not already taken 15-251"
+    ]
+  },
+  {
+    "query_id": "T2-004",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore who has completed 67-262 and 67-250 but have not yet taken 67-272. Can I register for 67-373 (Information Systems Consulting Project) this semester?",
+    "expected_answer": "No — 67-373 requires 67-272 at least D, and P-013 has not yet completed 67-272. The system should prevent registration without the direct prerequisite being satisfied.",
+    "reasoning_type": "Missing prerequisite identification",
+    "domain": "courses",
+    "common_mistake": "Confusing prerequisite chain — student has the prereqs FOR 67-272 but not 67-272 itself; treating 67-262 + 67-250 as sufficient for 67-373",
+    "needs_verification": [
+      "Confirm P-013 has NOT taken 67-272",
+      "Confirm 67-373 prerequisite is strictly 67-272 (no alternative paths)",
+      "Confirm 67-373 is being requested for a semester where P-013 hasn't registered for 67-272 concurrently"
+    ]
+  },
+  {
+    "query_id": "T2-005",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student. I completed 15-440 (Distributed Systems) in Fall 2023. Assuming I earned a B in 15-440, can I now register for 15-410 (Operating System Design and Implementation)?",
+    "expected_answer": "Yes — 15-410 requires a grade of B or better in one of: 15-411, 15-418, 18-447, 15-441, 15-445, or 15-440. P-009 completed 15-440 and (assuming a B) meets this threshold. Academic warning does not block standard course registration.",
+    "reasoning_type": "Grade-gated prerequisite with multiple acceptable alternatives",
+    "domain": "courses",
+    "common_mistake": "Not recognizing that 15-410 requires specifically a B (not just a passing grade) in the prerequisite; only checking one alternative prerequisite option",
+    "needs_verification": [
+      "Confirm P-009's actual grade in 15-440 (must be B or better)",
+      "Confirm 15-410 is offered at CMU-Q (may be Pittsburgh-only)",
+      "Confirm 15-410 prerequisite list is current and includes 15-440"
+    ]
+  },
+  {
+    "query_id": "T2-006",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-004",
+    "question": "I'm a CS junior who has completed 15-122 (grade: B) but have not yet taken 15-150. Can I register for 15-210 (Parallel and Sequential Data Structures and Algorithms)?",
+    "expected_answer": "No — 15-210 requires BOTH (15-150 at least C) AND (15-122 at least C). P-004 has 15-122 with a B, but the 15-150 requirement is an additional hard prerequisite, not an alternative. Without 15-150, registration is blocked.",
+    "reasoning_type": "AND-conjunction prerequisite — both conditions required",
+    "domain": "courses",
+    "common_mistake": "Treating the two prerequisites as OR alternatives instead of AND requirements; assuming 15-122 alone is sufficient since it's listed first",
+    "needs_verification": [
+      "Confirm 15-210 prerequisite is strictly (15-150 C) AND (15-122 C), not OR",
+      "Confirm P-004 has not completed 15-150 in a semester not yet recorded",
+      "Confirm P-004's grade in 15-122 meets the C threshold"
+    ]
+  },
+  {
+    "query_id": "T2-007",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-001",
+    "question": "I'm a CS first-year student. I completed 15-122 this semester but earned only a D. Can I use this to satisfy the prerequisite for 15-213 next semester?",
+    "expected_answer": "No — 15-213 requires 15-122 at least a C. A D does not meet this threshold. Additionally, the course description specifically notes that students must achieve a C or better in 15-122 to use it to satisfy the prerequisite for any subsequent Computer Science course.",
+    "reasoning_type": "Grade threshold prerequisite — below minimum",
+    "domain": "courses",
+    "common_mistake": "Assuming any passing grade (D or better) satisfies CS prerequisites; not knowing the C-floor rule that applies broadly to CS prerequisite chains",
+    "needs_verification": [
+      "Confirm P-001 actually earned a D in 15-122 (not a C or better)",
+      "Confirm the C-floor rule applies to 15-122 → 15-213 specifically",
+      "Confirm P-001 has not received a grade appeal that raised the D"
+    ]
+  },
+  {
+    "query_id": "T2-008",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student. I've completed 15-112 (Fundamentals of Programming, grade: B) and 21-127 (Concepts of Mathematics, grade: C). I haven't taken 15-151. Can I register for 15-150 (Principles of Functional Programming)?",
+    "expected_answer": "Yes — 15-150 requires (15-151 at least C OR 21-127 at least C OR 21-128 at least C) AND (15-112 at least C). P-009 has 15-112 with a B (satisfies the second condition) and 21-127 with a C (satisfies the first condition). 15-151 is not required because 21-127 is an accepted alternative.",
+    "reasoning_type": "Prerequisite with alternative math options",
+    "domain": "courses",
+    "common_mistake": "Assuming 15-151 is required when 21-127 serves as an accepted alternative; missing that both the math prereq AND 15-112 must be satisfied simultaneously",
+    "needs_verification": [
+      "Confirm P-009's grades in 15-112 (need C+) and 21-127 (need C+)",
+      "Confirm P-009 hasn't already completed 15-150 (appears they have, in Fall 2023 — this question may need rephrasing for an earlier time point)",
+      "Confirm the current prereq text for 15-150 still accepts 21-127 as alternative to 15-151"
+    ]
+  },
+  {
+    "query_id": "T2-009",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore. I've completed 15-121 (Introduction to Data Structures) and 21-127 (Concepts of Mathematics), but I haven't taken 15-122 or 15-150. Can I register for 15-251 (Great Ideas in Theoretical Computer Science)?",
+    "expected_answer": "No — 15-251 requires (15-122 at least C OR 15-150 at least C) as the programming prerequisite. 15-121 is NOT listed as an acceptable alternative for 15-251. Having 21-127 satisfies the math component, but the programming component (15-122 or 15-150) is still missing.",
+    "reasoning_type": "Prerequisite chain — identifying an invalid substitute",
+    "domain": "courses",
+    "common_mistake": "Assuming 15-121 is equivalent to 15-122 for 15-251 eligibility because both are intro CS courses; satisfying only one of the two required prerequisite branches",
+    "needs_verification": [
+      "Confirm 15-251 does not accept 15-121 as an alternative to 15-122 or 15-150",
+      "Confirm P-013 has not taken 15-122 in a semester not captured here",
+      "Verify IS sophomore students are typically eligible for 15-251 if prerequisites are met"
+    ]
+  },
+  {
+    "query_id": "T2-010",
+    "tier": "T2",
+    "category": "A",
+    "persona_id": "P-003",
+    "question": "I got exactly a C in 15-112 this semester. Does this meet the prerequisite for 15-122 (Principles of Imperative Computation)?",
+    "expected_answer": "Yes — 15-122 requires 15-112 at least C. An exact C meets this minimum threshold; the phrase 'at least C' is inclusive of a C grade.",
+    "reasoning_type": "Boundary condition prerequisite check",
+    "domain": "courses",
+    "common_mistake": "Treating 'at least C' as strictly greater than C; interpreting the boundary as exclusive",
+    "needs_verification": [
+      "Confirm CMU's grading policy treats 'at least C' as inclusive of a C grade",
+      "Confirm P-003's grade in 15-112 is indeed exactly a C (not C- or D+)",
+      "Check if CMU-Q uses +/- grading and whether a C- would satisfy 'at least C'"
+    ]
+  },
+  {
+    "query_id": "T2-011",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student. I've completed 15-112, 15-122, 15-150, 15-213, 15-251, 15-210, and 15-451. Have I satisfied all the required CS core milestones as defined in the CS progress policy?",
+    "expected_answer": "Yes — the CS satisfactory progress policy requires: First-Year Spring: 21-127, 15-112 (done); Sophomore Spring: 15-122 (done); Junior Fall: 15-150, 15-213 (done); Junior Spring: 15-210, 15-251 (done). P-009 has completed all milestone courses. However, additional graduation requirements (electives, humanities, etc.) may remain.",
+    "reasoning_type": "Progress milestone checklist matching",
+    "domain": "programs",
+    "common_mistake": "Conflating the milestone policy with full graduation requirements; missing that milestone completion ≠ graduation readiness",
+    "needs_verification": [
+      "Confirm P-009's grades in all listed milestone courses meet passing standards",
+      "Confirm the full graduation requirement list for CS (additional electives, humanities, etc.)",
+      "Confirm P-009 has completed 21-127 (shown in Fall 2022) per milestone policy"
+    ]
+  },
+  {
+    "query_id": "T2-012",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore. I've taken 67-100, 67-250, 67-262, and 15-121. Which IS core professional courses am I still missing before I can graduate?",
+    "expected_answer": "P-013 has completed some IS core courses but is still missing at minimum 67-272 (Application Design and Development) and 67-373 (Information Systems Consulting Project), which are required professional core courses for the IS degree. Additional requirements (concentration courses, general education, etc.) would also need to be checked.",
+    "reasoning_type": "Requirement gap identification from course history",
+    "domain": "programs",
+    "common_mistake": "Listing only some missing core courses but omitting others; not distinguishing between the IS professional core and elective/concentration requirements",
+    "needs_verification": [
+      "Confirm the complete list of IS professional core required courses",
+      "Confirm whether 67-100 (IS First Year Colloquium) is a graduation requirement or just recommended",
+      "Confirm all IS concentration/elective requirements relevant to P-013's undeclared status",
+      "Confirm P-013 has not declared a concentration that adds additional required courses"
+    ]
+  },
+  {
+    "query_id": "T2-013",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-007",
+    "question": "I'm a CS senior with a Business Administration minor. I've taken over 49 courses. How do I know if my BA minor requirements are fully satisfied before my final semester?",
+    "expected_answer": "P-007 should verify through Stellic (unofficial) or S3 (official) whether all BA minor required courses have been completed with passing grades. The typical BA minor requires a set of core BA courses. Since P-007 is a CS student with BA minor and has taken 49 courses, they should check the official BA minor requirements checklist. The advisor should confirm no courses were taken P/N that might not count toward the minor.",
+    "reasoning_type": "Minor completion verification — identification of what remains",
+    "domain": "programs",
+    "common_mistake": "Assuming course count (49 courses) implies minor completion; not checking if any relevant courses were elected P/N (which would not satisfy minor requirements)",
+    "needs_verification": [
+      "Retrieve the full list of P-007's completed courses to map against BA minor requirements",
+      "Confirm exact BA minor requirements (specific required courses and unit minimums)",
+      "Confirm whether any P-007 courses were taken P/N that might affect minor requirement satisfaction",
+      "Confirm P-007's Stellic audit reflects the current BA minor catalog year"
+    ]
+  },
+  {
+    "query_id": "T2-014",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-015",
+    "question": "I'm an IS junior with a Data Science concentration and a Tech Entrepreneurship minor. I've completed 35 courses. How many more concentration courses do I need to complete the DS concentration?",
+    "expected_answer": "Without the full course list, it's not possible to give a precise number. However, based on IS Data Science concentration requirements, students typically need a set of required analytics and data-related courses (e.g., statistics, machine learning, data management) plus a certain number of electives within the DS area. P-015 should consult Stellic for an official count. The answer likely ranges from 2–5 courses remaining, depending on which DS electives have been completed.",
+    "reasoning_type": "Concentration progress estimation from course history",
+    "domain": "programs",
+    "common_mistake": "Assuming all upper-level IS courses count toward the DS concentration; double-counting courses that satisfy both IS core and DS concentration",
+    "needs_verification": [
+      "Retrieve P-015's full course list and map against IS Data Science concentration requirements",
+      "Confirm the exact required and elective course list for the IS DS concentration",
+      "Confirm which of P-015's 35 completed courses fall within the DS concentration curriculum",
+      "Confirm whether any courses P-015 took count as DS electives"
+    ]
+  },
+  {
+    "query_id": "T2-015",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-025",
+    "question": "I'm a BA junior with dual concentrations in Finance and Business Analytics & Technologies (BAT), plus an Economics minor. I have 37 courses completed. Am I likely on track to graduate in 4 years given my dual concentration?",
+    "expected_answer": "Possibly, but tight. Dual concentrations in Finance and BAT combined with an Economics minor create a very heavy course load. P-025 needs to verify in Stellic that required courses for both concentrations plus the Economics minor can all be completed in the remaining semesters without requiring excessive overloads. The dual concentration creates scheduling risk, particularly if some required courses conflict or are only offered in specific semesters.",
+    "reasoning_type": "Multi-requirement progress assessment with scheduling risk",
+    "domain": "programs",
+    "common_mistake": "Assuming 37 completed courses is sufficient without checking which specific requirements are unfulfilled; ignoring semester availability constraints for concentration courses",
+    "needs_verification": [
+      "Retrieve P-025's full course list and map against Finance + BAT + Economics minor requirements",
+      "Confirm how many semesters P-025 has remaining",
+      "Confirm the specific required courses for Finance concentration and BAT concentration at CMU-Q",
+      "Confirm whether any required courses are offered only once per year or in specific semesters"
+    ]
+  },
+  {
+    "query_id": "T2-016",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-005",
+    "question": "I'm a CS junior with a Mathematical Sciences minor. I've completed 33 courses. Given that I've completed 21-120, 21-122, 21-127, 21-241, and 21-259, how many additional math courses do I need to complete the minor?",
+    "expected_answer": "The answer depends on the specific Mathematical Sciences minor requirements at CMU-Q. Typical math minors require around 5–6 math courses at or above a certain level. P-005 appears to have completed several core math courses (Calculus I/II, Concepts of Mathematics, Linear Algebra, Calculus III). If these all count toward the minor, only 0–1 additional specialized math courses may be needed. Verification against the official Math minor requirements is essential.",
+    "reasoning_type": "Minor requirement counting and matching",
+    "domain": "programs",
+    "common_mistake": "Assuming all math courses (even general education ones like 21-120) count toward the math minor; not knowing the exact credit or course count minimum for the Math minor",
+    "needs_verification": [
+      "Confirm the specific course list for the Mathematical Sciences minor at CMU-Q",
+      "Confirm whether 21-120 (Calculus I) and 21-122 (Calculus II) count toward the Math minor or are prerequisites only",
+      "Confirm P-005's actual course list and which math courses have been completed",
+      "Confirm minimum unit requirements for the Math minor"
+    ]
+  },
+  {
+    "query_id": "T2-017",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-016",
+    "question": "I'm an IS junior in the Information Security and Privacy (ISP) concentration. I've completed 39 courses. What IS core courses (not ISP-specific) have I likely finished, and am I on track with the non-concentration IS requirements?",
+    "expected_answer": "As an IS junior who has completed 39 courses, P-016 has likely finished most IS professional core courses (67-100, 67-250, 67-262, 67-272, possibly 67-373). The non-concentration IS core typically includes foundational computing, math, and IS professional core requirements. Given 39 courses completed at the junior level, most core courses should be done. P-016 should verify through Stellic that the IS professional core is complete before focusing remaining semesters on ISP electives and final requirements.",
+    "reasoning_type": "Core vs. concentration requirement separation",
+    "domain": "programs",
+    "common_mistake": "Conflating IS core requirements with ISP concentration requirements; assuming that having taken many courses means core is complete without checking specifically",
+    "needs_verification": [
+      "Retrieve P-016's full course list to identify completed IS core courses",
+      "Confirm the complete IS professional core course list separate from ISP concentration",
+      "Confirm whether P-016 has completed 67-373 (IS Consulting Project) — a key required core course",
+      "Confirm semester availability of remaining ISP electives at CMU-Q"
+    ]
+  },
+  {
+    "query_id": "T2-018",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-011",
+    "question": "I'm a first-year IS student who has completed 15 courses including 67-100 and 15-110. Which required IS courses should I prioritize in my next semester to stay on track for graduation in 4 years?",
+    "expected_answer": "In the next semester, P-011 should prioritize 15-112 (Fundamentals of Programming) if not yet taken — it's a prerequisite for 67-262 and eventually 67-272. Additionally, 67-250 (IS Milieux) and any required general education courses should be taken early. The IS advising sequence typically recommends completing foundational programming and IS introductory courses in the first two years to unlock the professional core courses.",
+    "reasoning_type": "Prerequisite chain planning for future requirements",
+    "domain": "programs",
+    "common_mistake": "Skipping foundational courses like 15-112 in favor of electives early on, which delays access to IS core courses like 67-262 and 67-272",
+    "needs_verification": [
+      "Confirm P-011's complete first-year course list to identify what has already been completed",
+      "Confirm whether P-011 has already taken 15-112 (it may be in their 15 completed courses)",
+      "Confirm the recommended first/second year IS course sequence at CMU-Q",
+      "Confirm P-011's declared or intended concentration, which may affect course priority"
+    ]
+  },
+  {
+    "query_id": "T2-019",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student currently on academic warning. Looking at my Fall 2025 enrollment (11-411, 11-345, 17-437, 10-423), does my current course load satisfy CS satisfactory progress requirements for that semester?",
+    "expected_answer": "The CS satisfactory progress milestones are defined for the first four years (First-Year Spring through Junior Spring). By 5th year, the milestone benchmarks have already passed. Satisfactory progress for continued academic warning or to resolve academic warning requires earning a semester QPA above 2.0 and making progress toward degree completion. The courses listed (NLP, Undergrad Independent Study, Web App Dev, Generative AI) are upper-level or graduate courses appropriate for a 5th-year student. The key question is whether P-009 earns above a 2.0 this semester.",
+    "reasoning_type": "Policy application to non-standard academic trajectory",
+    "domain": "programs",
+    "common_mistake": "Applying junior-year milestones to a 5th-year student; not recognizing that for 5th-year students, the key satisfactory progress measure shifts to QPA and degree completion rate",
+    "needs_verification": [
+      "Confirm that 11-345 (Undergrad Independent Study) is permitted while on academic warning — this may be blocked by the academic action policy",
+      "Confirm Fall 2025 grades for P-009 to determine if QPA requirement was met",
+      "Confirm the 5th-year satisfactory progress standard as applied by the CS department at CMU-Q"
+    ]
+  },
+  {
+    "query_id": "T2-020",
+    "tier": "T2",
+    "category": "B",
+    "persona_id": "P-020",
+    "question": "I'm an IS senior with an ISP concentration and a History minor. I've completed 46 courses. Given that I need 360 units to graduate, am I likely to have enough units from my 46 completed courses?",
+    "expected_answer": "At 46 completed courses, P-020 is likely close to the 360-unit threshold. The average course at CMU-Q is 9–12 units. If the average is approximately 9–10 units per course, 46 courses would yield approximately 414–460 units — potentially well above 360. However, some courses may be mini-courses (3–6 units) or the count may include P/N courses that count toward units but need verification. P-020 should verify total passed units in S3 or Stellic.",
+    "reasoning_type": "Unit accumulation estimation and threshold reasoning",
+    "domain": "programs",
+    "common_mistake": "Assuming course count directly maps to unit count without considering variable unit courses; not distinguishing 'passed units' (counting toward graduation) from total enrolled units",
+    "needs_verification": [
+      "Retrieve P-020's actual total passed units from S3/Stellic",
+      "Confirm the 360-unit graduation requirement for IS at CMU-Q",
+      "Confirm that all 46 of P-020's courses are counted as 'passed units' (not failed or W)"
+    ]
+  },
+  {
+    "query_id": "T2-021",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": null,
+    "question": "In Fall 2025, do 15-213 (Section W: Thursday 11:30–12:20) and 15-112 (Section W: Tuesday, Thursday, Sunday 11:30–12:45) have a time conflict?",
+    "expected_answer": "Yes — both courses meet on Thursday from 11:30, with 15-213 running to 12:20 and 15-112 running to 12:45. A student cannot register for both sections simultaneously because they overlap on Thursday during the 11:30–12:20 window.",
+    "reasoning_type": "Direct time overlap detection across two courses",
+    "domain": "schedules",
+    "common_mistake": "Only checking one day of the week (missing that Thursday is the conflict day); comparing course names rather than specific section meeting times",
+    "needs_verification": [
+      "Confirm 15-213 Section W meeting time in Fall 2025 is Thursday 11:30–12:20",
+      "Confirm 15-112 Section W meeting time in Fall 2025 is Tuesday/Thursday/Sunday 11:30–12:45",
+      "Confirm there is no alternative section of 15-213 or 15-112 that avoids the conflict"
+    ]
+  },
+  {
+    "query_id": "T2-022",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": null,
+    "question": "In Fall 2025, do 15-150 (Section W: Thursday, Tuesday, Sunday 14:30–15:45) and 15-451 (Section 2: Thursday, Sunday 14:30–15:45) conflict?",
+    "expected_answer": "Yes — both courses share Thursday 14:30–15:45 and Sunday 14:30–15:45. A student cannot enroll in both these sections in the same semester.",
+    "reasoning_type": "Multi-day time overlap detection",
+    "domain": "schedules",
+    "common_mistake": "Checking only one day for overlap rather than all shared days; overlooking Sunday as a meeting day",
+    "needs_verification": [
+      "Confirm 15-150 Section W Fall 2025 schedule: Thu/Tue/Sun 14:30–15:45",
+      "Confirm 15-451 Section 2 Fall 2025 schedule: Thu/Sun 14:30–15:45",
+      "Check if alternative sections of either course are available without conflict"
+    ]
+  },
+  {
+    "query_id": "T2-023",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": null,
+    "question": "In Spring 2025, do 15-251 (Section 1: Monday, Wednesday 10:00–11:15) and 15-210 (Thursday, Sunday, Tuesday 14:30–15:45) have a scheduling conflict?",
+    "expected_answer": "No — 15-251 Section 1 meets Monday and Wednesday 10:00–11:15, while 15-210 meets Thursday, Sunday, and Tuesday 14:30–15:45. These courses share no common meeting days or times, so a student could enroll in both simultaneously.",
+    "reasoning_type": "No-conflict verification across non-overlapping schedules",
+    "domain": "schedules",
+    "common_mistake": "Assuming because both courses are offered in Spring 2025 they must conflict; not carefully mapping out all meeting days",
+    "needs_verification": [
+      "Confirm 15-251 Section 1 Spring 2025 schedule: Mon/Wed 10:00–11:15",
+      "Confirm 15-210 Spring 2025 schedule: Thu/Sun/Tue 14:30–15:45",
+      "Confirm there are no recitation or lab sections that might conflict"
+    ]
+  },
+  {
+    "query_id": "T2-024",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": null,
+    "question": "In Spring 2025, do 67-272 (Mon/Wed 08:30–09:45) and 67-373 (Monday 14:30–15:45) have a schedule conflict?",
+    "expected_answer": "No — both courses meet on Monday, but at different times: 67-272 is 08:30–09:45 and 67-373 is 14:30–15:45. There is a 4+ hour gap between them on Mondays, and 67-272 also meets Wednesday while 67-373 does not. A student could enroll in both without a scheduling conflict.",
+    "reasoning_type": "Same-day but different-time no-conflict check",
+    "domain": "schedules",
+    "common_mistake": "Seeing that both courses meet on Monday and assuming a conflict without checking actual times; not recognizing that Monday meetings at 08:30 and 14:30 do not overlap",
+    "needs_verification": [
+      "Confirm 67-272 Spring 2025 schedule: Mon/Wed 08:30–09:45",
+      "Confirm 67-373 Spring 2025 schedule: Monday 14:30–15:45",
+      "Confirm 67-373 has no additional meeting times (e.g., labs or recitations) that might conflict"
+    ]
+  },
+  {
+    "query_id": "T2-025",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": null,
+    "question": "In Spring 2025, do 15-251 (Section 1: Mon/Wed 10:00–11:15) and 15-122 (Mon/Wed 10:00–11:15) have a time conflict?",
+    "expected_answer": "Yes — both 15-251 Section 1 and one section of 15-122 in Spring 2025 are scheduled Monday/Wednesday 10:00–11:15. They share the exact same meeting time on both days, making it impossible to enroll in both sections simultaneously.",
+    "reasoning_type": "Exact time overlap detection",
+    "domain": "schedules",
+    "common_mistake": "Assuming that different course numbers never conflict; not checking the actual meeting times and finding the exact overlap",
+    "needs_verification": [
+      "Confirm 15-251 Section 1 Spring 2025: Mon/Wed 10:00–11:15",
+      "Confirm the Mon/Wed 10:00–11:15 section of 15-122 is offered in Spring 2025",
+      "Note: 15-122 has a second section (Thu/Tue 16:00–16:50) which would NOT conflict with 15-251 Section 1"
+    ]
+  },
+  {
+    "query_id": "T2-026",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": "P-001",
+    "question": "As a CS first-year, I want to take both 15-112 (Section W: Tue/Thu/Sun 11:30–12:45) and 15-440 (Distributed Systems) in Fall 2025. Section W of 15-440 meets Sunday 11:30–12:20. Would these two sections conflict?",
+    "expected_answer": "Yes — 15-112 Section W meets Tuesday, Thursday, and Sunday 11:30–12:45, and 15-440 Section W meets Sunday 11:30–12:20. Both courses share Sunday 11:30, creating a conflict. Note: 15-440 Section 3 (Tuesday/Sunday 08:30–09:45) would not conflict with 15-112. Also, P-001 likely does not meet the prerequisites for 15-440 yet (needs 15-213 or similar), so this is a hypothetical schedule check.",
+    "reasoning_type": "Section-specific conflict detection with alternative section identification",
+    "domain": "schedules",
+    "common_mistake": "Not checking all sections before declaring a conflict; failing to note that a different section of 15-440 avoids the conflict",
+    "needs_verification": [
+      "Confirm 15-440 Section W Fall 2025: Sunday 11:30–12:20",
+      "Confirm 15-112 Section W Fall 2025: Tue/Thu/Sun 11:30–12:45",
+      "Confirm 15-440 Section 3 Fall 2025: Tue/Sun 08:30–09:45 (potential conflict-free option)",
+      "Confirm P-001 does NOT yet meet the prerequisites for 15-440 (this is a schedule-only question)"
+    ]
+  },
+  {
+    "query_id": "T2-027",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": "P-004",
+    "question": "I'm a CS junior. I want to take 15-213 (Section 3: Mon/Wed 11:30–12:45) and 15-440 (Distributed Systems, Section 3: Tue/Sun 08:30–09:45) simultaneously in Fall 2025. Is there a schedule conflict between these two sections?",
+    "expected_answer": "No — 15-213 Section 3 meets Monday and Wednesday 11:30–12:45, while 15-440 Section 3 meets Tuesday and Sunday 08:30–09:45. These courses share no common meeting days or times.",
+    "reasoning_type": "No-conflict verification for non-overlapping weekday sections",
+    "domain": "schedules",
+    "common_mistake": "Checking only days without times; assuming two different courses must conflict if both are heavy CS courses",
+    "needs_verification": [
+      "Confirm 15-213 Section 3 Fall 2025: Mon/Wed 11:30–12:45",
+      "Confirm 15-440 Section 3 Fall 2025: Tue/Sun 08:30–09:45",
+      "Confirm P-004 meets prerequisites for both courses (15-122 for 15-213; advanced prereqs for 15-440)"
+    ]
+  },
+  {
+    "query_id": "T2-028",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore. In Fall 2025, I'd like to take 67-262 (Section 4: Sun/Tue 10:00–11:15) and 15-150 (Section W: Thu/Tue/Sun 14:30–15:45). Do these two courses conflict?",
+    "expected_answer": "No — 67-262 Section 4 meets Sunday and Tuesday 10:00–11:15, and 15-150 Section W meets Thursday, Tuesday, and Sunday 14:30–15:45. While they share Tuesday and Sunday as meeting days, the time slots do not overlap: 10:00–11:15 and 14:30–15:45 are separated by over 3 hours. No conflict.",
+    "reasoning_type": "Shared-day but non-overlapping times — no conflict",
+    "domain": "schedules",
+    "common_mistake": "Flagging a conflict because both courses share Tuesday and Sunday without checking whether the time windows overlap",
+    "needs_verification": [
+      "Confirm 67-262 Section 4 Fall 2025: Sun/Tue 10:00–11:15",
+      "Confirm 15-150 Section W Fall 2025: Thu/Tue/Sun 14:30–15:45",
+      "Note: P-013 may not meet the prerequisite for 15-150 (needs 15-112 C and a math prereq), so this is primarily a schedule question"
+    ]
+  },
+  {
+    "query_id": "T2-029",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": "P-002",
+    "question": "As a CS sophomore in Fall 2025, I want to take 15-451 (Section W: Monday 14:30–15:20) and 15-440 (Section W: Sunday 11:30–12:20) together. Would there be a schedule conflict?",
+    "expected_answer": "No — 15-451 Section W meets only on Monday 14:30–15:20, and 15-440 Section W meets only on Sunday 11:30–12:20. They do not share any meeting days, so no conflict exists.",
+    "reasoning_type": "Simple no-conflict verification on non-overlapping days",
+    "domain": "schedules",
+    "common_mistake": "Assuming heavy upper-level CS courses must conflict; not verifying actual days/times",
+    "needs_verification": [
+      "Confirm 15-451 Section W Fall 2025: Monday 14:30–15:20 (only Monday)",
+      "Confirm 15-440 Section W Fall 2025: Sunday 11:30–12:20 (only Sunday)",
+      "Confirm P-002 meets prerequisites for both 15-451 and 15-440 (this is a schedule-only question)"
+    ]
+  },
+  {
+    "query_id": "T2-030",
+    "tier": "T2",
+    "category": "C",
+    "persona_id": "P-009",
+    "question": "In Spring 2024, could I have taken 15-210 (Thu/Sun/Tue 14:30–15:45) and 15-251 (Section 2: Tue/Thu/Sun 11:30–12:20) in the same semester without any schedule conflict?",
+    "expected_answer": "No conflict — 15-210 meets Tuesday, Thursday, and Sunday at 14:30–15:45, while 15-251 Section 2 meets the same three days (Tuesday, Thursday, Sunday) at 11:30–12:20. Although they share all three meeting days, the time windows (11:30–12:20 and 14:30–15:45) do not overlap. P-009 did in fact take both courses in Spring 2024, confirming there was no conflict.",
+    "reasoning_type": "Shared days, non-overlapping times — no conflict verification",
+    "domain": "schedules",
+    "common_mistake": "Seeing that both courses share all three days (Tue/Thu/Sun) and concluding they must conflict without comparing actual start/end times",
+    "needs_verification": [
+      "Confirm Spring 2024 schedule times for 15-210 and 15-251 Section 2 (using Spring 2025 data as proxy — confirm Spring 2024 was identical or similar)",
+      "Confirm P-009 actually did take both in Spring 2024 (appears so from the course record)"
+    ]
+  },
+  {
+    "query_id": "T2-031",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student currently on academic warning. I have several remaining graduation requirements and want to register for an overloaded course load next semester to finish faster. Is this permitted?",
+    "expected_answer": "No — the academic actions policy explicitly states that a student on an academic action (including academic warning) cannot overload. P-009 is restricted to a normal course load while on academic warning, regardless of the desire to accelerate degree completion.",
+    "reasoning_type": "Academic action policy restriction identification",
+    "domain": "policies",
+    "common_mistake": "Assuming that a compelling reason (urgency to graduate) creates an exception to the overload prohibition; not knowing that academic warning explicitly blocks overloads",
+    "needs_verification": [
+      "Confirm P-009 is currently on academic warning (appears so from the record)",
+      "Confirm the policy language: 'A student on an academic action cannot overload, study abroad, or take independent studies'",
+      "Confirm what constitutes 'normal course load' for a 5th-year CS student (typically 360 units / 8 semesters = ~45 units)"
+    ]
+  },
+  {
+    "query_id": "T2-032",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": "P-013",
+    "question": "I'm an IS sophomore on academic warning. Can I take an independent study course this semester to work on a research project I'm passionate about?",
+    "expected_answer": "No — the academic actions policy explicitly prohibits students on academic warning from taking independent studies. P-013 will need to resolve the academic warning (by meeting minimum academic standards for one semester) before becoming eligible for independent study enrollment.",
+    "reasoning_type": "Academic action policy restriction identification",
+    "domain": "policies",
+    "common_mistake": "Assuming that academic warning only restricts overloads, not independent studies; not knowing the full list of restrictions that come with academic warning status",
+    "needs_verification": [
+      "Confirm P-013 is on academic warning (verified from record)",
+      "Confirm the policy language banning independent studies while on academic action applies at CMU-Q",
+      "Confirm whether any exceptions exist for independent studies if pre-approved by Dean"
+    ]
+  },
+  {
+    "query_id": "T2-033",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": "P-025",
+    "question": "I'm a BA junior with dual Finance and BAT concentrations plus an Economics minor. I need to take 54 units next semester to stay on track. Do I need special approval, and from whom?",
+    "expected_answer": "Yes — an overload requires advisor approval. A normal course load is approximately 360 units / 8 semesters = ~45 units per semester for a 4-year program. Taking 54 units would be an overload of 9 extra units. The policy states students may overload up to 12 units with advisor approval. For more than 12 units beyond normal, the advisor must adjust the maximum units in S3. P-025 needs to consult their academic advisor first.",
+    "reasoning_type": "Overload policy threshold and approval process",
+    "domain": "policies",
+    "common_mistake": "Assuming any course load is acceptable without approval; not knowing the difference between advisor approval for standard overload vs. the additional step required for overloads exceeding 12 units beyond normal",
+    "needs_verification": [
+      "Confirm the exact 'normal course load' unit definition for BA students at CMU-Q",
+      "Confirm whether 54 units constitutes an overload under CMU-Q policy for P-025's program",
+      "Confirm the advisor approval process for overloads in S3"
+    ]
+  },
+  {
+    "query_id": "T2-034",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": null,
+    "question": "A first-year student wants to add extra courses in their very first semester at CMU-Q to get ahead on requirements. Are they permitted to overload in their first semester?",
+    "expected_answer": "No — first-year and transfer students are explicitly limited to a normal course load for their first semester of attendance. This restriction applies regardless of academic ability or advisor approval. The overload policy makes this a firm first-semester restriction.",
+    "reasoning_type": "Overload policy — first-semester restriction",
+    "domain": "policies",
+    "common_mistake": "Assuming the general overload policy (advisor approval sufficient) applies to first-year students in their first semester; not knowing the special first-semester restriction",
+    "needs_verification": [
+      "Confirm the exact policy language: 'First-years and transfer students are limited to a normal course load for their first semester of attendance'",
+      "Confirm what 'normal course load' means in units for first-year students at CMU-Q",
+      "Confirm whether any exception exists (e.g., dean's approval) for first-semester overloads"
+    ]
+  },
+  {
+    "query_id": "T2-035",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": "P-009",
+    "question": "I'm a CS 5th-year student on academic warning. I've been offered a fantastic opportunity to study at another campus abroad next semester. Am I permitted to participate in the study abroad program?",
+    "expected_answer": "No — the academic actions policy explicitly states that a student on an academic action (including academic warning) cannot study abroad. P-009 must first return to good academic standing before being eligible for study abroad programs.",
+    "reasoning_type": "Academic action policy — study abroad restriction",
+    "domain": "policies",
+    "common_mistake": "Assuming study abroad is a separate administrative process unaffected by academic standing; not knowing the study abroad restriction is part of the academic action consequences",
+    "needs_verification": [
+      "Confirm P-009's current academic standing is academic warning",
+      "Confirm the CMU-Q policy explicitly includes study abroad as a prohibited activity during academic warning",
+      "Confirm whether any exception process exists if the opportunity is exceptional"
+    ]
+  },
+  {
+    "query_id": "T2-036",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": null,
+    "question": "I withdrew from a course this semester. Will the W grade on my transcript lower my QPA?",
+    "expected_answer": "No — withdrawn courses receive a W grade, which is not factorable (does not enter the QPA calculation). However, the W-graded course does still count toward your total units enrolled for the semester, meaning it affects your full-time/part-time status but not your GPA.",
+    "reasoning_type": "Grade type policy — QPA impact assessment",
+    "domain": "policies",
+    "common_mistake": "Assuming any grade on the transcript, including W, impacts QPA; confusing total enrolled units (affected by W) with factorable units (not affected by W)",
+    "needs_verification": [
+      "Confirm CMU-Q policy that W grades are non-factorable and do not impact QPA",
+      "Confirm that W grades do count toward the semester's total enrolled units for full-time status purposes",
+      "Confirm the withdrawal deadline (typically 10th week of classes) after which withdrawal is not allowed"
+    ]
+  },
+  {
+    "query_id": "T2-037",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": "P-046",
+    "question": "I'm currently on academic warning. I earned a semester QPA of 2.3 this semester, but my cumulative QPA is still 1.75. What happens to my academic standing?",
+    "expected_answer": "P-046 would be placed on Continued Academic Warning. The policy states that if a student on Academic Warning earns a semester QPA above 2.0 but their cumulative QPA is still below 2.0, they are placed on Continued Academic Warning status. A semester QPA of 2.3 satisfies the semester requirement, but the cumulative QPA of 1.75 still falls below the 2.0 threshold needed to return to Good Standing.",
+    "reasoning_type": "Multi-condition academic standing determination",
+    "domain": "policies",
+    "common_mistake": "Assuming that a semester QPA above 2.0 is sufficient to exit academic warning; not knowing that cumulative QPA must also reach 2.0 to return to good standing",
+    "needs_verification": [
+      "Confirm P-046 is currently on academic warning (not confirmed from available data)",
+      "Confirm the Continued Academic Warning policy language: semester QPA > 2.0 but cumulative < 2.0",
+      "Confirm whether P-046's cumulative QPA is actually below 2.0"
+    ]
+  },
+  {
+    "query_id": "T2-038",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": null,
+    "question": "A student on academic warning wants to drop one course to have a more manageable load, which would bring their total enrolled units from 36 to 27. Is this straightforward, and what are the consequences?",
+    "expected_answer": "This is not straightforward. Dropping from 36 to 27 units would make the student part-time (below 36 units), which requires an exception from the Associate Dean for Education. Without that exception, going part-time would itself trigger additional academic consequences. Students on academic warning face this bind: they cannot overload to take more courses, and going below 36 units without approval creates new problems. The advisor should be consulted before any action.",
+    "reasoning_type": "Policy interaction — academic action + full-time/part-time rules",
+    "domain": "policies",
+    "common_mistake": "Treating dropping as a simple administrative step without recognizing the full-time status implications; not connecting the 36-unit full-time threshold with the academic action policy",
+    "needs_verification": [
+      "Confirm the full-time threshold is 36 units at CMU-Q",
+      "Confirm that going below 36 units without Dean approval triggers additional academic consequences",
+      "Confirm whether the Academic Warning status changes the standard advice for dropping courses"
+    ]
+  },
+  {
+    "query_id": "T2-039",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": "P-017",
+    "question": "I'm an IS senior on the Dean's List. I want to take an independent study course in my final semester to pursue a cybersecurity research project with a faculty member. Is this permitted under policy?",
+    "expected_answer": "Yes — P-017 is on the Dean's List, which indicates good academic standing. The restriction on independent studies applies only to students on academic actions (warning, suspension, etc.). Since P-017 is not on any academic action, she is eligible to take an independent study, subject to the standard requirements (faculty agreement, registration process, unit limits).",
+    "reasoning_type": "Policy restriction scoping — applies only to students on academic actions",
+    "domain": "policies",
+    "common_mistake": "Assuming the independent study restriction is universal rather than specific to students on academic actions; conflating any senior with the restrictions that apply only to at-risk students",
+    "needs_verification": [
+      "Confirm P-017's current academic standing is Dean's List or otherwise good standing (not an academic action)",
+      "Confirm whether P-017's final-semester unit count would put her at or near overload with the independent study added",
+      "Confirm the standard independent study registration process at CMU-Q (faculty must agree, units registered)"
+    ]
+  },
+  {
+    "query_id": "T2-040",
+    "tier": "T2",
+    "category": "D",
+    "persona_id": null,
+    "question": "I elected to take a course as Pass/Fail this semester. Will the P grade count toward satisfying my major requirements?",
+    "expected_answer": "No — under CMU-Q policy, P/N (Pass/No-Pass) courses do not count toward any major or minor requirements. The course will count toward your total unit accumulation for graduation purposes, but it will not satisfy specific major, minor, or concentration requirements. If this course was intended to fulfill a major requirement, you should change it back to a letter grade before the Pass/Fail deadline.",
+    "reasoning_type": "P/N election policy consequence",
+    "domain": "policies",
+    "common_mistake": "Assuming a Pass grade is equivalent to a letter grade for requirement satisfaction; not knowing that P/N elections are specifically excluded from major/minor requirement counting",
+    "needs_verification": [
+      "Confirm CMU-Q policy: P/N courses count toward total units but NOT toward major/minor/concentration requirements",
+      "Confirm the Pass/Fail election deadline for the current semester",
+      "Confirm whether any specific course has an exception where P/N is acceptable for a requirement"
+    ]
+  },
+  {
+    "query_id": "T2-041",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": null,
+    "question": "I'm a graduate student who completed 15-513 (Introduction to Computer Systems) in a previous program. Does 15-513 count as equivalent to 15-213 for CS undergraduate prerequisite purposes?",
+    "expected_answer": "Yes — 15-513 is listed as an equivalent of 15-213 in the course catalog. They are considered the same course for prerequisite and curriculum purposes. A student who completed 15-513 satisfies any requirement or prerequisite that lists 15-213.",
+    "reasoning_type": "Course equivalence identification from anti-req/equiv listings",
+    "domain": "courses",
+    "common_mistake": "Treating different course numbers as entirely distinct when the university lists them as equivalents; not checking the equivalence listing in the course catalog",
+    "needs_verification": [
+      "Confirm 15-513 is listed as equivalent to 15-213 in the CMU course catalog",
+      "Confirm whether 15-513 is open to undergraduates (noted in the catalog: 15-213 is not open to graduate students; 15-513 is the grad version)",
+      "Confirm the specific contexts in which the equivalence applies (prereqs vs. graduation requirements)"
+    ]
+  },
+  {
+    "query_id": "T2-042",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": null,
+    "question": "I completed 15-211 (Fundamental Data Structures and Algorithms). Does this count as equivalent to 15-210 (Parallel and Sequential Data Structures and Algorithms) for downstream CS requirements?",
+    "expected_answer": "Yes — 15-211 is listed as an equivalent of 15-210 in the course catalog. A student who completed 15-211 should satisfy any requirement or prerequisite that calls for 15-210.",
+    "reasoning_type": "Course equivalence — older and newer course versions",
+    "domain": "courses",
+    "common_mistake": "Assuming older course numbers are no longer equivalent when the university has marked them as equivalents; not knowing to check the 'equiv' field in the course catalog",
+    "needs_verification": [
+      "Confirm 15-211 is still listed as equivalent to 15-210 in current catalog",
+      "Confirm 15-211 is still offered (or was offered when the student took it)",
+      "Confirm the equivalence applies to all downstream courses that require 15-210"
+    ]
+  },
+  {
+    "query_id": "T2-043",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": null,
+    "question": "I completed 15-150 (Principles of Functional Programming) but not 15-122. Does my 15-150 credit satisfy the programming prerequisite for 15-251 (Great Ideas in Theoretical Computer Science)?",
+    "expected_answer": "Yes — 15-251's prerequisite accepts either 15-122 at least C OR 15-150 at least C for the programming component. A student who completed 15-150 (with at least C) and also satisfies the math component (21-127, 21-128, or 15-151) is eligible to take 15-251 even without 15-122.",
+    "reasoning_type": "Alternative prerequisite pathway identification",
+    "domain": "courses",
+    "common_mistake": "Assuming 15-122 is the only programming prerequisite for 15-251; not recognizing that 15-150 is a valid alternative path to 15-251",
+    "needs_verification": [
+      "Confirm 15-251 prereq text: (15-122 C or 15-150 C) AND (math prereq)",
+      "Confirm student has a grade of C or better in 15-150",
+      "Confirm student also satisfies the math component of 15-251 (21-127, 21-128, or 15-151)"
+    ]
+  },
+  {
+    "query_id": "T2-044",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": "P-008",
+    "question": "I'm a CS senior with a Biological Sciences minor. I want to take a graduate-level bioinformatics course (03-511 or 03-512). Would a graduate bioinformatics course count toward my Biological Sciences minor requirements, or only as a free elective?",
+    "expected_answer": "This depends on the specific Biological Sciences minor requirements and whether graduate-level courses are permitted. In general, undergraduate minors at CMU are designed around undergraduate courses. A graduate course may count as a free elective toward the overall unit requirement but may not satisfy a specific minor course requirement without explicit faculty/department approval. P-008 should consult the BS department and their advisor before relying on this substitution.",
+    "reasoning_type": "Graduate vs. undergraduate course equivalence for minor requirements",
+    "domain": "courses",
+    "common_mistake": "Assuming graduate courses automatically satisfy undergraduate minor requirements; not knowing that most minors require approval for graduate course substitutions",
+    "needs_verification": [
+      "Confirm the Biological Sciences minor requirements and whether graduate courses are explicitly excluded or included",
+      "Confirm whether 03-511 or 03-512 are listed as acceptable courses for the BS minor",
+      "Confirm that P-008 meets the prerequisites for 03-511 or 03-512 (graduate bioinformatics)",
+      "Confirm the approval process for counting graduate courses toward undergraduate minors at CMU-Q"
+    ]
+  },
+  {
+    "query_id": "T2-045",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": null,
+    "question": "If I take 67-311 (Database Design and Implementation), does it satisfy the same requirement as 67-262 (Database Design and Development) for IS major requirements?",
+    "expected_answer": "They are listed as anti-requisites of each other (you cannot take both), which suggests they cover overlapping content. However, whether 67-311 specifically substitutes for 67-262 in IS degree requirements depends on the program's official list of accepted courses. If the IS program requirement specifically lists 67-262, then 67-311 may or may not be an accepted substitute — the advisor or department must confirm. The anti-requisite relationship does not automatically create an equivalence for program requirement purposes.",
+    "reasoning_type": "Anti-requisite vs. equivalence distinction for program requirements",
+    "domain": "courses",
+    "common_mistake": "Equating anti-requisites with equivalents; assuming that if two courses cannot both be taken, either one satisfies the same program requirement",
+    "needs_verification": [
+      "Confirm 67-311 is listed as an anti-requisite (not an equivalent) of 67-262",
+      "Confirm the IS degree requirement specifically calls for 67-262 or accepts 67-311 as a substitute",
+      "Confirm whether the IS department has a formal equivalence approval process for this substitution"
+    ]
+  },
+  {
+    "query_id": "T2-046",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": "P-005",
+    "question": "I'm a CS junior with a Mathematical Sciences minor. I completed 36-218 (Probability Theory for Computer Scientists). Does this course count toward my Mathematical Sciences minor requirements?",
+    "expected_answer": "Possibly — 36-218 is a statistics/probability course cross-listed under the Statistics department (36-xxx prefix). Whether it counts toward the Mathematical Sciences minor depends on the specific minor requirements. If the Math minor accepts courses from allied departments (like Statistics), 36-218 may qualify. However, if the Math minor requires courses with 21-xxx prefixes specifically, it may not count. P-005 should verify with the Math department or in Stellic.",
+    "reasoning_type": "Cross-departmental course equivalence for minor requirements",
+    "domain": "courses",
+    "common_mistake": "Assuming all quantitative courses count for a math minor; not knowing that department-specific minors may require courses with specific department prefixes",
+    "needs_verification": [
+      "Confirm the Mathematical Sciences minor requirements and whether 36-xxx courses are accepted",
+      "Confirm P-005 completed 36-218 and what grade was earned",
+      "Confirm whether a waiver or substitution approval is needed for 36-218 to count toward the Math minor"
+    ]
+  },
+  {
+    "query_id": "T2-047",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": "P-014",
+    "question": "I'm an IS sophomore with a Data Science concentration and a Business Administration minor. I completed 36-200 (Reasoning with Data). Does 36-200 count toward the IS Data Science concentration requirements, or only as a general elective?",
+    "expected_answer": "This requires checking the IS Data Science concentration requirements specifically. Many IS Data Science concentrations require statistics/data reasoning courses, and 36-200 is a likely candidate for this. However, if the DS concentration requires a specific analytics course from the IS or Statistics department at a higher level, 36-200 might count only as a free elective. P-014 should verify through Stellic whether 36-200 is mapped to the DS concentration or the general elective bucket.",
+    "reasoning_type": "Course-to-concentration mapping verification",
+    "domain": "courses",
+    "common_mistake": "Assuming all data-related courses count for the Data Science concentration; not checking whether 36-200 specifically appears in the DS concentration course list",
+    "needs_verification": [
+      "Confirm the IS Data Science concentration required and elective course list",
+      "Confirm whether 36-200 is explicitly listed as a DS concentration course or a general requirement",
+      "Confirm P-014's Stellic audit shows 36-200 mapped correctly"
+    ]
+  },
+  {
+    "query_id": "T2-048",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": "P-019",
+    "question": "I'm an IS 5th-year student who entered in Fall 2019 and am completing my Applied Informatics concentration. Some of my courses were taken under an older curriculum. Do they still count toward current IS graduation requirements?",
+    "expected_answer": "Generally, students follow the curriculum requirements of their entry year (their catalog year), not the current year's curriculum. Courses taken years ago under the older curriculum should still count if they satisfied the requirements at that time. However, if the IS program updated its requirements and specific courses changed, P-019 may need advisor verification that older courses still map correctly to current Stellic entries. The advisor can add exceptions in Stellic for courses that have been reorganized.",
+    "reasoning_type": "Catalog year policy and historical course equivalence",
+    "domain": "courses",
+    "common_mistake": "Assuming students must follow the current curriculum rather than their entry-year catalog; not knowing that advisors can enter Stellic exceptions for historical course substitutions",
+    "needs_verification": [
+      "Confirm P-019's catalog year and the IS requirements that applied in Fall 2019",
+      "Identify any IS curriculum changes between 2019 and 2025 that might affect course equivalence",
+      "Confirm whether Stellic reflects P-019's catalog year or the current year",
+      "Confirm that Applied Informatics concentration requirements haven't significantly changed"
+    ]
+  },
+  {
+    "query_id": "T2-049",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": null,
+    "question": "I elected to take 67-272 (Application Design and Development) as Pass/Fail this semester. I received a P grade. Does this satisfy the prerequisite for 67-373 (Information Systems Consulting Project)?",
+    "expected_answer": "This is uncertain and requires verification. The prerequisite for 67-373 requires 67-272 at least D. A P (Pass) grade typically corresponds to at least a D performance. However, CMU's policy states that P/N courses do not count toward major/minor requirements. Whether a P grade satisfies a prerequisite (as opposed to a graduation requirement) may be handled differently — the system may or may not recognize a P grade as satisfying a letter-grade threshold prerequisite. The student should consult their advisor and the registrar to confirm.",
+    "reasoning_type": "P/N grade interaction with prerequisite thresholds",
+    "domain": "courses",
+    "common_mistake": "Assuming P grade always satisfies a 'D or better' threshold prerequisite; not distinguishing between P/N counting for graduation requirements vs. prerequisite enforcement",
+    "needs_verification": [
+      "Confirm whether CMU-Q's system treats a P grade as satisfying a 'D or better' prerequisite threshold",
+      "Confirm the exact prerequisite enforcement rules for P/N-graded courses in S3",
+      "Confirm whether 67-272 taken P/N would still count toward the IS professional core requirement"
+    ]
+  },
+  {
+    "query_id": "T2-050",
+    "tier": "T2",
+    "category": "E",
+    "persona_id": "P-003",
+    "question": "I'm a CS sophomore with a Business Administration minor. Can 15-122 (Principles of Imperative Computation) count toward both my CS major requirements AND a BA minor requirement at the same time?",
+    "expected_answer": "Generally, no — CMU's double-counting policy typically does not allow the same course to satisfy requirements in both a major and a minor simultaneously. 15-122 is a CS major requirement and would not be double-counted toward BA minor requirements. P-003 would need to take separate BA courses to satisfy minor requirements. However, CMU's policy on double-counting between a major and a minor should be confirmed, as specific rules may vary.",
+    "reasoning_type": "Double-counting policy between major and minor requirements",
+    "domain": "courses",
+    "common_mistake": "Assuming courses can freely satisfy both major and minor requirements simultaneously; not knowing CMU's anti-double-counting policy",
+    "needs_verification": [
+      "Confirm CMU-Q's official policy on double-counting courses between a major and a minor",
+      "Confirm whether 15-122 appears in any BA minor course list (it likely does not, being a CS-specific course)",
+      "Confirm whether the BA minor at CMU-Q has any overlap with CS courses that could legally double-count"
+    ]
+  }
+]

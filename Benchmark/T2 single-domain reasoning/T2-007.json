@@ -1,0 +1,16 @@
+{
+  "query_id": "T2-007",
+  "tier": "T2",
+  "category": "A",
+  "persona_id": "P-001",
+  "question": "I'm a CS first-year student. I completed 15-122 this semester but earned only a D. Can I use this to satisfy the prerequisite for 15-213 next semester?",
+  "expected_answer": "No \u2014 15-213 requires 15-122 at least a C. A D does not meet this threshold. Additionally, the course description specifically notes that students must achieve a C or better in 15-122 to use it to satisfy the prerequisite for any subsequent Computer Science course.",
+  "reasoning_type": "Grade threshold prerequisite \u2014 below minimum",
+  "domain": "courses",
+  "common_mistake": "Assuming any passing grade (D or better) satisfies CS prerequisites; not knowing the C-floor rule that applies broadly to CS prerequisite chains",
+  "needs_verification": [
+    "Confirm P-001 actually earned a D in 15-122 (not a C or better)",
+    "Confirm the C-floor rule applies to 15-122 \u2192 15-213 specifically",
+    "Confirm P-001 has not received a grade appeal that raised the D"
+  ]
+}

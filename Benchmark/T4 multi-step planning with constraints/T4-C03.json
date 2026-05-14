@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-C03",
+  "tier": "T4",
+  "category": "C",
+  "category_name": "Recovery Planning",
+  "persona_id": "P-023",
+  "persona_summary": "BA Sophomore, Finance concentration, 25 courses, Good standing",
+  "variation": "Failed a required course \u2014 retake planning",
+  "question": "I failed 70-122 and need to retake it. How should I adjust my plan? When is it offered again, and what does the repeat policy say about my GPA?",
+  "what_makes_this_hard": "Requires knowing the retake policy, when the course is next offered, and how to rearrange the remaining plan to accommodate the retake.",
+  "needs_verification": [
+    "Course repeat/retake policy",
+    "When 70-122 is next offered",
+    "Whether 70-122 is a prereq for other Finance courses",
+    "GPA impact rules for retaken courses"
+  ]
+}

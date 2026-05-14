@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-B09",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-032",
+  "persona_summary": "BIO First-year, no concentration, no minor, 11 courses, Good standing",
+  "variation": "Non-CS student adding CS minor",
+  "question": "I'm a Bio first-year and I want to add a Computer Science minor for bioinformatics. The CS prereq chain seems long. Can you plan all four years with the CS minor included?",
+  "what_makes_this_hard": "CS minor has the longest prereq chain (15-112 \u2192 15-122 \u2192 15-213 \u2192 ...) for non-CS students. Must start immediately and interleave with Bio requirements.",
+  "needs_verification": [
+    "CS minor full requirement list and prereq chain",
+    "Which CS courses P-032 may have taken",
+    "BIO full requirement list",
+    "Whether 4-year completion is feasible with both"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-016",
+  "tier": "T1",
+  "category": "A",
+  "persona_id": null,
+  "question": "What is the full name of 15-210?",
+  "answer": "Parallel and Sequential Data Structures and Algorithms",
+  "source_file": "data/courses/15-210.json",
+  "source_field": "name",
+  "domain": "courses",
+  "verification_note": "name field in course JSON"
+}

@@ -1,0 +1,33 @@
+{
+  "query_id": "T3-010",
+  "tier": "T3",
+  "category": "A",
+  "persona_id": "P-046",
+  "question": "I'm a CS 5th-year student (P-046) on academic warning. I need 15-440 (Distributed Systems) to complete a CS requirement. Can I take it in Spring 2026?",
+  "answer": "",
+  "domains_required": [
+    "courses",
+    "schedules",
+    "policies"
+  ],
+  "domain_contributions": {
+    "courses": "P-046 has 15-213 (Fall 2017) which likely satisfies 15-440 prerequisites \u2713",
+    "schedules": "15-440 is NOT offered in Spring 2026 \u2014 it does not appear in the Spring 2026 course offerings",
+    "policies": "Academic warning restricts overload; however, the primary blocker here is schedule availability, not policy"
+  },
+  "key_facts": [
+    "P-046 has 15-213 (Fall 2017) \u2014 likely meets 15-440 prerequisites",
+    "15-440 is NOT in the Spring 2026 schedule (not offered)",
+    "15-440 was offered Fall 2025 \u2014 P-046 missed this offering",
+    "P-046 would need to wait until Fall 2026 to take 15-440",
+    "Academic warning (AW) means P-046 cannot overload in any semester"
+  ],
+  "wrong_if_single_domain": "Checking only prerequisites confirms P-046 is eligible for 15-440 and would incorrectly suggest they can take it next semester. Only the schedule domain reveals that 15-440 is not offered in Spring 2026, which is the critical blocking constraint.",
+  "common_mistake": "Assuming that a course is offered every semester; not checking the specific semester's schedule before advising a student to take a course",
+  "reasoning_chain": [
+    "Step 1: Check 15-440 prereqs \u2192 15-213 \u2713",
+    "Step 2: Check Spring 2026 schedule \u2192 15-440 NOT offered in Spring 2026",
+    "Step 3: AW status \u2192 confirms P-046 cannot overload in Fall 2026 when 15-440 is next available",
+    "Conclusion: P-046 cannot take 15-440 in Spring 2026; must plan for Fall 2026"
+  ]
+}

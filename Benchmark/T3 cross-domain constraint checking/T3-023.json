@@ -1,0 +1,32 @@
+{
+  "query_id": "T3-023",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-046",
+  "question": "I'm a CS 5th-year student (P-046) on academic warning with a Math minor. I need 3 more courses to complete my degree: 15-316 (12 units), 21-355 (12 units), and a 12-unit CS elective. Can I take all three in Spring 2026 given my AW status?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "courses"
+  ],
+  "domain_contributions": {
+    "policies": "AW = no overload. 3 \u00d7 12 = 36 units = full-time, not an overload. This load is permitted under AW.",
+    "courses": "15-316 (12 units) + 21-355 (12 units) + 12-unit elective = 36 units total; all three courses have prerequisites P-046 meets"
+  },
+  "key_facts": [
+    "P-046 is on academic warning \u2014 no overload permitted",
+    "Normal load \u2248 45 units/semester; 36 units is full-time but not an overload",
+    "3 \u00d7 12 = 36 units \u2014 full-time, within normal load \u2192 AW restriction does NOT block this",
+    "15-316 prereqs: 15-122 \u2713, 15-150 \u2713",
+    "21-355 prereqs: multi-variable calc + proofs \u2713",
+    "All three courses are offered Spring 2026 \u2713"
+  ],
+  "wrong_if_single_domain": "Knowing only the AW policy might make someone incorrectly assume any load above minimal is restricted. Knowing only course details cannot determine whether the total unit count triggers the overload restriction.",
+  "common_mistake": "Conflating 'academic warning = can't take many courses' with the actual policy, which only restricts overloads (above normal load), not standard full-time loads",
+  "reasoning_chain": [
+    "Step 1 (courses): 3 \u00d7 12 = 36 units",
+    "Step 2 (policies): Normal load \u2248 45 units; 36 < 45 \u2192 not an overload \u2192 AW does not block this",
+    "Step 3: All three courses offered Spring 2026 and prereqs met",
+    "Conclusion: P-046 can take all three courses in Spring 2026 \u2014 the load is full-time but not an overload"
+  ]
+}

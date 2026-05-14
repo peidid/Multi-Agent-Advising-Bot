@@ -1,0 +1,30 @@
+{
+  "query_id": "T3-025",
+  "tier": "T3",
+  "category": "C",
+  "persona_id": "P-009",
+  "question": "I'm a CS 5th-year student (P-009) on academic warning. I want to take an independent study course (15-591) in Spring 2026 to work on an NLP project alongside my regular courses. Is this permitted?",
+  "answer": "",
+  "domains_required": [
+    "policies",
+    "programs"
+  ],
+  "domain_contributions": {
+    "policies": "Academic warning explicitly prohibits independent studies: 'A student on an academic action cannot overload, study abroad, or take independent studies'",
+    "programs": "P-009's academic standing is confirmed as academic warning \u2014 the restriction applies directly"
+  },
+  "key_facts": [
+    "P-009 is on academic warning",
+    "CMU-Q policy: students on academic action cannot take independent studies",
+    "P-009 took 15-591 in Fall 2024 (before the current AW status) \u2014 this is a different semester",
+    "The prohibition is absolute while the academic action is in effect",
+    "P-009 must first return to good standing before registering for any independent study"
+  ],
+  "wrong_if_single_domain": "Knowing only the courses domain might show that 15-591 is an available course option. Only the policies domain reveals that P-009's academic warning status makes this option unavailable.",
+  "common_mistake": "Assuming that having taken 15-591 successfully before means it can be taken again under any circumstance; not knowing that AW status specifically blocks independent studies",
+  "reasoning_chain": [
+    "Step 1 (programs): Confirm P-009's academic standing = academic warning",
+    "Step 2 (policies): AW prohibits independent studies explicitly",
+    "Conclusion: P-009 cannot take 15-591 or any independent study while on academic warning"
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "persona_id": "P-053",
+  "source_student_id": "student231",
+  "demographic": {
+    "major": "Business Administration",
+    "concentrations": [
+      "Finance"
+    ],
+    "minors": [
+      "Economics",
+      "History"
+    ],
+    "level": "sophomore",
+    "entry_year": "Fall 2024",
+    "program_full": "BS in Business Administration (Finance)|Minor in Economics (No concentrations)|Minor in History (No concentrations)",
+    "narrative": {
+      "background_notes": "Finance concentration with dual minors in Economics and History. Sophomore with ambitious course plan.",
+      "goals": "Career in economic policy research; considering PhD in Economics",
+      "concerns": "Dual minors plus Finance concentration may require overload semesters"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 25,
+    "semesters_completed": [
+      "Summer 2023",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2023": [
+        {
+          "course_code": "00-008",
+          "course_name": "QSP Computer Science Project"
+        },
+        {
+          "course_code": "00-004",
+          "course_name": "QSP Mathematics 1 Calculus"
+        },
+        {
+          "course_code": "00-015",
+          "course_name": "QSP ACT"
+        },
+        {
+          "course_code": "00-003",
+          "course_name": "QSP English 3"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "70-207",
+          "course_name": "Probability and Statistics for Business Applications"
+        },
+        {
+          "course_code": "70-110",
+          "course_name": "Business Computing"
+        },
+        {
+          "course_code": "21-111",
+          "course_name": "Differential Calculus"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "73-102",
+          "course_name": "Principles of Microeconomics"
+        },
+        {
+          "course_code": "99-102",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "70-104",
+          "course_name": "Business Leadership Endeavor I"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "21-112",
+          "course_name": "Integral Calculus"
+        },
+        {
+          "course_code": "70-106",
+          "course_name": "Business Science"
+        },
+        {
+          "course_code": "70-208",
+          "course_name": "Regression Analysis"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "70-122",
+          "course_name": "Introduction to Accounting"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "79-297",
+          "course_name": "Technology and Work"
+        },
+        {
+          "course_code": "51-237",
+          "course_name": "Digital Photography I"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "79-421",
+          "course_name": "Documenting Refugees, Immigrants and Exiles in the Middle East & North Africa"
+        },
+        {
+          "course_code": "70-340",
+          "course_name": "Business Communications"
+        },
+        {
+          "course_code": "21-256",
+          "course_name": "Multivariate Analysis"
+        },
+        {
+          "course_code": "70-391",
+          "course_name": "Finance"
+        },
+        {
+          "course_code": "66-236",
+          "course_name": "Introduction to Environmental Ideas"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        },
+        {
+          "course_code": "82-110",
+          "course_name": "Arabic Calligraphy: Crafting Letters, Bridging People Then and Now"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Good standing"
+}

@@ -1,0 +1,17 @@
+{
+  "query_id": "T4-B03",
+  "tier": "T4",
+  "category": "B",
+  "category_name": "Adding Minor/Concentration",
+  "persona_id": "P-055",
+  "persona_summary": "BA Junior, Strategic Management, no minor, 40 courses, Good standing",
+  "variation": "Junior adding a minor \u2014 tight fit",
+  "question": "I'm a junior in Strategic Management with no minor. I want to add an Economics minor. Is it too late? If not, plan it out for me.",
+  "what_makes_this_hard": "System must first determine feasibility (can remaining requirements + new minor fit in remaining semesters?), then produce a plan only if feasible.",
+  "needs_verification": [
+    "Economics minor full requirement list",
+    "Which Econ minor courses P-055 may have already taken",
+    "Remaining BA + Strategic Management requirements",
+    "Whether everything fits in remaining semesters"
+  ]
+}

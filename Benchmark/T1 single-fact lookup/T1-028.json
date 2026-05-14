@@ -1,0 +1,12 @@
+{
+  "query_id": "T1-028",
+  "tier": "T1",
+  "category": "B",
+  "persona_id": null,
+  "question": "What are the prerequisites for 15-210?",
+  "answer": "15-150 (at least C) and 15-122 (at least C)",
+  "source_file": "data/courses/15-210.json",
+  "source_field": "prereqs.text",
+  "domain": "courses",
+  "verification_note": "prereqs.text in course JSON"
+}

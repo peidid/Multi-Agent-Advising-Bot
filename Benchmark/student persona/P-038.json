@@ -1,0 +1,280 @@
+{
+  "persona_id": "P-038",
+  "source_student_id": "student151",
+  "demographic": {
+    "major": "Biological Sciences",
+    "concentrations": [],
+    "minors": [
+      "Neuroscience"
+    ],
+    "level": "senior",
+    "entry_year": "Fall 2022",
+    "program_full": "BS in Biological Sciences (No concentrations)|Minor in Neuroscience (No concentrations)",
+    "narrative": {
+      "background_notes": "Senior with Neuroscience minor. Strong academic record with research experience.",
+      "goals": "Apply to neuroscience PhD programs; needs strong final transcript",
+      "concerns": "Wants to take an advanced seminar course but it conflicts with a required course"
+    }
+  },
+  "academic_record": {
+    "total_unique_courses": 55,
+    "semesters_completed": [
+      "Summer 2022",
+      "Fall 2022",
+      "Spring 2023",
+      "Summer 2023",
+      "Fall 2023",
+      "Spring 2024",
+      "Summer 2024",
+      "Fall 2024",
+      "Spring 2025",
+      "Summer 2025",
+      "Fall 2025"
+    ],
+    "courses_by_semester": {
+      "Summer 2022": [
+        {
+          "course_code": "21-122",
+          "course_name": "Integration and Approximation"
+        },
+        {
+          "course_code": "21-120",
+          "course_name": "Differential and Integral Calculus"
+        }
+      ],
+      "Fall 2022": [
+        {
+          "course_code": "03-151",
+          "course_name": "Honors Modern Biology"
+        },
+        {
+          "course_code": "76-100",
+          "course_name": "Reading and Writing in an Academic Context"
+        },
+        {
+          "course_code": "38-101",
+          "course_name": "EUREKA!: Discovery and Its Impact"
+        },
+        {
+          "course_code": "99-101",
+          "course_name": "Core@CMU"
+        },
+        {
+          "course_code": "09-105",
+          "course_name": "Introduction to Modern Chemistry I"
+        },
+        {
+          "course_code": "03-125",
+          "course_name": "Evolution"
+        }
+      ],
+      "Spring 2023": [
+        {
+          "course_code": "09-106",
+          "course_name": "Modern Chemistry II"
+        },
+        {
+          "course_code": "03-128",
+          "course_name": "Biology for Life Special Topics"
+        },
+        {
+          "course_code": "76-101",
+          "course_name": "Interpretation and Argument"
+        },
+        {
+          "course_code": "15-110",
+          "course_name": "Principles of Computing"
+        },
+        {
+          "course_code": "03-117",
+          "course_name": "Frontiers, Analysis, and Discovery in Biological Sciences"
+        }
+      ],
+      "Summer 2023": [
+        {
+          "course_code": "33-124",
+          "course_name": "Introduction to Astronomy"
+        },
+        {
+          "course_code": "03-232",
+          "course_name": "Biochemistry I"
+        },
+        {
+          "course_code": "09-217",
+          "course_name": "Organic Chemistry I"
+        },
+        {
+          "course_code": "09-218",
+          "course_name": "Organic Chemistry II"
+        }
+      ],
+      "Fall 2023": [
+        {
+          "course_code": "03-201",
+          "course_name": "Undergraduate Colloquium for Sophomores"
+        },
+        {
+          "course_code": "09-207",
+          "course_name": "Techniques in Quantitative Analysis"
+        },
+        {
+          "course_code": "03-220",
+          "course_name": "Genetics"
+        },
+        {
+          "course_code": "33-121",
+          "course_name": "Physics I for Science Students"
+        },
+        {
+          "course_code": "03-445",
+          "course_name": "Undergraduate Research"
+        }
+      ],
+      "Spring 2024": [
+        {
+          "course_code": "33-122",
+          "course_name": "Physics II for Biological Sciences and Chemistry Students"
+        },
+        {
+          "course_code": "38-230",
+          "course_name": "ENGAGE in Wellness: Looking Inward"
+        },
+        {
+          "course_code": "03-230",
+          "course_name": "Intro to Mammalian Physiology"
+        },
+        {
+          "course_code": "03-240",
+          "course_name": "Cell Biology"
+        },
+        {
+          "course_code": "QC-211",
+          "course_name": "Introduction to Experimental Organic Chemistry (Lab)"
+        },
+        {
+          "course_code": "03-202",
+          "course_name": "Undergraduate Colloquium for Sophomores"
+        },
+        {
+          "course_code": "82-103",
+          "course_name": "Elementary French I Online"
+        }
+      ],
+      "Summer 2024": [
+        {
+          "course_code": "82-279",
+          "course_name": "Anime - Visual Interplay between Japan and the World"
+        }
+      ],
+      "Fall 2024": [
+        {
+          "course_code": "99-262",
+          "course_name": "ADDvocate: Anti-Discrimination Dialogue for Social Justice"
+        },
+        {
+          "course_code": "03-343",
+          "course_name": "Experimental Techniques in Molecular Biology"
+        },
+        {
+          "course_code": "38-330",
+          "course_name": "ENGAGE in Wellness: Looking Outward"
+        },
+        {
+          "course_code": "03-435",
+          "course_name": "Cancer Biology"
+        },
+        {
+          "course_code": "03-411",
+          "course_name": "Topics in Research"
+        },
+        {
+          "course_code": "85-370",
+          "course_name": "Cognitive Neuropsychology Research Methods"
+        },
+        {
+          "course_code": "03-445",
+          "course_name": "Undergraduate Research"
+        }
+      ],
+      "Spring 2025": [
+        {
+          "course_code": "03-412",
+          "course_name": "Topics in Research"
+        },
+        {
+          "course_code": "03-344",
+          "course_name": "Experimental Biochemistry"
+        },
+        {
+          "course_code": "03-362",
+          "course_name": "Cellular Neuroscience"
+        },
+        {
+          "course_code": "85-219",
+          "course_name": "Foundations of Brain and Behavior"
+        },
+        {
+          "course_code": "03-445",
+          "course_name": "Undergraduate Research"
+        },
+        {
+          "course_code": "76-345",
+          "course_name": "Introduction to Document Design"
+        },
+        {
+          "course_code": "02-250",
+          "course_name": "Introduction to Computational Biology"
+        }
+      ],
+      "Summer 2025": [
+        {
+          "course_code": "36-200",
+          "course_name": "Reasoning with Data"
+        },
+        {
+          "course_code": "33-100",
+          "course_name": "Basic Experimental Physics"
+        },
+        {
+          "course_code": "05-897",
+          "course_name": "Special Topics in HCI"
+        }
+      ],
+      "Fall 2025": [
+        {
+          "course_code": "03-210",
+          "course_name": "Independent Study"
+        },
+        {
+          "course_code": "99-250",
+          "course_name": "Seminar for Peer Mentors"
+        },
+        {
+          "course_code": "03-365",
+          "course_name": "Neural Correlates of Learning and Memory"
+        },
+        {
+          "course_code": "03-445",
+          "course_name": "Undergraduate Research"
+        },
+        {
+          "course_code": "38-430",
+          "course_name": "ENGAGE in Wellness: Looking Forward"
+        },
+        {
+          "course_code": "03-380",
+          "course_name": "Virology"
+        },
+        {
+          "course_code": "38-110",
+          "course_name": "ENGAGE in Service"
+        },
+        {
+          "course_code": "38-220",
+          "course_name": "ENGAGE in the Arts"
+        }
+      ]
+    }
+  },
+  "academic_standing": "Deans List"
+}
