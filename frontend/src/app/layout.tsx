@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Academic Advisor - CMU Qatar",
-  description: "Multi-Agent Academic Advising System for CMU Qatar students",
+  title: "TartanMaroon - CMU-Q",
+  description: "CMU-Q Multi-Agent System for Academic Advising",
 };
 
 export default function RootLayout({

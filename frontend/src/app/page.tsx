@@ -352,8 +352,8 @@ export default function Home() {
               <GraduationCap className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="font-semibold text-gray-900">Academic Advisor</h1>
-              <p className="text-sm text-gray-500">CMU Qatar Multi-Agent System</p>
+              <h1 className="font-semibold text-gray-900">TartanMaroon</h1>
+              <p className="text-sm text-gray-500">CMU-Q Multi-Agent System for Academic Advising</p>
             </div>
           </div>
 
@@ -386,7 +386,7 @@ export default function Home() {
               <div className="text-center py-12">
                 <Bot className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <h2 className="text-xl font-semibold text-gray-700 mb-2">
-                  Welcome to Academic Advisor
+                  Welcome to TartanMaroon
                 </h2>
                 <p className="text-gray-500 max-w-md mx-auto">
                   I&apos;m a multi-agent system designed to help you with academic advising.
