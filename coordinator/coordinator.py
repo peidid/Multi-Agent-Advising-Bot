@@ -132,7 +132,9 @@ class Coordinator:
             "temperature": triage_temperature,
             "http_client": triage_http_client,
             "request_timeout": 30.0,
-            "max_tokens": 200,  # JSON-only output, cap to keep latency tight
+            # 400 tokens: enough for a 2-3 sentence general-knowledge answer
+            # plus the small JSON envelope, while still keeping latency tight.
+            "max_tokens": 400,
         }
         if base_url:
             triage_llm_kwargs["base_url"] = base_url
@@ -185,95 +187,148 @@ class Coordinator:
             print("   • Student profile included in prompts")
     
     # ------------------------------------------------------------------
-    # TOP-LAYER TRIAGE: binary greeting short-circuit
+    # TOP-LAYER TRIAGE: 3-way query classification + short-circuit
     # ------------------------------------------------------------------
-    # Default friendly reply used when the LLM marks a query as a greeting
-    # but doesn't produce a usable `reply`. Kept simple and on-topic.
+    # Categories:
+    #   "greeting" — pure social pleasantry (hi, thanks, bye)
+    #   "general"  — answerable with general knowledge / meta info, no agents
+    #                needed (what can you do, who is the US president, basic
+    #                facts, math, etc.)
+    #   "academic" — needs the full MAS (courses, programs, policies, planning)
+    #
+    # The same triage LLM call BOTH classifies AND, for greeting/general,
+    # produces the reply directly. Single round trip — ~200-500 ms total.
+    # Academic queries get reply="" and fall through to the full pipeline.
+
     _DEFAULT_GREETING_REPLY = (
         "Hi! I'm your CMU-Q academic advisor. Ask me about courses, "
         "program requirements, university policies, or semester planning, "
         "and I'll help you out."
     )
 
-    def triage_greeting(self, query: str) -> Dict[str, Any]:
-        """
-        Fast binary check: is this query ONLY a greeting / social pleasantry,
-        with no academic question or task?
+    _DEFAULT_GENERAL_REPLY = (
+        "I'm AdvisingBot — a CMU-Q academic advising assistant. I can help "
+        "with course information, program requirements, university policies, "
+        "and multi-semester planning. What would you like to know?"
+    )
 
-        Single small-model LLM call (~150-300ms). Used at the very top of the
-        workflow to short-circuit the full pipeline for messages like "hi",
-        "thanks", "bye" — avoiding ~20-40 s of agent calls + evaluation rounds.
+    # Triage categories — using a string constant set for cheap validation.
+    _TRIAGE_CATEGORIES = ("greeting", "general", "academic")
+
+    def triage_query(self, query: str) -> Dict[str, Any]:
+        """
+        Fast 3-way classification of the user query, with reply generation
+        for non-academic categories. Single small-model LLM call (~200-500ms).
+
+        Categories:
+          - "greeting"  → social pleasantries (hi, thanks, bye); short-circuit.
+          - "general"   → meta / world knowledge / trivia ("what can you do?",
+                          "who is the US president?", "what's 2+2?"); short-circuit.
+          - "academic"  → needs the full MAS; fall through to pipeline.
 
         Returns:
-            {"is_greeting": bool, "reply": str}
-            - is_greeting=True  → caller should respond with `reply` and skip
-              the resolver, classifier, agents, and synthesis.
-            - is_greeting=False → caller should run the full pipeline.
+            {"category": str, "reply": str}
+            - For "greeting"/"general": reply is non-empty and is sent to the
+              user directly — caller should skip the rest of the pipeline.
+            - For "academic": reply is empty; caller runs the full pipeline.
 
-        Failure mode: on any error (LLM timeout, parse failure, etc.) returns
-        is_greeting=False so the full pipeline still runs. False negatives are
-        free; we never block legitimate academic queries.
+        Failure mode: on any error (timeout, parse failure, garbage output)
+        returns category="academic" with reply="" so the full pipeline runs.
+        False negatives are free; we never block legitimate academic queries.
         """
         q = (query or "").strip()
         if not q:
-            # Empty query — treat as greeting with a gentle prompt.
-            return {"is_greeting": True, "reply": self._DEFAULT_GREETING_REPLY}
+            # Empty query — treat as greeting (no LLM call).
+            return {"category": "greeting", "reply": self._DEFAULT_GREETING_REPLY}
 
-        # Hard length guard: if the query is long, it's almost certainly not
-        # a pure greeting. Skip the LLM call entirely. (Cheap optimization
-        # that doesn't change classification semantics — long messages get
-        # classified the same way they would have, but instantly.)
-        if len(q) > 200:
-            return {"is_greeting": False, "reply": ""}
+        # Hard length guard: long messages are almost never pure greetings or
+        # short general questions — skip the LLM call and run the full pipeline.
+        if len(q) > 300:
+            return {"category": "academic", "reply": ""}
 
-        prompt = f"""You are a fast triage step for an academic advising assistant at CMU-Q.
+        prompt = f"""You are a fast triage step for AdvisingBot, an academic advising assistant at CMU-Q.
 
-DECIDE: Is the following user message ONLY a greeting, thank-you, farewell, or
-purely social pleasantry — with NO academic question, NO course/program/policy
-request, NO planning request, and NO task?
+AdvisingBot helps CMU-Q students with:
+  - Course information (prereqs, schedules, content, instructors)
+  - Program / major / minor / concentration requirements
+  - University policies (registration, grading, probation, etc.)
+  - Multi-semester academic planning
 
-EXAMPLES that ARE greetings (is_greeting=true):
-- "hi" / "hello" / "hey" / "yo"
-- "thanks!" / "thank you" / "thx"
-- "bye" / "goodbye" / "see you"
-- "how are you?" / "good morning"
-- "ok" / "got it" / "cool"
+CLASSIFY the user message into EXACTLY ONE category:
 
-EXAMPLES that are NOT greetings (is_greeting=false):
-- "hi, what is 67-250?"          (greeting + question)
-- "thanks, and what about 15-122?" (acknowledgment + follow-up)
-- "what can you help me with?"   (meta question — needs a real answer)
-- "what's the weather?"          (off-topic but not a greeting — let pipeline handle)
-- Anything mentioning a course code, program, professor, policy, or planning request
-- Anything ending in a question mark with academic content
+1) "greeting" — Pure social pleasantry with NO question.
+   Examples: "hi", "hello", "thanks!", "bye", "how are you?", "good morning", "ok got it"
 
-When is_greeting=true, write a brief friendly `reply` (1-2 sentences) that
-acknowledges the student and invites them to ask an academic question.
-When is_greeting=false, leave `reply` empty.
+2) "general" — A simple question that can be answered with general knowledge
+   or meta information, WITHOUT looking up CMU-Q-specific data, courses,
+   programs, policies, or schedules. Examples:
+     - Meta about the assistant: "what can you do?", "who are you?", "help"
+     - World knowledge: "who is the president of the US?", "what's the capital of France?"
+     - Trivia / math: "what's 2+2?", "spell mississippi"
+     - Date/time questions you can answer from general knowledge (or honestly
+       say you don't have real-time access)
+   These do NOT need the academic advising pipeline.
+
+3) "academic" — Anything that requires the academic advising system:
+   - Any course code (e.g. "67-250", "15-122") or course name
+   - Any program / major / minor / concentration
+   - Policy / registration / grading / probation questions
+   - Semester planning, prerequisites, schedules, conflicts
+   - "Can I…", "Should I take…", "What are the requirements for…"
+   When in doubt about a question that mentions CMU-Q specifics → "academic".
+
+THEN PRODUCE A REPLY:
+  - If "greeting": write a brief friendly reply (1-2 sentences) that invites
+    the student to ask an academic question.
+  - If "general": ANSWER the question directly and concisely (1-3 sentences).
+    For meta/capability questions, describe AdvisingBot's capabilities.
+    For factual questions, answer from your knowledge. If you don't know
+    (e.g., real-time data), say so briefly in one sentence.
+  - If "academic": leave reply EMPTY — the full pipeline will handle it.
 
 USER MESSAGE: "{q}"
 
-Respond with JSON ONLY:
-{{"is_greeting": true, "reply": "..."}}
-or
-{{"is_greeting": false, "reply": ""}}"""
+Respond with JSON ONLY (no prose, no markdown fence):
+{{"category": "greeting" | "general" | "academic", "reply": "..."}}"""
 
         try:
             response = self.triage_llm.invoke([SystemMessage(content=prompt)])
             json_match = re.search(r'\{.*\}', response.content, re.DOTALL)
             if not json_match:
                 # Couldn't parse — fall through to full pipeline.
-                return {"is_greeting": False, "reply": ""}
+                return {"category": "academic", "reply": ""}
             data = json.loads(json_match.group())
-            is_greeting = bool(data.get("is_greeting", False))
+
+            category = str(data.get("category", "academic")).strip().lower()
+            if category not in self._TRIAGE_CATEGORIES:
+                # Unknown category — safest is to fall through.
+                category = "academic"
+
             reply = (data.get("reply") or "").strip()
-            if is_greeting and not reply:
+
+            # Fill in defaults if the model marked a short-circuit category
+            # but forgot the reply.
+            if category == "greeting" and not reply:
                 reply = self._DEFAULT_GREETING_REPLY
-            return {"is_greeting": is_greeting, "reply": reply}
+            elif category == "general" and not reply:
+                reply = self._DEFAULT_GENERAL_REPLY
+            elif category == "academic":
+                reply = ""  # always empty for academic — pipeline produces the real answer
+
+            return {"category": category, "reply": reply}
         except Exception as e:
             # Any failure → fall through to full pipeline (never block users).
-            print(f"⚠️  triage_greeting failed (falling through): {e}")
-            return {"is_greeting": False, "reply": ""}
+            print(f"⚠️  triage_query failed (falling through to full pipeline): {e}")
+            return {"category": "academic", "reply": ""}
+
+    # Backward-compatible alias for any existing callers / tests that used the
+    # old binary `triage_greeting` API. New code should use `triage_query`.
+    def triage_greeting(self, query: str) -> Dict[str, Any]:
+        result = self.triage_query(query)
+        return {
+            "is_greeting": result["category"] == "greeting",
+            "reply": result["reply"] if result["category"] == "greeting" else "",
+        }
 
     def classify_intent(self, query: str, conversation_history: List[Dict] = None,
                        student_profile: Dict = None) -> Dict[str, Any]:

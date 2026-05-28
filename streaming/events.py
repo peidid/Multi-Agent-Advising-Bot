@@ -20,6 +20,7 @@ class EventType(str, Enum):
     COORDINATOR_CONFLICT = "coordinator_conflict"
     COORDINATOR_MEMORY_RESOLVED = "coordinator_memory_resolved"
     COORDINATOR_GREETING = "coordinator_greeting"
+    COORDINATOR_SHORTCIRCUIT = "coordinator_shortcircuit"
 
     # Agent lifecycle
     AGENT_START = "agent_start"
@@ -112,6 +113,31 @@ def coordinator_thinking_event(message: str = "Analyzing your question...") -> S
         event_type=EventType.COORDINATOR_THINKING,
         agent_name="coordinator",
         message=message
+    )
+
+
+def coordinator_shortcircuit_event(category: str, reply: str,
+                                    triage_time: float = 0.0) -> StreamEvent:
+    """
+    Emitted when the top-layer triage short-circuits the full pipeline.
+
+    Categories that trigger this event:
+      - "greeting" — pure social pleasantry (hi, thanks, bye)
+      - "general"  — meta / world knowledge that doesn't need the MAS
+                     ("what can you do", "who is the US president", etc.)
+
+    Academic queries do NOT emit this event — they go through the full
+    pipeline and emit the usual coordinator_routing → agent_* → synthesis_* chain.
+    """
+    return StreamEvent(
+        event_type=EventType.COORDINATOR_SHORTCIRCUIT,
+        agent_name="coordinator",
+        message=f"Short-circuit ({category}) — skipping agents and synthesis",
+        data={
+            "category": category,
+            "reply": reply,
+            "triage_time": round(float(triage_time), 3),
+        }
     )
 
 
