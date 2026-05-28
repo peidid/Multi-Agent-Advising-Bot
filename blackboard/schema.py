@@ -128,3 +128,22 @@ class BlackboardState(TypedDict):
 
     # Phase Timing (for performance analysis)
     phase_timing: Optional[Dict[str, Any]]  # Timing for each phase (intent, agents, synthesis)
+
+    # Resolved Working Memory (LLM-resolved short-term memory for the conversation)
+    # Populated by the coordinator BEFORE agents run. Structure:
+    #   {
+    #     "resolved_query": str,                  # pronouns expanded, e.g. "Will 67-250 be offered in Fall 2026?"
+    #     "focus_entities": {
+    #         "courses":    List[str],            # course codes in XX-XXX form
+    #         "programs":   List[str],
+    #         "semesters":  List[str],
+    #         "professors": List[str],
+    #     },
+    #     "topic_continuity": str,                # "new_topic" | "follow_up" | "refinement" | "topic_shift"
+    #     "prior_facts_summary": str,
+    #     "unresolved_references": List[str],
+    #     "needs_clarification": bool,
+    #     "confidence": float,
+    #   }
+    # When absent or empty, agents fall back to raw user_query + conversation_history.
+    resolved_context: Optional[Dict[str, Any]]

@@ -191,6 +191,37 @@ class Coordinator:
             except Exception as e:
                 print(f"⚠️  Context formatting error: {e}")
 
+        # =====================================================================
+        # SHORT-TERM MEMORY: resolve pronouns / references BEFORE routing.
+        # The resolver does nothing (no LLM call) on first turn — see
+        # LLMDrivenCoordinator.resolve_context.
+        # The resolved query is then used for routing so the fast-path
+        # classifier sees a self-contained question, not "will it be offered?".
+        # =====================================================================
+        try:
+            resolved_context = self.llm_coordinator.resolve_context(
+                query,
+                conversation_history or [],
+                student_profile or {}
+            )
+        except Exception as e:
+            print(f"⚠️  resolve_context failed, falling back to raw query: {e}")
+            resolved_context = {
+                "resolved_query": query,
+                "focus_entities": {"courses": [], "programs": [],
+                                   "semesters": [], "professors": []},
+                "topic_continuity": "new_topic",
+                "prior_facts_summary": "",
+                "unresolved_references": [],
+                "needs_clarification": False,
+                "confidence": 0.0,
+            }
+
+        # Effective query used for routing & downstream LLM planning.
+        # If the resolver expanded references, use the expansion; otherwise keep raw.
+        resolved_query = resolved_context.get("resolved_query") or query
+        routing_query = resolved_query if resolved_query.strip() else query
+
         try:
             # === FAST PATH: Use fine-tuned classifier ===
             if self.finetuned_classifier:
@@ -198,8 +229,10 @@ class Coordinator:
                 # Run async classifier synchronously
                 # Use asyncio.run() which creates a new event loop for the current thread
                 # This works correctly even when called from a background thread
+                # NOTE: routing_query (resolved) is sent so the classifier sees
+                # "Will 67-250 be offered Fall 2026?" instead of "Will it be offered?"
                 result = asyncio.run(
-                    self.finetuned_classifier.classify(query, student_profile)
+                    self.finetuned_classifier.classify(routing_query, student_profile)
                 )
 
                 return {
@@ -211,13 +244,15 @@ class Coordinator:
                     "intents": result["intents"],
                     "is_multi_agent": result["is_multi"],
                     "mode": "finetuned",
-                    "context_text": context_text  # Pass context to agents
+                    "context_text": context_text,  # Pass context to agents
+                    "resolved_context": resolved_context,  # Short-term memory
                 }
 
             # === SLOW PATH: Full LLM reasoning ===
-            # Normal workflow planning with original query
+            # Routing uses the resolved query so the LLM planner sees a self-
+            # contained question. History is still passed for richer reasoning.
             plan = self.llm_coordinator.understand_and_plan(
-                query,
+                routing_query,
                 conversation_history or [],
                 student_profile or {}
             )
@@ -240,23 +275,26 @@ class Coordinator:
                 "agent_analysis": plan.full_analysis.get('agent_analysis', {}) if hasattr(plan, 'full_analysis') else {},
                 "agent_tasks": plan.agent_tasks or {},  # Specific task instructions for each agent
                 "mode": "llm_driven",
-                "context_text": context_text  # Pass context to agents
+                "context_text": context_text,  # Pass context to agents
+                "resolved_context": resolved_context,  # Short-term memory
             }
-            
+
             return result
-            
+
         except Exception as e:
             print(f"⚠️  LLM-driven coordinator error: {e}")
             import traceback
             traceback.print_exc()
-            # Return a minimal fallback
+            # Return a minimal fallback — still includes resolved_context so
+            # agents get whatever memory we managed to compute.
             return {
                 "intent_type": "general",
                 "required_agents": ["programs_requirements"],
                 "confidence": 0.5,
                 "reasoning": f"Error in LLM coordination: {str(e)}",
                 "priority": "medium",
-                "mode": "fallback"
+                "mode": "fallback",
+                "resolved_context": resolved_context,
             }
     
     def plan_workflow(self, intent: Dict[str, Any]) -> List[str]:

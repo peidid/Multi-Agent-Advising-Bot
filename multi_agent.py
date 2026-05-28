@@ -30,12 +30,19 @@ try:
         coordinator_evaluation_event,
         agent_rerun_start_event,
         agent_rerun_complete_event,
-        agent_output_event
+        agent_output_event,
     )
     STREAMING_AVAILABLE = True
 except ImportError:
     STREAMING_AVAILABLE = False
     def emit_event(event): pass
+
+# Memory resolution event is optional — handle older streaming/events versions.
+try:
+    from streaming.events import coordinator_memory_resolved_event
+    MEMORY_EVENT_AVAILABLE = True
+except ImportError:
+    MEMORY_EVENT_AVAILABLE = False
 
 # Print model configuration on startup
 print_model_config()
@@ -113,9 +120,9 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
         if STREAMING_AVAILABLE:
             emit_event(coordinator_thinking_event("Analyzing your question..."))
 
-        # Track intent classification time
+        # Track intent classification time (includes the short-term memory
+        # resolver, which runs inside classify_intent before routing).
         intent_start = time.time()
-        # Pass conversation history and profile for context-aware classification
         intent = coordinator.classify_intent(
             user_query,
             conversation_history=conversation_history,
@@ -123,6 +130,17 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
         )
         workflow = coordinator.plan_workflow(intent)
         intent_time = time.time() - intent_start
+
+        # Extract resolved short-term memory produced by the coordinator.
+        resolved_context = intent.get("resolved_context") or {}
+
+        # Emit memory-resolution event so the UI can show what was resolved
+        # (this is independent of the routing event below).
+        if STREAMING_AVAILABLE and MEMORY_EVENT_AVAILABLE and resolved_context:
+            try:
+                emit_event(coordinator_memory_resolved_event(resolved_context))
+            except Exception:
+                pass
 
         # Emit routing event
         if STREAMING_AVAILABLE:
@@ -142,7 +160,9 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
             # Pass context_text to agents
             "context_text": intent.get("context_text", ""),
             # Pass specific task instructions for each agent
-            "agent_tasks": intent.get("agent_tasks", {})
+            "agent_tasks": intent.get("agent_tasks", {}),
+            # Pass short-term memory (resolved query + focus entities)
+            "resolved_context": resolved_context,
         }
 
     elif workflow_step == WorkflowStep.NEGOTIATION:

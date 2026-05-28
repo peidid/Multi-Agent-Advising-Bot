@@ -18,6 +18,7 @@ class EventType(str, Enum):
     COORDINATOR_THINKING = "coordinator_thinking"
     COORDINATOR_ROUTING = "coordinator_routing"
     COORDINATOR_CONFLICT = "coordinator_conflict"
+    COORDINATOR_MEMORY_RESOLVED = "coordinator_memory_resolved"
 
     # Agent lifecycle
     AGENT_START = "agent_start"
@@ -110,6 +111,51 @@ def coordinator_thinking_event(message: str = "Analyzing your question...") -> S
         event_type=EventType.COORDINATOR_THINKING,
         agent_name="coordinator",
         message=message
+    )
+
+
+def coordinator_memory_resolved_event(resolved_context: Dict[str, Any]) -> StreamEvent:
+    """
+    Emitted after the coordinator's short-term memory resolves the current turn.
+
+    Surfaces pronoun expansion, focus entities, and topic continuity to the UI
+    so users can see exactly how the system interpreted their follow-up question.
+    """
+    rc = resolved_context or {}
+    resolved_query = (rc.get("resolved_query") or "").strip()
+    fe = rc.get("focus_entities") or {}
+    continuity = rc.get("topic_continuity", "new_topic")
+    unresolved = rc.get("unresolved_references") or []
+    needs_clar = bool(rc.get("needs_clarification", False))
+    confidence = rc.get("confidence", 0.0)
+
+    # Short, human-readable summary for the UI ticker.
+    parts = []
+    if continuity != "new_topic":
+        parts.append(f"topic={continuity}")
+    if fe.get("courses"):
+        parts.append(f"courses={','.join(fe['courses'])}")
+    if fe.get("programs"):
+        parts.append(f"programs={','.join(fe['programs'])}")
+    if fe.get("semesters"):
+        parts.append(f"semesters={','.join(fe['semesters'])}")
+    if unresolved:
+        parts.append(f"unresolved={','.join(unresolved)}")
+    summary = "; ".join(parts) if parts else "no references to resolve"
+
+    return StreamEvent(
+        event_type=EventType.COORDINATOR_MEMORY_RESOLVED,
+        agent_name="coordinator",
+        message=f"Short-term memory resolved ({summary})",
+        data={
+            "resolved_query": resolved_query,
+            "focus_entities": fe,
+            "topic_continuity": continuity,
+            "prior_facts_summary": rc.get("prior_facts_summary", ""),
+            "unresolved_references": unresolved,
+            "needs_clarification": needs_clar,
+            "confidence": confidence,
+        }
     )
 
 

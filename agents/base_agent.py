@@ -201,6 +201,106 @@ Focus on accomplishing this task. Retrieve relevant information and provide a fo
             ])
         return ""
 
+    def get_resolved_context(self, state: BlackboardState) -> dict:
+        """
+        Read the short-term memory (resolved working memory) produced by the
+        coordinator. Returns an empty-shape dict if not present, so callers
+        can always rely on the keys.
+        """
+        rc = state.get("resolved_context") or {}
+        if not rc:
+            return {}
+        # Defensive defaults: agents can rely on these keys existing.
+        rc.setdefault("resolved_query", "")
+        rc.setdefault("focus_entities", {
+            "courses": [], "programs": [], "semesters": [], "professors": []
+        })
+        fe = rc["focus_entities"]
+        for k in ("courses", "programs", "semesters", "professors"):
+            fe.setdefault(k, [])
+        rc.setdefault("topic_continuity", "new_topic")
+        rc.setdefault("prior_facts_summary", "")
+        rc.setdefault("unresolved_references", [])
+        rc.setdefault("needs_clarification", False)
+        rc.setdefault("confidence", 0.0)
+        return rc
+
+    def get_effective_query(self, state: BlackboardState) -> str:
+        """
+        Return the query the agent should reason over.
+
+        Prefers the resolved (pronoun-expanded) query when the coordinator's
+        short-term memory produced one with reasonable confidence. Falls back
+        to the raw user_query otherwise — never returns an empty string.
+        """
+        rc = self.get_resolved_context(state)
+        resolved = (rc.get("resolved_query") or "").strip()
+        confidence = float(rc.get("confidence", 0.0) or 0.0)
+        raw = state.get("user_query", "") or ""
+        # Use resolved only when (a) it exists, (b) confidence is non-trivial,
+        # (c) it's actually different from the raw query OR confidence is high.
+        if resolved and confidence >= 0.3:
+            return resolved
+        return raw
+
+    def format_resolved_context_for_prompt(self, state: BlackboardState) -> str:
+        """
+        Build a compact, readable block describing the short-term memory for
+        inclusion in an agent prompt. Returns "" when there's nothing useful
+        (e.g., first-turn query with no resolution).
+        """
+        rc = self.get_resolved_context(state)
+        if not rc:
+            return ""
+
+        raw_query = state.get("user_query", "") or ""
+        resolved_query = (rc.get("resolved_query") or "").strip()
+        fe = rc.get("focus_entities", {})
+        continuity = rc.get("topic_continuity", "new_topic")
+        prior = (rc.get("prior_facts_summary") or "").strip()
+        unresolved = rc.get("unresolved_references", []) or []
+        needs_clar = rc.get("needs_clarification", False)
+        confidence = rc.get("confidence", 0.0)
+
+        # First-turn or no-op resolution → don't pollute the prompt.
+        no_entities = not any(fe.get(k) for k in ("courses", "programs", "semesters", "professors"))
+        no_prior    = not prior
+        same_query  = resolved_query == raw_query or not resolved_query
+        if continuity == "new_topic" and no_entities and no_prior and same_query:
+            return ""
+
+        lines = ["--- RESOLVED WORKING MEMORY (from coordinator short-term memory) ---"]
+        if resolved_query and resolved_query != raw_query:
+            lines.append(f"Resolved query: {resolved_query}")
+            lines.append(f"Original query: {raw_query}")
+        else:
+            lines.append(f"Query: {raw_query}")
+
+        focus_lines = []
+        if fe.get("courses"):
+            focus_lines.append(f"  • Courses in focus: {', '.join(fe['courses'])}")
+        if fe.get("programs"):
+            focus_lines.append(f"  • Programs in focus: {', '.join(fe['programs'])}")
+        if fe.get("semesters"):
+            focus_lines.append(f"  • Semesters in focus: {', '.join(fe['semesters'])}")
+        if fe.get("professors"):
+            focus_lines.append(f"  • Professors in focus: {', '.join(fe['professors'])}")
+        if focus_lines:
+            lines.append("Focus entities:")
+            lines.extend(focus_lines)
+
+        lines.append(f"Topic continuity: {continuity}")
+        if prior:
+            lines.append(f"Prior facts: {prior}")
+        if unresolved:
+            lines.append(f"Unresolved references: {', '.join(unresolved)}")
+        if needs_clar:
+            lines.append("NOTE: needs_clarification=true — if you cannot proceed confidently, say so and ask the student to clarify.")
+        lines.append(f"Resolution confidence: {confidence:.2f}")
+        lines.append("Use the resolved query and focus entities as the ground truth for what the student is asking about right now.")
+        lines.append("--- END WORKING MEMORY ---")
+        return "\n".join(lines)
+
     def retrieve_context(self, query: str, k: int = None) -> str:
         """
         Retrieve domain-specific context using RAG.

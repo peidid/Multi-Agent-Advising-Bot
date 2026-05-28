@@ -49,13 +49,20 @@ class CourseSchedulingAgent(BaseAgent):
         self.set_retrieval_k_from_state(state)
 
         try:
-            user_query = state.get("user_query", "")
+            raw_query = state.get("user_query", "")
+            effective_query = self.get_effective_query(state)
             plan_options = state.get("plan_options", [])
             agent_outputs = state.get("agent_outputs", {})
             messages = state.get("messages", [])
 
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
+            # Resolved short-term memory block
+            resolved_memory_block = self.format_resolved_context_for_prompt(state)
+            # Focus entities from the coordinator's short-term memory.
+            resolved_ctx = self.get_resolved_context(state)
+            focus_courses = resolved_ctx.get("focus_entities", {}).get("courses", [])
+            focus_semesters = resolved_ctx.get("focus_entities", {}).get("semesters", [])
 
             # Get coordinator feedback if this is a re-run
             coordinator_guidance = self.get_coordinator_guidance()
@@ -66,19 +73,26 @@ class CourseSchedulingAgent(BaseAgent):
             # Store for use in prompt building
             self._current_assigned_task = assigned_task
             self._current_coordinator_guidance = coordinator_guidance
+            self._current_resolved_memory_block = resolved_memory_block
+            self._current_raw_query = raw_query
 
             # Enhance query with coordinator guidance if available
-            enhanced_query = user_query
+            enhanced_query = effective_query
             if coordinator_guidance:
                 gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
                 if gaps:
                     enhanced_query += " " + " ".join(gaps[:3])
 
-            # Extract courses from plan or query
-            courses = self._extract_courses(plan_options, user_query, agent_outputs, messages)
+            # Extract courses — use coordinator-resolved focus_entities as the
+            # PRIMARY signal (it already handled "it" → "67-250"). Fall back
+            # to query parsing / recent-course heuristic only if empty.
+            courses = self._extract_courses(
+                plan_options, effective_query, agent_outputs, messages,
+                focus_courses=focus_courses,
+            )
 
             if not courses:
-                result = self._answer_general_question(user_query, messages, memory_context)
+                result = self._answer_general_question(effective_query, messages, memory_context)
                 self.emit_output(result)
                 self.emit_complete(confidence=result.confidence, summary="Answered course question")
                 return result
@@ -87,11 +101,20 @@ class CourseSchedulingAgent(BaseAgent):
             course_info = []
             risks = []
 
-            # Extract semester if mentioned
+            # Extract semester — prefer the coordinator's resolved semester
+            # (e.g., "next semester" → "Fall 2026"), then fall back to regex.
             semester = None
-            semester_match = re.search(r'(spring|fall|summer)\s*(\d{4})', user_query, re.IGNORECASE)
-            if semester_match:
-                semester = f"{semester_match.group(1).lower()}_{semester_match.group(2)}"
+            if focus_semesters:
+                # Normalize "Fall 2026" → "fall_2026" to match get_course_schedule format.
+                sem_match = re.search(r'(spring|fall|summer)\s*(\d{4})',
+                                      focus_semesters[0], re.IGNORECASE)
+                if sem_match:
+                    semester = f"{sem_match.group(1).lower()}_{sem_match.group(2)}"
+            if not semester:
+                semester_match = re.search(r'(spring|fall|summer)\s*(\d{4})',
+                                           effective_query, re.IGNORECASE)
+                if semester_match:
+                    semester = f"{semester_match.group(1).lower()}_{semester_match.group(2)}"
 
             self.emit_thinking(f"Looking up {len(courses)} courses...")
 
@@ -117,7 +140,7 @@ class CourseSchedulingAgent(BaseAgent):
 
             # Build prompt and call LLM
             self.emit_thinking("Generating course information...")
-            prompt = self._build_prompt(user_query, course_info, risks, memory_context)
+            prompt = self._build_prompt(effective_query, course_info, risks, memory_context)
             response = self.llm.invoke([SystemMessage(content=prompt)])
 
             result = AgentOutput(
@@ -137,29 +160,47 @@ class CourseSchedulingAgent(BaseAgent):
             self.emit_error(str(e))
             raise
     
-    def _extract_courses(self, plan_options: list, query: str, agent_outputs: dict, messages: list = None) -> list:
-        """Extract course codes from various sources."""
+    def _extract_courses(self, plan_options: list, query: str, agent_outputs: dict,
+                         messages: list = None, focus_courses: list = None) -> list:
+        """
+        Extract course codes from various sources.
+
+        Priority order:
+          1. focus_courses — coordinator's resolved short-term memory (authoritative)
+          2. Course codes in the (resolved) query
+          3. Courses from plan_options on the blackboard
+          4. Courses from a prior agent's plan_options
+          5. Legacy fallback: most recent course mentioned in messages
+
+        The legacy fallback (5) is retained as a safety net for cases where
+        the coordinator's resolver fails or returns empty.
+        """
         courses = set()
 
-        # From query - extract course codes
+        # 1. Coordinator-resolved focus courses (authoritative)
+        if focus_courses:
+            courses.update(focus_courses)
+
+        # 2. Course codes in the resolved query itself
         courses.update(find_course_codes_in_text(query))
 
-        # From plan options
+        # 3. From plan options on the blackboard
         for plan in plan_options:
             if isinstance(plan, dict):
                 courses.update(plan.get("courses", []))
             elif hasattr(plan, "courses"):
                 courses.update(plan.courses)
 
-        # From Programs agent output
+        # 4. From Programs agent output
         programs_output = agent_outputs.get("programs_requirements")
         if programs_output and programs_output.plan_options:
             for plan_option in programs_output.plan_options:
                 courses.update(plan_option.courses)
 
-        # If still no courses found and we have messages, get most recent course
-        # (for general follow-up questions)
-        if not courses and messages:
+        # 5. Legacy safety net: recent-course heuristic from raw messages.
+        #    Only triggers if everything else failed AND the coordinator
+        #    didn't produce focus_courses (i.e., resolver wasn't used or failed).
+        if not courses and not focus_courses and messages:
             recent_course = self._get_most_recent_course(messages)
             if recent_course:
                 return [recent_course]
@@ -211,12 +252,17 @@ class CourseSchedulingAgent(BaseAgent):
         # Fallback to general RAG search + semester schedule if available
         context = self.retrieve_context(query)
 
+        # Resolved short-term memory block (set on self by execute()).
+        working_memory_section = ""
+        if getattr(self, "_current_resolved_memory_block", ""):
+            working_memory_section = f"\n{self._current_resolved_memory_block}\n"
+
         context_section = ""
         if memory_context:
             context_section = f"""
 {memory_context}
 
-IMPORTANT: Use the conversation context above to understand what "it", "the course", "this class" etc. refer to.
+IMPORTANT: The RESOLVED WORKING MEMORY block above is the ground truth for current focus. Use raw conversation history only as supporting context.
 """
 
         # Include ALL schedule data - LLM will filter based on query
@@ -225,9 +271,14 @@ AVAILABLE COURSE SCHEDULES (all semesters):
 {json.dumps(all_schedules, indent=2, default=str)}
 """
 
+        raw_query = getattr(self, "_current_raw_query", "") or ""
+        query_block = f"Query (resolved): {query}"
+        if raw_query and raw_query != query:
+            query_block += f"\nQuery (original): {raw_query}"
+
         prompt = f"""You are the Course & Scheduling Agent for CMU-Q.
-{context_section}
-Query: {query}
+{working_memory_section}{context_section}
+{query_block}
 
 DEPARTMENT CODES (first 2 digits of course code):
 - 67-XXX = Information Systems (IS)
@@ -302,12 +353,17 @@ RAG Context: {context}
                     coreq_names = [f"{cr.get('code')} ({cr.get('name')})" for cr in co_reqs]
                     coreq_summary += f"\n** {code} has CO-REQUISITE: {', '.join(coreq_names)} - these courses are DESIGNED to be taken TOGETHER **\n"
 
+        # Resolved short-term memory (authoritative for what's being asked).
+        working_memory_section = ""
+        if getattr(self, "_current_resolved_memory_block", ""):
+            working_memory_section = f"\n{self._current_resolved_memory_block}\n"
+
         context_section = ""
         if memory_context:
             context_section = f"""
 {memory_context}
 
-IMPORTANT: Use the conversation context above to understand what "it", "the course", "this class" etc. refer to.
+IMPORTANT: The RESOLVED WORKING MEMORY block above is the ground truth for current focus. Use raw conversation history only as supporting context.
 """
 
         # Include coordinator's task assignment if available
@@ -325,7 +381,7 @@ IMPORTANT: Use the conversation context above to understand what "it", "the cour
 """
 
         return f"""You are the Course & Scheduling Agent for CMU-Q.
-{context_section}{task_section}{guidance_section}
+{working_memory_section}{context_section}{task_section}{guidance_section}
 Your Responsibilities:
 - Provide detailed information about specific courses
 - Answer questions about prerequisites, assessment structure, course content, description

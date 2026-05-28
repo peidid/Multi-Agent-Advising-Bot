@@ -37,13 +37,17 @@ class ProgramsRequirementsAgent(BaseAgent):
 
         try:
             # 1. Read from Blackboard
-            user_query = state.get("user_query", "")
+            raw_query = state.get("user_query", "")
+            # Use coordinator-resolved query (pronouns expanded) when available.
+            effective_query = self.get_effective_query(state)
             user_goal = state.get("user_goal", "")
             student_profile = state.get("student_profile", {})
             constraints = state.get("constraints", [])
 
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
+            # Short-term memory block (resolved entities + topic continuity)
+            resolved_memory_block = self.format_resolved_context_for_prompt(state)
 
             # Get coordinator feedback if this is a re-run
             coordinator_guidance = self.get_coordinator_guidance()
@@ -52,18 +56,36 @@ class ProgramsRequirementsAgent(BaseAgent):
             assigned_task = self.get_assigned_task()
 
             # 2. Retrieve domain-specific context (emits its own events)
-            # If we have coordinator guidance, enhance the query with it
-            query_for_rag = f"{user_query} {user_goal}"
+            # Use the RESOLVED query so retrieval pulls docs about the actual
+            # entities (e.g., "67-250 prerequisites") not the pronoun ("it").
+            query_for_rag = f"{effective_query} {user_goal}"
             if coordinator_guidance:
                 # Add guidance-based keywords to improve retrieval
                 gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
                 if gaps:
                     query_for_rag += " " + " ".join(gaps[:3])
+            # Boost retrieval with focus-entity codes/programs the coordinator identified.
+            rc_entities = self.get_resolved_context(state).get("focus_entities", {})
+            entity_terms = (rc_entities.get("courses", []) +
+                            rc_entities.get("programs", []))
+            if entity_terms:
+                query_for_rag += " " + " ".join(entity_terms)
             context = self.retrieve_context(query_for_rag)
 
             # 3. Build prompt
             self.emit_thinking("Analyzing program requirements...")
-            prompt = self._build_prompt(user_query, user_goal, student_profile, context, constraints, memory_context, coordinator_guidance, assigned_task)
+            prompt = self._build_prompt(
+                query=effective_query,
+                raw_query=raw_query,
+                goal=user_goal,
+                profile=student_profile,
+                context=context,
+                constraints=constraints,
+                memory_context=memory_context,
+                coordinator_guidance=coordinator_guidance,
+                assigned_task=assigned_task,
+                resolved_memory_block=resolved_memory_block,
+            )
 
             # 4. Call LLM
             self.emit_thinking("Generating response...")
@@ -87,10 +109,20 @@ class ProgramsRequirementsAgent(BaseAgent):
             self.emit_error(str(e))
             raise
     
-    def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list, memory_context: str = "", coordinator_guidance: str = "", assigned_task: str = "") -> str:
+    def _build_prompt(self, query: str, goal: str, profile: dict, context: str, constraints: list,
+                      memory_context: str = "", coordinator_guidance: str = "", assigned_task: str = "",
+                      raw_query: str = "", resolved_memory_block: str = "") -> str:
         """Build detailed prompt for Programs agent."""
         constraints_text = "\n".join([f"- {c.description}" for c in constraints]) if constraints else "None"
         profile_text = json.dumps(profile, indent=2) if profile else "Not provided"
+
+        # Short-term working memory block (resolved query + focus entities).
+        # This is the AUTHORITATIVE answer to "what is the student asking about
+        # right now?" — it sits above raw conversation history so the LLM
+        # doesn't have to re-derive references.
+        working_memory_section = ""
+        if resolved_memory_block:
+            working_memory_section = f"\n{resolved_memory_block}\n"
 
         # Include conversation context if available
         context_section = ""
@@ -98,7 +130,7 @@ class ProgramsRequirementsAgent(BaseAgent):
             context_section = f"""
 {memory_context}
 
-IMPORTANT: Use the conversation context above to understand what "it", "the course", "this program", "that requirement" etc. refer to. If the student mentions something from a previous message, look at the context to understand what they mean.
+IMPORTANT: The RESOLVED WORKING MEMORY block above is the ground truth for what the student means right now. Use the raw conversation history only as supporting context.
 """
 
         # Include coordinator's task assignment (initial run)
@@ -116,8 +148,13 @@ IMPORTANT: Use the conversation context above to understand what "it", "the cour
 IMPORTANT: The coordinator has identified gaps in your previous response. Focus on addressing these specific areas to improve your answer quality.
 """
 
+        # Show both the resolved query (primary) and the raw query (for transparency).
+        query_block = f"User Query (resolved): {query}"
+        if raw_query and raw_query != query:
+            query_block += f"\nUser Query (original): {raw_query}"
+
         return f"""You are the Programs & Requirements Agent for CMU-Q.
-{context_section}{task_section}{guidance_section}
+{working_memory_section}{context_section}{task_section}{guidance_section}
 
 Your Responsibilities:
 1. Answer questions about major/minor requirements
@@ -127,7 +164,7 @@ Your Responsibilities:
 
 Student Profile: {profile_text}
 User Goal: {goal}
-User Query: {query}
+{query_block}
 Existing Constraints: {constraints_text}
 
 Retrieved Context (from program requirements documents):

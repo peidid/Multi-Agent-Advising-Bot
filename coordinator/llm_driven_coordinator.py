@@ -319,7 +319,180 @@ IMPORTANT:
             # Fallback to simple plan
             return self._create_fallback_plan(user_query)
     
-    def adapt_workflow(self, 
+    # ------------------------------------------------------------------
+    # Short-term working memory: pronoun / reference resolution
+    # ------------------------------------------------------------------
+    # Default skeleton used for first-turn queries (no history).
+    _EMPTY_RESOLVED_CONTEXT: Dict[str, Any] = {
+        "resolved_query": "",
+        "focus_entities": {
+            "courses": [],
+            "programs": [],
+            "semesters": [],
+            "professors": [],
+        },
+        "topic_continuity": "new_topic",
+        "prior_facts_summary": "",
+        "unresolved_references": [],
+        "needs_clarification": False,
+        "confidence": 1.0,
+    }
+
+    def resolve_context(self,
+                        user_query: str,
+                        conversation_history: List[Dict] = None,
+                        student_profile: Dict = None) -> Dict[str, Any]:
+        """
+        Produce structured short-term working memory for the current turn.
+
+        Does ONE focused LLM call to:
+          - expand pronouns / implicit references in the current query
+          - extract focus entities (courses, programs, semesters, professors)
+          - assess topic continuity vs. the prior conversation
+          - summarize the relevant prior facts (1-2 sentences)
+          - flag unresolved references for honest fallback
+
+        This is the system's short-term memory: agents downstream read
+        `resolved_query` + `focus_entities` instead of re-deriving references
+        independently. On the FIRST turn (no history) this returns a trivial
+        skeleton with no LLM call.
+
+        Returns a dict in the shape documented on BlackboardState.resolved_context.
+        """
+        history = conversation_history or []
+        # First turn: nothing to resolve. Skip the LLM call entirely.
+        if not history:
+            ctx = json.loads(json.dumps(self._EMPTY_RESOLVED_CONTEXT))  # deep copy
+            ctx["resolved_query"] = user_query
+            return ctx
+
+        history_str = self._format_conversation_history(history)
+        profile_str = self._format_student_profile(student_profile or {})
+
+        prompt = f"""You are the short-term MEMORY module for an academic advising assistant at CMU-Q.
+Your only job is to produce a structured "resolved working memory" object that
+downstream specialist agents will read. You do NOT answer the student's question.
+
+CONVERSATION HISTORY (oldest first):
+{history_str}
+
+STUDENT PROFILE:
+{profile_str}
+
+CURRENT QUESTION:
+"{user_query}"
+
+YOUR TASK:
+1. RESOLVE references in the current question.
+   - Replace pronouns and implicit references ("it", "the course", "that program",
+     "next semester", "this requirement", "the one we talked about", ...) with the
+     specific entities they refer to, using the conversation history.
+   - If the question is already explicit, copy it as-is.
+   - Course codes must be in XX-XXX format (e.g., "15-122", "67-250").
+   - "Next semester" / "this fall" etc. → an explicit term like "Fall 2026" only if
+     a specific term is clearly implied by the history or profile. Otherwise leave
+     the phrase as-is and add it to `unresolved_references`.
+
+2. EXTRACT focus entities — only those EXPLICITLY relevant to the current question
+   (after resolution). Do NOT include every entity ever mentioned.
+
+3. ASSESS topic continuity:
+   - "new_topic"    — unrelated to prior turns
+   - "follow_up"    — same subject as prior turn (e.g., asking more about same course)
+   - "refinement"   — narrowing/clarifying a prior question
+   - "topic_shift"  — related but different focus
+
+4. SUMMARIZE relevant prior facts in 1-2 sentences. Only facts that actually
+   bear on resolving the current question.
+
+5. FLAG unresolved references in `unresolved_references` (e.g., "it" with no
+   clear antecedent, "next semester" with no anchor). Set `needs_clarification`
+   to true only if the question is ambiguous enough that agents shouldn't proceed.
+
+6. CONFIDENCE (0.0-1.0): how sure you are about the resolution.
+
+OUTPUT — RESPOND WITH JSON ONLY, NO PROSE:
+{{
+    "resolved_query": "...",
+    "focus_entities": {{
+        "courses":    ["XX-XXX", ...],
+        "programs":   ["..."],
+        "semesters":  ["Fall 2026", ...],
+        "professors": ["..."]
+    }},
+    "topic_continuity": "new_topic" | "follow_up" | "refinement" | "topic_shift",
+    "prior_facts_summary": "...",
+    "unresolved_references": ["..."],
+    "needs_clarification": false,
+    "confidence": 0.95
+}}
+
+RULES:
+- NEVER invent entities that aren't in the conversation or the current question.
+- If you can't confidently resolve something, leave it as the original phrase
+  and list it in `unresolved_references`.
+- Output ONLY the JSON object."""
+
+        try:
+            response = self.llm.invoke([SystemMessage(content=prompt)])
+            json_match = re.search(r'\{.*\}', response.content, re.DOTALL)
+            if not json_match:
+                return self._safe_resolved_fallback(user_query)
+            data = json.loads(json_match.group())
+            return self._normalize_resolved_context(data, user_query)
+        except Exception as e:
+            print(f"⚠️  resolve_context error: {e}")
+            return self._safe_resolved_fallback(user_query)
+
+    def _normalize_resolved_context(self, raw: Dict[str, Any], user_query: str) -> Dict[str, Any]:
+        """Validate and fill defaults so downstream code can rely on the shape."""
+        skeleton = json.loads(json.dumps(self._EMPTY_RESOLVED_CONTEXT))
+        skeleton["resolved_query"] = raw.get("resolved_query") or user_query
+
+        entities = raw.get("focus_entities") or {}
+        for key in ("courses", "programs", "semesters", "professors"):
+            val = entities.get(key) or []
+            if not isinstance(val, list):
+                val = [str(val)]
+            # Normalize to strings, drop empties
+            skeleton["focus_entities"][key] = [str(v).strip() for v in val if v]
+
+        # Course codes: enforce XX-XXX format (drop anything malformed)
+        skeleton["focus_entities"]["courses"] = [
+            c for c in skeleton["focus_entities"]["courses"]
+            if re.fullmatch(r"\d{2}-\d{3}", c)
+        ]
+
+        continuity = raw.get("topic_continuity", "new_topic")
+        if continuity not in ("new_topic", "follow_up", "refinement", "topic_shift"):
+            continuity = "new_topic"
+        skeleton["topic_continuity"] = continuity
+
+        skeleton["prior_facts_summary"] = (raw.get("prior_facts_summary") or "").strip()
+
+        unresolved = raw.get("unresolved_references") or []
+        if not isinstance(unresolved, list):
+            unresolved = [str(unresolved)]
+        skeleton["unresolved_references"] = [str(u) for u in unresolved if u]
+
+        skeleton["needs_clarification"] = bool(raw.get("needs_clarification", False))
+
+        try:
+            conf = float(raw.get("confidence", 0.8))
+            skeleton["confidence"] = max(0.0, min(1.0, conf))
+        except (TypeError, ValueError):
+            skeleton["confidence"] = 0.8
+
+        return skeleton
+
+    def _safe_resolved_fallback(self, user_query: str) -> Dict[str, Any]:
+        """Used when the resolver LLM call fails — agents fall back to raw query."""
+        ctx = json.loads(json.dumps(self._EMPTY_RESOLVED_CONTEXT))
+        ctx["resolved_query"] = user_query
+        ctx["confidence"] = 0.0
+        return ctx
+
+    def adapt_workflow(self,
                       current_plan: WorkflowPlan,
                       agent_results: Dict[str, Any],
                       current_state: Dict) -> WorkflowPlan:

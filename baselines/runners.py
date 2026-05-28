@@ -174,6 +174,9 @@ def _build_blackboard_state(
         "agent_tasks": intent.get("agent_tasks", {}) if intent else {},
         "coordinator_feedback": {},
         "retrieval_k": None,
+        # Short-term memory (resolved working memory). Passed through whenever
+        # an intent dict is available; otherwise None — agents handle both.
+        "resolved_context": intent.get("resolved_context") if intent else None,
     }
 
 

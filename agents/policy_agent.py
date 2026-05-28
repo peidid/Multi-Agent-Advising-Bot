@@ -34,12 +34,15 @@ class PolicyComplianceAgent(BaseAgent):
         self.set_retrieval_k_from_state(state)
 
         try:
-            user_query = state.get("user_query", "")
+            raw_query = state.get("user_query", "")
+            effective_query = self.get_effective_query(state)
             agent_outputs = state.get("agent_outputs", {})
             student_profile = state.get("student_profile", {})
 
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
+            # Resolved short-term memory block (authoritative for current focus)
+            resolved_memory_block = self.format_resolved_context_for_prompt(state)
 
             # Get coordinator feedback if this is a re-run
             coordinator_guidance = self.get_coordinator_guidance()
@@ -50,9 +53,11 @@ class PolicyComplianceAgent(BaseAgent):
             # Store for use in prompt building
             self._current_assigned_task = assigned_task
             self._current_coordinator_guidance = coordinator_guidance
+            self._current_resolved_memory_block = resolved_memory_block
+            self._current_raw_query = raw_query
 
             # Enhance query with coordinator guidance if available
-            enhanced_query = user_query
+            enhanced_query = effective_query
             if coordinator_guidance:
                 gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
                 if gaps:
@@ -78,7 +83,8 @@ class PolicyComplianceAgent(BaseAgent):
                 return result
             else:
                 self.emit_thinking("Searching policy documents...")
-                result = self._answer_policy_question(user_query, memory_context)
+                # Use the RESOLVED query so retrieval/answer use the expanded form.
+                result = self._answer_policy_question(effective_query, memory_context)
                 self.emit_output(result)
                 self.emit_complete(confidence=result.confidence, summary="Answered policy question")
                 return result
@@ -93,17 +99,22 @@ class PolicyComplianceAgent(BaseAgent):
             "overload limits probation rules course repeat policies registration deadlines"
         )
 
+        # Resolved short-term memory (set on self by execute()).
+        working_memory_section = ""
+        if getattr(self, "_current_resolved_memory_block", ""):
+            working_memory_section = f"\n{self._current_resolved_memory_block}\n"
+
         # Include conversation context if available
         context_section = ""
         if memory_context:
             context_section = f"""
 {memory_context}
 
-IMPORTANT: Use the conversation context above to understand references to previous discussions about courses, plans, or policies.
+IMPORTANT: The RESOLVED WORKING MEMORY block above is the ground truth for current focus. Use raw conversation history only as supporting context.
 """
 
         prompt = f"""You are the Policy & Compliance Agent for CMU-Q.
-{context_section}
+{working_memory_section}{context_section}
 Your role: CRITIQUE proposed plans for policy compliance.
 
 Student Profile: {json.dumps(student_profile, indent=2)}
@@ -159,13 +170,18 @@ Format as JSON:
         """Answer general policy questions."""
         context = self.retrieve_context(query)
 
+        # Resolved short-term memory (set on self by execute()).
+        working_memory_section = ""
+        if getattr(self, "_current_resolved_memory_block", ""):
+            working_memory_section = f"\n{self._current_resolved_memory_block}\n"
+
         # Include conversation context if available
         context_section = ""
         if memory_context:
             context_section = f"""
 {memory_context}
 
-IMPORTANT: Use the conversation context above to understand what "it", "the policy", "this rule" etc. refer to. If the student mentions something from a previous message, look at the context to understand what they mean.
+IMPORTANT: The RESOLVED WORKING MEMORY block above is the ground truth for current focus. Use raw conversation history only as supporting context.
 """
 
         # Include coordinator's task assignment if available
@@ -182,9 +198,14 @@ IMPORTANT: Use the conversation context above to understand what "it", "the poli
 {self._current_coordinator_guidance}
 """
 
+        raw_query = getattr(self, "_current_raw_query", "") or ""
+        query_block = f"Query (resolved): {query}"
+        if raw_query and raw_query != query:
+            query_block += f"\nQuery (original): {raw_query}"
+
         prompt = f"""You are the Policy & Compliance Agent.
-{context_section}{task_section}{guidance_section}
-Query: {query}
+{working_memory_section}{context_section}{task_section}{guidance_section}
+{query_block}
 
 Retrieved Policies:
 {context}

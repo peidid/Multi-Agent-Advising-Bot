@@ -42,13 +42,16 @@ class AcademicPlanningAgent(BaseAgent):
 
         try:
             # 1. Read from Blackboard
-            user_query = state.get("user_query", "")
+            raw_query = state.get("user_query", "")
+            effective_query = self.get_effective_query(state)
             user_goal = state.get("user_goal", "")
             student_profile = state.get("student_profile", {})
             agent_outputs = state.get("agent_outputs", {})
 
             # Get memory context (conversation history + student profile)
             memory_context = self.get_memory_context(state)
+            # Resolved short-term memory block
+            resolved_memory_block = self.format_resolved_context_for_prompt(state)
 
             # Get coordinator feedback if this is a re-run
             coordinator_guidance = self.get_coordinator_guidance()
@@ -56,19 +59,26 @@ class AcademicPlanningAgent(BaseAgent):
             # Get specific task assignment from coordinator
             assigned_task = self.get_assigned_task()
 
-            # 2. Retrieve domain-specific context
-            # If we have coordinator guidance, enhance the query
-            query_for_rag = f"{user_query} {user_goal}"
+            # 2. Retrieve domain-specific context — use resolved query so
+            # retrieval pulls docs about the actual entities (not pronouns).
+            query_for_rag = f"{effective_query} {user_goal}"
             if coordinator_guidance:
                 gaps = state.get("coordinator_feedback", {}).get(self.name, {}).get("gaps", [])
                 if gaps:
                     query_for_rag += " " + " ".join(gaps[:3])
+            # Boost retrieval with focus entities from short-term memory.
+            rc_entities = self.get_resolved_context(state).get("focus_entities", {})
+            entity_terms = (rc_entities.get("courses", []) +
+                            rc_entities.get("programs", []) +
+                            rc_entities.get("semesters", []))
+            if entity_terms:
+                query_for_rag += " " + " ".join(entity_terms)
 
             self.emit_thinking("Retrieving course and schedule information...")
             context = self.retrieve_context(query_for_rag)
 
             # Also get schedule-specific context for availability
-            schedule_context = self._get_schedule_context(user_query)
+            schedule_context = self._get_schedule_context(effective_query)
 
             # Get relevant info from other agents if available
             other_agent_info = self._summarize_other_agents(agent_outputs)
@@ -76,7 +86,8 @@ class AcademicPlanningAgent(BaseAgent):
             # 3. Build prompt
             self.emit_thinking("Generating academic plan...")
             prompt = self._build_prompt(
-                query=user_query,
+                query=effective_query,
+                raw_query=raw_query,
                 goal=user_goal,
                 profile=student_profile,
                 context=context,
@@ -84,7 +95,8 @@ class AcademicPlanningAgent(BaseAgent):
                 other_agent_info=other_agent_info,
                 memory_context=memory_context,
                 coordinator_guidance=coordinator_guidance,
-                assigned_task=assigned_task
+                assigned_task=assigned_task,
+                resolved_memory_block=resolved_memory_block,
             )
 
             # 4. Call LLM
@@ -149,10 +161,17 @@ class AcademicPlanningAgent(BaseAgent):
     def _build_prompt(self, query: str, goal: str, profile: dict, context: str,
                       schedule_context: str, other_agent_info: str,
                       memory_context: str = "", coordinator_guidance: str = "",
-                      assigned_task: str = "") -> str:
+                      assigned_task: str = "", raw_query: str = "",
+                      resolved_memory_block: str = "") -> str:
         """Build prompt for Planning agent - let LLM do the reasoning."""
 
         profile_text = json.dumps(profile, indent=2) if profile else "Not provided"
+
+        # Resolved short-term working memory (authoritative for what the
+        # student means right now — pronouns expanded, focus entities listed).
+        working_memory_section = ""
+        if resolved_memory_block:
+            working_memory_section = f"\n{resolved_memory_block}\n"
 
         # Include conversation context if available
         context_section = ""
@@ -160,7 +179,7 @@ class AcademicPlanningAgent(BaseAgent):
             context_section = f"""
 {memory_context}
 
-IMPORTANT: Use the conversation context above to understand references like "it", "the course", "next semester", etc.
+IMPORTANT: The RESOLVED WORKING MEMORY block above is the ground truth for what the student is asking about right now. Use the raw conversation history only as supporting context for richer history.
 """
 
         # Include coordinator's task assignment
@@ -188,8 +207,12 @@ IMPORTANT: The coordinator has identified gaps in your previous response. Focus 
 Use this information to inform your plan. Do not contradict verified requirements or schedule data from other agents.
 """
 
+        query_block = f"## User Query (resolved)\n{query}"
+        if raw_query and raw_query != query:
+            query_block += f"\n\n## User Query (original)\n{raw_query}"
+
         return f"""You are the Academic Planning Agent for CMU-Q.
-{context_section}{task_section}{guidance_section}
+{working_memory_section}{context_section}{task_section}{guidance_section}
 
 ## Your Responsibilities
 1. Generate semester-by-semester course plans
@@ -204,8 +227,7 @@ Use this information to inform your plan. Do not contradict verified requirement
 ## User Goal
 {goal}
 
-## User Query
-{query}
+{query_block}
 
 ## Retrieved Context (Programs, Schedules, and Course Prerequisites)
 {context}
