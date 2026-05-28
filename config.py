@@ -37,6 +37,13 @@ COORDINATOR_EVAL_TEMPERATURE = 0.2  # Lower temperature for more consistent eval
 AGENT_MODEL = "gpt-5.2"  # Most capable model for domain agents
 AGENT_TEMPERATURE = 0.3
 
+# Triage Model - Fast binary "is this only a greeting?" check at the very top
+# of the workflow. Must be FAST and CHEAP — accuracy matters less than latency,
+# because false negatives just fall through to the full pipeline (no harm),
+# and false positives are caught by the user re-asking.
+TRIAGE_MODEL = "gpt-4o-mini"
+TRIAGE_TEMPERATURE = 0.0  # Deterministic — same input → same decision
+
 # ============================================================================
 # MODEL SELECTION LOGIC
 # ============================================================================
@@ -64,6 +71,14 @@ def get_coordinator_temperature() -> float:
 def get_agent_temperature() -> float:
     """Get temperature for Agents."""
     return AGENT_TEMPERATURE
+
+def get_triage_model() -> str:
+    """Get the model name for the greeting-triage step (must be fast/cheap)."""
+    return TRIAGE_MODEL
+
+def get_triage_temperature() -> float:
+    """Get temperature for the triage step."""
+    return TRIAGE_TEMPERATURE
 
 # ============================================================================
 # MODEL INFORMATION

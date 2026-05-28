@@ -25,7 +25,8 @@ if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 from config import (
     get_coordinator_model, get_coordinator_temperature, get_openai_base_url,
-    get_coordinator_eval_model, get_coordinator_eval_temperature
+    get_coordinator_eval_model, get_coordinator_eval_temperature,
+    get_triage_model, get_triage_temperature
 )
 
 # Import LLM-driven coordinator
@@ -119,6 +120,25 @@ class Coordinator:
         clarification_llm = ChatOpenAI(**clarification_llm_kwargs)
         self.clarification_handler = ClarificationHandler(clarification_llm)
 
+        # Initialize TRIAGE LLM — small/fast model for the top-of-pipeline
+        # "is this only a greeting?" check. Single binary call per turn.
+        # Must be fast — accuracy matters less because false negatives just
+        # fall through to the full pipeline (no harm).
+        triage_model = get_triage_model()
+        triage_temperature = get_triage_temperature()
+        triage_http_client = httpx.Client(verify=False, timeout=30.0)
+        triage_llm_kwargs = {
+            "model": triage_model,
+            "temperature": triage_temperature,
+            "http_client": triage_http_client,
+            "request_timeout": 30.0,
+            "max_tokens": 200,  # JSON-only output, cap to keep latency tight
+        }
+        if base_url:
+            triage_llm_kwargs["base_url"] = base_url
+        self.triage_llm = ChatOpenAI(**triage_llm_kwargs)
+        print(f"✅ Triage LLM: {triage_model} (greeting short-circuit)")
+
         # Initialize evaluation LLM - uses GPT-5.2 for best quality evaluation
         # This LLM evaluates agent outputs and provides semantic feedback
         eval_model = get_coordinator_eval_model()
@@ -164,6 +184,97 @@ class Coordinator:
             print("   • Conversation context passed to agents")
             print("   • Student profile included in prompts")
     
+    # ------------------------------------------------------------------
+    # TOP-LAYER TRIAGE: binary greeting short-circuit
+    # ------------------------------------------------------------------
+    # Default friendly reply used when the LLM marks a query as a greeting
+    # but doesn't produce a usable `reply`. Kept simple and on-topic.
+    _DEFAULT_GREETING_REPLY = (
+        "Hi! I'm your CMU-Q academic advisor. Ask me about courses, "
+        "program requirements, university policies, or semester planning, "
+        "and I'll help you out."
+    )
+
+    def triage_greeting(self, query: str) -> Dict[str, Any]:
+        """
+        Fast binary check: is this query ONLY a greeting / social pleasantry,
+        with no academic question or task?
+
+        Single small-model LLM call (~150-300ms). Used at the very top of the
+        workflow to short-circuit the full pipeline for messages like "hi",
+        "thanks", "bye" — avoiding ~20-40 s of agent calls + evaluation rounds.
+
+        Returns:
+            {"is_greeting": bool, "reply": str}
+            - is_greeting=True  → caller should respond with `reply` and skip
+              the resolver, classifier, agents, and synthesis.
+            - is_greeting=False → caller should run the full pipeline.
+
+        Failure mode: on any error (LLM timeout, parse failure, etc.) returns
+        is_greeting=False so the full pipeline still runs. False negatives are
+        free; we never block legitimate academic queries.
+        """
+        q = (query or "").strip()
+        if not q:
+            # Empty query — treat as greeting with a gentle prompt.
+            return {"is_greeting": True, "reply": self._DEFAULT_GREETING_REPLY}
+
+        # Hard length guard: if the query is long, it's almost certainly not
+        # a pure greeting. Skip the LLM call entirely. (Cheap optimization
+        # that doesn't change classification semantics — long messages get
+        # classified the same way they would have, but instantly.)
+        if len(q) > 200:
+            return {"is_greeting": False, "reply": ""}
+
+        prompt = f"""You are a fast triage step for an academic advising assistant at CMU-Q.
+
+DECIDE: Is the following user message ONLY a greeting, thank-you, farewell, or
+purely social pleasantry — with NO academic question, NO course/program/policy
+request, NO planning request, and NO task?
+
+EXAMPLES that ARE greetings (is_greeting=true):
+- "hi" / "hello" / "hey" / "yo"
+- "thanks!" / "thank you" / "thx"
+- "bye" / "goodbye" / "see you"
+- "how are you?" / "good morning"
+- "ok" / "got it" / "cool"
+
+EXAMPLES that are NOT greetings (is_greeting=false):
+- "hi, what is 67-250?"          (greeting + question)
+- "thanks, and what about 15-122?" (acknowledgment + follow-up)
+- "what can you help me with?"   (meta question — needs a real answer)
+- "what's the weather?"          (off-topic but not a greeting — let pipeline handle)
+- Anything mentioning a course code, program, professor, policy, or planning request
+- Anything ending in a question mark with academic content
+
+When is_greeting=true, write a brief friendly `reply` (1-2 sentences) that
+acknowledges the student and invites them to ask an academic question.
+When is_greeting=false, leave `reply` empty.
+
+USER MESSAGE: "{q}"
+
+Respond with JSON ONLY:
+{{"is_greeting": true, "reply": "..."}}
+or
+{{"is_greeting": false, "reply": ""}}"""
+
+        try:
+            response = self.triage_llm.invoke([SystemMessage(content=prompt)])
+            json_match = re.search(r'\{.*\}', response.content, re.DOTALL)
+            if not json_match:
+                # Couldn't parse — fall through to full pipeline.
+                return {"is_greeting": False, "reply": ""}
+            data = json.loads(json_match.group())
+            is_greeting = bool(data.get("is_greeting", False))
+            reply = (data.get("reply") or "").strip()
+            if is_greeting and not reply:
+                reply = self._DEFAULT_GREETING_REPLY
+            return {"is_greeting": is_greeting, "reply": reply}
+        except Exception as e:
+            # Any failure → fall through to full pipeline (never block users).
+            print(f"⚠️  triage_greeting failed (falling through): {e}")
+            return {"is_greeting": False, "reply": ""}
+
     def classify_intent(self, query: str, conversation_history: List[Dict] = None,
                        student_profile: Dict = None) -> Dict[str, Any]:
         """

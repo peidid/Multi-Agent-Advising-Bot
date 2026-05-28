@@ -44,6 +44,13 @@ try:
 except ImportError:
     MEMORY_EVENT_AVAILABLE = False
 
+# Greeting short-circuit event is optional too.
+try:
+    from streaming.events import coordinator_greeting_event
+    GREETING_EVENT_AVAILABLE = True
+except ImportError:
+    GREETING_EVENT_AVAILABLE = False
+
 # Print model configuration on startup
 print_model_config()
 print()
@@ -120,6 +127,40 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
         if STREAMING_AVAILABLE:
             emit_event(coordinator_thinking_event("Analyzing your question..."))
 
+        # =====================================================================
+        # TOP-LAYER TRIAGE — fast binary greeting check.
+        # Single small-model LLM call (~150-300ms). If the message is purely
+        # social (hi/thanks/bye), respond immediately and skip the entire
+        # pipeline (resolver, classifier, agents, evaluation, synthesis).
+        # Failure mode is safe: on any error this returns is_greeting=false
+        # and the full pipeline runs as usual.
+        # =====================================================================
+        triage_start = time.time()
+        triage = coordinator.triage_greeting(user_query)
+        triage_time = time.time() - triage_start
+
+        if triage.get("is_greeting"):
+            reply = triage.get("reply") or coordinator._DEFAULT_GREETING_REPLY
+            phase_timing = state.get("phase_timing", {})
+            phase_timing["triage"] = round(triage_time, 2)
+            phase_timing["total"] = round(triage_time, 2)
+
+            # Emit streaming events so the UI knows what happened.
+            if STREAMING_AVAILABLE and GREETING_EVENT_AVAILABLE:
+                try:
+                    emit_event(coordinator_greeting_event(reply, triage_time))
+                except Exception:
+                    pass
+            if STREAMING_AVAILABLE:
+                emit_event(workflow_complete_event([], triage_time))
+
+            return {
+                "messages": [HumanMessage(content=reply)],
+                "workflow_step": WorkflowStep.COMPLETE,
+                "active_agents": [],
+                "phase_timing": phase_timing,
+            }
+
         # Track intent classification time (includes the short-term memory
         # resolver, which runs inside classify_intent before routing).
         intent_start = time.time()
@@ -130,6 +171,11 @@ def coordinator_node(state: BlackboardState) -> Dict[str, Any]:
         )
         workflow = coordinator.plan_workflow(intent)
         intent_time = time.time() - intent_start
+
+        # Record triage time on the phase timing too — it ran for every turn.
+        phase_timing = state.get("phase_timing", {})
+        phase_timing["triage"] = round(triage_time, 2)
+        state["phase_timing"] = phase_timing
 
         # Extract resolved short-term memory produced by the coordinator.
         resolved_context = intent.get("resolved_context") or {}
@@ -477,6 +523,9 @@ def route_after_coordinator(state: BlackboardState) -> str:
     workflow_step = state.get("workflow_step")
     active_agents = state.get("active_agents", [])
 
+    # Greeting short-circuit: coordinator already produced the reply, end now.
+    if workflow_step == WorkflowStep.COMPLETE:
+        return END
     if workflow_step == WorkflowStep.SYNTHESIS:
         return "synthesize"
     elif workflow_step == WorkflowStep.USER_INPUT:

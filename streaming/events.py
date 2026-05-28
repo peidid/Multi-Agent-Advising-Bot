@@ -19,6 +19,7 @@ class EventType(str, Enum):
     COORDINATOR_ROUTING = "coordinator_routing"
     COORDINATOR_CONFLICT = "coordinator_conflict"
     COORDINATOR_MEMORY_RESOLVED = "coordinator_memory_resolved"
+    COORDINATOR_GREETING = "coordinator_greeting"
 
     # Agent lifecycle
     AGENT_START = "agent_start"
@@ -111,6 +112,23 @@ def coordinator_thinking_event(message: str = "Analyzing your question...") -> S
         event_type=EventType.COORDINATOR_THINKING,
         agent_name="coordinator",
         message=message
+    )
+
+
+def coordinator_greeting_event(reply: str, triage_time: float = 0.0) -> StreamEvent:
+    """
+    Emitted when the top-layer triage detects a pure greeting / social message
+    and short-circuits the full pipeline. Surfaces the reply that will be sent
+    to the user and how long the triage took (telemetry for the ablation study).
+    """
+    return StreamEvent(
+        event_type=EventType.COORDINATOR_GREETING,
+        agent_name="coordinator",
+        message="Greeting detected — skipping agents and synthesis",
+        data={
+            "reply": reply,
+            "triage_time": round(float(triage_time), 3),
+        }
     )
 
 
