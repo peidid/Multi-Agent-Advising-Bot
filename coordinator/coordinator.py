@@ -31,7 +31,6 @@ from config import (
 
 # Import LLM-driven coordinator
 from coordinator.llm_driven_coordinator import LLMDrivenCoordinator
-from coordinator.clarification_handler import ClarificationHandler
 
 # Context formatter for passing context to agents (lightweight, no processing)
 try:
@@ -106,19 +105,6 @@ class Coordinator:
         # Initialize LLM-driven coordinator
         self.llm_coordinator = LLMDrivenCoordinator(self.llm)
         
-        # Initialize clarification handler with longer timeout
-        # Clarification checks can take longer due to complex prompts
-        clarification_http_client = httpx.Client(verify=False, timeout=180.0)  # 3 minutes
-        clarification_llm_kwargs = {
-            "model": model,
-            "temperature": temperature,
-            "http_client": clarification_http_client,
-            "request_timeout": 180.0
-        }
-        if base_url:
-            clarification_llm_kwargs["base_url"] = base_url
-        clarification_llm = ChatOpenAI(**clarification_llm_kwargs)
-        self.clarification_handler = ClarificationHandler(clarification_llm)
 
         # Initialize TRIAGE LLM — small/fast model for the top-of-pipeline
         # "is this only a greeting?" check. Single binary call per turn.
@@ -178,7 +164,6 @@ class Coordinator:
             print("   • Full LLM reasoning for workflow planning")
             print("   • Dynamic agent coordination")
             print("   • Context-aware decision making")
-            print("   • Interactive clarification support")
 
         # Context formatting available
         if CONTEXT_FORMATTER_AVAILABLE:

@@ -3,6 +3,10 @@ Enhanced Interactive Chat with Real-Time Workflow Demonstration
 Shows the actual multi-agent workflow including negotiation and collaboration.
 Supports PARALLEL agent execution with visual feedback.
 """
+# Allow running from dev/ — make the repo root importable
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 # Suppress SSL warnings when SSL verification is disabled
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)

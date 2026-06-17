@@ -5,6 +5,10 @@ NOT a chatbot - shows all agents on screen with dynamic collaboration
 For ACL 2026 Demo - Research Track
 """
 
+# Allow running from dev/ — make the repo root importable
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import streamlit as st
 from typing import Dict, List, Any, Optional
 import json

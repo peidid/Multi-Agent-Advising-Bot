@@ -7,13 +7,8 @@ Provides:
 - Query enhancement with context injection
 """
 
-from memory.memory_manager import MemoryManager
-from memory.entity_tracker import EntityTracker
-from memory.profile_manager import StudentProfile, ProfileManager
-
-__all__ = [
-    "MemoryManager",
-    "EntityTracker",
-    "StudentProfile",
-    "ProfileManager"
-]
+# NOTE: This package now only provides `context_formatter` (the live module).
+# The former MemoryManager / EntityTracker / ProfileManager modules were unused
+# by the running system and were moved to archive/dead_modules/memory/.
+# Short-term memory is handled by
+# coordinator.llm_driven_coordinator.LLMDrivenCoordinator.resolve_context().
